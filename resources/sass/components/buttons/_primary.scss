@@ -16,7 +16,13 @@
   @include font-bold();
   @include font-size($fs-md);
   height: 36px;
+  line-height: 1 !important;
   text-transform: uppercase;
+  transition: all .12s ease-in;
   width: 100%;
 
+  &:hover {
+    background-color: $color-secondary;
+    color: $color-primary;
+  }
 }

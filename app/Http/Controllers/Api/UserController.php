@@ -14,6 +14,6 @@ class UserController extends Controller
   public function find()
   {
     $user = User::findOrFail(auth()->user()->id);
-    return response()->json(['firstname' => $user->firstname, 'name' => $user->name]);
+    return response()->json(['firstname' => $user->firstname, 'name' => $user->name, 'email' => $user->email]);
   }
 }

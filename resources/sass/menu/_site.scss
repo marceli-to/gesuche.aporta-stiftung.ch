@@ -5,5 +5,41 @@
  */
 
 nav.site-menu {
+ 
+  ul {
+    @extend %grid-cols-12;
+    align-items: center;
+  }
 
+  li {
+    color: $color-white;
+    @include font-size($fs-md);
+    text-transform: uppercase;
+  }
+
+  a {
+    color: $color-white;
+    @include font-bold();
+    @include font-size($fs-md);
+    text-decoration: none;
+    text-transform: uppercase;
+    text-underline-offset: 3px;
+
+    &:hover,
+    &.is-active {
+      text-decoration: underline;
+    }
+  }
+
+  li.user {
+    @extend %start-10;
+    @extend %span-2;
+    display: flex;
+    justify-content: flex-end;
+    @include font-size($fs-sm);
+    a {
+      @include font-size($fs-sm);
+      text-transform: none;
+    }
+  }
 }

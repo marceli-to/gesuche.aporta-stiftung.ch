@@ -1,24 +1,29 @@
 <template>
-<div>
-  <header class="page-header">
-    <div>
-      <a href="/administration/dashboard" class="brand">
-       à Porta Stiftung
-      </a>
-    </div>
-  </header>
-  <nav :class="[!menuVisible ? '' : 'is-visible', 'page']">
-    <header>
-      <span>
-        <strong>{{user}}</strong><br>
-        <a href="/logout" class="feather-icon feather-icon--prepend">
-          <span>Logout</span>
-        </a>
-      </span>
+  <div>
+    <header class="site-header">
+      <div>
+        <nav class="site-menu">
+          <ul>
+            <li>
+              Gesuche
+            </li>
+            <li>
+              <a href="">Aktuell</a>
+            </li>
+            <li>
+              <a href="">Archiv</a>
+            </li>
+            <li>
+              <a href="">[b]</a>
+            </li>
+            <li class="user">
+              <a href="/logout" class="user">{{user.email}}</a>
+            </li>
+          </ul>
+        </nav>
+      </div>
     </header>
-
-  </nav>
-</div>
+  </div>
 </template>
 <script>
 
@@ -27,7 +32,7 @@ export default {
   },
 
   props: {
-    user: '',
+    user: Object,
   },
 
 	data() {

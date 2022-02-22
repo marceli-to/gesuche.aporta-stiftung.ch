@@ -19,24 +19,11 @@ use App\Http\Controllers\TestController;
 Auth::routes(['verify' => true, 'register' => false]);
 Route::get('/logout', 'Auth\LoginController@logout');
 
-// Route::get('/', [PageController::class, 'index'])->name('page.index');
-Route::get('/img/{template}/{filename}/{maxW?}/{maxH?}/{coords?}', [ImageController::class, 'getResponse']);
-
-/*
-|--------------------------------------------------------------------------
-| Admin routes
-|--------------------------------------------------------------------------
-|
-*/
-
+// Logged in users
 Route::middleware('auth:sanctum', 'verified')->group(function() {
-  
-  // Catch all routes
   Route::get('{any?}', function () {
-    return view('layout.cms');
+    return view('layout.authenticated');
   })->where('any', '.*')->middleware('role:admin')->name('cms');
-
-
 });
 
 

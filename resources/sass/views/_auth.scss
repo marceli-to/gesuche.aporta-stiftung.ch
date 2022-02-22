@@ -26,15 +26,7 @@ section.auth {
       margin-top: $space-3x;
     }
   }
-
-  .form-helper {
-    color: $color-primary;
-    display: inline-block;
-    text-decoration: none;
-    @include font-size($fs-md);
-  }
-
-  
+ 
   input[type=text],
   input[type=email],
   input[type=password] {

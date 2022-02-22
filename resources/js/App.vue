@@ -21,7 +21,7 @@ export default {
     fetchUser() {
       if (!this.$store.state.user) {
         this.axios.get(`/api/user`).then(response => {
-          this.$store.commit('user', `${response.data.firstname} ${response.data.name}`);
+          this.$store.commit('user', response.data);
         });
       }
     },

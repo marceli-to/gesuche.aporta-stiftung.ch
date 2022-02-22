@@ -36,8 +36,9 @@ $breakpoints: (
   lg: $bp-lg  
 );
 
-/* Site
+/* Site config
  * -------------------- */
 
-$site-max-width: 1280px;
+$site-max-width:     1280px;
+$site-header-height:   80px;
 
