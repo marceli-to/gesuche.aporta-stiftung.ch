@@ -1,0 +1,24 @@
+/**
+ * -----------------------------------------------------------------------------
+ * File: component/alerts
+ * -----------------------------------------------------------------------------
+ *
+ */
+
+.alert {
+  max-width: 480px;
+
+  &.alert--danger {
+    color: $color-danger;
+  }
+
+  &.alert--success {
+    border-color: $color-success;
+    color: $color-success;
+  }
+
+  &.alert--narrow {
+    margin-bottom: 0;
+  }
+}
+
