@@ -22,16 +22,26 @@ Vue.axios.defaults.withCredentials = true;
 import Notifications from 'vue-notification';
 Vue.use(Notifications);
 
+// Store
+import store from '@/config/store';
+
 // Vue-Router
 import VueRouter from 'vue-router';
 Vue.use(VueRouter);
 
-// Store
-import store from '@/config/store';
-
 // Routes
-import routes from '@/config/routes';
-const router = new VueRouter({ mode: 'history', routes: routes});
+import baseRoutes from '@/config/routes';
+import applicationRoutes from '@/views/pages/application/config/routes';
+
+const router = new VueRouter(
+  { 
+    mode: 'history', 
+    routes: [
+      ...baseRoutes,
+      ...applicationRoutes,
+    ]
+  }
+);
 
 // App component
 import AppComponent from '@/App.vue';

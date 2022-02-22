@@ -32,7 +32,7 @@ export default {
   },
 
   props: {
-    user: Object,
+    user: '',
   },
 
 	data() {

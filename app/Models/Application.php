@@ -60,4 +60,36 @@ class Application extends Base
     'created_at' => 'date:d.m.Y',
     'updated_at' => 'date:d.m.Y',
   ];
+
+  /**
+   * The accessors to append to the model's array form.
+   *
+   * @var array
+   */
+  protected $appends = [
+    'applicant_name',
+    'applicant_email'
+  ];
+
+  /**
+   * Get the applicants full name.
+   *
+   * @param  string  $value
+   * @return string
+   */
+  public function getApplicantNameAttribute($value)
+  {
+    return $this->firstname . ' ' . $this->lastname;
+  }
+
+  /**
+   * Get the applicants full name.
+   *
+   * @param  string  $value
+   * @return string
+   */
+  public function getApplicantEmailAttribute($value)
+  {
+    return $this->email;
+  }
 }
