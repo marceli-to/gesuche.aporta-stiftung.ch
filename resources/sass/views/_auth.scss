@@ -5,5 +5,73 @@
  */
 
 section.auth {
+  margin-top: 80px;
+  width: 100%;
+
+  @include bp-sm() {
+    margin-top: 140px;
+  }
+
+  .form-group {
+    margin-bottom: 0;
+  }
+
+  .form-action {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    margin-top: $space-9x;
+
+    .form-helper {
+      margin-top: $space-3x;
+    }
+  }
+
+  .form-helper {
+    color: $color-primary;
+    display: inline-block;
+    text-decoration: none;
+    @include font-size($fs-md);
+  }
+
   
+  input[type=text],
+  input[type=email],
+  input[type=password] {
+    border-top: 1px solid $color-primary;
+    color: $color-primary;
+    @include font-size($fs-md);
+    padding: $space-2x 0 $space-4x;
+  }
+
+  
+  input[type=email]::-webkit-input-placeholder,
+  input[type=password]::-webkit-input-placeholder {
+    color: $color-secondary;
+    padding: 0;
+    line-height: 1;
+  }
+  
+  input[type=email]::-moz-placeholder,
+  input[type=password]::-moz-placeholder {
+    color: $color-primary;
+    padding: 0;
+    opacity: 1 !important;
+    line-height: 1;
+  }
+  
+  input[type=email]:-ms-input-placeholder,
+  input[type=password]:-ms-input-placeholder {
+    color: $color-primary;
+    padding: 0;
+    line-height: 1;
+  }
+  
+  input[type=email]:-moz-placeholder,
+  input[type=password]:-moz-placeholder {
+    color: $color-primary;
+    padding: 0;
+    opacity: 1 !important;
+    line-height: 1;
+  }
 }

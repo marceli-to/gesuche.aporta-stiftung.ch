@@ -6,6 +6,8 @@
  */
 
 .alert {
+  @include font-size($fs-md);
+  margin-bottom: $space-6x;
   max-width: 480px;
 
   &.alert--danger {
@@ -13,12 +15,7 @@
   }
 
   &.alert--success {
-    border-color: $color-success;
     color: $color-success;
-  }
-
-  &.alert--narrow {
-    margin-bottom: 0;
   }
 }
 

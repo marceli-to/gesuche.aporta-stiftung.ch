@@ -5,5 +5,8 @@
  */
 
 main.site {
-
+  > div {
+    @extend %inner-block;
+    min-width: 320px;
+  }
 }

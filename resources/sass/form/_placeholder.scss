@@ -4,7 +4,9 @@
  * -----------------------------------------------------------------------------
  */
 
-input[type=text]::-webkit-input-placeholder {
+input[type=text]::-webkit-input-placeholder
+input[type=email]::-webkit-input-placeholder,
+input[type=password]::-webkit-input-placeholder {
   color: $color-primary;
   padding: 0;
   line-height: 1;
@@ -75,6 +77,32 @@ input[type=email]:-ms-input-placeholder {
 }
 
 input[type=email]:-moz-placeholder {
+  color: $color-primary;
+  padding: 0;
+  opacity: 1 !important;
+  line-height: 1;
+}
+
+input[type=password]::-webkit-input-placeholder {
+  color: $color-primary;
+  padding: 0;
+  line-height: 1;
+}
+
+input[type=password]::-moz-placeholder {
+  color: $color-primary;
+  padding: 0;
+  opacity: 1 !important;
+  line-height: 1;
+}
+
+input[type=password]:-ms-input-placeholder {
+  color: $color-primary;
+  padding: 0;
+  line-height: 1;
+}
+
+input[type=password]:-moz-placeholder {
   color: $color-primary;
   padding: 0;
   opacity: 1 !important;

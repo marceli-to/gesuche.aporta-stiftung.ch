@@ -8,9 +8,11 @@
 @for $i from 1 through 12 {
   %grid-cols-#{$i},
   .grid-cols-#{$i} {
-    display: grid;
-    grid-template-columns: repeat($i, minmax(0, 1fr));
-    grid-column-gap: $space-4x;
+    @include bp-sm() {
+      display: grid;
+      grid-template-columns: repeat($i, minmax(0, 1fr));
+      grid-column-gap: $space-4x;
+    }
   }
 }
 
