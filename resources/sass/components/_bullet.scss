@@ -1,0 +1,16 @@
+/**
+ * -----------------------------------------------------------------------------
+ * File: component/bullet
+ * -----------------------------------------------------------------------------
+ *
+ */
+
+.bullet {
+  background-color: $color-primary;
+  border-radius: 50%;
+  display: block;
+  height: 10px;
+  line-height: 1 !important;
+  margin-top: 4px;
+  width: 10px;
+}

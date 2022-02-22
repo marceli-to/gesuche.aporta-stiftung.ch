@@ -1,0 +1,45 @@
+/**
+ * -----------------------------------------------------------------------------
+ * File: components/list
+ * -----------------------------------------------------------------------------
+ */
+
+.list {
+
+  .list-row {
+    @extend %grid-cols-12;
+    background-color: transparent;
+    min-height: 80px;
+    transition: background-color .06s ease-in;
+
+    &:hover {
+      background-color: $color-secondary;
+      cursor: pointer;
+    }
+
+    &.is-unseen {
+      @include font-bold();
+    }
+  }
+
+  .list-item,
+  .list-item-line {
+    padding-top: $space-2x;
+  }
+
+  .list-item-line {
+    border-top: 1px solid $color-primary;
+    position: relative;
+    margin-top: -1px;
+
+    &:after {
+      background-color: $color-secondary;
+      content: '';
+      height: 100%;
+      position: absolute;
+      right: -8px;
+      top: -1px;
+      width: 1px;
+    }
+  }
+}

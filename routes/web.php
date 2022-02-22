@@ -2,10 +2,6 @@
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PageController;
-use App\Http\Controllers\ImageController;
-use App\Http\Controllers\RegisterController;
-use App\Http\Controllers\SubscriberController;
-use App\Http\Controllers\TestController;
 
 
 /*
@@ -18,12 +14,13 @@ use App\Http\Controllers\TestController;
 // Auth routes
 Auth::routes(['verify' => true, 'register' => false]);
 Route::get('/logout', 'Auth\LoginController@logout');
+Route::get('/', [PageController::class, 'index'])->name('home');
 
 // Logged in users
 Route::middleware('auth:sanctum', 'verified')->group(function() {
-  Route::get('{any?}', function () {
+  Route::get('/gesuche/{any?}', function () {
     return view('layout.authenticated');
-  })->where('any', '.*')->middleware('role:admin')->name('cms');
+  })->where('any', '.*')->middleware('role:admin')->name('applications');
 });
 
 

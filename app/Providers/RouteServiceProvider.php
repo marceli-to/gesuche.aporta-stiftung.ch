@@ -21,14 +21,14 @@ class RouteServiceProvider extends ServiceProvider
      *
      * @var string
      */
-    public const HOME = '/';
+    public const HOME = '/gesuche/aktuell';
 
     /**
      * The path to the "administration dashboard" route for your application.
      *
      * @var string
      */
-    public const DASHBOARD = '/';
+    public const DASHBOARD = '/gesuche/aktuell';
 
     /**
      * Define your route model bindings, pattern filters, etc.

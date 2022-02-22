@@ -8,10 +8,14 @@
               Gesuche
             </li>
             <li>
-              <a href="">Aktuell</a>
+              <router-link :to="{name: 'applications-current', params: { type: 'aktuell' }}" :active-class="'is-active'">
+                Aktuell
+              </router-link>
             </li>
             <li>
-              <a href="">Archiv</a>
+              <router-link :to="{name: 'applications-archive', params: { type: 'archiv' }}" :active-class="'is-active'">
+                Archiv
+              </router-link>
             </li>
             <li>
               <a href="">[b]</a>

@@ -23,6 +23,7 @@
  */
 
 strong, b {
+  @include font-bold()
 }
 
 p {

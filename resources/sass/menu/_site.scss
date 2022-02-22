@@ -5,6 +5,7 @@
  */
 
 nav.site-menu {
+  width: 100%;
  
   ul {
     @extend %grid-cols-12;
@@ -39,7 +40,10 @@ nav.site-menu {
     @include font-size($fs-sm);
     a {
       @include font-size($fs-sm);
+      @include font-regular();
       text-transform: none;
+      text-underline-offset: 3px;
+      text-decoration-thickness: .075em;
     }
   }
 }

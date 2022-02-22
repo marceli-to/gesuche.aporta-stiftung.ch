@@ -38,6 +38,6 @@ class LoginController extends BaseController
    */
   public function redirectTo()
   {
-    return RouteServiceProvider::DASHBOARD;
+    return RouteServiceProvider::HOME;
   }
 }

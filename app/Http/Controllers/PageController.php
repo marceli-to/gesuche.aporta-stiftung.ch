@@ -20,6 +20,10 @@ class PageController extends BaseController
 
   public function index()
   {
-    return view($this->viewPath . 'index');
+    if (auth()->user()) 
+    {
+      return redirect(route('applications'));
+    }
+    return redirect(route('login'));
   }
 }
