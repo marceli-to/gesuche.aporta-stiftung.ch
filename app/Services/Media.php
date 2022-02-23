@@ -14,6 +14,11 @@ class Media
   protected $upload_path;
 
   /**
+   * The path for downloads outside the public folder
+   */
+  protected $download_path = 'files';
+
+  /**
    *  Force lowercase for filenames
    */
 
@@ -91,6 +96,16 @@ class Media
       return Storage::delete('public/uploads/temp' . DIRECTORY_SEPARATOR . $filename);
     }
     return Storage::delete('public/uploads' . DIRECTORY_SEPARATOR . $filename);
+  }
+
+  /**
+   * Copy a file from temp to storage folder
+   * 
+   * @param String $filename
+   */
+  public function download($filename = NULL)
+  {
+    return Storage::download($this->download_path . DIRECTORY_SEPARATOR . $filename);
   }
 
   /**

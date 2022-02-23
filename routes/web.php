@@ -16,6 +16,8 @@ Auth::routes(['verify' => true, 'register' => false]);
 Route::get('/logout', 'Auth\LoginController@logout');
 Route::get('/', [PageController::class, 'index'])->name('home');
 
+Route::get('/download/{filename}', [PageController::class, 'download'])->name('download');
+
 // Logged in users
 Route::middleware('auth:sanctum', 'verified')->group(function() {
   Route::get('/gesuche/{any?}', function () {

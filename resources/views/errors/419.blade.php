@@ -1,9 +1,5 @@
-@extends('layout.web')
+@extends('layout.guest')
 @section('content')
-<section class="content">
-  <div>
-    <h2>Fehler 419</h2>
-    <p>Der Zugriff auf diese Seite wurde verweigert.</p>
-  </div>
-</section>
+<h1>Fehler 419</h1>
+<p>Der Zugriff auf diese Seite wurde verweigert.</p>
 @endsection

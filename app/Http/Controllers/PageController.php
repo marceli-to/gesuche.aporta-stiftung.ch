@@ -1,6 +1,7 @@
 <?php
 namespace App\Http\Controllers;
 use App\Http\Controllers\BaseController;
+use App\Services\Media;
 use Illuminate\Http\Request;
 
 class PageController extends BaseController
@@ -25,5 +26,17 @@ class PageController extends BaseController
       return redirect(route('applications'));
     }
     return redirect(route('login'));
+  }
+
+  /**
+   * Download a file
+   * 
+   * @param String $filename
+   * @return \Illuminate\Http\Response
+   */
+
+  public function download($filename)
+  {
+    return auth()->user() ? (new Media())->download($filename) : abort(403);
   }
 }

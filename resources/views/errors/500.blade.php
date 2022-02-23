@@ -1,9 +1,5 @@
-@extends('layout.web')
+@extends('layout.guest')
 @section('content')
-<section class="content">
-  <div>
-    <h2>Fehler 500</h2>
-    <p>Server error.</p>
-  </div>
-</section>
+<h1>Fehler 500</h1>
+<p>Server error.</p>
 @endsection
