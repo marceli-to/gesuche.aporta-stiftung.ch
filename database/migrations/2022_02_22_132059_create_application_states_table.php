@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AlterApplicationsTableAddUuid extends Migration
+class CreateApplicationStatesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,11 @@ class AlterApplicationsTableAddUuid extends Migration
      */
     public function up()
     {
-      Schema::table('applications', function (Blueprint $table) {
-        $table->string('uuid', 36)->after('id');
-      });
+        Schema::create('application_states', function (Blueprint $table) {
+          $table->id();
+          $table->string('description', 50);
+          $table->timestamps();
+        });
     }
 
     /**
@@ -25,6 +27,6 @@ class AlterApplicationsTableAddUuid extends Migration
      */
     public function down()
     {
-        //
+        Schema::dropIfExists('application_states');
     }
 }

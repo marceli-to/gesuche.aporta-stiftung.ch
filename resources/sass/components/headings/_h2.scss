@@ -5,6 +5,7 @@
  */
 
 h2 {
-  @extend %underline;
-  margin-bottom: $space-1x;
+  @include font-bold();
+  margin-bottom: $space-8x;
+  text-transform: uppercase;
 }

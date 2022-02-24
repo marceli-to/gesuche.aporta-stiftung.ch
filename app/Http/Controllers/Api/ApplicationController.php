@@ -12,9 +12,14 @@ class ApplicationController extends Controller
    * 
    * @return \Illuminate\Http\Response
    */
-  public function get()
-  {
-    return new DataCollection(Application::get());
+  public function get($type = NULL)
+  { 
+    if ($type == 'archiv')
+    {
+      return new DataCollection(Application::archive()->orderBy('created_at', 'DESC')->get());
+    }
+    return new DataCollection(Application::current()->orderBy('created_at', 'DESC')->get());
+
   }
 
   /**

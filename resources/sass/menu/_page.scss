@@ -1,0 +1,31 @@
+/**
+ * -----------------------------------------------------------------------------
+ * File: layout/menu/page
+ * -----------------------------------------------------------------------------
+ */
+
+nav.page-menu {
+  margin-bottom: $space-15x;
+  width: 100%;
+
+  ul {
+    @extend %grid-cols-12;
+    align-items: center;
+  }
+
+  li {
+    @extend %span-2;
+
+    height: 60px;
+  }
+
+  a {
+    align-items: center;
+    border-bottom: 1px solid $color-primary;
+    color: $color-primary;
+    display: flex;
+    @include font-size($fs-md);
+    height: inherit;
+    text-transform: uppercase;
+  }
+}

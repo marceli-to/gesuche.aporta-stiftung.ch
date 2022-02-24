@@ -9,8 +9,9 @@ header.site-header {
   height: $site-header-height;
   margin-bottom: $space-15x;
 
-  &.is-dark {
+  &.is-detail {
     background-color: $color-dark-grey;
+    margin-bottom: 0;
   }
 
   > div {

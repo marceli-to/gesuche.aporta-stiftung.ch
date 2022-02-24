@@ -1,5 +1,6 @@
 import ApplicationIndex from '@/views/pages/application/List.vue';
 import ApplicationArchive from '@/views/pages/application/List.vue';
+import ApplicationShow from '@/views/pages/application/Show.vue';
 import ApplicationUpdate from '@/views/pages/application/Update.vue';
 
 const routes = [
@@ -17,8 +18,14 @@ const routes = [
   },
   
   {
+    name: 'application-show',
+    path: '/gesuche/:type/gesuch/anzeigen/:uuid',
+    component: ApplicationShow,
+  },
+
+  {
     name: 'application-edit',
-    path: '/gesuche/gesuch/bearbeiten/:uuid',
+    path: '/gesuche/:type/gesuch/bearbeiten/:uuid',
     component: ApplicationUpdate,
   },
 ];

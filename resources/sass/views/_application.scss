@@ -1,0 +1,31 @@
+/**
+ * -----------------------------------------------------------------------------
+ * File: views/application
+ * -----------------------------------------------------------------------------
+ */
+
+.application {
+
+  .application-grid {
+    @extend %grid-cols-12;
+
+    > div {
+      @extend %span-4;
+    }
+  }
+
+  .application-row {
+    @extend %grid-cols-4;
+
+    > div {
+      border-top: 1px solid $color-light-grey;
+      color: $color-black;
+      min-height: $space-12x;
+      padding-top: $space-1x;
+
+      label {
+        color: $color-primary;
+      }
+    }
+  }
+}

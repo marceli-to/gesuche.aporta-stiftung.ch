@@ -7,3 +7,10 @@ Vue.filter('truncate', function (text, length, suffix) {
     return t;
   }
 });
+
+Vue.filter('currency', function(value) {
+  if (value > 0) {
+    return  new Intl.NumberFormat('de-CH', {minimumFractionDigits: 2}).format(value);
+  }
+  return '–';
+});

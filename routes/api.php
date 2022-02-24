@@ -28,7 +28,7 @@ Route::middleware('auth:sanctum')->group(function() {
   Route::post('file/upload', [UploadController::class, 'file']);
 
   // Applications
-  Route::get('applications', [ApplicationController::class, 'get']);
+  Route::get('applications/{type?}', [ApplicationController::class, 'get']);
   Route::get('application/{application:uuid}', [ApplicationController::class, 'find']);
   Route::post('application', [ApplicationController::class, 'store']);
   Route::put('application/{application:uuid}', [ApplicationController::class, 'update']);

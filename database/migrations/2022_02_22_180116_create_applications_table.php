@@ -15,6 +15,7 @@ class CreateApplicationsTable extends Migration
     {
       Schema::create('applications', function (Blueprint $table) {
         $table->id();
+        $table->string('uuid', 36);
         $table->string('name', 255);
         $table->string('legal_form', 255);
         $table->string('website', 255)->nullable();
@@ -58,6 +59,8 @@ class CreateApplicationsTable extends Migration
         $table->string('file_bylaws', 255);
         $table->string('file_project_description', 255);
         $table->string('file_project_estimated_costs', 255);
+        $table->tinyInteger('archive')->default(0);
+        $table->foreignId('application_state_id')->constrained();
         $table->softDeletes();
         $table->timestamps();
       });

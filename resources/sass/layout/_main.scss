@@ -5,6 +5,7 @@
  */
 
 main.site {
+
   > div {
     @extend %inner-block;
   }

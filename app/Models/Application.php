@@ -54,6 +54,8 @@ class Application extends Base
     'file_bylaws',
     'file_project_description',
     'file_project_estimated_costs',
+    'archive',
+    'application_state_id'
   ];
 
   protected $casts = [
@@ -66,10 +68,31 @@ class Application extends Base
    *
    * @var array
    */
+  
   protected $appends = [
     'applicant_name',
-    'applicant_email'
+    'applicant_email',
+    'applicant_address',
   ];
+
+  public function state()
+  {
+    return $this->hasOne(ApplicationState::class, 'id', 'application_state_id');
+  }
+
+  /**
+   * Local scopes 
+   */
+
+  public function scopeCurrent($query)
+  {
+    return $query->where('archive', 0);
+  }
+
+  public function scopeArchive($query)
+  {
+    return $query->where('archive', 1);
+  }
 
   /**
    * Get the applicants full name.
@@ -77,6 +100,7 @@ class Application extends Base
    * @param  string  $value
    * @return string
    */
+
   public function getApplicantNameAttribute($value)
   {
     return $this->firstname . ' ' . $this->lastname;
@@ -92,4 +116,36 @@ class Application extends Base
   {
     return $this->email;
   }
+
+  /**
+   * Get the applicants full name.
+   *
+   * @param  string  $value
+   * @return string
+   */
+  public function getApplicantAddressAttribute($value)
+  {
+    $address = '';
+    if ($this->street)
+    {
+      $address .= $this->street . ' ';
+    }
+    if ($this->street_number)
+    {
+      $address .= $this->street_number;
+    }
+
+    if ($this->zip)
+    {
+      $address .= '<br>' . $this->zip . ' ';
+    }
+
+    if ($this->city)
+    {
+      $address .= $this->city;
+    }
+
+    return $address;
+  }
+
 }
