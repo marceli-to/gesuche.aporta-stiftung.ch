@@ -2,7 +2,7 @@
 <div>
   <site-header :user="$store.state.user" class="is-detail"></site-header>
   <site-main v-if="isFetched">
-    <page-menu />
+    <page-menu :type="$route.params.type" :uuid="$route.params.uuid" />
     <application-wrapper>
       <application-grid>
         <div>

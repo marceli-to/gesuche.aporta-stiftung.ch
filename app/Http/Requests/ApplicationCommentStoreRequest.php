@@ -2,7 +2,7 @@
 namespace App\Http\Requests;
 use Illuminate\Foundation\Http\FormRequest;
 
-class NewsletterArticleStoreRequest extends FormRequest
+class ApplicationCommentStoreRequest extends FormRequest
 {
   /**
    * Determine if the user is authorized to make this request.
@@ -22,8 +22,8 @@ class NewsletterArticleStoreRequest extends FormRequest
   public function rules()
   {
     return [
-      'title' => 'required',
-      'text' => 'required'
+      'subject' => 'required',
+      'comment' => 'required',
     ];
   }
 
@@ -35,13 +35,13 @@ class NewsletterArticleStoreRequest extends FormRequest
   public function messages()
   {
     return [
-      'title.required' => [
-        'field' => 'name',
-        'error' => 'Titel wird benötigt!'
+      'subject.required' => [
+        'field' => 'subject',
+        'error' => 'Betreff wird benötigt!'
       ],
-      'text.required' => [
-        'field' => 'text',
-        'error' => 'Text wird benötigt!'
+      'comment.required' => [
+        'field' => 'comment',
+        'error' => 'Kommentar wird benötigt!'
       ],
     ];
   }

@@ -21,6 +21,13 @@
       cursor: pointer;
     }
 
+    &.no-hover {
+      &:hover {
+        background-color: transparent;
+        cursor: default;
+      }
+    }
+
     &.is-unseen {
       @include font-bold();
     }
@@ -41,11 +48,15 @@
     border-top: 1px solid $color-primary;
     margin-top: -1px;
 
-    a {
+    > a, 
+    > span {
       color: $color-primary;
       display: block;
       min-height: 80px;
       padding-top: $space-2x;
+    }
+
+    > a {
       text-decoration: none;
     }
   }
@@ -53,6 +64,7 @@
   .list-item,
   .list-item-header {
     position: relative;
+
     &:after {
       background-color: $color-light-grey;
       content: '';
@@ -68,6 +80,12 @@
     &:last-child {
       &:after {
         display: none;
+      }
+    }
+
+    &.has-line {
+      &:after {
+        display: block !important;
       }
     }
   }

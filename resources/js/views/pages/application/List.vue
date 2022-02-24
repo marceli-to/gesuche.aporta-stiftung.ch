@@ -1,9 +1,6 @@
 <template>
 <div>
-  <site-header 
-    :user="$store.state.user"
-    class="">
-  </site-header>
+  <site-header :user="$store.state.user" class=""></site-header>
   <site-main v-if="isFetched">
     <list v-if="data.length">
       <list-row-header>

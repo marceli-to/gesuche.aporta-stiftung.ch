@@ -14,8 +14,16 @@ class User extends Authenticatable implements MustVerifyEmail
    * @var array
    */
   protected $fillable = [
-    'email', 'password', 'role'
+    'firstname', 'name', 'email', 'password', 'role'
   ];
+
+  /**
+   * The accessors to append to the model's array form.
+   *
+   * @var array
+   */
+  protected $appends = ['full_name'];
+
 
   /**
    * The attributes that should be hidden for arrays.
@@ -42,5 +50,16 @@ class User extends Authenticatable implements MustVerifyEmail
   public function isAdmin()
   {
     return $this->role == 'admin' ? TRUE : FALSE;
+  }
+
+  /**
+   * Get the user's full name.
+   *
+   * @param  string  $value
+   * @return string
+   */
+  public function getFullNameAttribute($value)
+  {
+    return $this->firstname . ' ' . $this->name;
   }
 }

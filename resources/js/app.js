@@ -32,6 +32,7 @@ Vue.use(VueRouter);
 // Routes
 import baseRoutes from '@/config/routes';
 import applicationRoutes from '@/views/pages/application/config/routes';
+import applicationCommentRoutes from '@/views/pages/application/comments/config/routes';
 
 const router = new VueRouter(
   { 
@@ -39,6 +40,7 @@ const router = new VueRouter(
     routes: [
       ...baseRoutes,
       ...applicationRoutes,
+      ...applicationCommentRoutes
     ]
   }
 );

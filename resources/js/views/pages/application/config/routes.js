@@ -19,13 +19,13 @@ const routes = [
   
   {
     name: 'application-show',
-    path: '/gesuche/:type/gesuch/anzeigen/:uuid',
+    path: '/gesuche/:type/gesuch/:uuid/anzeigen',
     component: ApplicationShow,
   },
 
   {
     name: 'application-edit',
-    path: '/gesuche/:type/gesuch/bearbeiten/:uuid',
+    path: '/gesuche/:type/gesuch/:uuid/bearbeiten',
     component: ApplicationUpdate,
   },
 ];
