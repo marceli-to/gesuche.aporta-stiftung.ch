@@ -2,7 +2,7 @@
   <nav class="page-menu">
     <ul>
       <li>
-        <a href="">
+        <a href="javascript:history.back();" title="Zurück">
           <span>Zurück</span>
         </a>
       </li>

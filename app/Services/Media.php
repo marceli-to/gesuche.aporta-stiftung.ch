@@ -103,9 +103,9 @@ class Media
    * 
    * @param String $filename
    */
-  public function download($filename = NULL)
+  public function download($folder = NULL, $filename = NULL)
   {
-    return Storage::download($this->download_path . DIRECTORY_SEPARATOR . $filename);
+    return Storage::download($this->download_path . DIRECTORY_SEPARATOR . $folder . DIRECTORY_SEPARATOR . $filename);
   }
 
   /**

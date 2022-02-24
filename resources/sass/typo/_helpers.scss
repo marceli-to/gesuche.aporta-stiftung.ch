@@ -16,6 +16,9 @@
 .align-right { text-align: right; }
 .nobr { white-space: nowrap; }
 
+.text-grey {
+  color: $color-dark-grey !important;
+}
 
 /**
  * Typography - Generic elements

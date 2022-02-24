@@ -6,6 +6,10 @@
 
 .application {
 
+  h2:not(:first-of-type) {
+    margin-top: $space-22x;
+  }
+
   .application-grid {
     @extend %grid-cols-12;
 

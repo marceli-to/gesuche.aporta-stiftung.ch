@@ -6,12 +6,25 @@
 
 %btn,
 .btn {
+  align-items: center;
   background-color: transparent;
-  border-radius: 2px;
+  border-radius: 0;
   border: none;
+  display: flex;
+  justify-content: center;
+  @include font-bold();
+  @include font-size($fs-md);
+  height: 36px;
   line-height: 1;
   outline: none !important;
+  text-transform: uppercase;
   -webkit-appearance: none;
   -webkit-tap-highlight-color: $color-white;
-  @include transition(background-color .1s ease-out);
+  transition: all .12s ease-in;
+  width: 100%;
+
+  &.is-small {
+    height: 24px;
+    @include font-size($fs-sm);
+  }
 }

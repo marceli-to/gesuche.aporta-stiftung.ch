@@ -38,19 +38,29 @@
           </router-link>
         </list-item>
         <list-item :cls="'span-3 list-item'">
-          <a href="">{{ d.name }}</a>
+          <router-link :to="{name: 'application-show', params: { type: $route.params.type, uuid: d.uuid }}">
+            {{ d.name }}
+          </router-link>
         </list-item>
         <list-item :cls="'span-1 list-item'">
-          <a href="">{{ d.project_contribution_requested | currency }}</a>
+          <router-link :to="{name: 'application-show', params: { type: $route.params.type, uuid: d.uuid }}">
+            {{ d.project_contribution_requested | currency }}
+          </router-link>
         </list-item>
         <list-item :cls="'span-1 list-item'">
-          <a href="">{{ d.project_finance | currency }}</a>
+          <router-link :to="{name: 'application-show', params: { type: $route.params.type, uuid: d.uuid }}">
+            {{ d.project_finance | currency }}
+          </router-link>
         </list-item>
         <list-item :cls="'span-2 list-item'">
-          <a href="">{{ d.applicant_name }}</a>
+          <router-link :to="{name: 'application-show', params: { type: $route.params.type, uuid: d.uuid }}">
+            {{ d.applicant_name }}
+          </router-link>
         </list-item>
         <list-item :cls="'span-2 list-item'">
-          <a href="">{{ d.applicant_email }}</a>
+          <router-link :to="{name: 'application-show', params: { type: $route.params.type, uuid: d.uuid }}">
+            {{ d.applicant_email }}
+          </router-link>
         </list-item>
         <list-item :cls="'span-1 list-item-state'">[state]</list-item>
       </list-row>

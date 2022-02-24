@@ -32,7 +32,7 @@ class PageController extends BaseController
   {
     if (auth()->user()) 
     {
-      return redirect(route('applications'));
+      return redirect('/gesuche/aktuell');
     }
     return redirect(route('login'));
   }
