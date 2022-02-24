@@ -2,11 +2,20 @@
 namespace App\Http\Controllers;
 use App\Http\Controllers\BaseController;
 use App\Services\Media;
+use App\Services\Pdf;
 use Illuminate\Http\Request;
 
 class PageController extends BaseController
 {
   protected $viewPath = 'pages.';
+
+  protected $headers = [
+    'Content-Type: application/pdf',
+    'Cache-Control: no-store, no-cache, must-revalidate',
+    'Expires: Sun, 01 Jan 2014 00:00:00 GMT',
+    'Pragma: no-cache'
+  ];
+
 
   public function __construct()
   {
@@ -29,7 +38,7 @@ class PageController extends BaseController
   }
 
   /**
-   * Download a file
+   * Download a file from storage
    * 
    * @param String $filename
    * @return \Illuminate\Http\Response
@@ -39,4 +48,17 @@ class PageController extends BaseController
   {
     return auth()->user() ? (new Media())->download($filename) : abort(403);
   }
+
+  /**
+   * Generate and download a pdf
+   * 
+   * @return \Illuminate\Http\Response
+   */
+  public function pdf($view = NULL)
+  {
+    $application = [];
+    $pdf = (new Pdf())->create($application);
+    return response()->download($pdf['path'], $pdf['name'], $this->headers);
+  }
+
 }

@@ -1,4 +1,5 @@
-<?php return array (
+<?php return function ($fontDir, $rootDir) {
+return array (
   'sans-serif' => array(
     'normal' => $rootDir . '/lib/fonts/Helvetica',
     'bold' => $rootDir . '/lib/fonts/Helvetica-Bold',
@@ -80,4 +81,12 @@
   'ocrbregular' => array(
     'normal' => $fontDir . '/ocrbregular-normal_52b74ff25e66b8272cd810f48714ec8a',
   ),
-) ?>
+  'calibriregular' => array(
+    'normal' => $fontDir . '/calibriregular_normal_cde5c87a2de387372a5915a312070a0b',
+  ),
+  'calibribold' => array(
+    'normal' => $fontDir . '/calibribold_normal_0ee0a87666611571ab0d1fa1298a0f5e',
+    'bold' => $fontDir . '/calibribold_bold_0ee0a87666611571ab0d1fa1298a0f5e',
+  ),
+);
+}; ?>

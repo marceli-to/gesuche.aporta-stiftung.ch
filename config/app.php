@@ -167,6 +167,9 @@ return [
          * Package Service Providers...
          */
 
+        Barryvdh\DomPDF\ServiceProvider::class,
+
+
         /*
          * Application Service Providers...
          */
@@ -230,7 +233,7 @@ return [
         'Image' => Intervention\Image\Facades\Image::class,
         'AppHelper' => App\Helpers\AppHelper::class,
         'FormatHelper' => App\Helpers\FormatHelper::class,
-
+        'PDF' => Barryvdh\DomPDF\Facade::class,
     ],
 
 ];
