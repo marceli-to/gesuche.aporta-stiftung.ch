@@ -1,22 +1,11 @@
 <template>
-<div>
-  <notifications classes="notification" />
-  <page-header :user="$store.state.user"></page-header>
-  <main class="site">
-    <router-view></router-view>
-  </main>
-</div>
+  <router-view></router-view>
 </template>
 <script>
-import PageHeader from '@/views/layout/PageHeader.vue';
 export default {
-  components: {
-    PageHeader
-  },
   mounted() {
     this.fetchUser();
   },
-
   methods: {
     fetchUser() {
       if (!this.$store.state.user) {

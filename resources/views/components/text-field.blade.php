@@ -5,7 +5,7 @@
     </label>
   @endif
   <input
-    class="{{ $css ?? '' }}"
+    class="{{ $errors->has($name) ? 'has-error' : '' }}"
     type="{{ $type ?? 'text' }}"
     name="{{ $name }}"
     placeholder="{{ $placeholder ?? '' }}"
