@@ -9,7 +9,7 @@
       style="font-size: 40px; position: absolute; left: 50%; top: 80px; display: inline-block; height: 20px; width: 20px; transform: translateX(-50%)">
       +
     </a>
-    <list v-if="data.length">
+    <list v-if="data.length || hasForm">
       <list-row-header>
         <list-item :cls="'span-1 start-2 list-item-header has-line'">
           Datum

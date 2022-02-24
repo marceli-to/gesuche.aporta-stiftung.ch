@@ -22,7 +22,7 @@ return [
   |
   */
 
-  'description' => 'Nach vielen Jahren im Kochberuf und diversen Stationen in der Spitzengastronomie auf der ganzen Welt, habe ich mir mit à Porta Stiftung etwas Einzigartiges geschaffen: Ich kehre zurück zum Ursprung, zum Feuer, zur Bezogenheit zur Natur und zum wirklichen Handwerk.',   
+  'description' => '',   
 
   /*
   |--------------------------------------------------------------------------
