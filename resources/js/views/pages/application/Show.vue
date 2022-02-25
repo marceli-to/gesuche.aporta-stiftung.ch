@@ -109,11 +109,11 @@
           </application-row>
           <application-row>
             <div class="span-1"><label>Begründung</label></div>
-            <div class="span-3 pb-8x">{{data.justification_funds}}</div>
+            <div class="span-3 pb-6x">{{data.justification_funds}}</div>
           </application-row>
           <application-row>
             <div class="span-1"><label>Begünstigte</label></div>
-            <div class="span-3">{{data.project_beneficiaries}}</div>
+            <div class="span-3 pb-6x">{{data.project_beneficiaries}}</div>
           </application-row>
           <application-row>
             <div class="span-1"><label>Begünstigte Zürich</label></div>
