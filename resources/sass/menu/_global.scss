@@ -12,12 +12,7 @@ nav {
 
   a {
     display: block;
-    transition: color .1s ease-in;
-
-    &.is-touched,
-    &.is-active,
-    &:hover {
-    }
+    transition: all .1s ease-in;
   }
 
 }

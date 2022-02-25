@@ -2,7 +2,11 @@
 <div>
   <site-header :user="$store.state.user" class="is-detail"></site-header>
   <site-main v-if="isFetched">
-    <page-menu :type="$route.params.type" :uuid="$route.params.uuid" class="mb-20x" />
+    <page-menu 
+      :type="$route.params.type" 
+      :uuid="$route.params.uuid" 
+      class="mb-20x has-select"
+    ></page-menu>
     <a 
       href=""
       @click.prevent="showForm()"
@@ -16,24 +20,24 @@
       <list-row-header>
         <list-item :cls="'span-1 start-2 list-item-header line-after'">
           Datum
-          <a href="" @click.prevent="sort('created_at')">[]</a>
+          <a href="" @click.prevent="sort('created_at')" v-if="sortedData.length > 1">[]</a>
         </list-item>
         <list-item :cls="'span-2 list-item-header line-after'">
           Verfasser / In
-          <a href="" @click.prevent="sort('user.full_name')">[]</a>
+          <a href="" @click.prevent="sort('user.full_name')" v-if="sortedData.length > 1">[]</a>
         </list-item>
         <list-item :cls="'span-2 list-item-header line-after'">
           Betrifft
-          <a href="" @click.prevent="sort('subject')">[]</a>
+          <a href="" @click.prevent="sort('subject')" v-if="sortedData.length > 1">[]</a>
         </list-item>
         <list-item :cls="'span-4 list-item-header'">
           Kommentar
-          <a href="" @click.prevent="sort('comment')">[]</a>
+          <a href="" @click.prevent="sort('comment')" v-if="sortedData.length > 1">[]</a>
         </list-item>
       </list-row-header>
 
       <!-- form -->
-      <list-row class="no-hover" v-if="hasForm">
+      <list-row :class="[sortedData.length > 0 ? 'mb-6x' : '', 'no-hover']" v-if="hasForm">
         <list-item :cls="'span-1 start-2 list-item  line-after'">
           <span>{{ created_at }}</span>
         </list-item>
@@ -51,10 +55,10 @@
           </span>
           <div>
             <button type="submit" @click.prevent="store()" disabled class="btn-primary is-small mb-3x">
-              <span>Genehmigen</span>
+              <span>Kommentar speichern</span>
             </button>
-            <a href="" class="btn-secondary is-small is-outline mb-6x">
-              <span>Ablehnen</span>
+            <a href="" @click.prevent="reset()" class="btn-secondary is-small is-outline">
+              <span>Abbrechen</span>
             </a>
           </div>
         </list-item>
@@ -192,17 +196,6 @@ export default {
       btn.disabled = true;
       return false;
     }
- 
-
-    // destroy(uuid, event) {
-    //   if (confirm(this.messages.confirmDestroy)) {
-    //     this.isLoading = true;
-    //     this.axios.delete(`${this.routes.destroy}/${uuid}`).then(response => {
-    //       this.fetch();
-    //       this.isLoading = false;
-    //     });
-    //   }
-    // },
   },
 
 }

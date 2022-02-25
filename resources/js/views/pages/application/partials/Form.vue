@@ -1,11 +1,12 @@
 <template>
 <div>
-  <site-header 
-    :user="$store.state.user"
-    class="is-detail">
-  </site-header>
+  <site-header :user="$store.state.user" class="is-detail"></site-header>
   <site-main v-if="isFetched">
-    <page-menu />
+    <page-menu 
+      :type="$route.params.type" 
+      :uuid="$route.params.uuid" 
+      class="has-select"
+    ></page-menu>
     <form @submit.prevent="submit" v-if="isFetched">
         
         <div class="form-group">
