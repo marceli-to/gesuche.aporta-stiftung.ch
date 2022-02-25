@@ -9,7 +9,10 @@
       style="font-size: 40px; position: absolute; left: 50%; top: 80px; display: inline-block; height: 20px; width: 20px; transform: translateX(-50%)">
       +
     </a>
+
     <list v-if="data.length || hasForm">
+
+      <!-- header -->
       <list-row-header>
         <list-item :cls="'span-1 start-2 list-item-header has-line'">
           Datum
@@ -29,6 +32,7 @@
         </list-item>
       </list-row-header>
 
+      <!-- form -->
       <list-row class="no-hover" v-if="hasForm">
         <list-item :cls="'span-1 start-2 list-item has-line'">
           <span>{{ created_at }}</span>
@@ -38,7 +42,7 @@
         </list-item>
         <list-item :cls="'span-2 list-item'">
           <span>
-            <input type="text" v-model="form.subject" placeholder="Betreff">
+            <input type="text" v-model="form.subject" placeholder="Betreff" required>
           </span>
         </list-item>
         <list-item :cls="'span-4 list-item'">
@@ -48,6 +52,7 @@
         </list-item>
       </list-row>
 
+      <!-- data -->
       <list-row class="no-hover" v-for="d in sortedData" :key="d.uuid">
         <list-item :cls="'span-1 start-2 list-item has-line'">
           <span>{{ d.created_at }}</span>
@@ -63,6 +68,7 @@
         </list-item>
       </list-row>
     </list>
+
     <list-empty v-else>
       {{messages.emptyData}}
     </list-empty>

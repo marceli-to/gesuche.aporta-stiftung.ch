@@ -31,6 +31,7 @@ section.auth {
   input[type=text],
   input[type=email],
   input[type=password] {
+    background-color: $color-white;
     border-top: 1px solid $color-primary;
     color: $color-primary;
     @include font-size($fs-md);

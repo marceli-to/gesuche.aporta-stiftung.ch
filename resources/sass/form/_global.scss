@@ -39,6 +39,16 @@ select {
 	transition: background-color .12s ease-out;
 }
 
+input[type=text],
+input[type=email],
+input[type=number],
+input[type=password],
+input[type=date],
+input[type=time],
+textarea {
+  background-color: $color-light-blue;
+}
+
 input:-webkit-autofill,
 input:-webkit-autofill:hover,
 input:-webkit-autofill:focus,
@@ -54,6 +64,7 @@ select:-webkit-autofill:focus {
 
 textarea {
 	height: auto;
+  min-height: 60px;
 }
  
 select {

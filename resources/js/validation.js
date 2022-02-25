@@ -18,9 +18,16 @@
       el.target.classList.add('is-valid');
       return;
     }
-
-    if (el.target.type == 'password') {
+    else if (el.target.type == 'password') {
       if (el.target.value.length < 6) {
+        el.target.classList.add('is-invalid');
+        return;
+      }
+      el.target.classList.add('is-valid');
+      return;
+    }
+    else {
+      if (el.target.value.length == 0) {
         el.target.classList.add('is-invalid');
         return;
       }
