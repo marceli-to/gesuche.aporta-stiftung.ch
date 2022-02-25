@@ -19,7 +19,7 @@ button {
 	color: $color-primary;
 	display: block;
 	@include font-regular();
-	padding: 0;
+	padding: 2px;
 	position: relative;
 	outline: none !important;
   width: 100%;

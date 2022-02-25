@@ -38,10 +38,12 @@ class ApplicationCommentController extends Controller
    */
   public function store(ApplicationCommentStoreRequest $request)
   {
+    $application = Application::where('uuid', $request->input('uuid'))->get()->first();
     $comment = ApplicationComment::create([
       'uuid' => \Str::uuid(),
       'subject' => $request->input('subject'),
       'comment' => $request->input('comment'),
+      'application_id' => $application->id,
       'user_id' => auth()->user()->id, 
     ]);
     return response()->json(['commentId' => $comment->id]);

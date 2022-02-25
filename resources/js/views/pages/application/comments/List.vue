@@ -14,15 +14,15 @@
 
       <!-- header -->
       <list-row-header>
-        <list-item :cls="'span-1 start-2 list-item-header has-line'">
+        <list-item :cls="'span-1 start-2 list-item-header line-after'">
           Datum
           <a href="" @click.prevent="sort('created_at')">[]</a>
         </list-item>
-        <list-item :cls="'span-2 list-item-header'">
+        <list-item :cls="'span-2 list-item-header line-after'">
           Verfasser / In
           <a href="" @click.prevent="sort('user.full_name')">[]</a>
         </list-item>
-        <list-item :cls="'span-2 list-item-header'">
+        <list-item :cls="'span-2 list-item-header line-after'">
           Betrifft
           <a href="" @click.prevent="sort('subject')">[]</a>
         </list-item>
@@ -34,33 +34,41 @@
 
       <!-- form -->
       <list-row class="no-hover" v-if="hasForm">
-        <list-item :cls="'span-1 start-2 list-item has-line'">
+        <list-item :cls="'span-1 start-2 list-item  line-after'">
           <span>{{ created_at }}</span>
         </list-item>
-        <list-item :cls="'span-2 list-item'">
+        <list-item :cls="'span-2 list-item line-after'">
           <span>{{ $store.state.user.full_name }}</span>
         </list-item>
-        <list-item :cls="'span-2 list-item'">
+        <list-item :cls="'span-2 list-item line-after'">
           <span>
-            <input type="text" v-model="form.subject" placeholder="Betreff" required>
+            <input type="text" v-model="form.subject" placeholder="Betreff" required @blur="validate()">
           </span>
         </list-item>
         <list-item :cls="'span-4 list-item'">
           <span>
-            <textarea v-model="form.comment" placeholder="Kommentar"></textarea>
+            <textarea v-model="form.comment" placeholder="Kommentar" @blur="validate()"></textarea>
           </span>
+          <div>
+            <button type="submit" @click.prevent="store()" disabled class="btn-primary is-small mb-3x">
+              <span>Genehmigen</span>
+            </button>
+            <a href="" class="btn-secondary is-small is-outline mb-6x">
+              <span>Ablehnen</span>
+            </a>
+          </div>
         </list-item>
       </list-row>
 
       <!-- data -->
       <list-row class="no-hover" v-for="d in sortedData" :key="d.uuid">
-        <list-item :cls="'span-1 start-2 list-item has-line'">
+        <list-item :cls="'span-1 start-2 list-item  line-after'">
           <span>{{ d.created_at }}</span>
         </list-item>
-        <list-item :cls="'span-2 list-item'">
+        <list-item :cls="'span-2 list-item line-after'">
           <span>{{ d.user.full_name }}</span>
         </list-item>
-        <list-item :cls="'span-2 list-item'">
+        <list-item :cls="'span-2 list-item line-after'">
           <span>{{ d.subject }}</span>
         </list-item>
         <list-item :cls="'span-4 list-item'">
@@ -113,8 +121,9 @@ export default {
 
       // Form data
       form: {
-        subject: null,
-        comment: null,
+        subject: '',
+        comment: '',
+        uuid: this.$route.params.uuid,
       },
       created_at: new Date().toLocaleDateString("de", {year:"numeric", day:"2-digit", month:"2-digit"}),
 
@@ -122,6 +131,7 @@ export default {
       // Routes
       routes: {
         list: '/api/application-comments',
+        post: '/api/application-comment',
       },
 
       // States
@@ -150,13 +160,39 @@ export default {
       });
     },
 
+    store() {
+      this.isLoading = true;
+      this.axios.post(this.routes.post, this.form).then(response => {
+        this.isLoading = false;
+        this.reset();
+        this.fetch(this.$route.params.uuid);
+      });
+    },
+
+    reset() {
+      this.form.subject = '';
+      this.form.comment = '';
+      this.hideForm();
+    },
+
     showForm() {
       this.hasForm = true;
     },
 
     hideForm() {
       this.hasForm = false;
+    },
+
+    validate() {
+      let btn = document.querySelector('button[type="submit"]');
+      if (this.form.subject.length > 0 && this.form.comment.length > 0) {
+        btn.disabled = false;
+        return true;
+      }
+      btn.disabled = true;
+      return false;
     }
+ 
 
     // destroy(uuid, event) {
     //   if (confirm(this.messages.confirmDestroy)) {
@@ -168,5 +204,6 @@ export default {
     //   }
     // },
   },
+
 }
 </script>

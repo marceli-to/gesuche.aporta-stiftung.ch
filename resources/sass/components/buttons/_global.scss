@@ -27,4 +27,15 @@
     height: 24px;
     @include font-size($fs-sm);
   }
+
+  &.is-outline {
+    background-color: $color-white;
+    border: 1px solid $color-primary;
+    color: $color-primary;
+
+    &:hover {
+      border: 1px solid $color-secondary;
+      color: $color-secondary;
+    }
+  }
 }

@@ -5,7 +5,7 @@
     <page-menu :type="$route.params.type" :uuid="$route.params.uuid" />
     <application-wrapper>
       <application-grid>
-        <div>
+        <div class="line-after">
           <h2>Organisation</h2>
           <application-row>
             <div class="span-1"><label>Name</label></div>
@@ -97,7 +97,7 @@
             </div>
           </application-row>
         </div>
-        <div>
+        <div class="line-after">
           <h2>Projekt</h2>
           <application-row>
             <div class="span-1"><label>Titel</label></div>

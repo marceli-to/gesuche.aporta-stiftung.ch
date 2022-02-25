@@ -61,35 +61,6 @@
     }
   }
 
-  .list-item,
-  .list-item-header {
-    position: relative;
-
-    &:after {
-      background-color: $color-light-grey;
-      content: '';
-      height: 100%;
-      position: absolute;
-      right: -8px;
-      top: 0;
-      width: 1px;
-    }
-
-    &.no-line,
-    &:first-child,
-    &:last-child {
-      &:after {
-        display: none;
-      }
-    }
-
-    &.has-line {
-      &:after {
-        display: block !important;
-      }
-    }
-  }
-
   .list-item-header {
     @include font-bold();
     text-transform: uppercase;
