@@ -36,26 +36,19 @@ section.auth {
     @include font-size($fs-md);
     padding: $space-2x 0 $space-4x;
 
-    &:required:invalid:not(:placeholder-shown),
-    &.has-error {
+    &.is-invalid {
       background: none !important;
       border-top: 1px solid $color-danger;
       color: $color-danger;
-
-      &:focus {
-        border-top: 1px solid $color-primary;
-        color: $color-primary;
-      }
     }
 
-    &:valid {
+    &.is-valid {
       @include background-default();
       background-image: url($url-icons + 'checkmark.svg');
       background-size: 17px 12px;
       background-position: top 12px right;
     }
   }
-
   
   input[type=email]::-webkit-input-placeholder,
   input[type=password]::-webkit-input-placeholder {
