@@ -1,4 +1,5 @@
 <template>
+<div>
   <nav class="page-menu mb-15x">
     <ul>
       <li v-if="type == 'archive'">
@@ -27,21 +28,46 @@
         </a>
       </li>
       <li>
-        <a href="javascript:;" @click.prevent="archive()">
+        <a href="javascript:;" @click.prevent="$refs.dialogArchive.show()">
           <span>Archivieren</span>
         </a>
       </li>
       <li>
-        <a href="" @click.prevent="destroy()">
+        <a href="" @click.prevent="$refs.dialogDestroy.show()">
           <span>Löschen</span>
         </a>
       </li>
     </ul>
     <slot />
   </nav>
+  <dialog-wrapper ref="dialogArchive">
+    <template #message>
+      <div><strong>Möchten Sie das Gesuch wirklich archivieren?</strong></div>
+    </template>
+    <template #actions>
+      <a href="javascript:;" class="btn-primary mb-3x" @click.stop="archive()">Ja, archivieren</a>
+    </template>
+  </dialog-wrapper>
+  
+  <dialog-wrapper ref="dialogDestroy">
+    <template #message>
+      <div><strong>Möchten Sie das Gesuch wirklich löschen?</strong></div>
+    </template>
+    <template #actions>
+      <a href="javascript:;" class="btn-primary mb-3x" @click.stop="destroy()">Ja, löschen</a>
+    </template>
+  </dialog-wrapper>
+</div>
 </template>
 <script>
+import DialogWrapper from "@/components/ui/misc/Dialog.vue";
+
 export default {
+
+  components: {
+    DialogWrapper,
+  },
+
   props: {
     type: String,
     uuid: String
@@ -62,24 +88,21 @@ export default {
   },
 
   methods: {
-    destroy(uuid, event) {
-      if (confirm('Sicher?')) {
-        this.isLoading = true;
-        this.axios.delete(`${this.routes.destroy}/${this.$props.uuid}`).then(response => {
-          this.isLoading = false;
-          this.$router.push({ name: 'applications-current', params: {type: 'archiv', uuid: this.$props.uuid} });
-        });
-      }
+    destroy() {
+      this.isLoading = true;
+      this.axios.delete(`${this.routes.destroy}/${this.$props.uuid}`).then(response => {
+        this.isLoading = false;
+        this.$router.push({ name: 'applications-current', params: {type: 'archiv', uuid: this.$props.uuid} });
+      });
     },
 
     archive() {
       this.isLoading = true;
-      if (confirm('Sicher?')) {
-        this.axios.put(`${this.routes.put}/${this.$route.params.uuid}`, {archive: 1}).then(response => {
-          this.isLoading = false;
-          this.$router.push({ name: 'applications-archive', params: {type: 'archiv', uuid: this.$props.uuid} });
-        });
-      }
+      this.axios.put(`${this.routes.put}/${this.$route.params.uuid}`, {archive: 1}).then(response => {
+        this.isLoading = false;
+        this.$refs.dialogArchive.hide();
+        this.$router.push({ name: 'applications-archive', params: {type: 'archiv', uuid: this.$props.uuid} });
+      });
     },
   }
 }

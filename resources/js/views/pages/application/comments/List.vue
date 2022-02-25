@@ -93,7 +93,7 @@ import Helpers from "@/mixins/Helpers";
 import Sort from "@/mixins/Sort";
 import SiteHeader from '@/views/layout/Header.vue';
 import SiteMain from '@/views/layout/Main.vue';
-import PageMenu from '@/views/pages/application/partials/Menu.vue';
+import PageMenu from '@/views/pages/application/components/Menu.vue';
 import List from "@/components/ui/layout/List.vue";
 import ListRowHeader from "@/components/ui/layout/ListRowHeader.vue";
 import ListRow from "@/components/ui/layout/ListRow.vue";

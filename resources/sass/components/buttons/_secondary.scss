@@ -9,7 +9,8 @@
   @extend %btn;
   background-color: $color-light-grey;
   color: $color-white;
-
+  @include font-regular();
+  
   &:hover {
     color: $color-primary;
   }
