@@ -3,6 +3,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\DataCollection;
 use App\Models\Application;
+use App\Services\Logger;
 use Illuminate\Http\Request;
 
 class ApplicationController extends Controller
@@ -45,6 +46,13 @@ class ApplicationController extends Controller
     $application = Application::findOrFail($application->id);
     $application->update($request->all());
     $application->save();
+
+    // Log change
+    if ($request->input('archive'))
+    {
+      (new Logger())->log($application, 'archived');
+    }
+
     return response()->json('successfully updated');
   }
 
@@ -70,6 +78,7 @@ class ApplicationController extends Controller
   public function destroy(Application $application)
   {
     $application->delete();
+    (new Logger())->log($application, 'deleted');
     return response()->json('successfully deleted');
   }
 

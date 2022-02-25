@@ -86,6 +86,12 @@ class Application extends Base
     return $this->hasMany(ApplicationComment::class, 'id', 'application_id');
   }
 
+  public function logs()
+  {
+    return $this->hasMany(ApplicationLog::class, 'id', 'application_id');
+  }
+
+
   /**
    * Local scopes 
    */
