@@ -15,8 +15,10 @@
     color: $color-primary;
   }
 
+  &.disabled,
   &:disabled {
     background-color: $color-secondary;
     color: $color-white;
+    pointer-events: none;
   }
 }

@@ -3,6 +3,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\DataCollection;
 use App\Models\Application;
+use App\Http\Requests\ApplicationStoreRequest;
 use App\Services\Logger;
 use Illuminate\Http\Request;
 
@@ -38,10 +39,29 @@ class ApplicationController extends Controller
    * Update a application for a given application
    *
    * @param Application $application
+   * @param  \Illuminate\Http\ApplicationStoreRequest $request
+   * @return \Illuminate\Http\Response
+   */
+  public function update(Application $application, ApplicationStoreRequest $request)
+  {
+    $application = Application::findOrFail($application->id);
+    $application->update($request->all());
+    $application->save();
+
+    // Log change
+    (new Logger())->log($application, 'gespeichert');
+
+    return response()->json('successfully updated');
+  }
+
+  /**
+   * Archive a application for a given application
+   *
+   * @param Application $application
    * @param  \Illuminate\Http\Request $request
    * @return \Illuminate\Http\Response
    */
-  public function update(Application $application, Request $request)
+  public function archive(Application $application, Request $request)
   {
     $application = Application::findOrFail($application->id);
     $application->update($request->all());
@@ -56,18 +76,6 @@ class ApplicationController extends Controller
     return response()->json('successfully updated');
   }
 
-  /**
-   * Toggle the status a given application
-   *
-   * @param  Application $application
-   * @return \Illuminate\Http\Response
-   */
-  public function toggle(Application $application)
-  {
-    $application->publish = $application->publish == 0 ? 1 : 0;
-    $application->save();
-    return response()->json($application->publish);
-  }
 
   /**
    * Remove a application

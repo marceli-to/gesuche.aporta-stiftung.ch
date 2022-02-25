@@ -26,8 +26,10 @@ nav.page-menu {
     height: inherit;
     text-transform: uppercase;
   }
+}
 
-  &.has-select {
+.has-selection {
+  nav.page-menu {
     a {
       &:not(.is-active) {
         border-bottom: 1px solid $color-light-grey;

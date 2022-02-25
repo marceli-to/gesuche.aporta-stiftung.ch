@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\ApplicationController;
 use App\Http\Controllers\Api\ApplicationCommentController;
+use App\Http\Controllers\Api\ApplicationLogController;
 use App\Http\Controllers\Api\UploadController;
 
 /*
@@ -33,7 +34,7 @@ Route::middleware('auth:sanctum')->group(function() {
   Route::get('application/{application:uuid}', [ApplicationController::class, 'find']);
   Route::post('application', [ApplicationController::class, 'store']);
   Route::put('application/{application:uuid}', [ApplicationController::class, 'update']);
-  Route::get('application/state/{application:uuid}', [ApplicationController::class, 'toggle']);
+  Route::put('application/archive/{application:uuid}', [ApplicationController::class, 'archive']);
   Route::delete('application/{application:uuid}', [ApplicationController::class, 'destroy']);
 
   // Application comments
@@ -41,5 +42,9 @@ Route::middleware('auth:sanctum')->group(function() {
   Route::get('application-comment/{applicationComment:uuid}', [ApplicationCommentController::class, 'find']);
   Route::post('application-comment', [ApplicationCommentController::class, 'store']);
   Route::delete('application-comment/{applicationComment:uuid}', [ApplicationCommentController::class, 'destroy']);
+
+  // Application logs
+  Route::get('application-log/{application:uuid}', [ApplicationLogController::class, 'get']);
+
 
 });

@@ -115,6 +115,10 @@
             <div class="span-1"><label>Begünstigte</label></div>
             <div class="span-3">{{data.project_beneficiaries}}</div>
           </application-row>
+          <application-row>
+            <div class="span-1"><label>Begünstigte Zürich</label></div>
+            <div class="span-3">{{data.proportion_residents_benefit_program}}</div>
+          </application-row>
         </div>
         <div>
           <h2>Projektkosten und Finanzierung</h2>
@@ -160,7 +164,7 @@
           </application-row>
 
           <div>
-            <a href="" class="btn-primary is-small mb-3x">
+            <a href="" :class="[data.project_contribution_approved > 0 ? 'btn-primary is-small mb-3x' : 'btn-primary disabled is-small mb-3x']">
               <span>Genehmigen</span>
             </a>
             <a href="" class="btn-secondary is-small">

@@ -33,3 +33,14 @@
     }
   }
 }
+
+.application-action {
+  left: 24px;
+  position: absolute;
+  top: 84px;
+  width: calc(100% - 48px);
+
+  > div {
+    @extend %grid-cols-12;
+  }
+}

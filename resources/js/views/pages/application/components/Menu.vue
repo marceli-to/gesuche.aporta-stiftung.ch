@@ -1,6 +1,6 @@
 <template>
-<div>
-  <nav class="page-menu mb-15x">
+<div class="mb-15x">
+  <nav class="page-menu">
     <ul>
       <li v-if="type == 'archive'">
         <router-link :to="{name: 'applications-archive', params: { type: $props.type }}">
@@ -23,9 +23,9 @@
         </router-link>
       </li>
       <li>
-        <a href="">
+        <router-link :to="{name: 'application-logs', params: { type: $props.type, uuid: $props.uuid }}" :active-class="'is-active'">
           <span>Protokoll</span>
-        </a>
+        </router-link>
       </li>
       <li>
         <a href="javascript:;" @click.prevent="$refs.dialogArchive.show()">
@@ -82,7 +82,7 @@ export default {
       // Routes
       routes: {
         destroy: '/api/application',
-        put: '/api/application',
+        put: '/api/application/archive',
       },
     }
   },

@@ -5,7 +5,7 @@
     <page-menu 
       :type="$route.params.type" 
       :uuid="$route.params.uuid" 
-      class="mb-20x has-select"
+      class="mb-20x has-selection"
     ></page-menu>
     <a 
       href=""

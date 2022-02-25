@@ -16,7 +16,7 @@ button {
 	background-color: transparent;
 	border-radius: 0;
 	border: none;
-	color: $color-primary;
+	color: $color-black;
 	display: block;
 	@include font-regular();
 	padding: 2px;
@@ -26,6 +26,10 @@ button {
 	z-index: 1;
 	-webkit-appearance: none;
 	-webkit-tap-highlight-color: $color-white;
+
+  &.is-invalid {
+    background-color: rgba($color-danger, .1);
+  }
 }
  
 input[type=text],
