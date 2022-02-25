@@ -48,9 +48,7 @@ class ApplicationController extends Controller
     $application->update($request->all());
     $application->save();
 
-    // Log change
     (new Logger())->log($application, 'saved');
-
     return response()->json('successfully updated');
   }
 
