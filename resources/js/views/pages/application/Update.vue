@@ -102,6 +102,67 @@
                 <textarea v-model="data.bank_account" required @blur="validate($event)"></textarea>
               </application-input>
             </application-row>
+
+            <h2>Dokumente</h2>
+            <application-row>
+              <div class="span-1"><label>Portrait</label></div>
+              <div class="span-3 flex justify-between">
+                <a :href="`/download/${data.uuid}/${data.file_portrait}`" class="anchor-download" target="_blank" title="Download Portrait">
+                  {{data.file_portrait | truncate(30, '...')}}
+                </a>
+                <div>
+                  [+]&nbsp;[x]
+                </div>
+              </div>
+            </application-row>
+            <application-row>
+              <div class="span-1"><label>Jahresbericht</label></div>
+              <div class="span-3">
+                <a :href="`/download/${data.uuid}/${data.file_anunal_report}`" class="anchor-download" target="_blank" title="Download Jahresbericht">
+                  {{data.file_anunal_report | truncate(30, '...')}}
+                </a>
+              </div>
+            </application-row>
+            <application-row>
+              <div class="span-1"><label>Jahresrechnung</label></div>
+              <div class="span-3">
+                <a :href="`/download/${data.uuid}/${data.file_annual_financial_report}`" class="anchor-download" target="_blank" title="Download Jahresrechnung">
+                  {{data.file_annual_financial_report | truncate(30, '...')}}
+                </a>
+              </div>
+            </application-row>
+            <application-row>
+              <div class="span-1"><label>Budget</label></div>
+              <div class="span-3">
+                <a :href="`/download/${data.uuid}/${data.file_budget}`" class="anchor-download" target="_blank" title="Download Budget">
+                  {{data.file_budget | truncate(30, '...')}}
+                </a>
+              </div>
+            </application-row>
+            <application-row>
+              <div class="span-1"><label>Statuen</label></div>
+              <div class="span-3">
+                <a :href="`/download/${data.uuid}/${data.file_bylaws}`" class="anchor-download" target="_blank" title="Download Statuen">
+                  {{data.file_bylaws | truncate(30, '...')}}
+                </a>
+              </div>
+            </application-row>
+            <application-row>
+              <div class="span-1"><label>Projekt</label></div>
+              <div class="span-3">
+                <a :href="`/download/${data.uuid}/${data.file_project_description}`" class="anchor-download" target="_blank" title="Download Projekt">
+                  {{data.file_project_description | truncate(30, '...')}}
+                </a>
+              </div>
+            </application-row>
+            <application-row>
+              <div class="span-1"><label>KV</label></div>
+              <div class="span-3">
+                <a :href="`/download/${data.uuid}/${data.file_project_estimated_costs}`" class="anchor-download" target="_blank" title="Download KV">
+                  {{data.file_project_estimated_costs | truncate(30, '...')}}
+                </a>
+              </div>
+            </application-row>
           </div>
           <div class="line-after">
             <h2>Projekt</h2>

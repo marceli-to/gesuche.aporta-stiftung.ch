@@ -164,10 +164,10 @@
           </application-row>
 
           <div>
-            <a href="" :class="[data.project_contribution_approved > 0 ? 'btn-primary is-small mb-3x' : 'btn-primary disabled is-small mb-3x']">
+            <a href="javascript:;" :class="[data.project_contribution_approved > 0 ? 'btn-primary is-small mb-3x' : 'btn-primary disabled is-small mb-3x']">
               <span>Genehmigen</span>
             </a>
-            <a href="" class="btn-secondary is-small">
+            <a href="javascript:;" class="btn-secondary is-small">
               <span>Ablehnen</span>
             </a>
           </div>
