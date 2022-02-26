@@ -106,29 +106,56 @@
             <h2>Dokumente</h2>
             <application-row>
               <div class="span-1"><label>Portrait</label></div>
-              <div class="span-3 flex justify-between">
+              <div class="span-3 flex justify-between" v-if="data.file_portrait">
                 <a :href="`/download/${data.uuid}/${data.file_portrait}`" class="anchor-download" target="_blank" title="Download Portrait">
                   {{data.file_portrait | truncate(30, '...')}}
                 </a>
-                <div>
-                  [+]&nbsp;[x]
+                <div class="flex justify-between">
+                  <div class="mr-3x" style="display: block; height: 16px; width: 16px; background: red; cursor: pointer; margin-top: 5px"></div>
+                                    <vue-dropzone
+                    ref="dropzone"
+                    id="dropzone"
+                    :options="config"
+                    @vdropzone-sending="sendingEvent"
+                    @vdropzone-success="uploadSuccess"
+                    @vdropzone-complete="uploadComplete"
+                    @vdropzone-max-files-exceeded="maxFilesExceeded"
+                    :useCustomSlot=true
+                  >
+                    <a href="javascript:;" @click="setUpload('file_portrait')" style="display: block; height: 16px; width: 16px; background: yellow; cursor: pointer; margin-top: 5px"></a>
+                  </vue-dropzone>
+
+
                 </div>
               </div>
             </application-row>
             <application-row>
               <div class="span-1"><label>Jahresbericht</label></div>
-              <div class="span-3">
+              <div class="span-3 flex justify-between">
                 <a :href="`/download/${data.uuid}/${data.file_anunal_report}`" class="anchor-download" target="_blank" title="Download Jahresbericht">
                   {{data.file_anunal_report | truncate(30, '...')}}
                 </a>
+                  <vue-dropzone
+                    ref="dropzone"
+                    id="dropzone"
+                    :options="config"
+                    @vdropzone-sending="sendingEvent"
+                    @vdropzone-success="uploadSuccess"
+                    @vdropzone-complete="uploadComplete"
+                    @vdropzone-max-files-exceeded="maxFilesExceeded"
+                    :useCustomSlot=true
+                  >
+                    <a href="javascript:;" @click="setUpload('file_anunal_report')" style="display: block; height: 16px; width: 16px; background: yellow; cursor: pointer; margin-top: 5px"></a>
+                  </vue-dropzone>
               </div>
             </application-row>
             <application-row>
               <div class="span-1"><label>Jahresrechnung</label></div>
-              <div class="span-3">
+              <div class="span-3 flex justify-between">
                 <a :href="`/download/${data.uuid}/${data.file_annual_financial_report}`" class="anchor-download" target="_blank" title="Download Jahresrechnung">
                   {{data.file_annual_financial_report | truncate(30, '...')}}
                 </a>
+
               </div>
             </application-row>
             <application-row>
@@ -163,7 +190,26 @@
                 </a>
               </div>
             </application-row>
+
+            <application-row>
+              <!-- <file-upload
+                class="btn-primary"
+                :post-action="'/api/file/upload'"
+                :multiple="false"
+                :drop="true"
+                @input-file="storeUpload"
+                @input-filter="filterUpload"
+                v-model="files"
+                :uploadAuto="true"
+                ref="upload"
+                :headers="headers"
+                :data="{uuid: data.uuid, private: true}">
+              </file-upload> -->
+            </application-row>
+
           </div>
+
+
           <div class="line-after">
             <h2>Projekt</h2>
             <application-row>
@@ -191,6 +237,8 @@
               <div class="span-3">{{data.proportion_residents_benefit_program}}</div>
             </application-row>
           </div>
+
+
           <div>
             <h2>Projektkosten und Finanzierung</h2>
             <application-row>
@@ -251,6 +299,7 @@
 </div>
 </template>
 <script>
+import NProgress from 'nprogress';
 import ErrorHandling from "@/mixins/ErrorHandling";
 import SiteHeader from '@/views/layout/Header.vue';
 import SiteMain from '@/views/layout/Main.vue';
@@ -260,9 +309,12 @@ import ApplicationGrid from '@/views/pages/application/components/Grid.vue';
 import ApplicationRow from '@/views/pages/application/components/Row.vue';
 import ApplicationLabel from '@/views/pages/application/components/Label.vue';
 import ApplicationInput from '@/views/pages/application/components/Input.vue';
+import FileUpload from 'vue-upload-component';
+import vue2Dropzone from "vue2-dropzone";
 
 export default {
   components: {
+    NProgress,
     SiteHeader,
     SiteMain,
     PageMenu,
@@ -271,6 +323,8 @@ export default {
     ApplicationRow,
     ApplicationLabel,
     ApplicationInput,
+    FileUpload,
+    vueDropzone: vue2Dropzone,
   },
 
   mixins: [ErrorHandling],
@@ -283,7 +337,7 @@ export default {
     return {
       
       // Model
-      data: { },
+      data: {},
 
       // Settings
       settings: {
@@ -293,6 +347,13 @@ export default {
       // Validation
       errors: {
         name: false,
+      },
+
+      // fileupload
+      files: [],
+      file: null,
+      headers: {
+        'X-CSRF-TOKEN': document.head.querySelector('meta[name="csrf-token"]').content,
       },
 
       // Routes
@@ -305,11 +366,27 @@ export default {
       isFetched: true,
       isLoading: false,
       hasErrors: false,
+      hasUpload: false,
 
       // Messages
       messages: {
         updated: 'Änderungen gespeichert!',
       },
+
+      config: {
+        url: "/api/application/file/upload",
+        method: 'post',
+        maxFilesize: 9,
+        maxFiles: 100,
+        createImageThumbnails: false,
+        autoProcessQueue: true,
+        acceptedFiles: '.png, .jpg, .jpeg, .pdf',
+        previewTemplate: this.template(),
+        headers: {
+          'x-csrf-token': document.head.querySelector('meta[name="csrf-token"]').content
+        }
+      },
+
     };
   },
 
@@ -343,7 +420,94 @@ export default {
       }
       event.target.classList.add('is-invalid');
       this.hasErrors = true;
-    }
+    },
+
+    setUpload(e) {
+      this.file = e;
+      console.log(e);
+    },
+
+    sendingEvent(file, xhr, formData) {
+      formData.append('uuid', this.$route.params.uuid);
+      formData.append('document', this.file);
+    },
+
+    uploadSuccess(file, response) {
+      let res = JSON.parse(file.xhr.response);
+      console.log(res);
+      this.data[this.file] = res.name;
+            this.$refs.dropzone.removeFile(file);
+      // this.hasUpload = true;
+      //this.post.image = res.file;
+    },
+
+    uploadComplete(file) {
+      if (file.status == "error") {
+        if (file.xhr !== undefined) {
+          let res = JSON.parse(file.xhr.response);
+          if (res.errors.file) {
+            res.errors.file.forEach(error => console.log(error));
+            this.$refs.dropzone.removeFile(file);
+          }
+        }
+        else {
+          if (file.accepted == false) {
+            if (file.size > 9000000) {
+              alert('image_exceeds_max_size');
+            }
+            else {
+              alert('image_type_not_allowed');
+            }
+
+            this.$refs.dropzone.removeFile(file);
+          }
+        }
+      }
+      this.$refs.dropzone.removeFile(file);
+
+    },
+
+
+    maxFilesExceeded(file) {
+      this.$refs.dropzone.removeAllFiles(true);
+      alert('image_max_files_exceeded')
+    },
+
+    template: function () {
+      return `<div class="dz-preview dz-file-preview">
+              <div class="dz-progress"><span class="dz-upload" data-dz-uploadprogress></span></div>
+              <div class="dz-error-message"><span data-dz-errormessage></span></div>
+              <div class="dz-success-mark"><i class="fa fa-check"></i></div>
+              <div class="dz-error-mark"><i class="fa fa-close"></i></div>
+          </div>
+      `;
+    },
+
+
+
+
+    // File upload
+    filterUpload(file, oldFile, prevent) {
+      // if (file) {
+      //   // filter out not accepted files
+      //   if (/\.(php5?|html?|jsx?)$/i.test(file.name) || /\.(png?|jpg?|jpeg?|gif?|svg?)$/i.test(file.name) == false) {
+      //     return prevent()
+      //   }
+      // }
+    },
+
+    storeUpload(file) {
+      NProgress.configure({ showSpinner: false });
+      NProgress.start();
+      // Auto start upload
+      // this.$refs.upload.active = true;
+
+      // Upload successfull
+      if (file && file.success) {
+        this.data[file.data.document] = file.response.name;
+        NProgress.done();
+      }
+    },
   },
 
 };

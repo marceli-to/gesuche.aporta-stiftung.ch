@@ -1,8 +1,17 @@
+/* NProgress, (c) 2013, 2014 Rico Sta. Cruz - http://ricostacruz.com/nprogress
+ * @license MIT */
+
 /*!
   * vue-router v3.3.2
   * (c) 2020 Evan You
   * @license MIT
   */
+
+/*!
+ * Name: vue-upload-component
+ * Version: 2.8.21
+ * Author: Marco Lang
+ */
 
 /*!
  * Vue.js v2.6.11

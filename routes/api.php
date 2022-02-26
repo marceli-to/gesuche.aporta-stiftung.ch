@@ -5,6 +5,7 @@ use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\ApplicationController;
 use App\Http\Controllers\Api\ApplicationCommentController;
 use App\Http\Controllers\Api\ApplicationLogController;
+use App\Http\Controllers\Api\ApplicationUploadController;
 use App\Http\Controllers\Api\UploadController;
 
 /*
@@ -26,8 +27,8 @@ Route::middleware('auth:sanctum')->group(function() {
   Route::get('user', [UserController::class, 'find']);
 
   // Uploads
-  Route::post('image/upload', [UploadController::class, 'image']);
-  Route::post('file/upload', [UploadController::class, 'file']);
+  Route::post('application/file/upload', [ApplicationUploadController::class, 'store']);
+  Route::post('file/upload', [UploadController::class, 'store']);
 
   // Applications
   Route::get('applications/{type?}', [ApplicationController::class, 'get']);

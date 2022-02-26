@@ -44,6 +44,11 @@ class Media
       $this->force_lowercase = $opts['force_lowercase'];
     }
 
+    if (isset($opts['folder']))
+    {
+      $this->upload_path = storage_path('app/files/' . $opts['folder']);
+    }
+
     if (!File::isDirectory($this->upload_path))
     {
       File::makeDirectory($this->upload_path, 0775, true, true);
