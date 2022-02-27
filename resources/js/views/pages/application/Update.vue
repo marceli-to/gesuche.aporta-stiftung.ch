@@ -116,16 +116,14 @@
                     ref="dropzone"
                     id="dropzone"
                     :options="config"
-                    @vdropzone-sending="sendingEvent"
+                    @vdropzone-sending="uploadSending"
                     @vdropzone-success="uploadSuccess"
                     @vdropzone-complete="uploadComplete"
-                    @vdropzone-max-files-exceeded="maxFilesExceeded"
+                    @vdropzone-max-files-exceeded="uploadMaxFilesExceeded"
                     :useCustomSlot=true
                   >
-                    <a href="javascript:;" @click="setUpload('file_portrait')" style="display: block; height: 16px; width: 16px; background: yellow; cursor: pointer; margin-top: 5px"></a>
+                    <a href="javascript:;" @click="uploadBefore('file_portrait')" style="display: block; height: 16px; width: 16px; background: yellow; cursor: pointer; margin-top: 5px"></a>
                   </vue-dropzone>
-
-
                 </div>
               </div>
             </application-row>
@@ -139,13 +137,13 @@
                     ref="dropzone"
                     id="dropzone"
                     :options="config"
-                    @vdropzone-sending="sendingEvent"
+                    @vdropzone-sending="uploadSending"
                     @vdropzone-success="uploadSuccess"
                     @vdropzone-complete="uploadComplete"
-                    @vdropzone-max-files-exceeded="maxFilesExceeded"
+                    @vdropzone-max-files-exceeded="uploadMaxFilesExceeded"
                     :useCustomSlot=true
                   >
-                    <a href="javascript:;" @click="setUpload('file_anunal_report')" style="display: block; height: 16px; width: 16px; background: yellow; cursor: pointer; margin-top: 5px"></a>
+                    <a href="javascript:;" @click="uploadBefore('file_anunal_report')" style="display: block; height: 16px; width: 16px; background: yellow; cursor: pointer; margin-top: 5px"></a>
                   </vue-dropzone>
               </div>
             </application-row>
@@ -155,7 +153,6 @@
                 <a :href="`/download/${data.uuid}/${data.file_annual_financial_report}`" class="anchor-download" target="_blank" title="Download Jahresrechnung">
                   {{data.file_annual_financial_report | truncate(30, '...')}}
                 </a>
-
               </div>
             </application-row>
             <application-row>
@@ -190,26 +187,7 @@
                 </a>
               </div>
             </application-row>
-
-            <application-row>
-              <!-- <file-upload
-                class="btn-primary"
-                :post-action="'/api/file/upload'"
-                :multiple="false"
-                :drop="true"
-                @input-file="storeUpload"
-                @input-filter="filterUpload"
-                v-model="files"
-                :uploadAuto="true"
-                ref="upload"
-                :headers="headers"
-                :data="{uuid: data.uuid, private: true}">
-              </file-upload> -->
-            </application-row>
-
           </div>
-
-
           <div class="line-after">
             <h2>Projekt</h2>
             <application-row>
@@ -237,8 +215,6 @@
               <div class="span-3">{{data.proportion_residents_benefit_program}}</div>
             </application-row>
           </div>
-
-
           <div>
             <h2>Projektkosten und Finanzierung</h2>
             <application-row>
@@ -349,13 +325,6 @@ export default {
         name: false,
       },
 
-      // fileupload
-      files: [],
-      file: null,
-      headers: {
-        'X-CSRF-TOKEN': document.head.querySelector('meta[name="csrf-token"]').content,
-      },
-
       // Routes
       routes: {
         fetch: '/api/application',
@@ -373,6 +342,9 @@ export default {
         updated: 'Änderungen gespeichert!',
       },
 
+      // File upload
+
+      // Dropzone config
       config: {
         url: "/api/application/file/upload",
         method: 'post',
@@ -380,7 +352,7 @@ export default {
         maxFiles: 100,
         createImageThumbnails: false,
         autoProcessQueue: true,
-        acceptedFiles: '.png, .jpg, .jpeg, .pdf',
+        acceptedFiles: '.pdf, .doc, .docx, .xls, .xlsx, .zip',
         previewTemplate: this.template(),
         headers: {
           'x-csrf-token': document.head.querySelector('meta[name="csrf-token"]').content
@@ -422,23 +394,21 @@ export default {
       this.hasErrors = true;
     },
 
-    setUpload(e) {
-      this.file = e;
-      console.log(e);
+    uploadBefore(field) {
+      this.field_file = field;
     },
 
-    sendingEvent(file, xhr, formData) {
+    uploadSending(file, xhr, formData) {
+      NProgress.start();
       formData.append('uuid', this.$route.params.uuid);
-      formData.append('document', this.file);
+      formData.append('field', this.field_file);
     },
 
     uploadSuccess(file, response) {
       let res = JSON.parse(file.xhr.response);
-      console.log(res);
-      this.data[this.file] = res.name;
-            this.$refs.dropzone.removeFile(file);
-      // this.hasUpload = true;
-      //this.post.image = res.file;
+      this.data[this.field_file] = res.name;
+      this.$refs.dropzone.removeFile(file);
+      NProgress.done();
     },
 
     uploadComplete(file) {
@@ -467,46 +437,13 @@ export default {
 
     },
 
-
-    maxFilesExceeded(file) {
+    uploadMaxFilesExceeded(file) {
       this.$refs.dropzone.removeAllFiles(true);
       alert('image_max_files_exceeded')
     },
 
     template: function () {
-      return `<div class="dz-preview dz-file-preview">
-              <div class="dz-progress"><span class="dz-upload" data-dz-uploadprogress></span></div>
-              <div class="dz-error-message"><span data-dz-errormessage></span></div>
-              <div class="dz-success-mark"><i class="fa fa-check"></i></div>
-              <div class="dz-error-mark"><i class="fa fa-close"></i></div>
-          </div>
-      `;
-    },
-
-
-
-
-    // File upload
-    filterUpload(file, oldFile, prevent) {
-      // if (file) {
-      //   // filter out not accepted files
-      //   if (/\.(php5?|html?|jsx?)$/i.test(file.name) || /\.(png?|jpg?|jpeg?|gif?|svg?)$/i.test(file.name) == false) {
-      //     return prevent()
-      //   }
-      // }
-    },
-
-    storeUpload(file) {
-      NProgress.configure({ showSpinner: false });
-      NProgress.start();
-      // Auto start upload
-      // this.$refs.upload.active = true;
-
-      // Upload successfull
-      if (file && file.success) {
-        this.data[file.data.document] = file.response.name;
-        NProgress.done();
-      }
+      return `<div></div>`;
     },
   },
 

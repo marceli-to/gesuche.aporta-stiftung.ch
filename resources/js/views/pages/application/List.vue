@@ -69,6 +69,7 @@
 </div>
 </template>
 <script>
+import NProgress from 'nprogress';
 import ErrorHandling from "@/mixins/ErrorHandling";
 import Helpers from "@/mixins/Helpers";
 import Sort from "@/mixins/Sort";
@@ -85,6 +86,7 @@ import ListEmpty from "@/components/ui/layout/ListEmpty.vue";
 export default {
 
   components: {
+    NProgress,
     SiteHeader,
     SiteMain,
     Bullet,
@@ -132,9 +134,12 @@ export default {
 
     fetch(type) {
       this.isFetched = false;
+      NProgress.configure({ showBar: false });
+      NProgress.start();
       this.axios.get(`${this.routes.list}/${type}`).then(response => {
         this.data = response.data.data;
         this.isFetched = true;
+          NProgress.done();
       });
     },
 
