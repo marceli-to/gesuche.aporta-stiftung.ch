@@ -107,10 +107,11 @@
             <h2>Dokumente</h2>
             <application-row>
               <div class="span-1"><label>Portrait</label></div>
-              <div class="span-3 flex justify-between" v-if="data.file_portrait">
-                <a :href="`/download/${data.uuid}/${data.file_portrait}`" class="anchor-download" target="_blank" title="Download Portrait">
+              <div class="span-3 flex justify-between">
+                <a :href="`/download/${data.uuid}/${data.file_portrait}`" class="anchor-download" target="_blank" title="Download Portrait" v-if="data.file_portrait">
                   {{data.file_portrait | truncate(30, '...')}}
                 </a>
+                <span v-else>–</span>
                 <div class="flex justify-between">
                   <vue-dropzone
                     ref="dropzone"
@@ -124,56 +125,194 @@
                   >
                     <a href="javascript:;" @click="uploadBefore('file_portrait')" style="display: block; height: 16px; width: 16px; background: black; cursor: pointer; padding: 2px; color: white">R</a>
                   </vue-dropzone>
-                  <a href="javascript:;" @click="deleteUpload('file_portrait')" class="ml-3x" style="display: block; height: 16px; width: 16px; background: black; cursor: pointer; padding: 2px; color: white">D</a>
+                  <a 
+                    href="javascript:;" 
+                    @click="deleteBefore('file_portrait')" 
+                    class="ml-3x" 
+                    style="display: block; height: 16px; width: 16px; background: black; cursor: pointer; padding: 2px; color: white" v-if="data.file_portrait">
+                    D
+                  </a>
                 </div>
               </div>
             </application-row>
             <application-row>
               <div class="span-1"><label>Jahresbericht</label></div>
               <div class="span-3 flex justify-between">
-                <a :href="`/download/${data.uuid}/${data.file_anunal_report}`" class="anchor-download" target="_blank" title="Download Jahresbericht">
-                  {{data.file_anunal_report | truncate(30, '...')}}
+                <a :href="`/download/${data.uuid}/${data.file_annual_report}`" class="anchor-download" target="_blank" title="Download Jahresbericht" v-if="data.file_annual_report">
+                  {{data.file_annual_report | truncate(30, '...')}}
                 </a>
+                <span v-else>–</span>
+                <div class="flex justify-between">
+                  <vue-dropzone
+                    ref="dropzone"
+                    id="dropzone"
+                    :options="config"
+                    @vdropzone-sending="uploadSending"
+                    @vdropzone-success="uploadSuccess"
+                    @vdropzone-complete="uploadComplete"
+                    @vdropzone-max-files-exceeded="uploadMaxFilesExceeded"
+                    :useCustomSlot=true
+                  >
+                    <a href="javascript:;" @click="uploadBefore('file_annual_report')" style="display: block; height: 16px; width: 16px; background: black; cursor: pointer; padding: 2px; color: white">R</a>
+                  </vue-dropzone>
+                  <a 
+                    href="javascript:;" 
+                    @click="deleteBefore('file_annual_report')" 
+                    class="ml-3x" 
+                    style="display: block; height: 16px; width: 16px; background: black; cursor: pointer; padding: 2px; color: white" v-if="data.file_annual_report">
+                    D
+                  </a>
+                </div>
               </div>
             </application-row>
             <application-row>
               <div class="span-1"><label>Jahresrechnung</label></div>
               <div class="span-3 flex justify-between">
-                <a :href="`/download/${data.uuid}/${data.file_annual_financial_report}`" class="anchor-download" target="_blank" title="Download Jahresrechnung">
+                <a :href="`/download/${data.uuid}/${data.file_annual_financial_report}`" class="anchor-download" target="_blank" title="Download Jahresrechnung" v-if="data.file_annual_financial_report">
                   {{data.file_annual_financial_report | truncate(30, '...')}}
                 </a>
+                <span v-else>–</span>
+                <div class="flex justify-between">
+                  <vue-dropzone
+                    ref="dropzone"
+                    id="dropzone"
+                    :options="config"
+                    @vdropzone-sending="uploadSending"
+                    @vdropzone-success="uploadSuccess"
+                    @vdropzone-complete="uploadComplete"
+                    @vdropzone-max-files-exceeded="uploadMaxFilesExceeded"
+                    :useCustomSlot=true
+                  >
+                    <a href="javascript:;" @click="uploadBefore('file_annual_financial_report')" style="display: block; height: 16px; width: 16px; background: black; cursor: pointer; padding: 2px; color: white">R</a>
+                  </vue-dropzone>
+                  <a 
+                    href="javascript:;" 
+                    @click="deleteBefore('file_annual_financial_report')" 
+                    class="ml-3x" 
+                    style="display: block; height: 16px; width: 16px; background: black; cursor: pointer; padding: 2px; color: white" v-if="data.file_annual_financial_report">
+                    D
+                  </a>
+                </div>
               </div>
             </application-row>
             <application-row>
               <div class="span-1"><label>Budget</label></div>
-              <div class="span-3">
-                <a :href="`/download/${data.uuid}/${data.file_budget}`" class="anchor-download" target="_blank" title="Download Budget">
+              <div class="span-3 flex justify-between">
+                <a :href="`/download/${data.uuid}/${data.file_budget}`" class="anchor-download" target="_blank" title="Download Budget" v-if="data.file_budget">
                   {{data.file_budget | truncate(30, '...')}}
                 </a>
+                <span v-else>–</span>
+                <div class="flex justify-between">
+                  <vue-dropzone
+                    ref="dropzone"
+                    id="dropzone"
+                    :options="config"
+                    @vdropzone-sending="uploadSending"
+                    @vdropzone-success="uploadSuccess"
+                    @vdropzone-complete="uploadComplete"
+                    @vdropzone-max-files-exceeded="uploadMaxFilesExceeded"
+                    :useCustomSlot=true
+                  >
+                    <a href="javascript:;" @click="uploadBefore('file_budget')" style="display: block; height: 16px; width: 16px; background: black; cursor: pointer; padding: 2px; color: white">R</a>
+                  </vue-dropzone>
+                  <a 
+                    href="javascript:;" 
+                    @click="deleteBefore('file_budget')" 
+                    class="ml-3x" 
+                    style="display: block; height: 16px; width: 16px; background: black; cursor: pointer; padding: 2px; color: white" v-if="data.file_budget">
+                    D
+                  </a>
+                </div>
               </div>
             </application-row>
             <application-row>
               <div class="span-1"><label>Statuen</label></div>
-              <div class="span-3">
-                <a :href="`/download/${data.uuid}/${data.file_bylaws}`" class="anchor-download" target="_blank" title="Download Statuen">
+              <div class="span-3 flex justify-between">
+                <a :href="`/download/${data.uuid}/${data.file_bylaws}`" class="anchor-download" target="_blank" title="Download Statuen" v-if="data.file_bylaws">
                   {{data.file_bylaws | truncate(30, '...')}}
                 </a>
+                <span v-else>–</span>
+                <div class="flex justify-between">
+                  <vue-dropzone
+                    ref="dropzone"
+                    id="dropzone"
+                    :options="config"
+                    @vdropzone-sending="uploadSending"
+                    @vdropzone-success="uploadSuccess"
+                    @vdropzone-complete="uploadComplete"
+                    @vdropzone-max-files-exceeded="uploadMaxFilesExceeded"
+                    :useCustomSlot=true
+                  >
+                    <a href="javascript:;" @click="uploadBefore('file_bylaws')" style="display: block; height: 16px; width: 16px; background: black; cursor: pointer; padding: 2px; color: white">R</a>
+                  </vue-dropzone>
+                  <a 
+                    href="javascript:;" 
+                    @click="deleteBefore('file_bylaws')" 
+                    class="ml-3x" 
+                    style="display: block; height: 16px; width: 16px; background: black; cursor: pointer; padding: 2px; color: white" v-if="data.file_bylaws">
+                    D
+                  </a>
+                </div>
               </div>
             </application-row>
             <application-row>
               <div class="span-1"><label>Projekt</label></div>
-              <div class="span-3">
-                <a :href="`/download/${data.uuid}/${data.file_project_description}`" class="anchor-download" target="_blank" title="Download Projekt">
+              <div class="span-3 flex justify-between">
+                <a :href="`/download/${data.uuid}/${data.file_project_description}`" class="anchor-download" target="_blank" title="Download Projekt" v-if="data.file_project_description">
                   {{data.file_project_description | truncate(30, '...')}}
                 </a>
+                <span v-else>–</span>
+                <div class="flex justify-between">
+                  <vue-dropzone
+                    ref="dropzone"
+                    id="dropzone"
+                    :options="config"
+                    @vdropzone-sending="uploadSending"
+                    @vdropzone-success="uploadSuccess"
+                    @vdropzone-complete="uploadComplete"
+                    @vdropzone-max-files-exceeded="uploadMaxFilesExceeded"
+                    :useCustomSlot=true
+                  >
+                    <a href="javascript:;" @click="uploadBefore('file_project_description')" style="display: block; height: 16px; width: 16px; background: black; cursor: pointer; padding: 2px; color: white">R</a>
+                  </vue-dropzone>
+                  <a 
+                    href="javascript:;" 
+                    @click="deleteBefore('file_project_description')" 
+                    class="ml-3x" 
+                    style="display: block; height: 16px; width: 16px; background: black; cursor: pointer; padding: 2px; color: white" v-if="data.file_project_description">
+                    D
+                  </a>
+                </div>
               </div>
             </application-row>
             <application-row>
               <div class="span-1"><label>KV</label></div>
-              <div class="span-3">
-                <a :href="`/download/${data.uuid}/${data.file_project_estimated_costs}`" class="anchor-download" target="_blank" title="Download KV">
+              <div class="span-3 flex justify-between">
+                <a :href="`/download/${data.uuid}/${data.file_project_estimated_costs}`" class="anchor-download" target="_blank" title="Download KV" v-if="data.file_project_estimated_costs">
                   {{data.file_project_estimated_costs | truncate(30, '...')}}
                 </a>
+                <span v-else>–</span>
+                <div class="flex justify-between">
+                  <vue-dropzone
+                    ref="dropzone"
+                    id="dropzone"
+                    :options="config"
+                    @vdropzone-sending="uploadSending"
+                    @vdropzone-success="uploadSuccess"
+                    @vdropzone-complete="uploadComplete"
+                    @vdropzone-max-files-exceeded="uploadMaxFilesExceeded"
+                    :useCustomSlot=true
+                  >
+                    <a href="javascript:;" @click="uploadBefore('file_project_estimated_costs')" style="display: block; height: 16px; width: 16px; background: black; cursor: pointer; padding: 2px; color: white">R</a>
+                  </vue-dropzone>
+                  <a 
+                    href="javascript:;" 
+                    @click="deleteBefore('file_project_estimated_costs')" 
+                    class="ml-3x" 
+                    style="display: block; height: 16px; width: 16px; background: black; cursor: pointer; padding: 2px; color: white" v-if="data.file_project_estimated_costs">
+                    D
+                  </a>
+                </div>
               </div>
             </application-row>
           </div>
@@ -261,11 +400,20 @@
       </application-wrapper>
     </form>
   </site-main>
+  <dialog-wrapper ref="dialogDestroy">
+    <template #message>
+      <div><strong>Möchten Sie diese Datei wirklich löschen?</strong></div>
+    </template>
+    <template #actions>
+      <a href="javascript:;" class="btn-primary mb-3x" @click.stop="deleteUpload()">Ja, löschen</a>
+    </template>
+  </dialog-wrapper>
 </div>
 </template>
 <script>
 import NProgress from 'nprogress';
 import ErrorHandling from "@/mixins/ErrorHandling";
+import DialogWrapper from "@/components/ui/misc/Dialog.vue";
 import SiteHeader from '@/views/layout/Header.vue';
 import SiteMain from '@/views/layout/Main.vue';
 import PageMenu from '@/views/pages/application/components/Menu.vue';
@@ -274,12 +422,12 @@ import ApplicationGrid from '@/views/pages/application/components/Grid.vue';
 import ApplicationRow from '@/views/pages/application/components/Row.vue';
 import ApplicationLabel from '@/views/pages/application/components/Label.vue';
 import ApplicationInput from '@/views/pages/application/components/Input.vue';
-import FileUpload from 'vue-upload-component';
 import vue2Dropzone from "vue2-dropzone";
 
 export default {
   components: {
     NProgress,
+    DialogWrapper,
     SiteHeader,
     SiteMain,
     PageMenu,
@@ -288,7 +436,6 @@ export default {
     ApplicationRow,
     ApplicationLabel,
     ApplicationInput,
-    FileUpload,
     vueDropzone: vue2Dropzone,
   },
 
@@ -318,7 +465,8 @@ export default {
       routes: {
         fetch: '/api/application',
         put: '/api/application',
-        destroy: '/api/application/'
+        destroy: '/api/application',
+        deleteUpload: '/api/application/file',
       },
 
       // States
@@ -332,7 +480,8 @@ export default {
         updated: 'Änderungen gespeichert!',
       },
 
-      // File upload
+      // Files
+      fieldToDelete: null,
 
       // Dropzone config
       config: {
@@ -379,16 +528,6 @@ export default {
       });
     },
 
-    deleteFile(field) {
-      if (confirm(this.messages.confirmDestroy)) {
-        this.isLoading = true;
-        this.axios.delete(`${this.routes.destroy}/${uuid}`).then(response => {
-          this.fetch();
-          this.isLoading = false;
-        });
-      }
-    },
-
     validate(event) {
       if (event.target.value.length > 0) {
         event.target.classList.remove('is-invalid');
@@ -397,6 +536,21 @@ export default {
       }
       event.target.classList.add('is-invalid');
       this.hasErrors = true;
+    },
+
+    deleteUpload() {
+      NProgress.start();
+      this.axios.delete(`${this.routes.deleteUpload}/${this.$route.params.uuid}/${this.fieldToDelete}`).then(response => {
+        this.data[this.fieldToDelete] = null;
+        this.fieldToDelete = null;
+        this.$refs.dialogDestroy.hide();
+        NProgress.done();
+      });
+    },
+
+    deleteBefore(field) {
+      this.fieldToDelete = field;
+      this.$refs.dialogDestroy.show();
     },
 
     uploadBefore(field) {

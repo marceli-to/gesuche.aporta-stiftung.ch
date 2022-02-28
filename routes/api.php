@@ -42,8 +42,10 @@ Route::middleware('auth:sanctum')->group(function() {
   // Applications
   Route::get('applications/{type?}', [ApplicationController::class, 'get']);
   Route::get('application/{application:uuid}', [ApplicationController::class, 'find']);
+  Route::delete('application/file/{application:uuid}/{field}', [ApplicationController::class, 'deleteFile']);
   Route::post('application', [ApplicationController::class, 'store']);
   Route::put('application/{application:uuid}', [ApplicationController::class, 'update']);
   Route::put('application/archive/{application:uuid}', [ApplicationController::class, 'archive']);
   Route::delete('application/{application:uuid}', [ApplicationController::class, 'destroy']);
+
 });

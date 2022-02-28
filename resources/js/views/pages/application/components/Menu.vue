@@ -66,7 +66,7 @@
 
   <dialog-wrapper ref="dialogDestroy">
     <template #message>
-      <div><strong>Möchten Sie das Gesuch</strong><br>{{data.project_title}}<br><strong>wirklich löschen?</strong></div>
+      <div><strong>Möchten Sie das Gesuch</strong><br>{{$props.application.project_title}}<br><strong>wirklich löschen?</strong></div>
     </template>
     <template #actions>
       <a href="javascript:;" class="btn-primary mb-3x" @click.stop="destroy()">Ja, löschen</a>

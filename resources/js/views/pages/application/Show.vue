@@ -47,57 +47,64 @@
           <application-row>
             <div class="span-1"><label>Portrait</label></div>
             <div class="span-3">
-              <a :href="`/download/${data.uuid}/${data.file_portrait}`" class="anchor-download" target="_blank" title="Download Portrait">
+              <a :href="`/download/${data.uuid}/${data.file_portrait}`" class="anchor-download" target="_blank" title="Download Portrait" v-if="data.file_portrait">
                 {{data.file_portrait | truncate(40, '...')}}
               </a>
+              <span v-else>–</span>
             </div>
           </application-row>
           <application-row>
             <div class="span-1"><label>Jahresbericht</label></div>
             <div class="span-3">
-              <a :href="`/download/${data.uuid}/${data.file_anunal_report}`" class="anchor-download" target="_blank" title="Download Jahresbericht">
-                {{data.file_anunal_report | truncate(40, '...')}}
+              <a :href="`/download/${data.uuid}/${data.file_annual_report}`" class="anchor-download" target="_blank" title="Download Jahresbericht" v-if="data.file_annual_report">
+                {{data.file_annual_report | truncate(40, '...')}}
               </a>
+              <span v-else>–</span>
             </div>
           </application-row>
           <application-row>
             <div class="span-1"><label>Jahresrechnung</label></div>
             <div class="span-3">
-              <a :href="`/download/${data.uuid}/${data.file_annual_financial_report}`" class="anchor-download" target="_blank" title="Download Jahresrechnung">
+              <a :href="`/download/${data.uuid}/${data.file_annual_financial_report}`" class="anchor-download" target="_blank" title="Download Jahresrechnung" v-if="data.file_annual_financial_report">
                 {{data.file_annual_financial_report | truncate(40, '...')}}
               </a>
+              <span v-else>–</span>
             </div>
           </application-row>
           <application-row>
             <div class="span-1"><label>Budget</label></div>
             <div class="span-3">
-              <a :href="`/download/${data.uuid}/${data.file_budget}`" class="anchor-download" target="_blank" title="Download Budget">
+              <a :href="`/download/${data.uuid}/${data.file_budget}`" class="anchor-download" target="_blank" title="Download Budget" v-if="data.file_budget">
                 {{data.file_budget | truncate(40, '...')}}
               </a>
+              <span v-else>–</span>
             </div>
           </application-row>
           <application-row>
             <div class="span-1"><label>Statuen</label></div>
             <div class="span-3">
-              <a :href="`/download/${data.uuid}/${data.file_bylaws}`" class="anchor-download" target="_blank" title="Download Statuen">
+              <a :href="`/download/${data.uuid}/${data.file_bylaws}`" class="anchor-download" target="_blank" title="Download Statuen" v-if="data.file_bylaws">
                 {{data.file_bylaws | truncate(40, '...')}}
               </a>
+              <span v-else>–</span>
             </div>
           </application-row>
           <application-row>
             <div class="span-1"><label>Projekt</label></div>
             <div class="span-3">
-              <a :href="`/download/${data.uuid}/${data.file_project_description}`" class="anchor-download" target="_blank" title="Download Projekt">
+              <a :href="`/download/${data.uuid}/${data.file_project_description}`" class="anchor-download" target="_blank" title="Download Projekt" v-if="data.file_project_description">
                 {{data.file_project_description | truncate(40, '...')}}
               </a>
+              <span v-else>–</span>
             </div>
           </application-row>
           <application-row>
             <div class="span-1"><label>KV</label></div>
             <div class="span-3">
-              <a :href="`/download/${data.uuid}/${data.file_project_estimated_costs}`" class="anchor-download" target="_blank" title="Download KV">
+              <a :href="`/download/${data.uuid}/${data.file_project_estimated_costs}`" class="anchor-download" target="_blank" title="Download KV" v-if="data.file_project_estimated_costs">
                 {{data.file_project_estimated_costs | truncate(40, '...')}}
               </a>
+              <span v-else>–</span>
             </div>
           </application-row>
         </div>

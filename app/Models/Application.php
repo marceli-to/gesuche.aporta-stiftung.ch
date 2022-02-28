@@ -49,7 +49,7 @@ class Application extends Base
     'project_add_instit_answer_5',
     'project_add_instit_final_total',
     'file_portrait',
-    'file_anunal_report',
+    'file_annual_report',
     'file_annual_financial_report',
     'file_budget',
     'file_bylaws',
