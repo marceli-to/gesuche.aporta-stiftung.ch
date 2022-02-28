@@ -5,6 +5,7 @@
     <page-menu 
       :type="$route.params.type" 
       :uuid="$route.params.uuid" 
+      :application="applicationData" 
       class="mb-20x has-selection"
     ></page-menu>
     <a 
@@ -88,6 +89,7 @@
 </div>
 </template>
 <script>
+import NProgress from 'nprogress';
 import ErrorHandling from "@/mixins/ErrorHandling";
 import Helpers from "@/mixins/Helpers";
 import Sort from "@/mixins/Sort";
@@ -104,6 +106,7 @@ import ListEmpty from "@/components/ui/layout/ListEmpty.vue";
 export default {
 
   components: {
+    NProgress,
     SiteHeader,
     SiteMain,
     PageMenu,
@@ -123,6 +126,9 @@ export default {
       // Data
       data: [],
 
+      // Application data
+      applicationData: {},
+
       // Form data
       form: {
         subject: '',
@@ -134,6 +140,7 @@ export default {
 
       // Routes
       routes: {
+        fetch: '/api/application',
         list: '/api/application-comments',
         post: '/api/application-comment',
       },
@@ -152,24 +159,34 @@ export default {
 
   mounted() {
     this.fetch(this.$route.params.uuid);
+    NProgress.configure({ showBar: false });
   },
 
   methods: {
 
+
     fetch(uuid) {
       this.isFetched = false;
-      this.axios.get(`${this.routes.list}/${uuid}/`).then(response => {
-        this.data = response.data.data;
+      NProgress.start();
+      this.axios.all([
+        this.axios.get(`${this.routes.list}/${uuid}/`),
+        this.axios.get(`${this.routes.fetch}/${uuid}/`),
+      ]).then(axios.spread((...responses) => {
+        this.data = responses[0].data.data;
+        this.applicationData = responses[1].data
         this.isFetched = true;
-      });
+        NProgress.done();
+      }));
     },
 
     store() {
       this.isLoading = true;
+      NProgress.start();
       this.axios.post(this.routes.post, this.form).then(response => {
         this.isLoading = false;
         this.reset();
         this.fetch(this.$route.params.uuid);
+        NProgress.done();
       });
     },
 

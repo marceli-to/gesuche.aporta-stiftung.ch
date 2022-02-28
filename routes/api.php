@@ -30,14 +30,6 @@ Route::middleware('auth:sanctum')->group(function() {
   Route::post('application/file/upload', [ApplicationUploadController::class, 'store']);
   Route::post('file/upload', [UploadController::class, 'store']);
 
-  // Applications
-  Route::get('applications/{type?}', [ApplicationController::class, 'get']);
-  Route::get('application/{application:uuid}', [ApplicationController::class, 'find']);
-  Route::post('application', [ApplicationController::class, 'store']);
-  Route::put('application/{application:uuid}', [ApplicationController::class, 'update']);
-  Route::put('application/archive/{application:uuid}', [ApplicationController::class, 'archive']);
-  Route::delete('application/{application:uuid}', [ApplicationController::class, 'destroy']);
-
   // Application comments
   Route::get('application-comments/{application:uuid}', [ApplicationCommentController::class, 'get']);
   Route::get('application-comment/{applicationComment:uuid}', [ApplicationCommentController::class, 'find']);
@@ -47,5 +39,11 @@ Route::middleware('auth:sanctum')->group(function() {
   // Application logs
   Route::get('application-log/{application:uuid}', [ApplicationLogController::class, 'get']);
 
-
+  // Applications
+  Route::get('applications/{type?}', [ApplicationController::class, 'get']);
+  Route::get('application/{application:uuid}', [ApplicationController::class, 'find']);
+  Route::post('application', [ApplicationController::class, 'store']);
+  Route::put('application/{application:uuid}', [ApplicationController::class, 'update']);
+  Route::put('application/archive/{application:uuid}', [ApplicationController::class, 'archive']);
+  Route::delete('application/{application:uuid}', [ApplicationController::class, 'destroy']);
 });

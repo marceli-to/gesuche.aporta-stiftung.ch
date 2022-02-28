@@ -2,7 +2,11 @@
 <div>
   <site-header :user="$store.state.user" class="is-detail"></site-header>
   <site-main v-if="isFetched">
-    <page-menu :type="$route.params.type" :uuid="$route.params.uuid" />
+    <page-menu 
+      :type="$route.params.type" 
+      :uuid="$route.params.uuid"
+      :application="data" 
+    ></page-menu>
     <application-wrapper>
       <application-grid>
         <div class="line-after">
@@ -178,6 +182,7 @@
 </div>
 </template>
 <script>
+import NProgress from 'nprogress';
 import ErrorHandling from "@/mixins/ErrorHandling";
 import SiteHeader from '@/views/layout/Header.vue';
 import SiteMain from '@/views/layout/Main.vue';
@@ -188,6 +193,7 @@ import ApplicationRow from '@/views/pages/application/components/Row.vue';
 
 export default {
   components: {
+    NProgress,
     SiteHeader,
     SiteMain,
     PageMenu,
@@ -222,14 +228,17 @@ export default {
 
   created() {
     this.fetch();
+    NProgress.configure({ showBar: false });
   },
 
   methods: {
 
     fetch() {
       this.isFetched = false;
+      NProgress.start();
       this.axios.get(`${this.routes.fetch}/${this.$route.params.uuid}`).then(response => {
         this.data = response.data;
+        NProgress.done();
         this.isFetched = true;
       });
     },

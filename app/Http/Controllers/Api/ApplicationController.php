@@ -48,7 +48,7 @@ class ApplicationController extends Controller
     $application->update($request->all());
     $application->save();
 
-    (new Logger())->log($application, 'saved');
+    (new Logger())->log($application, 'Gesuch gespeichert');
     return response()->json('successfully updated');
   }
 
@@ -68,7 +68,7 @@ class ApplicationController extends Controller
     // Log change
     if ($request->input('archive'))
     {
-      (new Logger())->log($application, 'archived');
+      (new Logger())->log($application, 'Gesuch archiviert');
     }
 
     return response()->json('successfully updated');
@@ -84,7 +84,7 @@ class ApplicationController extends Controller
   public function destroy(Application $application)
   {
     $application->delete();
-    (new Logger())->log($application, 'deleted');
+    (new Logger())->log($application, 'Gesuch gelöscht');
     return response()->json('successfully deleted');
   }
 

@@ -4,7 +4,8 @@
   <site-main v-if="isFetched">
     <page-menu 
       :type="$route.params.type" 
-      :uuid="$route.params.uuid" 
+      :uuid="$route.params.uuid"
+      :application="data" 
       class="has-selection mb-20x"
     ></page-menu>
     <form @submit.prevent="submit" v-if="isFetched">
@@ -111,28 +112,6 @@
                   {{data.file_portrait | truncate(30, '...')}}
                 </a>
                 <div class="flex justify-between">
-                  <div class="mr-3x" style="display: block; height: 16px; width: 16px; background: red; cursor: pointer; margin-top: 5px"></div>
-                                    <vue-dropzone
-                    ref="dropzone"
-                    id="dropzone"
-                    :options="config"
-                    @vdropzone-sending="uploadSending"
-                    @vdropzone-success="uploadSuccess"
-                    @vdropzone-complete="uploadComplete"
-                    @vdropzone-max-files-exceeded="uploadMaxFilesExceeded"
-                    :useCustomSlot=true
-                  >
-                    <a href="javascript:;" @click="uploadBefore('file_portrait')" style="display: block; height: 16px; width: 16px; background: yellow; cursor: pointer; margin-top: 5px"></a>
-                  </vue-dropzone>
-                </div>
-              </div>
-            </application-row>
-            <application-row>
-              <div class="span-1"><label>Jahresbericht</label></div>
-              <div class="span-3 flex justify-between">
-                <a :href="`/download/${data.uuid}/${data.file_anunal_report}`" class="anchor-download" target="_blank" title="Download Jahresbericht">
-                  {{data.file_anunal_report | truncate(30, '...')}}
-                </a>
                   <vue-dropzone
                     ref="dropzone"
                     id="dropzone"
@@ -143,8 +122,18 @@
                     @vdropzone-max-files-exceeded="uploadMaxFilesExceeded"
                     :useCustomSlot=true
                   >
-                    <a href="javascript:;" @click="uploadBefore('file_anunal_report')" style="display: block; height: 16px; width: 16px; background: yellow; cursor: pointer; margin-top: 5px"></a>
+                    <a href="javascript:;" @click="uploadBefore('file_portrait')" style="display: block; height: 16px; width: 16px; background: black; cursor: pointer; padding: 2px; color: white">R</a>
                   </vue-dropzone>
+                  <a href="javascript:;" @click="deleteUpload('file_portrait')" class="ml-3x" style="display: block; height: 16px; width: 16px; background: black; cursor: pointer; padding: 2px; color: white">D</a>
+                </div>
+              </div>
+            </application-row>
+            <application-row>
+              <div class="span-1"><label>Jahresbericht</label></div>
+              <div class="span-3 flex justify-between">
+                <a :href="`/download/${data.uuid}/${data.file_anunal_report}`" class="anchor-download" target="_blank" title="Download Jahresbericht">
+                  {{data.file_anunal_report | truncate(30, '...')}}
+                </a>
               </div>
             </application-row>
             <application-row>
@@ -328,7 +317,8 @@ export default {
       // Routes
       routes: {
         fetch: '/api/application',
-        put: '/api/application'
+        put: '/api/application',
+        destroy: '/api/application/'
       },
 
       // States
@@ -364,24 +354,39 @@ export default {
 
   created() {
     this.fetch();
+    NProgress.configure({ showBar: false });
   },
 
   methods: {
 
     fetch() {
+      NProgress.start();
       this.isFetched = false;
       this.axios.get(`${this.routes.fetch}/${this.$route.params.uuid}`).then(response => {
         this.data = response.data;
         this.isFetched = true;
+        NProgress.done();
       });
     },
 
     submit() {
-      this.isLoading = true;
+      NProgress.start();
+      this.isFetched = true;
       this.axios.put(`${this.routes.put}/${this.$route.params.uuid}`, this.data).then(response => {
         this.$router.push({ name: 'application-show', params: {type: this.$route.params.type, uuid: this.data.uuid} });
-        this.isLoading = false;
+        this.isFetched = false;
+        NProgress.done();
       });
+    },
+
+    deleteFile(field) {
+      if (confirm(this.messages.confirmDestroy)) {
+        this.isLoading = true;
+        this.axios.delete(`${this.routes.destroy}/${uuid}`).then(response => {
+          this.fetch();
+          this.isLoading = false;
+        });
+      }
     },
 
     validate(event) {

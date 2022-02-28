@@ -4,7 +4,8 @@
   <site-main v-if="isFetched">
     <page-menu 
       :type="$route.params.type" 
-      :uuid="$route.params.uuid" 
+      :uuid="$route.params.uuid"
+      :application="applicationData" 
       class="mb-15x has-selection"
     ></page-menu>
     <list v-if="data.length || hasForm">
@@ -34,7 +35,7 @@
           <span>{{ d.user.full_name }}</span>
         </list-item>
         <list-item :cls="'span-4 list-item'">
-          <span>{{ messages.actions[d.action] }}</span>
+          <span>{{ d.action }}</span>
         </list-item>
       </list-row>
     </list>
@@ -46,6 +47,7 @@
 </div>
 </template>
 <script>
+import NProgress from 'nprogress';
 import ErrorHandling from "@/mixins/ErrorHandling";
 import Helpers from "@/mixins/Helpers";
 import Sort from "@/mixins/Sort";
@@ -62,6 +64,7 @@ import ListEmpty from "@/components/ui/layout/ListEmpty.vue";
 export default {
 
   components: {
+    NProgress,
     SiteHeader,
     SiteMain,
     PageMenu,
@@ -81,8 +84,12 @@ export default {
       // Data
       data: [],
 
+      // Application data
+      applicationData: {},
+
       // Routes
       routes: {
+        fetch: '/api/application',
         list: '/api/application-log',
       },
 
@@ -93,29 +100,29 @@ export default {
       // Messages
       messages: {
         emptyData: 'Es sind noch keine Einträge vorhanden...',
-        actions: {
-          archived: 'Gesuch archiviert',
-          saved: 'Gesuch gespeichert',
-          deleted: 'Gesuch gelöscht',
-          approved: 'Gesuch bewilligt',
-          denied: 'Gesuch abgelehnt',
-        }
       }
     };
   },
 
   mounted() {
     this.fetch(this.$route.params.uuid);
+    NProgress.configure({ showBar: false });
   },
 
   methods: {
 
     fetch(uuid) {
       this.isFetched = false;
-      this.axios.get(`${this.routes.list}/${uuid}/`).then(response => {
-        this.data = response.data.data;
+      NProgress.start();
+      this.axios.all([
+        this.axios.get(`${this.routes.list}/${uuid}/`),
+        this.axios.get(`${this.routes.fetch}/${uuid}/`),
+      ]).then(axios.spread((...responses) => {
+        this.data = responses[0].data.data;
+        this.applicationData = responses[1].data
         this.isFetched = true;
-      });
+        NProgress.done();
+      }));
     },
   },
 

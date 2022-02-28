@@ -128,29 +128,19 @@ export default {
 
   mounted() {
     this.fetch(this.$route.params.type);
+    NProgress.configure({ showBar: false });
   },
 
   methods: {
 
     fetch(type) {
       this.isFetched = false;
-      NProgress.configure({ showBar: false });
       NProgress.start();
       this.axios.get(`${this.routes.list}/${type}`).then(response => {
         this.data = response.data.data;
         this.isFetched = true;
           NProgress.done();
       });
-    },
-
-    destroy(uuid, event) {
-      if (confirm(this.messages.confirmDestroy)) {
-        this.isLoading = true;
-        this.axios.delete(`${this.routes.destroy}/${uuid}`).then(response => {
-          this.fetch();
-          this.isLoading = false;
-        });
-      }
     },
   },
   watch: {

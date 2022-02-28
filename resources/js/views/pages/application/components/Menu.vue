@@ -27,9 +27,15 @@
           <span>Protokoll</span>
         </router-link>
       </li>
-      <li>
+
+      <li v-if="$props.application.archive == 0">
         <a href="javascript:;" @click.prevent="$refs.dialogArchive.show()">
           <span>Archivieren</span>
+        </a>
+      </li>
+      <li v-else>
+        <a href="javascript:;" @click.prevent="$refs.dialogRestore.show()">
+          <span>Wiederherstellen</span>
         </a>
       </li>
       <li>
@@ -42,16 +48,25 @@
   </nav>
   <dialog-wrapper ref="dialogArchive">
     <template #message>
-      <div><strong>Möchten Sie das Gesuch wirklich archivieren?</strong></div>
+      <div><strong>Möchten Sie das Gesuch</strong><br>{{$props.application.project_title}}<br><strong>wirklich archivieren?</strong></div>
     </template>
     <template #actions>
       <a href="javascript:;" class="btn-primary mb-3x" @click.stop="archive()">Ja, archivieren</a>
     </template>
   </dialog-wrapper>
   
+  <dialog-wrapper ref="dialogRestore">
+    <template #message>
+      <div><strong>Möchten Sie das Gesuch</strong><br>{{$props.application.project_title}}<br><strong>wirklich wiederherstellen?</strong></div>
+    </template>
+    <template #actions>
+      <a href="javascript:;" class="btn-primary mb-3x" @click.stop="restore()">Ja, wiederherstellen</a>
+    </template>
+  </dialog-wrapper>
+
   <dialog-wrapper ref="dialogDestroy">
     <template #message>
-      <div><strong>Möchten Sie das Gesuch wirklich löschen?</strong></div>
+      <div><strong>Möchten Sie das Gesuch</strong><br>{{data.project_title}}<br><strong>wirklich löschen?</strong></div>
     </template>
     <template #actions>
       <a href="javascript:;" class="btn-primary mb-3x" @click.stop="destroy()">Ja, löschen</a>
@@ -70,7 +85,8 @@ export default {
 
   props: {
     type: String,
-    uuid: String
+    uuid: String,
+    application: Object,
   },
 
   data() {
@@ -81,18 +97,32 @@ export default {
       
       // Routes
       routes: {
+        fetch: '/api/application',
         destroy: '/api/application',
         put: '/api/application/archive',
       },
     }
   },
 
+  mounted() {
+
+  },
+
   methods: {
+
+    fetch() {
+      this.isFetched = false;
+      this.axios.get(`${this.routes.fetch}/${this.$route.params.uuid}`).then(response => {
+        this.data = response.data;
+        this.isFetched = true;
+      });
+    },
+
     destroy() {
       this.isLoading = true;
       this.axios.delete(`${this.routes.destroy}/${this.$props.uuid}`).then(response => {
         this.isLoading = false;
-        this.$router.push({ name: 'applications-current', params: {type: 'archiv', uuid: this.$props.uuid} });
+        this.redirect(this.$props.type);
       });
     },
 
@@ -101,9 +131,26 @@ export default {
       this.axios.put(`${this.routes.put}/${this.$route.params.uuid}`, {archive: 1}).then(response => {
         this.isLoading = false;
         this.$refs.dialogArchive.hide();
-        this.$router.push({ name: 'applications-archive', params: {type: 'archiv', uuid: this.$props.uuid} });
+        this.redirect(this.$props.type);
       });
     },
+
+    restore() {
+      this.isLoading = true;
+      this.axios.put(`${this.routes.put}/${this.$route.params.uuid}`, {archive: 0}).then(response => {
+        this.isLoading = false;
+        this.$refs.dialogArchive.hide();
+        this.redirect('aktuell');
+      });
+    },
+
+    redirect(type) {
+      if (type == 'archiv') {
+        return this.$router.push({ name: 'applications-archive', params: {type: 'archiv', uuid: this.$props.uuid} });
+      }
+      return this.$router.push({ name: 'applications-current', params: {type: 'aktuell', uuid: this.$props.uuid} });
+    }
+
   }
 }
 </script>
