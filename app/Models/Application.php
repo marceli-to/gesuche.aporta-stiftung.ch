@@ -74,6 +74,7 @@ class Application extends Base
     'applicant_name',
     'applicant_email',
     'applicant_address',
+    'requested_contribution'
   ];
 
   public function state()
@@ -164,6 +165,17 @@ class Application extends Base
     }
 
     return $address;
+  }
+
+  /**
+   * Get the applicants full name.
+   *
+   * @param  string  $value
+   * @return string
+   */
+  public function getRequestedContributionAttribute($value)
+  {
+    return (int) $this->project_contribution_requested;
   }
 
 }

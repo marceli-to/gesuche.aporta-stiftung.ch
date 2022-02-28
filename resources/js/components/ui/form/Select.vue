@@ -14,7 +14,6 @@ export default {
   emits: ['update:modelValue'],
 
   created() {
-    console.log(this.$props.modelValue);
   },
 
   computed: {

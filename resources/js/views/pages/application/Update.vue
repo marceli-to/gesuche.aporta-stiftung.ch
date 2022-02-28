@@ -347,9 +347,7 @@
                   </div>
                 </div>
                 <div v-if="file.comment" class="mt-2x pb-3x">
-                  <span class="text-grey" v-if="file.user">
-                    {{file.user.full_name}}:
-                  </span>
+                  <span class="text-grey" v-if="file.user">{{file.user.full_name}}:<br></span>
                   {{file.comment}}
                 </div>
               </div>
@@ -385,7 +383,7 @@
               </application-row>
               <div class="grid-cols-12">
                 <div class="span-6">
-                  <a href="javascript:;" class="btn-primary is-small" @click.prevent="storeFile()">Hochladen</a>
+                  <a href="javascript:;" class="btn-primary is-small" @click.prevent="storeFile()">Speichern</a>
                 </div>
                 <div class="span-6">
                   <a href="javascript:;" class="btn-secondary is-small is-outline">Abbrechen</a>

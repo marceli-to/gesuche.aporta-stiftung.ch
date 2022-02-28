@@ -31,10 +31,9 @@ class ApplicationController extends Controller
    */
   public function filter($stateId = NULL, $amount = NULL)
   { 
-    $constraint = explode(':', $amount);
-
-    if ($stateId != 'null' && $constraint[1] != 'null')
+    if ($stateId != 'null' && $amount != 'null')
     {
+      $constraint = explode(':', $amount);
       $operator = $constraint[0] == 'lt' ? '<=' : '>='; 
       $data = Application::current()->orderBy('created_at', 'DESC')->where('application_state_id', $stateId)->where('project_contribution_requested', $operator, $constraint[1])->get();
       return new DataCollection($data);
@@ -47,8 +46,9 @@ class ApplicationController extends Controller
         return new DataCollection($data);
       }
 
-      if ($constraint[1] != 'null')
+      if ($amount != 'null')
       {
+        $constraint = explode(':', $amount);
         $operator = $constraint[0] == 'lt' ? '<=' : '>='; 
         $data = Application::current()->orderBy('created_at', 'DESC')->where('project_contribution_requested', $operator, $constraint[1])->get();
         return new DataCollection($data);

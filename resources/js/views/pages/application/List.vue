@@ -38,7 +38,7 @@
         </list-item>
         <list-item :cls="'span-1 list-item-header line-after'">
           Beantragt
-          <a href="" @click.prevent="sort('project_contribution_requested')">
+          <a href="" @click.prevent="sort('requested_contribution')">
             <icon-sort />
           </a>
         </list-item>
@@ -50,7 +50,14 @@
         </list-item>
         <list-item :cls="'span-2 list-item-header line-after'">Kontakt</list-item>
         <list-item :cls="'span-2 list-item-header'">E-Mail</list-item>
-        <list-item :cls="'span-1 list-item-header flex justify-center'">Status</list-item>
+        <list-item :cls="'span-1 list-item-header flex direction-column align-center'">
+          <div>
+            Status
+            <a href="" @click.prevent="sort('application_state_id')">
+              <icon-sort />
+            </a>
+          </div>
+        </list-item>
       </list-row-header>
       <list-row v-for="d in sortedData" :key="d.uuid">
         <list-item :cls="'span-1 list-item-bullet'">
@@ -86,8 +93,10 @@
             {{ d.applicant_email }}
           </router-link>
         </list-item>
-        <list-item :cls="'span-1 list-item-state'">
-          <icon-state :id="d.application_state_id" />
+        <list-item :cls="'span-1 list-item-state flex justify-center'">
+          <router-link :to="{name: 'application-show', params: { type: $route.params.type, uuid: d.uuid }}" class="icon-state">
+            <icon-state :id="d.application_state_id" />
+          </router-link>
         </list-item>
       </list-row>
     </list>
@@ -187,7 +196,6 @@ export default {
       NProgress.start();
       this.axios.get(`${this.routes.list}/${type}`).then(response => {
         this.data = response.data.data;
-        console.log(this.data);
         this.isFetched = true;
         NProgress.done();
       });
@@ -226,9 +234,7 @@ export default {
       filter[type] = value;
       filter['hasFilter'] = true;
       this.$store.commit('filter', filter);
-      this.hideFilter();
       this.filter();
-      console.log(this.$store.state.filter);
     }
 
   },

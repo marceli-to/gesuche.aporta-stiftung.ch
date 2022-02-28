@@ -11,6 +11,10 @@
   display: flex;
 }
 
+.direction-column {
+  flex-direction: column;
+}
+
 %sm\:flex,
 .sm\:flex {
   @include bp-sm() {
