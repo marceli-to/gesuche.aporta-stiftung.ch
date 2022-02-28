@@ -22,6 +22,7 @@ nav.site-menu {
     color: $color-white;
     @include font-bold();
     @include font-size($fs-md);
+    line-height: 1 !important;
     text-decoration: none;
     text-transform: uppercase;
     text-underline-offset: 3px;

@@ -18,10 +18,45 @@ class ApplicationController extends Controller
   { 
     if ($type == 'archiv')
     {
-      return new DataCollection(Application::archive()->orderBy('created_at', 'DESC')->get());
+      return new DataCollection(Application::archive()->with('state')->orderBy('created_at', 'DESC')->get());
     }
-    return new DataCollection(Application::current()->orderBy('created_at', 'DESC')->get());
+    return new DataCollection(Application::current()->with('state')->orderBy('created_at', 'DESC')->get());
 
+  }
+
+  /**
+   * Get a filtered ist of applications
+   * 
+   * @return \Illuminate\Http\Response
+   */
+  public function filter($stateId = NULL, $amount = NULL)
+  { 
+    $constraint = explode(':', $amount);
+
+    if ($stateId != 'null' && $constraint[1] != 'null')
+    {
+      $operator = $constraint[0] == 'lt' ? '<=' : '>='; 
+      $data = Application::current()->orderBy('created_at', 'DESC')->where('application_state_id', $stateId)->where('project_contribution_requested', $operator, $constraint[1])->get();
+      return new DataCollection($data);
+    }
+    else
+    {
+      if ($stateId != 'null')
+      {
+        $data = Application::current()->orderBy('created_at', 'DESC')->where('application_state_id', $stateId)->get();
+        return new DataCollection($data);
+      }
+
+      if ($constraint[1] != 'null')
+      {
+        $operator = $constraint[0] == 'lt' ? '<=' : '>='; 
+        $data = Application::current()->orderBy('created_at', 'DESC')->where('project_contribution_requested', $operator, $constraint[1])->get();
+        return new DataCollection($data);
+      }
+
+    } 
+
+    return new DataCollection($data);
   }
 
   /**
