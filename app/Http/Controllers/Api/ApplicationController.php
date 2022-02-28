@@ -32,7 +32,7 @@ class ApplicationController extends Controller
    */
   public function find(Application $application)
   {
-    return response()->json(Application::with('files')->findOrFail($application->id));
+    return response()->json(Application::with('files.user')->findOrFail($application->id));
   }
 
   /**
