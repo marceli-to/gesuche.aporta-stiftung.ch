@@ -9,10 +9,10 @@
       class="mb-20x has-selection"
     ></page-menu>
     <a 
-      href=""
+      href="javascript:;"
       @click.prevent="showForm()"
-      style="font-size: 40px; position: absolute; left: 50%; top: 80px; display: inline-block; height: 20px; width: 20px; transform: translateX(-50%)">
-      +
+      class="icon-plus">
+      <icon-plus />
     </a>
 
     <list v-if="data.length || hasForm">
@@ -21,19 +21,27 @@
       <list-row-header>
         <list-item :cls="'span-1 start-2 list-item-header line-after'">
           Datum
-          <a href="" @click.prevent="sort('created_at')" v-if="sortedData.length > 1">[]</a>
+          <a href="" @click.prevent="sort('created_at')" v-if="sortedData.length > 1">
+            <icon-sort />
+          </a>
         </list-item>
         <list-item :cls="'span-2 list-item-header line-after'">
           Verfasser / In
-          <a href="" @click.prevent="sort('user.full_name')" v-if="sortedData.length > 1">[]</a>
+          <a href="" @click.prevent="sort('user.full_name')" v-if="sortedData.length > 1">
+            <icon-sort />
+          </a>
         </list-item>
         <list-item :cls="'span-2 list-item-header line-after'">
           Betrifft
-          <a href="" @click.prevent="sort('subject')" v-if="sortedData.length > 1">[]</a>
+          <a href="" @click.prevent="sort('subject')" v-if="sortedData.length > 1">
+            <icon-sort />
+          </a>
         </list-item>
         <list-item :cls="'span-4 list-item-header'">
           Kommentar
-          <a href="" @click.prevent="sort('comment')" v-if="sortedData.length > 1">[]</a>
+          <a href="" @click.prevent="sort('comment')" v-if="sortedData.length > 1">
+            <icon-sort />
+          </a>
         </list-item>
       </list-row-header>
 
@@ -93,6 +101,8 @@ import NProgress from 'nprogress';
 import ErrorHandling from "@/mixins/ErrorHandling";
 import Helpers from "@/mixins/Helpers";
 import Sort from "@/mixins/Sort";
+import IconSort from "@/components/ui/icons/Sort.vue";
+import IconPlus from "@/components/ui/icons/Plus.vue";
 import SiteHeader from '@/views/layout/Header.vue';
 import SiteMain from '@/views/layout/Main.vue';
 import PageMenu from '@/views/pages/application/components/Menu.vue';
@@ -110,6 +120,8 @@ export default {
     SiteHeader,
     SiteMain,
     PageMenu,
+    IconSort,
+    IconPlus,
     List,
     ListRow,
     ListRowHeader,

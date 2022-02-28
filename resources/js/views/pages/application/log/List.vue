@@ -14,15 +14,21 @@
       <list-row-header>
         <list-item :cls="'span-2 start-3 list-item-header line-after'">
           Datum
-          <a href="" @click.prevent="sort('created_at')" v-if="sortedData.length > 1">[]</a>
+          <a href="" @click.prevent="sort('created_at')" v-if="sortedData.length > 1">
+            <icon-sort />
+          </a>
         </list-item>
         <list-item :cls="'span-2 list-item-header line-after'">
           Benutzer
-          <a href="" @click.prevent="sort('user.full_name')" v-if="sortedData.length > 1">[]</a>
+          <a href="" @click.prevent="sort('user.full_name')" v-if="sortedData.length > 1">
+            <icon-sort />
+          </a>
         </list-item>
         <list-item :cls="'span-4 list-item-header'">
           Aktion
-          <a href="" @click.prevent="sort('action')" v-if="sortedData.length > 1">[]</a>
+          <a href="" @click.prevent="sort('action')" v-if="sortedData.length > 1">
+            <icon-sort />
+          </a>
         </list-item>
       </list-row-header>
 
@@ -51,6 +57,7 @@ import NProgress from 'nprogress';
 import ErrorHandling from "@/mixins/ErrorHandling";
 import Helpers from "@/mixins/Helpers";
 import Sort from "@/mixins/Sort";
+import IconSort from "@/components/ui/icons/Sort.vue";
 import SiteHeader from '@/views/layout/Header.vue';
 import SiteMain from '@/views/layout/Main.vue';
 import PageMenu from '@/views/pages/application/components/Menu.vue';
@@ -68,6 +75,7 @@ export default {
     SiteHeader,
     SiteMain,
     PageMenu,
+    IconSort,
     List,
     ListRow,
     ListRowHeader,

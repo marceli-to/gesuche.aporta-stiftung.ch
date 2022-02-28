@@ -19,10 +19,13 @@ class ApplicationUploadController extends Controller
   { 
     $media = (new Media(['force_lowercase' => false, 'folder' => $request->input('uuid')]))->store($request);
     if ($media)
-    {
-      $application = Application::where('uuid', $request->input('uuid'))->get()->first();
-      $application[$request->input('field')] = $media['name'];
-      $application->save();
+    { 
+      if ($request->input('field'))
+      {
+        $application = Application::where('uuid', $request->input('uuid'))->get()->first();
+        $application[$request->input('field')] = $media['name'];
+        $application->save();
+      }
     }
 
     return response()->json($media);

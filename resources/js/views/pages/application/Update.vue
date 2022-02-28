@@ -123,14 +123,16 @@
                     @vdropzone-max-files-exceeded="uploadMaxFilesExceeded"
                     :useCustomSlot=true
                   >
-                    <a href="javascript:;" @click="uploadBefore('file_portrait')" style="display: block; height: 16px; width: 16px; background: black; cursor: pointer; padding: 2px; color: white">R</a>
+                    <a href="javascript:;" @click="uploadBefore('file_portrait')" class="icon-replace">
+                      <icon-replace />
+                    </a>
                   </vue-dropzone>
                   <a 
                     href="javascript:;" 
                     @click="deleteBefore('file_portrait')" 
-                    class="ml-3x" 
-                    style="display: block; height: 16px; width: 16px; background: black; cursor: pointer; padding: 2px; color: white" v-if="data.file_portrait">
-                    D
+                    class="icon-trash ml-3x" 
+                    v-if="data.file_portrait">
+                    <icon-trash />
                   </a>
                 </div>
               </div>
@@ -153,14 +155,16 @@
                     @vdropzone-max-files-exceeded="uploadMaxFilesExceeded"
                     :useCustomSlot=true
                   >
-                    <a href="javascript:;" @click="uploadBefore('file_annual_report')" style="display: block; height: 16px; width: 16px; background: black; cursor: pointer; padding: 2px; color: white">R</a>
+                    <a href="javascript:;" @click="uploadBefore('file_annual_report')" class="icon-replace">
+                      <icon-replace />
+                    </a>
                   </vue-dropzone>
                   <a 
                     href="javascript:;" 
                     @click="deleteBefore('file_annual_report')" 
-                    class="ml-3x" 
-                    style="display: block; height: 16px; width: 16px; background: black; cursor: pointer; padding: 2px; color: white" v-if="data.file_annual_report">
-                    D
+                    class="icon-trash ml-3x" 
+                    v-if="data.file_annual_report">
+                    <icon-trash />
                   </a>
                 </div>
               </div>
@@ -183,14 +187,16 @@
                     @vdropzone-max-files-exceeded="uploadMaxFilesExceeded"
                     :useCustomSlot=true
                   >
-                    <a href="javascript:;" @click="uploadBefore('file_annual_financial_report')" style="display: block; height: 16px; width: 16px; background: black; cursor: pointer; padding: 2px; color: white">R</a>
+                    <a href="javascript:;" @click="uploadBefore('file_annual_financial_report')" class="icon-replace">
+                      <icon-replace />
+                    </a>
                   </vue-dropzone>
                   <a 
                     href="javascript:;" 
                     @click="deleteBefore('file_annual_financial_report')" 
-                    class="ml-3x" 
-                    style="display: block; height: 16px; width: 16px; background: black; cursor: pointer; padding: 2px; color: white" v-if="data.file_annual_financial_report">
-                    D
+                    class="icon-trash ml-3x" 
+                    v-if="data.file_annual_financial_report">
+                    <icon-trash />
                   </a>
                 </div>
               </div>
@@ -213,14 +219,16 @@
                     @vdropzone-max-files-exceeded="uploadMaxFilesExceeded"
                     :useCustomSlot=true
                   >
-                    <a href="javascript:;" @click="uploadBefore('file_budget')" style="display: block; height: 16px; width: 16px; background: black; cursor: pointer; padding: 2px; color: white">R</a>
+                    <a href="javascript:;" @click="uploadBefore('file_budget')" class="icon-replace">
+                      <icon-replace />
+                    </a>
                   </vue-dropzone>
                   <a 
                     href="javascript:;" 
                     @click="deleteBefore('file_budget')" 
-                    class="ml-3x" 
-                    style="display: block; height: 16px; width: 16px; background: black; cursor: pointer; padding: 2px; color: white" v-if="data.file_budget">
-                    D
+                    class="icon-trash ml-3x" 
+                    v-if="data.file_budget">
+                    <icon-trash />
                   </a>
                 </div>
               </div>
@@ -243,14 +251,16 @@
                     @vdropzone-max-files-exceeded="uploadMaxFilesExceeded"
                     :useCustomSlot=true
                   >
-                    <a href="javascript:;" @click="uploadBefore('file_bylaws')" style="display: block; height: 16px; width: 16px; background: black; cursor: pointer; padding: 2px; color: white">R</a>
+                    <a href="javascript:;" @click="uploadBefore('file_bylaws')" class="icon-replace">
+                      <icon-replace />
+                    </a>
                   </vue-dropzone>
                   <a 
                     href="javascript:;" 
                     @click="deleteBefore('file_bylaws')" 
-                    class="ml-3x" 
-                    style="display: block; height: 16px; width: 16px; background: black; cursor: pointer; padding: 2px; color: white" v-if="data.file_bylaws">
-                    D
+                    class="icon-trash ml-3x" 
+                    v-if="data.file_bylaws">
+                    <icon-trash />
                   </a>
                 </div>
               </div>
@@ -273,14 +283,16 @@
                     @vdropzone-max-files-exceeded="uploadMaxFilesExceeded"
                     :useCustomSlot=true
                   >
-                    <a href="javascript:;" @click="uploadBefore('file_project_description')" style="display: block; height: 16px; width: 16px; background: black; cursor: pointer; padding: 2px; color: white">R</a>
+                    <a href="javascript:;" @click="uploadBefore('file_project_description')" class="icon-replace">
+                      <icon-replace />
+                    </a>
                   </vue-dropzone>
                   <a 
                     href="javascript:;" 
                     @click="deleteBefore('file_project_description')" 
-                    class="ml-3x" 
-                    style="display: block; height: 16px; width: 16px; background: black; cursor: pointer; padding: 2px; color: white" v-if="data.file_project_description">
-                    D
+                    class="icon-trash ml-3x" 
+                    v-if="data.file_project_description">
+                    <icon-trash />
                   </a>
                 </div>
               </div>
@@ -303,18 +315,77 @@
                     @vdropzone-max-files-exceeded="uploadMaxFilesExceeded"
                     :useCustomSlot=true
                   >
-                    <a href="javascript:;" @click="uploadBefore('file_project_estimated_costs')" style="display: block; height: 16px; width: 16px; background: black; cursor: pointer; padding: 2px; color: white">R</a>
+                    <a href="javascript:;" @click="uploadBefore('file_project_estimated_costs')" class="icon-replace">
+                      <icon-replace />
+                    </a>
                   </vue-dropzone>
                   <a 
                     href="javascript:;" 
                     @click="deleteBefore('file_project_estimated_costs')" 
-                    class="ml-3x" 
-                    style="display: block; height: 16px; width: 16px; background: black; cursor: pointer; padding: 2px; color: white" v-if="data.file_project_estimated_costs">
-                    D
+                    class="icon-trash ml-3x" 
+                    v-if="data.file_project_estimated_costs">
+                    <icon-trash />
                   </a>
                 </div>
               </div>
             </application-row>
+
+            <!-- Upload -->
+            <div v-if="hasUpload" class="mt-3x">
+              <application-row v-if="dataUpload.file">
+                <application-label :cls="'span-1'">Datei</application-label>
+                <div class="span-3 flex justify-between">
+                  <a :href="`/download/${data.uuid}/${dataUpload.file}`" class="anchor-download" target="_blank">
+                    {{dataUpload.file | truncate(30, '...')}}
+                  </a>
+                  <a 
+                    href="javascript:;" 
+                    @click="deleteNewUpload()" 
+                    class="icon-trash ml-3x">
+                    <icon-trash />
+                  </a>
+                </div>
+              </application-row>
+              <application-row>
+                <application-label :cls="'span-1'">Bezeichnung</application-label>
+                <application-input :cls="'span-3'">
+                  <input type="text" v-model="dataUpload.name" required @blur="validate($event)">
+                </application-input>
+              </application-row>
+              <application-row>
+                <application-label :cls="'span-1'">Kommentar</application-label>
+                <application-input :cls="'span-3 pb-4x'">
+                  <textarea v-model="dataUpload.comment" required @blur="validate($event)"></textarea>
+                </application-input>
+              </application-row>
+              <div class="grid-cols-12">
+                <div class="span-6">
+                  <a href="javascript:;" class="btn-primary is-small">Hochladen</a>
+                </div>
+                <div class="span-6">
+                  <a href="javascript:;" class="btn-secondary is-small is-outline">Abbrechen</a>
+                </div>
+              </div>
+            </div>
+            <div class="grid-cols-12 mt-3x" v-else>
+              <div class="span-3 start-4">
+                  <vue-dropzone
+                    ref="dropzone"
+                    id="dropzone"
+                    :options="config"
+                    @vdropzone-sending="uploadNewSending"
+                    @vdropzone-success="uploadNewSuccess"
+                    @vdropzone-complete="uploadComplete"
+                    @vdropzone-max-files-exceeded="uploadMaxFilesExceeded"
+                    :useCustomSlot=true
+                  >
+                  <a href="javascript:;" class="icon-plus-small">
+                    <icon-plus />
+                  </a>
+                  </vue-dropzone>
+              </div>
+            </div>
+            <!-- // Upload -->
           </div>
           <div class="line-after">
             <h2>Projekt</h2>
@@ -413,6 +484,9 @@
 <script>
 import NProgress from 'nprogress';
 import ErrorHandling from "@/mixins/ErrorHandling";
+import IconReplace from "@/components/ui/icons/Replace.vue";
+import IconTrash from "@/components/ui/icons/Trash-sm.vue";
+import IconPlus from "@/components/ui/icons/Plus-sm.vue";
 import DialogWrapper from "@/components/ui/misc/Dialog.vue";
 import SiteHeader from '@/views/layout/Header.vue';
 import SiteMain from '@/views/layout/Main.vue';
@@ -428,6 +502,9 @@ export default {
   components: {
     NProgress,
     DialogWrapper,
+    IconReplace,
+    IconTrash,
+    IconPlus,
     SiteHeader,
     SiteMain,
     PageMenu,
@@ -451,14 +528,10 @@ export default {
       // Model
       data: {},
 
-      // Settings
-      settings: {
-        states: [],
-      },
-
-      // Validation
-      errors: {
-        name: false,
+      dataUpload: {
+        name: null,
+        comment: null,
+        file: null,
       },
 
       // Routes
@@ -538,6 +611,10 @@ export default {
       this.hasErrors = true;
     },
 
+    showUpload() {
+      this.hasUpload = true;
+    },
+
     deleteUpload() {
       NProgress.start();
       this.axios.delete(`${this.routes.deleteUpload}/${this.$route.params.uuid}/${this.fieldToDelete}`).then(response => {
@@ -566,6 +643,24 @@ export default {
     uploadSuccess(file, response) {
       let res = JSON.parse(file.xhr.response);
       this.data[this.field_file] = res.name;
+      this.$refs.dropzone.removeFile(file);
+      NProgress.done();
+    },
+
+
+    deleteNewUpload() {
+
+    },
+    
+    uploadNewSending(file, xhr, formData) {
+      NProgress.start();
+      formData.append('uuid', this.$route.params.uuid);
+    },
+
+    uploadNewSuccess(file, response) {
+      let res = JSON.parse(file.xhr.response);
+      this.dataUpload.file = res.name;
+      this.showUpload();
       this.$refs.dropzone.removeFile(file);
       NProgress.done();
     },

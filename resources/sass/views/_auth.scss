@@ -46,7 +46,7 @@ section.auth {
     &.is-valid {
       @include background-default();
       background-image: url($url-icons + 'checkmark.svg');
-      background-size: 17px 12px;
+      background-size: 16px 12px;
       background-position: top 12px right;
     }
   }

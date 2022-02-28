@@ -4,42 +4,50 @@
     <ul>
       <li v-if="type == 'archive'">
         <router-link :to="{name: 'applications-archive', params: { type: $props.type }}">
+          <icon-arrow-left />
           <span>Zurück</span>
         </router-link>
       </li>
       <li v-else>
         <router-link :to="{name: 'applications-current', params: { type: $props.type }}">
+          <icon-arrow-left />
           <span>Zurück</span>
         </router-link>
       </li>
       <li>
         <router-link :to="{name: 'application-edit', params: { type: $props.type, uuid: $props.uuid }}" :active-class="'is-active'">
+          <icon-pencil />
           <span>Bearbeiten</span>
         </router-link>
       </li>
       <li>
         <router-link :to="{name: 'application-comments', params: { type: $props.type, uuid: $props.uuid }}" :active-class="'is-active'">
+          <icon-bubble />
           <span>Kommentar</span>
         </router-link>
       </li>
       <li>
         <router-link :to="{name: 'application-logs', params: { type: $props.type, uuid: $props.uuid }}" :active-class="'is-active'">
+          <icon-list />
           <span>Protokoll</span>
         </router-link>
       </li>
 
       <li v-if="$props.application.archive == 0">
         <a href="javascript:;" @click.prevent="$refs.dialogArchive.show()">
+          <icon-download />
           <span>Archivieren</span>
         </a>
       </li>
       <li v-else>
         <a href="javascript:;" @click.prevent="$refs.dialogRestore.show()">
+          <icon-download />
           <span>Wiederherstellen</span>
         </a>
       </li>
       <li>
         <a href="" @click.prevent="$refs.dialogDestroy.show()">
+          <icon-trash />
           <span>Löschen</span>
         </a>
       </li>
@@ -76,11 +84,23 @@
 </template>
 <script>
 import DialogWrapper from "@/components/ui/misc/Dialog.vue";
+import IconArrowLeft from "@/components/ui/icons/ArrowLeft.vue";
+import IconPencil from "@/components/ui/icons/Pencil.vue";
+import IconBubble from "@/components/ui/icons/Bubble.vue";
+import IconList from "@/components/ui/icons/List.vue";
+import IconTrash from "@/components/ui/icons/Trash.vue";
+import IconDownload from "@/components/ui/icons/Download.vue";
 
 export default {
 
   components: {
     DialogWrapper,
+    IconArrowLeft,
+    IconPencil,
+    IconBubble,
+    IconList,
+    IconTrash,
+    IconDownload
   },
 
   props: {

@@ -24,7 +24,19 @@ nav.page-menu {
     display: flex;
     @include font-size($fs-md);
     height: inherit;
+    line-height: 1 !important;
     text-transform: uppercase;
+
+    span {
+      display: block;
+      margin-left: $space-4x;
+      line-height: 1 !important;
+    }
+
+    svg {
+      display: block;
+      margin-bottom: 2px;
+    }
   }
 }
 
