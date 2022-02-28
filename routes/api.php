@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\ApplicationController;
 use App\Http\Controllers\Api\ApplicationCommentController;
+use App\Http\Controllers\Api\ApplicationFileController;
 use App\Http\Controllers\Api\ApplicationLogController;
 use App\Http\Controllers\Api\ApplicationUploadController;
 use App\Http\Controllers\Api\UploadController;
@@ -35,6 +36,10 @@ Route::middleware('auth:sanctum')->group(function() {
   Route::get('application-comment/{applicationComment:uuid}', [ApplicationCommentController::class, 'find']);
   Route::post('application-comment', [ApplicationCommentController::class, 'store']);
   Route::delete('application-comment/{applicationComment:uuid}', [ApplicationCommentController::class, 'destroy']);
+
+  // Application files
+  Route::post('application-file/store', [ApplicationFileController::class, 'store']);
+  Route::delete('application-file/delete/{applicationFile:uuid}', [ApplicationFileController::class, 'destroy']);
 
   // Application logs
   Route::get('application-log/{application:uuid}', [ApplicationLogController::class, 'get']);

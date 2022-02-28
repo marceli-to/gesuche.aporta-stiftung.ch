@@ -330,13 +330,30 @@
               </div>
             </application-row>
 
+            <application-row v-for="file in data.files" :key="file.uuid">
+              <div class="span-1"><label>{{file.title}}</label></div>
+              <div class="span-3 flex justify-between">
+                <a :href="`/download/${file.uuid}/${file.name}`" class="anchor-download" target="_blank" :title="file.title">
+                  {{file.name | truncate(30, '...')}}
+                </a>
+                <div class="flex justify-between">
+                  <a 
+                    href="javascript:;" 
+                    @click="deleteFileBefore(file.uuid)" 
+                    class="icon-trash">
+                    <icon-trash />
+                  </a>
+                </div>
+              </div>
+            </application-row>
+
             <!-- Upload -->
             <div v-if="hasUpload" class="mt-3x">
-              <application-row v-if="dataUpload.file">
+              <application-row v-if="dataUpload.name">
                 <application-label :cls="'span-1'">Datei</application-label>
                 <div class="span-3 flex justify-between">
-                  <a :href="`/download/${data.uuid}/${dataUpload.file}`" class="anchor-download" target="_blank">
-                    {{dataUpload.file | truncate(30, '...')}}
+                  <a :href="`/download/${data.uuid}/${dataUpload.name}`" class="anchor-download" target="_blank">
+                    {{dataUpload.name | truncate(30, '...')}}
                   </a>
                   <a 
                     href="javascript:;" 
@@ -349,7 +366,7 @@
               <application-row>
                 <application-label :cls="'span-1'">Bezeichnung</application-label>
                 <application-input :cls="'span-3'">
-                  <input type="text" v-model="dataUpload.name" required @blur="validate($event)">
+                  <input type="text" v-model="dataUpload.title" required @blur="validate($event)">
                 </application-input>
               </application-row>
               <application-row>
@@ -360,7 +377,7 @@
               </application-row>
               <div class="grid-cols-12">
                 <div class="span-6">
-                  <a href="javascript:;" class="btn-primary is-small">Hochladen</a>
+                  <a href="javascript:;" class="btn-primary is-small" @click.prevent="storeFile()">Hochladen</a>
                 </div>
                 <div class="span-6">
                   <a href="javascript:;" class="btn-secondary is-small is-outline">Abbrechen</a>
@@ -479,6 +496,14 @@
       <a href="javascript:;" class="btn-primary mb-3x" @click.stop="deleteUpload()">Ja, löschen</a>
     </template>
   </dialog-wrapper>
+  <dialog-wrapper ref="dialogDestroyFile">
+    <template #message>
+      <div><strong>Möchten Sie diese Datei wirklich löschen?</strong></div>
+    </template>
+    <template #actions>
+      <a href="javascript:;" class="btn-primary mb-3x" @click.stop="deleteFile()">Ja, löschen</a>
+    </template>
+  </dialog-wrapper>
 </div>
 </template>
 <script>
@@ -529,9 +554,10 @@ export default {
       data: {},
 
       dataUpload: {
-        name: null,
+        uuid: this.$route.params.uuid,
+        title: null,
         comment: null,
-        file: null,
+        name: null,
       },
 
       // Routes
@@ -540,6 +566,8 @@ export default {
         put: '/api/application',
         destroy: '/api/application',
         deleteUpload: '/api/application/file',
+        storeFile: '/api/application-file/store',
+        deleteFile: '/api/application-file/delete',
       },
 
       // States
@@ -555,6 +583,7 @@ export default {
 
       // Files
       fieldToDelete: null,
+      uuidToDelete: null,
 
       // Dropzone config
       config: {
@@ -601,6 +630,15 @@ export default {
       });
     },
 
+    storeFile() {
+      NProgress.start();
+      this.axios.post(this.routes.storeFile, this.dataUpload).then(response => {
+        this.data.files.push(response.data);
+        this.hideUpload();
+        NProgress.done();
+      });
+    },
+
     validate(event) {
       if (event.target.value.length > 0) {
         event.target.classList.remove('is-invalid');
@@ -615,6 +653,27 @@ export default {
       this.hasUpload = true;
     },
 
+    hideUpload() {
+      this.dataUpload = {
+        uuid: this.$route.params.uuid,
+        title: null,
+        comment: null,
+        name: null,
+      };
+      this.hasUpload = false;
+    },
+
+    deleteFile() {
+      NProgress.start();
+      this.axios.delete(`${this.routes.deleteFile}/${this.uuidToDelete}`).then(response => {
+        const index = this.data.files.findIndex(x => x.uuid === this.uuidToDelete);
+        this.data.files.splice(index, 1);
+        this.uuidToDelete = null;
+        this.$refs.dialogDestroyFile.hide();
+        NProgress.done();
+      });
+    },
+
     deleteUpload() {
       NProgress.start();
       this.axios.delete(`${this.routes.deleteUpload}/${this.$route.params.uuid}/${this.fieldToDelete}`).then(response => {
@@ -623,6 +682,11 @@ export default {
         this.$refs.dialogDestroy.hide();
         NProgress.done();
       });
+    },
+
+    deleteFileBefore(uuid) {
+      this.uuidToDelete = uuid;
+      this.$refs.dialogDestroyFile.show();
     },
 
     deleteBefore(field) {
@@ -647,11 +711,6 @@ export default {
       NProgress.done();
     },
 
-
-    deleteNewUpload() {
-
-    },
-    
     uploadNewSending(file, xhr, formData) {
       NProgress.start();
       formData.append('uuid', this.$route.params.uuid);
@@ -659,7 +718,7 @@ export default {
 
     uploadNewSuccess(file, response) {
       let res = JSON.parse(file.xhr.response);
-      this.dataUpload.file = res.name;
+      this.dataUpload.name = res.name;
       this.showUpload();
       this.$refs.dropzone.removeFile(file);
       NProgress.done();
