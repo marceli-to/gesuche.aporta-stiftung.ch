@@ -34,6 +34,7 @@ class Application extends Base
     'project_own_contribution',
     'project_contribution_requested',
     'project_contribution_further_requested',
+    'project_contribution_proposed',
     'project_contribution_approved',
     'project_income',
     'project_finance',
@@ -71,7 +72,12 @@ class Application extends Base
     'applicant_email',
     'applicant_address',
     'requested_contribution',
-    'created_at_timestamp'
+    'created_at_timestamp',
+    'is_new',
+    'is_rejected_internal',
+    'is_rejected_external',
+    'is_approved_internal',
+    'is_approved_external'
   ];
 
   public function state()
@@ -106,16 +112,49 @@ class Application extends Base
 
   public function scopeCurrent($query)
   {
-    if (auth()->user()->isAdmin()) {
-      return $query->where('archive', 0);
-    }
-    return $query->where('archive', 0)->where('application_state_id', '>', 2);
+    return $query->where('archive', 0);
+  }
+
+  public function scopeEditor($query)
+  {
+    return $query->where('application_state_id', '>', 2);
   }
 
   public function scopeArchive($query)
   {
     return $query->where('archive', 1);
   }
+
+
+  /**
+   * State helpers
+   */
+
+  public function isNew()
+  {
+    return $this->application_state_id == 1 ? TRUE : FALSE;
+  }
+
+  public function isRejectedInternal()
+  {
+    return $this->application_state_id == 2 ? TRUE : FALSE;
+  }
+
+  public function isRejectedExternal()
+  {
+    return $this->application_state_id == 5 ? TRUE : FALSE;
+  }
+
+  public function isApprovedInternal()
+  {
+    return $this->application_state_id == 3 ? TRUE : FALSE;
+  }
+
+  public function isApprovedExternal()
+  {
+    return $this->application_state_id == 4 ? TRUE : FALSE;
+  }
+
 
   /**
    * Get the applicants full name.
@@ -193,4 +232,28 @@ class Application extends Base
     return strtotime($this->created_at);
   }
 
+  public function getIsNewAttribute($value)
+  {
+    return $this->isNew();
+  }
+
+  public function getIsRejectedInternalAttribute($value)
+  {
+    return $this->isRejectedInternal();
+  }
+
+  public function getIsRejectedExternalAttribute($value)
+  {
+    return $this->isRejectedExternal();
+  }
+
+  public function getIsApprovedInternalAttribute($value)
+  {
+    return $this->isApprovedInternal();
+  }
+
+  public function getIsApprovedExternalAttribute($value)
+  {
+    return $this->isApprovedExternal();
+  }
 }

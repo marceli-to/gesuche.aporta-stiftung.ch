@@ -17,7 +17,11 @@ class ApplicationController extends Controller
    */
   public function get()
   { 
-    return new DataCollection(Application::current()->with('state', 'users')->orderBy('created_at', 'DESC')->get());
+    if (auth()->user()->isAdmin()) {
+      return new DataCollection(Application::current()->with('state', 'users')->orderBy('created_at', 'DESC')->get());
+    }
+    return new DataCollection(Application::current()->editor()->with('state', 'users')->orderBy('created_at', 'DESC')->get());
+
   }
 
   /**
@@ -122,6 +126,27 @@ class ApplicationController extends Controller
       (new Logger())->log($application, 'Gesuch archiviert');
     }
 
+    return response()->json('successfully updated');
+  }
+
+
+  /**
+   * Reject an application
+   *
+   * @param Application $application
+   * @return \Illuminate\Http\Response
+   */
+  public function reject(Application $application, Request $request)
+  {
+    // Set state according to user role
+    $stateId = auth()->user()->isAdmin() ? 2 : 5;
+
+    $application = Application::findOrFail($application->id);
+    $application->update([
+      'application_state_id' => $stateId
+    ]);
+    $application->save();
+    (new Logger())->log($application, 'Gesuch durch Stiftung abgelehnt');
     return response()->json('successfully updated');
   }
 

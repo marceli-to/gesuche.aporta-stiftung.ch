@@ -183,24 +183,41 @@
           <application-row>
             <div class="span-3 text-grey"><label>Beantragter Betrag</label></div>
             <div class="span-1 flex justify-end text-grey">{{data.project_contribution_requested | currency}}</div>
-          </application-row>
-          <application-row>
-            <div class="span-3 text-grey"><label>Genehmigter Betrag</label></div>
-            <div class="span-1 flex justify-end text-grey">{{data.project_contribution_approved | currency}}</div>
-          </application-row>
+          </application-row> 
 
-          <div>
-            <a href="javascript:;" :class="[data.project_contribution_approved > 0 ? 'btn-primary is-small mb-3x' : 'btn-primary disabled is-small mb-3x']">
-              <span>Genehmigen</span>
-            </a>
-            <a href="javascript:;" class="btn-secondary is-small">
+          <div class="mb-12x">
+            <a href="javascript:;" class="btn-secondary is-small" @click.prevent="dialogReject()">
               <span>Ablehnen</span>
             </a>
           </div>
+          <application-row>
+            <application-label :cls="'span-3'">Vorgeschlagener Betrag</application-label>
+            <application-input :cls="'span-1'">
+              <input type="text" v-model="data.project_contribution_proposed" class="align-right" required @blur="validate($event)">
+            </application-input>
+          </application-row>
+          <application-row v-if="!$store.state.user.admin">
+            <div class="span-3 text-grey"><label>Genehmigter Betrag</label></div>
+            <div class="span-1 flex justify-end text-grey">{{data.project_contribution_approved | currency}}</div>
+          </application-row>
+          <div>
+            <a href="javascript:;" :class="[data.project_contribution_proposed > 0 ? 'btn-primary is-small mb-3x' : 'btn-primary disabled is-small mb-3x']">
+              <span>Genehmigen</span>
+            </a>
+          </div>
+
         </div>
       </application-grid>
     </application-wrapper>
   </site-main>
+  <dialog-wrapper ref="dialogReject">
+    <template #message>
+      <div><strong>Möchten Sie dieses Gesuch wirklich ablehnen?</strong></div>
+    </template>
+    <template #actions>
+      <a href="javascript:;" class="btn-primary mb-3x" @click.stop="reject()">Ja, ablehnen</a>
+    </template>
+  </dialog-wrapper>
 </div>
 </template>
 <script>
@@ -209,10 +226,13 @@ import Filter from "@/mixins/Filter";
 import ErrorHandling from "@/mixins/ErrorHandling";
 import SiteHeader from '@/views/layout/Header.vue';
 import SiteMain from '@/views/layout/Main.vue';
+import DialogWrapper from "@/components/ui/misc/Dialog.vue";
 import PageMenu from '@/views/pages/application/components/Menu.vue';
 import ApplicationWrapper from '@/views/pages/application/components/Wrapper.vue';
 import ApplicationGrid from '@/views/pages/application/components/Grid.vue';
 import ApplicationRow from '@/views/pages/application/components/Row.vue';
+import ApplicationLabel from '@/views/pages/application/components/Label.vue';
+import ApplicationInput from '@/views/pages/application/components/Input.vue';
 
 export default {
   components: {
@@ -222,7 +242,10 @@ export default {
     PageMenu,
     ApplicationWrapper,
     ApplicationGrid,
-    ApplicationRow
+    ApplicationRow,
+    ApplicationInput,
+    ApplicationLabel,
+    DialogWrapper
   },
 
   mixins: [ErrorHandling, Filter],
@@ -240,12 +263,13 @@ export default {
       // Routes
       routes: {
         fetch: '/api/application',
+        reject: '/api/application/reject',
       },
 
       // States
       isFetched: true,
       isLoading: false,
-
+      hasErrors: false,
     };
   },
 
@@ -266,6 +290,29 @@ export default {
         this.updateFilterMenu(this.$route.params.uuid);
       });
     },
+
+    validate(event) {
+      if (event.target.value.length > 0) {
+        event.target.classList.remove('is-invalid');
+        this.hasErrors = false;
+        return;
+      }
+      event.target.classList.add('is-invalid');
+      this.hasErrors = true;
+    },
+
+    dialogReject() {
+      this.$refs.dialogReject.show();
+    },
+
+    reject() {
+      NProgress.start();
+      this.axios.get(`${this.routes.reject}/${this.$route.params.uuid}`).then(response => {
+        NProgress.done();
+        this.$refs.dialogReject.hide();
+      });
+    },
+
   },
   watch: {
     '$route'() {
