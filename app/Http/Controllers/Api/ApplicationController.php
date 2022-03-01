@@ -101,7 +101,7 @@ class ApplicationController extends Controller
   public function update(Application $application, ApplicationStoreRequest $request)
   {
     $application = Application::findOrFail($application->id);
-    $application->update($request->all());
+    $application->update($request->except(['approved_at']));
     $application->save();
     (new Logger())->log($application, 'Gesuch gespeichert');
     return response()->json('successfully updated');
@@ -142,10 +142,11 @@ class ApplicationController extends Controller
     $application = Application::findOrFail($application->id);
     $application->update([
       'application_state_id' => $stateId,
-      'project_contribution_proposed' => $request->input('project_contribution_proposed')
+      'project_contribution_proposed' => $request->input('project_contribution_proposed'),
+      'approved_at' => \Carbon\Carbon::now()
     ]);
     $application->save();
-    (new Logger())->log($application, 'Gesuch gespeichert');
+    (new Logger())->log($application, 'Gesuch genehmigt');
     return response()->json('successfully updated');
   }
 

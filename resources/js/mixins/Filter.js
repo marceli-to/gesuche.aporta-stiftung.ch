@@ -21,10 +21,18 @@ export default {
     },
 
     resetFilter() {
-      let filter =  this.$store.state.filter;
-      filter.state = null;
-      filter.amount = null;
-      filter.set = false;
+      let filter = {
+        set: false,
+        state: null,
+        amount: null,
+        items: [],
+        menu: {
+          index: 1,
+          current: null,
+          prev: null,
+          next: null
+        }
+      };
       this.$store.commit('filter', filter);
       this.hideFilter();
       this.fetch(this.$route.params.type);

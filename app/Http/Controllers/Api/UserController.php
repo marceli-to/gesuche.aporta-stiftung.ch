@@ -15,11 +15,11 @@ class UserController extends Controller
   {
     $user = User::findOrFail(auth()->user()->id);
     $data = [
+      'uuid' => $user->uuid,
       'firstname' => $user->firstname, 
       'name' => $user->name,
       'full_name' => $user->full_name, 
-      'email' => $user->email, 
-      'uuid' => $user->uuid
+      'email' => $user->email,
     ];
 
     if ($user->isAdmin())

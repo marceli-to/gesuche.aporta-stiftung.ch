@@ -491,13 +491,12 @@
                 <input type="text" v-model="data.project_contribution_requested" class="align-right" required @blur="validate($event)">
               </application-input>
             </application-row>
-            <application-row>
-              <!-- <application-label :cls="'span-3'">Genehmigter Betrag</application-label> -->
+            <!-- <application-row>
               <application-label :cls="'span-3'">Vorgeschlagener Betrag</application-label>
               <application-input :cls="'span-1'">
-                <input type="text" v-model="data.project_contribution_approved" class="align-right" required @blur="validate($event)">
+                <input type="text" v-model="data.project_contribution_proposed" class="align-right" required @blur="validate($event)">
               </application-input>
-            </application-row>
+            </application-row> -->
           </div>
         </application-grid>
       </application-wrapper>

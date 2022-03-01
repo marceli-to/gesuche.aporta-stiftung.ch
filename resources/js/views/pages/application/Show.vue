@@ -185,33 +185,60 @@
             <div class="span-1 flex justify-end text-grey">{{data.project_contribution_requested | currency}}</div>
           </application-row> 
 
-          <div class="mb-12x" v-if="!data.is_rejected_internal && !data.is_rejected_external">
-            <a href="javascript:;" class="btn-secondary is-small" @click.prevent="dialogReject()">
-              <span>Ablehnen</span>
-            </a>
-          </div>
-
-          <div v-if="data.is_rejected_internal" class="text-danger align-center">
-            <strong>Das Gesuch wurde von der Stiftung abgelehnt</strong>
-          </div>
-          <div v-else-if="data.is_rejected_external" class="text-danger align-center">
-            <strong>Das Gesuch wurde von der Stadt Zürich abgelehnt</strong>
+          <div v-if="$store.state.user.admin">
+            <div class="mb-12x" v-if="data.is_new">
+              <a href="javascript:;" class="btn-secondary is-small" @click.prevent="dialogReject()">
+                <span>Ablehnen</span>
+              </a>
+            </div>
+            <div v-if="data.is_rejected_internal" class="text-danger align-center">
+              <strong>Das Gesuch wurde von der Stiftung abgelehnt</strong>
+            </div>
+            <div v-else-if="data.is_rejected_external" class="text-danger align-center">
+              <strong>Das Gesuch wurde von der Stadt Zürich abgelehnt</strong>
+            </div>
+            <div v-else-if="data.is_approved_internal">
+              <application-row>
+                <div class="span-3 text-grey"><label>Vorgeschlagener Betrag</label></div>
+                <div class="span-1 flex justify-end">{{data.project_contribution_proposed | currency}}</div>
+              </application-row>
+              <application-row>
+                <div class="span-3 text-grey"><label>Genehmigter Betrag Stadt Zürich</label></div>
+                <div class="span-1 flex justify-end">{{data.project_contribution_approved | currency}}</div>
+              </application-row>
+              <div>
+                <strong>Das Gesuch wurde von der Stiftung am {{ data.approved_at }} genehmigt</strong>
+              </div>
+            </div>
+            <div v-else>
+              <application-row>
+                <application-label :cls="'span-3'">Vorgeschlagener Betrag</application-label>
+                <application-input :cls="'span-1'">
+                  <input type="text" v-model="data.project_contribution_proposed" class="align-right" required @blur="validate($event)">
+                </application-input>
+              </application-row>
+              <application-row v-if="!$store.state.user.admin">
+                <div class="span-3 text-grey"><label>Genehmigter Betrag</label></div>
+                <div class="span-1 flex justify-end text-grey">{{data.project_contribution_approved | currency}}</div>
+              </application-row>
+              <div>
+                <a 
+                  href="javascript:;" 
+                  :class="[data.project_contribution_proposed > 0 ? 'btn-primary is-small mb-3x' : 'btn-primary disabled is-small mb-3x']"
+                  @click.prevent="dialogApprove()">
+                  <span>Genehmigen</span>
+                </a>
+              </div>
+            </div>
           </div>
           <div v-else>
-            <application-row>
-              <application-label :cls="'span-3'">Vorgeschlagener Betrag</application-label>
-              <application-input :cls="'span-1'">
-                <input type="text" v-model="data.project_contribution_proposed" class="align-right" required @blur="validate($event)">
-              </application-input>
-            </application-row>
-            <application-row v-if="!$store.state.user.admin">
-              <div class="span-3 text-grey"><label>Genehmigter Betrag</label></div>
-              <div class="span-1 flex justify-end text-grey">{{data.project_contribution_approved | currency}}</div>
-            </application-row>
-            <div>
+            <div class="mb-12x" v-if="data.is_approved_internal">
+              <a href="javascript:;" class="btn-secondary is-small" @click.prevent="dialogReject()">
+                <span>Ablehnen</span>
+              </a>
               <a 
                 href="javascript:;" 
-                :class="[data.project_contribution_proposed > 0 ? 'btn-primary is-small mb-3x' : 'btn-primary disabled is-small mb-3x']"
+                :class="[data.project_contribution_proposed > 0 ? 'btn-primary is-small mt-3x' : 'btn-primary disabled is-small mb-3x']"
                 @click.prevent="dialogApprove()">
                 <span>Genehmigen</span>
               </a>

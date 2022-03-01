@@ -58,12 +58,14 @@ class Application extends Base
     'file_project_description',
     'file_project_estimated_costs',
     'archive',
-    'application_state_id'
+    'application_state_id',
+    'approved_at'
   ];
 
   protected $casts = [
     'created_at' => 'date:d.m.Y',
     'updated_at' => 'date:d.m.Y',
+    'approved_at' => 'date:d.m.Y',
   ];
 
   protected $appends = [
@@ -231,6 +233,7 @@ class Application extends Base
     return strtotime($this->created_at);
   }
 
+  
   public function getIsNewAttribute($value)
   {
     return $this->isNew();
