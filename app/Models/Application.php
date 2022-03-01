@@ -15,6 +15,8 @@ class Application extends Base
     'legal_form',
     'website',
     'bank_account',
+    'financial_periode',
+    'financial_account',
     'street',
     'street_number',
     'zip',

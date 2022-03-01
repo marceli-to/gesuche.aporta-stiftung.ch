@@ -43,8 +43,20 @@
             <div class="span-3">{{data.legal_form}}</div>
           </application-row>
           <application-row>
-            <div class="span-1"><label>Bankkonto</label></div>
-            <div class="span-3">{{data.bank_account}}</div>
+            <div class="span-1"><label>Konto</label></div>
+            <div class="span-3 pb-6x">{{data.bank_account}}</div>
+            <div class="span-3 start-2">
+              <div>
+                Formulierung im Serienbrief<br><br>
+                Wir bitten Sie, uns den Eingang des erwähnten Betrages, welchen wir Ihnen bis Ende<br><br>
+                <span v-if="data.financial_periode">{{data.financial_periode}}</span>
+                <span v-else>[Monat Jahr]</span><br><br>
+                auf Ihr<br><br>
+                <span v-if="data.financial_account">{{data.financial_account}}</span>
+                <span v-else>[Kontoangaben]</span><br><br>
+                überweisen werden, umgehend schriftlich zu bestätigen.
+              </div>
+            </div>
           </application-row>
           <h2>Dokumente</h2>
           <application-row>

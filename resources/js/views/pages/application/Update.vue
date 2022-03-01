@@ -102,11 +102,16 @@
             </application-row>
             <application-row class="pb-3x">
               <application-label :cls="'span-1'">Bankkonto</application-label>
-              <application-input class="span-3 mb-3x">
-                <textarea v-model="data.bank_account" required @blur="validate($event)"></textarea>
+              <application-input class="span-3 mb-6x">{{ data.bank_account }}</application-input>
+              <application-input :cls="'span-3 start-2'">
+                Formulierung im Serienbrief<br><br>
+                Wir bitten Sie, uns den Eingang des erwähnten Betrages, welchen wir Ihnen bis Ende<br><br>
+                <input type="text" v-model="data.financial_periode" placeholder="[Monat Jahr]"><br>
+                auf Ihr<br><br>
+                <input type="text" v-model="data.financial_account" placeholder="[Kontoangaben]"><br>
+                überweisen werden, umgehend schriftlich zu bestätigen.
               </application-input>
             </application-row>
-
             <h2>Dokumente</h2>
             <application-row>
               <div class="span-1"><label>Portrait</label></div>
