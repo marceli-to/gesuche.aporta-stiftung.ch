@@ -140,11 +140,20 @@ class ApplicationController extends Controller
   {
     $stateId = auth()->user()->isAdmin() ? 3 : 4;
     $application = Application::findOrFail($application->id);
-    $application->update([
+
+    $data = [
       'application_state_id' => $stateId,
-      'project_contribution_proposed' => $request->input('project_contribution_proposed'),
       'approved_at' => \Carbon\Carbon::now()
-    ]);
+    ];
+
+    if (auth()->user()->isAdmin()) {
+      $data['project_contribution_proposed'] = $request->input('project_contribution_proposed');
+    }
+    else {
+      $data['project_contribution_approved'] = $request->input('project_contribution_approved');
+    }
+
+    $application->update($data);
     $application->save();
     (new Logger())->log($application, 'Gesuch genehmigt');
     return response()->json('successfully updated');

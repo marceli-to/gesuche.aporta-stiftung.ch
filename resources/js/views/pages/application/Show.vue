@@ -232,16 +232,44 @@
             </div>
           </div>
           <div v-else>
-            <div class="mb-12x" v-if="data.is_approved_internal">
-              <a href="javascript:;" class="btn-secondary is-small" @click.prevent="dialogReject()">
-                <span>Ablehnen</span>
-              </a>
+            <div v-if="data.is_approved_internal">
+              <div class="mb-12x">
+                <a href="javascript:;" class="btn-secondary is-small" @click.prevent="dialogReject()">
+                  <span>Ablehnen</span>
+                </a>
+              </div>
+              <application-row>
+                <application-label :cls="'span-3'">Vorgeschlagener Betrag</application-label>
+                <div class="span-1 flex justify-end text-grey">{{data.project_contribution_proposed | currency}}</div>
+              </application-row>
+              <application-row>
+                <application-label :cls="'span-3'">Genehmigter Betrag</application-label>
+                <application-input :cls="'span-1'">
+                  <input type="text" v-model="data.project_contribution_approved" class="align-right" required @blur="validate($event)">
+                </application-input>
+              </application-row>
               <a 
                 href="javascript:;" 
-                :class="[data.project_contribution_proposed > 0 ? 'btn-primary is-small mt-3x' : 'btn-primary disabled is-small mb-3x']"
+                :class="[data.project_contribution_approved > 0 ? 'btn-primary is-small mt-3x' : 'btn-primary disabled is-small mb-3x']"
                 @click.prevent="dialogApprove()">
                 <span>Genehmigen</span>
               </a>
+            </div>
+            <div v-else-if="data.is_rejected_external" class="text-danger align-center">
+              <strong>Das Gesuch wurde von der Stadt Zürich abgelehnt</strong>
+            </div>
+            <div v-else-if="data.is_approved_external">
+              <application-row>
+                <div class="span-3 text-grey"><label>Vorgeschlagener Betrag</label></div>
+                <div class="span-1 flex justify-end">{{data.project_contribution_proposed | currency}}</div>
+              </application-row>
+              <application-row>
+                <div class="span-3 text-grey"><label>Genehmigter Betrag Stadt Zürich</label></div>
+                <div class="span-1 flex justify-end">{{data.project_contribution_approved | currency}}</div>
+              </application-row>
+              <div>
+                <strong>Das Gesuch wurde von der Stiftung am {{ data.approved_at }} genehmigt</strong>
+              </div>
             </div>
           </div>
         </div>
@@ -363,7 +391,16 @@ export default {
     },
 
     approve() {
-      this.axios.put(`${this.routes.approve}/${this.$route.params.uuid}`, {project_contribution_proposed: this.data.project_contribution_proposed}).then(response => {
+
+      let data = {};
+      if (this.$store.state.user.admin) {
+        data = { project_contribution_proposed: this.data.project_contribution_proposed };
+      }
+      else {
+        data = { project_contribution_approved: this.data.project_contribution_approved };
+      }
+
+      this.axios.put(`${this.routes.approve}/${this.$route.params.uuid}`, data).then(response => {
         this.$refs.dialogApprove.hide();
         this.fetch();
       });
