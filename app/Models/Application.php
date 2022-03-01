@@ -93,6 +93,10 @@ class Application extends Base
     return $this->hasMany(ApplicationLog::class, 'id', 'application_id');
   }
 
+	public function users()
+	{
+		return $this->belongsToMany(User::class)->select('user_uuid');
+	}
 
   /**
    * Local scopes 

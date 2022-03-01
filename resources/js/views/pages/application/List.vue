@@ -35,7 +35,7 @@
         </div>
       </div>
       <div>
-        <a href="" class="btn-primary" @click.prevent="hideFilter()">Anzeigen</a>
+        <a href="javascript:;" class="btn-primary" @click.prevent="hideFilter()">Anzeigen</a>
       </div>
     </nav>
   </site-header>
@@ -78,9 +78,9 @@
           </div>
         </list-item>
       </list-row-header>
-      <list-row v-for="d in sortedData" :key="d.uuid">
+      <list-row v-for="d in sortedData" :key="d.uuid" :class="[isNew(d) ? 'is-new' : '']">
         <list-item :cls="'span-1 list-item-bullet'">
-          <bullet />
+          <bullet v-if="isNew(d)" />
         </list-item>
         <list-item :cls="'span-1 list-item line-after'">
           <router-link :to="{name: 'application-show', params: { type: $route.params.type, uuid: d.uuid }}">
@@ -247,11 +247,25 @@ export default {
         NProgress.done();
       });
     },
+
+    isNew(application) {
+      if (application.users) {
+        if (application.users.length == 0) {
+          return true;
+        }
+        const index = application.users.findIndex(x => x.user_uuid === this.$store.state.user.uuid);
+        return index == 0 ? false : true;
+      }
+    },
   },
   watch: {
     '$route'() {
       this.beforeFetch(this.$route.params.type)
     }
+  },
+
+  computed: {
+
   }
 }
 </script>

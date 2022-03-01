@@ -16,6 +16,10 @@
   .list-row {
     transition: background-color .06s ease-in;
 
+    &.is-new {
+      @include font-bold();
+    }
+
     &:hover {
       background-color: $color-light-blue;
       cursor: pointer;
@@ -26,10 +30,6 @@
         background-color: transparent;
         cursor: default;
       }
-    }
-
-    &.is-unseen {
-      @include font-bold();
     }
   }
 

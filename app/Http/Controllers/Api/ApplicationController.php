@@ -3,6 +3,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\DataCollection;
 use App\Models\Application;
+use App\Models\ApplicationUser;
 use App\Http\Requests\ApplicationStoreRequest;
 use App\Services\Logger;
 use Illuminate\Http\Request;
@@ -18,9 +19,9 @@ class ApplicationController extends Controller
   { 
     if ($type == 'archiv')
     {
-      return new DataCollection(Application::archive()->with('state')->orderBy('created_at', 'DESC')->get());
+      return new DataCollection(Application::archive()->with('state', 'users')->orderBy('created_at', 'DESC')->get());
     }
-    return new DataCollection(Application::current()->with('state')->orderBy('created_at', 'DESC')->get());
+    return new DataCollection(Application::current()->with('state', 'users')->orderBy('created_at', 'DESC')->get());
 
   }
 
@@ -36,14 +37,14 @@ class ApplicationController extends Controller
     {
       $constraint = explode(':', $request->input('amount'));
       $operator = $constraint[0] == 'lt' ? '<=' : '>='; 
-      $data = Application::current()->orderBy('created_at', 'DESC')->where('application_state_id', $request->input('state'))->where('project_contribution_requested', $operator, $constraint[1])->get();
+      $data = Application::current()->orderBy('created_at', 'DESC')->with('state', 'users')->where('application_state_id', $request->input('state'))->where('project_contribution_requested', $operator, $constraint[1])->get();
       return new DataCollection($data);
     }
     else
     {
       if ($request->input('state'))
       {
-        $data = Application::current()->orderBy('created_at', 'DESC')->where('application_state_id', $request->input('state'))->get();
+        $data = Application::current()->orderBy('created_at', 'DESC')->with('state', 'users')->where('application_state_id', $request->input('state'))->get();
         return new DataCollection($data);
       }
 
@@ -55,11 +56,8 @@ class ApplicationController extends Controller
         return new DataCollection($data);
       }
     } 
-
     return new DataCollection($data);
   }
-
-
 
   /**
    * Get a single applications for a given applications
@@ -69,6 +67,18 @@ class ApplicationController extends Controller
    */
   public function find(Application $application)
   {
+    // Update 'has seen' state
+    $applicationUser = ApplicationUser::where('application_id', $application->id)->where('user_id', auth()->user()->id)->get()->first();
+    if (!$applicationUser)
+    {
+      ApplicationUser::create([
+        'application_id' => $application->id,
+        'user_id' => auth()->user()->id,
+        'user_uuid' => auth()->user()->uuid,
+      ]);
+      (new Logger())->log($application, 'Gesucht geöffnet');
+    }
+
     return response()->json(Application::with('files.user')->findOrFail($application->id));
   }
 
@@ -84,7 +94,6 @@ class ApplicationController extends Controller
     $application = Application::findOrFail($application->id);
     $application->update($request->all());
     $application->save();
-
     (new Logger())->log($application, 'Gesuch gespeichert');
     return response()->json('successfully updated');
   }
