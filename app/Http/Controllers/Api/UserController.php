@@ -14,6 +14,18 @@ class UserController extends Controller
   public function find()
   {
     $user = User::findOrFail(auth()->user()->id);
-    return response()->json(['firstname' => $user->firstname, 'name' => $user->name, 'full_name' => $user->full_name, 'email' => $user->email, 'uuid' => $user->uuid]);
+    $data = [
+      'firstname' => $user->firstname, 
+      'name' => $user->name,
+      'full_name' => $user->full_name, 
+      'email' => $user->email, 
+      'uuid' => $user->uuid
+    ];
+
+    if ($user->isAdmin())
+    {
+      $data['admin'] = TRUE;
+    }
+    return response()->json($data);
   }
 }

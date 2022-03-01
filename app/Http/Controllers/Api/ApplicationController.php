@@ -11,18 +11,23 @@ use Illuminate\Http\Request;
 class ApplicationController extends Controller
 {
   /**
-   * Get a list of applications
+   * Get a list of active applications
    * 
    * @return \Illuminate\Http\Response
    */
-  public function get($type = NULL)
+  public function get()
   { 
-    if ($type == 'archiv')
-    {
-      return new DataCollection(Application::archive()->with('state', 'users')->orderBy('created_at', 'DESC')->get());
-    }
     return new DataCollection(Application::current()->with('state', 'users')->orderBy('created_at', 'DESC')->get());
+  }
 
+  /**
+   * Get a list of archived applications
+   * 
+   * @return \Illuminate\Http\Response
+   */
+  public function getArchive()
+  { 
+    return new DataCollection(Application::archive()->with('state', 'users')->orderBy('created_at', 'DESC')->get());
   }
 
   /**

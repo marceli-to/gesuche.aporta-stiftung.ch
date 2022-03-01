@@ -12,4 +12,16 @@ class ApplicationState extends Base
     'description',
   ];
 
+  /**
+   * Local scopes 
+   */
+
+  public function scopeByPermission($query)
+  {
+    if (auth()->user()->isAdmin()) {
+      return $query;
+    }
+    return $query->where('id', '>', 2);
+  }
+
 }

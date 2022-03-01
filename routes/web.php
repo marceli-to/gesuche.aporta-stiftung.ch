@@ -25,7 +25,7 @@ Route::middleware('auth:sanctum', 'verified')->group(function() {
 
   Route::get('/gesuche/{any?}', function () {
     return view('layout.authenticated');
-  })->where('any', '.*')->middleware('role:admin')->name('applications');
+  })->where('any', '.*')->name('applications');
 });
 
 

@@ -17,6 +17,12 @@ nav.page-menu {
     height: 60px;
   }
 
+  &.page-menu__user {
+    li {
+      @extend %span-4;
+    }
+  }
+
   a {
     align-items: center;
     border-bottom: 1px solid $color-primary;

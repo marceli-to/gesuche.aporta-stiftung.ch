@@ -106,7 +106,10 @@ class Application extends Base
 
   public function scopeCurrent($query)
   {
-    return $query->where('archive', 0);
+    if (auth()->user()->isAdmin()) {
+      return $query->where('archive', 0);
+    }
+    return $query->where('archive', 0)->where('application_state_id', '>', 2);
   }
 
   public function scopeArchive($query)

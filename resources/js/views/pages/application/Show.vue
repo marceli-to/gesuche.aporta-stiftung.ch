@@ -263,7 +263,7 @@ export default {
         this.data = response.data;
         NProgress.done();
         this.isFetched = true;
-        this.updateFilterMenu(uuid);
+        this.updateFilterMenu(this.$route.params.uuid);
       });
     },
   },

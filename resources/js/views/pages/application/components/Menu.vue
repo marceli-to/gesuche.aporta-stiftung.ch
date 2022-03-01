@@ -1,20 +1,18 @@
 <template>
 <div class="mb-15x">
-  <nav class="page-menu">
+  <nav :class="[$store.state.user.admin ? 'page-menu' : 'page-menu page-menu__user']">
     <ul>
-      <li v-if="type == 'archive'">
-        <router-link :to="{name: 'applications-archive', params: { type: $props.type }}">
-          <icon-arrow-left />
-          <span>Zurück</span>
-        </router-link>
-      </li>
-      <li v-else>
-        <router-link :to="{name: 'applications-current', params: { type: $props.type }}">
-          <icon-arrow-left />
-          <span>Zurück</span>
-        </router-link>
-      </li>
       <li>
+        <router-link :to="{name: 'applications-archive', params: { type: $props.type }}" v-if="type == 'archive'">
+          <icon-arrow-left />
+          <span>Zurück</span>
+        </router-link>
+        <router-link :to="{name: 'applications-current', params: { type: $props.type }}" v-else>
+          <icon-arrow-left />
+          <span>Zurück</span>
+        </router-link>
+      </li>
+      <li v-if="$store.state.user.admin">
         <router-link :to="{name: 'application-edit', params: { type: $props.type, uuid: $props.uuid }}" :active-class="'is-active'">
           <icon-pencil />
           <span>Bearbeiten</span>
@@ -32,20 +30,17 @@
           <span>Protokoll</span>
         </router-link>
       </li>
-
-      <li v-if="$props.application.archive == 0">
-        <a href="javascript:;" @click.prevent="$refs.dialogArchive.show()">
+      <li v-if="$store.state.user.admin">
+        <a href="javascript:;" @click.prevent="$refs.dialogArchive.show()" v-if="$props.application.archive == 0">
           <icon-download />
           <span>Archivieren</span>
         </a>
-      </li>
-      <li v-else>
-        <a href="javascript:;" @click.prevent="$refs.dialogRestore.show()">
+        <a href="javascript:;" @click.prevent="$refs.dialogRestore.show()" v-else>
           <icon-download />
           <span>Wiederherstellen</span>
         </a>
       </li>
-      <li>
+      <li v-if="$store.state.user.admin">
         <a href="" @click.prevent="$refs.dialogDestroy.show()">
           <icon-trash />
           <span>Löschen</span>

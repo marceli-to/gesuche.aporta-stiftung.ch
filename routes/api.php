@@ -29,8 +29,7 @@ Route::middleware('auth:sanctum')->group(function() {
   Route::get('user', [UserController::class, 'find']);
 
   // Uploads
-  Route::post('application/file/upload', [ApplicationUploadController::class, 'store']);
-  Route::post('file/upload', [UploadController::class, 'store']);
+  Route::post('application/file/upload', [ApplicationUploadController::class, 'store'])->middleware('role:admin');
 
   // Application states
   Route::get('application-states', [ApplicationStateController::class, 'get']);
@@ -40,23 +39,23 @@ Route::middleware('auth:sanctum')->group(function() {
   Route::get('application-comments/{application:uuid}', [ApplicationCommentController::class, 'get']);
   Route::get('application-comment/{applicationComment:uuid}', [ApplicationCommentController::class, 'find']);
   Route::post('application-comment', [ApplicationCommentController::class, 'store']);
-  Route::delete('application-comment/{applicationComment:uuid}', [ApplicationCommentController::class, 'destroy']);
+  Route::delete('application-comment/{applicationComment:uuid}', [ApplicationCommentController::class, 'destroy'])->middleware('role:admin');
 
   // Application files
-  Route::post('application-file/store', [ApplicationFileController::class, 'store']);
-  Route::delete('application-file/delete/{applicationFile:uuid}', [ApplicationFileController::class, 'destroy']);
+  Route::post('application-file/store', [ApplicationFileController::class, 'store'])->middleware('role:admin');
+  Route::delete('application-file/delete/{applicationFile:uuid}', [ApplicationFileController::class, 'destroy'])->middleware('role:admin');
 
   // Application logs
   Route::get('application-log/{application:uuid}', [ApplicationLogController::class, 'get']);
 
   // Applications
   Route::post('applications/filter', [ApplicationController::class, 'filter']);
-  Route::get('applications/{type?}', [ApplicationController::class, 'get']);
+  Route::get('applications/archiv', [ApplicationController::class, 'getArchive'])->middleware('role:admin');
+  Route::get('applications/aktuell', [ApplicationController::class, 'get']);
   Route::get('application/{application:uuid}', [ApplicationController::class, 'find']);
-  Route::delete('application/file/{application:uuid}/{field}', [ApplicationController::class, 'deleteFile']);
-  Route::post('application', [ApplicationController::class, 'store']);
+  Route::delete('application/file/{application:uuid}/{field}', [ApplicationController::class, 'deleteFile'])->middleware('role:admin');
   Route::put('application/{application:uuid}', [ApplicationController::class, 'update']);
-  Route::put('application/archive/{application:uuid}', [ApplicationController::class, 'archive']);
-  Route::delete('application/{application:uuid}', [ApplicationController::class, 'destroy']);
+  Route::put('application/archive/{application:uuid}', [ApplicationController::class, 'archive'])->middleware('role:admin');
+  Route::delete('application/{application:uuid}', [ApplicationController::class, 'destroy'])->middleware('role:admin');
 
 });

@@ -14,7 +14,7 @@ class ApplicationStateController extends Controller
    */
   public function get()
   {
-    return new DataCollection(ApplicationState::get());
+    return new DataCollection(ApplicationState::byPermission()->get());
   }
 
 }
