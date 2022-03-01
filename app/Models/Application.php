@@ -37,7 +37,6 @@ class Application extends Base
     'project_contribution_proposed',
     'project_contribution_approved',
     'project_income',
-    'project_finance',
     'project_add_instit_2',
     'project_add_instit_total_2',
     'project_add_instit_answer_2',

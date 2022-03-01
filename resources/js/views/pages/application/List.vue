@@ -62,7 +62,7 @@
         </list-item>
         <list-item :cls="'span-1 list-item-header line-after'">
           Bewilligt
-          <a href="" @click.prevent="sort('project_finance')">
+          <a href="" @click.prevent="sort('project_contribution_approved')">
             <icon-sort />
           </a>
         </list-item>
@@ -98,7 +98,7 @@
         </list-item>
         <list-item :cls="'span-1 list-item line-after'">
           <router-link :to="{name: 'application-show', params: { type: $route.params.type, uuid: d.uuid }}">
-            {{ d.project_finance | currency }}
+            {{ d.project_contribution_approved | currency }}
           </router-link>
         </list-item>
         <list-item :cls="'span-2 list-item line-after'">

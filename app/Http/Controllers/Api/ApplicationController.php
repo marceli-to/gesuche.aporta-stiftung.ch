@@ -129,6 +129,25 @@ class ApplicationController extends Controller
     return response()->json('successfully updated');
   }
 
+  /**
+   * Approve an application
+   *
+   * @param Application $application
+   * @param  \Illuminate\Http\Request $request
+   * @return \Illuminate\Http\Response
+   */
+  public function approve(Application $application, Request $request)
+  {
+    $stateId = auth()->user()->isAdmin() ? 3 : 4;
+    $application = Application::findOrFail($application->id);
+    $application->update([
+      'application_state_id' => $stateId,
+      'project_contribution_proposed' => $request->input('project_contribution_proposed')
+    ]);
+    $application->save();
+    (new Logger())->log($application, 'Gesuch gespeichert');
+    return response()->json('successfully updated');
+  }
 
   /**
    * Reject an application

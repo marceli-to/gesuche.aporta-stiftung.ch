@@ -185,27 +185,38 @@
             <div class="span-1 flex justify-end text-grey">{{data.project_contribution_requested | currency}}</div>
           </application-row> 
 
-          <div class="mb-12x">
+          <div class="mb-12x" v-if="!data.is_rejected_internal && !data.is_rejected_external">
             <a href="javascript:;" class="btn-secondary is-small" @click.prevent="dialogReject()">
               <span>Ablehnen</span>
             </a>
           </div>
-          <application-row>
-            <application-label :cls="'span-3'">Vorgeschlagener Betrag</application-label>
-            <application-input :cls="'span-1'">
-              <input type="text" v-model="data.project_contribution_proposed" class="align-right" required @blur="validate($event)">
-            </application-input>
-          </application-row>
-          <application-row v-if="!$store.state.user.admin">
-            <div class="span-3 text-grey"><label>Genehmigter Betrag</label></div>
-            <div class="span-1 flex justify-end text-grey">{{data.project_contribution_approved | currency}}</div>
-          </application-row>
-          <div>
-            <a href="javascript:;" :class="[data.project_contribution_proposed > 0 ? 'btn-primary is-small mb-3x' : 'btn-primary disabled is-small mb-3x']">
-              <span>Genehmigen</span>
-            </a>
-          </div>
 
+          <div v-if="data.is_rejected_internal" class="text-danger align-center">
+            <strong>Das Gesuch wurde von der Stiftung abgelehnt</strong>
+          </div>
+          <div v-else-if="data.is_rejected_external" class="text-danger align-center">
+            <strong>Das Gesuch wurde von der Stadt Zürich abgelehnt</strong>
+          </div>
+          <div v-else>
+            <application-row>
+              <application-label :cls="'span-3'">Vorgeschlagener Betrag</application-label>
+              <application-input :cls="'span-1'">
+                <input type="text" v-model="data.project_contribution_proposed" class="align-right" required @blur="validate($event)">
+              </application-input>
+            </application-row>
+            <application-row v-if="!$store.state.user.admin">
+              <div class="span-3 text-grey"><label>Genehmigter Betrag</label></div>
+              <div class="span-1 flex justify-end text-grey">{{data.project_contribution_approved | currency}}</div>
+            </application-row>
+            <div>
+              <a 
+                href="javascript:;" 
+                :class="[data.project_contribution_proposed > 0 ? 'btn-primary is-small mb-3x' : 'btn-primary disabled is-small mb-3x']"
+                @click.prevent="dialogApprove()">
+                <span>Genehmigen</span>
+              </a>
+            </div>
+          </div>
         </div>
       </application-grid>
     </application-wrapper>
@@ -216,6 +227,14 @@
     </template>
     <template #actions>
       <a href="javascript:;" class="btn-primary mb-3x" @click.stop="reject()">Ja, ablehnen</a>
+    </template>
+  </dialog-wrapper>
+  <dialog-wrapper ref="dialogApprove">
+    <template #message>
+      <div><strong>Möchten Sie dieses Gesuch wirklich genehmigen?</strong></div>
+    </template>
+    <template #actions>
+      <a href="javascript:;" class="btn-primary mb-3x" @click.stop="approve()">Ja, genehmigen</a>
     </template>
   </dialog-wrapper>
 </div>
@@ -264,6 +283,7 @@ export default {
       routes: {
         fetch: '/api/application',
         reject: '/api/application/reject',
+        approve: '/api/application/approve',
       },
 
       // States
@@ -305,11 +325,20 @@ export default {
       this.$refs.dialogReject.show();
     },
 
+    dialogApprove() {
+      this.$refs.dialogApprove.show();
+    },
+
     reject() {
-      NProgress.start();
       this.axios.get(`${this.routes.reject}/${this.$route.params.uuid}`).then(response => {
-        NProgress.done();
         this.$refs.dialogReject.hide();
+      });
+    },
+
+    approve() {
+      this.axios.put(`${this.routes.approve}/${this.$route.params.uuid}`, {project_contribution_proposed: this.data.project_contribution_proposed}).then(response => {
+        this.$refs.dialogApprove.hide();
+        this.fetch();
       });
     },
 
