@@ -387,6 +387,7 @@ export default {
     reject() {
       this.axios.get(`${this.routes.reject}/${this.$route.params.uuid}`).then(response => {
         this.$refs.dialogReject.hide();
+        this.fetch();
       });
     },
 
