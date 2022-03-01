@@ -102,7 +102,7 @@ export default {
 
   watch: {
     '$route'() {
-      this.beforeFetch(this.$route.params.type)
+      // this.beforeFetch(this.$route.params.type)
       this.hasFilter = false;
     }
   },

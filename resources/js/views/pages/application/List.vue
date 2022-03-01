@@ -263,9 +263,5 @@ export default {
       this.beforeFetch(this.$route.params.type)
     }
   },
-
-  computed: {
-
-  }
 }
 </script>

@@ -59,7 +59,7 @@ export default {
       if (index == 0) {
         filter.menu.index = 1;
         filter.menu.prev = filter.items[filter.items.length - 1];
-        filter.menu.next = filter.items[index+1];
+        filter.menu.next = filter.items.length == 1 ? filter.items[index] : filter.items[index+1];
       }
       else if (index == filter.items.length - 1) {
         filter.menu.index = filter.items.length;
