@@ -20,7 +20,7 @@
               </router-link>
             </li>
             <li class="span-1">
-              <a href="" class="icon-export" @click.prevent="toggleSelector()">
+              <a href="" class="icon-export" @click.prevent="toggleSelector()" v-if="$props.view != 'show'">
                 <icon-export />
               </a>
             </li>
