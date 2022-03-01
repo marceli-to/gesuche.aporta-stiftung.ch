@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use App\Models\Application;
 use App\Http\Requests\ApplicationUploadRequest;
 use App\Services\Media;
+use App\Services\Logger;
 use App\Http\Controllers\Controller;
 
 class ApplicationUploadController extends Controller
@@ -25,6 +26,7 @@ class ApplicationUploadController extends Controller
         $application = Application::where('uuid', $request->input('uuid'))->get()->first();
         $application[$request->input('field')] = $media['name'];
         $application->save();
+        (new Logger())->log($application, 'Neue Datei ' . $media['name'] . ' hochgeladen (Feld: ' . $request->input('field') .')');
       }
     }
 

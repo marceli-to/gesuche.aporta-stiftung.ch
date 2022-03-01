@@ -21,7 +21,7 @@
       <list-row-header>
         <list-item :cls="'span-1 start-2 list-item-header line-after'">
           Datum
-          <a href="" @click.prevent="sort('created_at')" v-if="sortedData.length > 1">
+          <a href="" @click.prevent="sort('created_at_timestamp')" v-if="sortedData.length > 1">
             <icon-sort />
           </a>
         </list-item>
@@ -181,8 +181,8 @@ export default {
       this.isFetched = false;
       NProgress.start();
       this.axios.all([
-        this.axios.get(`${this.routes.list}/${uuid}/`),
-        this.axios.get(`${this.routes.fetch}/${uuid}/`),
+        this.axios.get(`${this.routes.list}/${uuid}`),
+        this.axios.get(`${this.routes.fetch}/${uuid}`),
       ]).then(axios.spread((...responses) => {
         this.data = responses[0].data.data;
         this.applicationData = responses[1].data

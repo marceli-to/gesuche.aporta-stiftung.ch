@@ -64,17 +64,12 @@ class Application extends Base
     'updated_at' => 'date:d.m.Y',
   ];
 
-  /**
-   * The accessors to append to the model's array form.
-   *
-   * @var array
-   */
-  
   protected $appends = [
     'applicant_name',
     'applicant_email',
     'applicant_address',
-    'requested_contribution'
+    'requested_contribution',
+    'created_at_timestamp'
   ];
 
   public function state()
@@ -168,7 +163,7 @@ class Application extends Base
   }
 
   /**
-   * Get the applicants full name.
+   * For sorting purposes, get the requested contribution as integer 
    *
    * @param  string  $value
    * @return string
@@ -176,6 +171,17 @@ class Application extends Base
   public function getRequestedContributionAttribute($value)
   {
     return (int) $this->project_contribution_requested;
+  }
+
+  /**
+   * For sorting purposes, get the created at date timestamp 
+   *
+   * @param  string  $value
+   * @return string
+   */
+  public function getCreatedAtTimestampAttribute($value)
+  {
+    return strtotime($this->created_at);
   }
 
 }

@@ -5,12 +5,13 @@ use App\Http\Resources\DataCollection;
 use App\Models\Application;
 use App\Models\ApplicationFile;
 use App\Http\Requests\ApplicationFileStoreRequest;
+use App\Services\Logger;
 use Illuminate\Http\Request;
 
 class ApplicationFileController extends Controller
 {
   /**
-   * Store a newly created comment
+   * Store a new file
    *
    * @param  \Illuminate\Http\ApplicationFileStoreRequest $request
    * @return \Illuminate\Http\Response
@@ -26,6 +27,10 @@ class ApplicationFileController extends Controller
       'application_id' => $application->id,
       'user_id' => auth()->user()->id, 
     ]);
+
+    (new Logger())->log($application, 'Neue Datei ' . $request->input('name') . ' hochgeladen.');
+
+
     return response()->json($file);
   }
 
@@ -37,7 +42,10 @@ class ApplicationFileController extends Controller
    */
   public function destroy(ApplicationFile $applicationFile)
   {
+    $application = Application::findOrFail($applicationFile->application_id);
+    (new Logger())->log($application, 'Datei ' . $applicationFile->name . ' gelöscht.');
     $applicationFile->delete();
+
     return response()->json('successfully deleted');
   }
 }

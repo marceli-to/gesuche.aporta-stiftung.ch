@@ -19,6 +19,10 @@ class ApplicationLog extends Model
     'created_at' => 'date:d.m.Y',
   ];
 
+  protected $appends = [
+    'created_at_timestamp'
+  ];
+
   public function user()
   {
     return $this->hasOne(User::class, 'id', 'user_id');
@@ -27,6 +31,17 @@ class ApplicationLog extends Model
   public function application()
   {
     return $this->belongsTo(Application::class, 'application_id', 'id');
+  }
+
+  /**
+   * For sorting purposes, get the created at date timestamp 
+   *
+   * @param  string  $value
+   * @return string
+   */
+  public function getCreatedAtTimestampAttribute($value)
+  {
+    return strtotime($this->created_at);
   }
 
 }

@@ -26,7 +26,7 @@
         <list-item :cls="'span-1 list-item-header'">&nbsp;</list-item>
         <list-item :cls="'span-1 list-item-header line-after'">
           Eingang
-          <a href="" @click.prevent="sort('created_at')">
+          <a href="" @click.prevent="sort('created_at_timestamp')">
             <icon-sort />
           </a>
         </list-item>
