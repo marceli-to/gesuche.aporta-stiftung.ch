@@ -50,7 +50,7 @@ Route::middleware('auth:sanctum')->group(function() {
   Route::get('application-log/{application:uuid}', [ApplicationLogController::class, 'get']);
 
   // Applications
-  Route::get('applications/filter/stateId/{stateId?}/amount/{amount?}', [ApplicationController::class, 'filter']);
+  Route::post('applications/filter', [ApplicationController::class, 'filter']);
   Route::get('applications/{type?}', [ApplicationController::class, 'get']);
   Route::get('application/{application:uuid}', [ApplicationController::class, 'find']);
   Route::delete('application/file/{application:uuid}/{field}', [ApplicationController::class, 'deleteFile']);

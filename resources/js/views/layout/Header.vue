@@ -1,6 +1,6 @@
 <template>
 <div>
-  <header :class="[$parent.hasFilter ? 'site-header has-filter' : 'site-header']">
+  <header :class="cls">
     <div>
       <nav class="site-menu">
         <ul>
@@ -22,9 +22,18 @@
               <icon-export />
             </a>
           </li>
-          <li class="span-4 flex justify-center">
+          <li class="span-4 flex justify-center" v-if="$store.state.filter.items.length && $props.view == 'show'">
+            <router-link :to="{name: 'application-show', params: { type: $route.params.type, uuid: $store.state.filter.menu.prev }}">
+              &laquo;
+            </router-link>
+            <span>{{$store.state.filter.menu.index}} / {{$store.state.filter.items.length}}</span>
+            <router-link :to="{name: 'application-show', params: { type: $route.params.type, uuid: $store.state.filter.menu.next }}">
+              &raquo;
+            </router-link>
+          </li>
+          <li class="span-4 flex justify-center" v-else>
             <a href="" class="icon-filter" @click.prevent="toggleFilter()">
-              <icon-filter v-if="!$parent.hasFilter" />
+              <icon-filter v-if="!$parent.hasFilter" :active="$store.state.filter.set" />
               <icon-cross v-if="$parent.hasFilter" />
             </a>
           </li>
@@ -52,17 +61,45 @@ export default {
 
   props: {
     user: '',
+    view: {
+      type: String,
+      default: ''
+    },
   },
 
   methods: {
     toggleFilter() {
       this.$parent.toggleFilter();
+    },
+
+    getFilterPagination() {
+      
     }
   },
 
   watch: {
     '$route'() {
+      this.beforeFetch(this.$route.params.type)
+      this.hasFilter = false;
+      console.log(this.$store.state.filter.items);
     }
+  },
+
+  computed: {
+    cls() {
+      let cls = 'site-header';
+      if (this.$parent.hasFilter) {
+        cls = cls + ' has-filter';
+      }
+      if (this.$props.view == 'show') {
+        cls = cls + ' is-detail';
+      }
+      return cls; 
+    }
+  },
+
+  watch: {
   }
+
 }
 </script>

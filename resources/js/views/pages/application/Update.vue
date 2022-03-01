@@ -1,6 +1,9 @@
 <template>
 <div>
-  <site-header :user="$store.state.user" class="is-detail"></site-header>
+  <site-header 
+    :user="$store.state.user" 
+    :view="'show'">
+  </site-header>
   <site-main v-if="isFetched">
     <page-menu 
       :type="$route.params.type" 

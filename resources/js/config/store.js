@@ -7,9 +7,16 @@ export default new Vuex.Store({
   state: {
     user: false,
     filter: {
-      hasFilter: false,
-      stateId: null,
+      set: false,
+      state: null,
       amount: null,
+      items: [],
+      menu: {
+        index: 1,
+        current: null,
+        prev: null,
+        next: null
+      }
     }
   },
   mutations: {

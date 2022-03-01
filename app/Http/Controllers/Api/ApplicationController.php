@@ -27,37 +27,39 @@ class ApplicationController extends Controller
   /**
    * Get a filtered ist of applications
    * 
+   * @param  \Illuminate\Http\Request $request
    * @return \Illuminate\Http\Response
    */
-  public function filter($stateId = NULL, $amount = NULL)
+  public function filter(Request $request)
   { 
-    if ($stateId != 'null' && $amount != 'null')
+    if ($request->input('state') && $request->input('amount'))
     {
-      $constraint = explode(':', $amount);
+      $constraint = explode(':', $request->input('amount'));
       $operator = $constraint[0] == 'lt' ? '<=' : '>='; 
-      $data = Application::current()->orderBy('created_at', 'DESC')->where('application_state_id', $stateId)->where('project_contribution_requested', $operator, $constraint[1])->get();
+      $data = Application::current()->orderBy('created_at', 'DESC')->where('application_state_id', $request->input('state'))->where('project_contribution_requested', $operator, $constraint[1])->get();
       return new DataCollection($data);
     }
     else
     {
-      if ($stateId != 'null')
+      if ($request->input('state'))
       {
-        $data = Application::current()->orderBy('created_at', 'DESC')->where('application_state_id', $stateId)->get();
+        $data = Application::current()->orderBy('created_at', 'DESC')->where('application_state_id', $request->input('state'))->get();
         return new DataCollection($data);
       }
 
-      if ($amount != 'null')
+      if ($request->input('amount'))
       {
-        $constraint = explode(':', $amount);
+        $constraint = explode(':', $request->input('amount'));
         $operator = $constraint[0] == 'lt' ? '<=' : '>='; 
         $data = Application::current()->orderBy('created_at', 'DESC')->where('project_contribution_requested', $operator, $constraint[1])->get();
         return new DataCollection($data);
       }
-
     } 
 
     return new DataCollection($data);
   }
+
+
 
   /**
    * Get a single applications for a given applications

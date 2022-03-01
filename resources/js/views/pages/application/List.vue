@@ -7,7 +7,7 @@
           <div class="span-4 start-2">
             <h2>Status</h2>
             <div v-for="state in dataStates" :key="state.id">
-              <a href="" style="color: #fff" @click.prevent="setFilter('stateId', state.id)">{{state.description}}</a><br>
+              <a href="" style="color: #fff" @click.prevent="setFilter('state', state.id)">{{state.description}}</a><br>
             </div>
           </div>
           <div class="span-4">
@@ -111,6 +111,7 @@ import NProgress from 'nprogress';
 import ErrorHandling from "@/mixins/ErrorHandling";
 import Helpers from "@/mixins/Helpers";
 import Sort from "@/mixins/Sort";
+import Filter from "@/mixins/Filter";
 import IconSort from "@/components/ui/icons/Sort.vue";
 import IconState from "@/components/ui/icons/State.vue";
 import Bullet from "@/components/ui/misc/Bullet.vue";
@@ -140,7 +141,7 @@ export default {
     ListEmpty,
   },
 
-  mixins: [ErrorHandling, Helpers, Sort],
+  mixins: [ErrorHandling, Helpers, Sort, Filter],
 
   data() {
     return {
@@ -154,7 +155,7 @@ export default {
       // Routes
       routes: {
         list: '/api/applications',
-        filter: '/api/applications/filter',
+        listFilter: '/api/applications/filter',
         listStates: '/api/application-states',
         toggle: '/api/application/state',
         destroy: '/api/application'
@@ -163,8 +164,6 @@ export default {
       // States
       isFetched: false,
       isFetchedStates: false,
-      hasFilter: false,
-      hasFilterResult: false,
 
       // Messages
       messages: {
@@ -178,14 +177,14 @@ export default {
   mounted() {
     NProgress.configure({ showBar: false });
     this.beforeFetch(this.$route.params.type)
-    this.getStates();
+    this.fetchStates();
   },
 
   methods: {
 
     beforeFetch(type) {
-      if (type == 'aktuell' && this.$store.state.filter.hasFilter) {
-        this.filter(type);
+      if (type == 'aktuell' && this.$store.state.filter.set) {
+        this.fetchFiltered(type);
         return;
       }
       this.fetch(type)
@@ -201,17 +200,7 @@ export default {
       });
     },
 
-    filter() {
-      this.isFetched = false;
-      NProgress.start();
-      this.axios.get(`${this.routes.filter}/stateId/${this.$store.state.filter.stateId}/amount/${this.$store.state.filter.amount}`).then(response => {
-        this.data = response.data.data;
-        this.isFetched = true;
-        NProgress.done();
-      });
-    },
-
-    getStates() {
+    fetchStates() {
       this.isFetchedStates = false;
       NProgress.start();
       this.axios.get(`${this.routes.listStates}`).then(response => {
@@ -221,27 +210,24 @@ export default {
       });
     },
 
-    toggleFilter() {
-      this.hasFilter = this.hasFilter ? false : true;
+    fetchFiltered() {
+      let param = {
+        state: this.$store.state.filter.state ? this.$store.state.filter.state : null,
+        amount: this.$store.state.filter.amount ? this.$store.state.filter.amount : null
+      };
+      NProgress.start();
+      this.isFetched = false;
+      this.axios.post(`${this.routes.listFilter}`, param).then(response => {
+        this.data = response.data.data;
+        this.setFilterMenu(this.data);
+        this.isFetched = true;
+        NProgress.done();
+      });
     },
-
-    hideFilter() {
-      this.hasFilter = false;
-    },
-
-    setFilter(type, value) {
-      let filter = this.$store.state.filter;
-      filter[type] = value;
-      filter['hasFilter'] = true;
-      this.$store.commit('filter', filter);
-      this.filter();
-    }
-
   },
   watch: {
     '$route'() {
       this.beforeFetch(this.$route.params.type)
-      this.hasFilter = false;
     }
   }
 }

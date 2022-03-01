@@ -1,6 +1,9 @@
 <template>
 <div>
-  <site-header :user="$store.state.user" class="is-detail"></site-header>
+  <site-header 
+    :user="$store.state.user" 
+    :view="'show'">
+  </site-header>
   <site-main v-if="isFetched">
     <page-menu 
       :type="$route.params.type" 
@@ -190,6 +193,7 @@
 </template>
 <script>
 import NProgress from 'nprogress';
+import Filter from "@/mixins/Filter";
 import ErrorHandling from "@/mixins/ErrorHandling";
 import SiteHeader from '@/views/layout/Header.vue';
 import SiteMain from '@/views/layout/Main.vue';
@@ -209,7 +213,7 @@ export default {
     ApplicationRow
   },
 
-  mixins: [ErrorHandling],
+  mixins: [ErrorHandling, Filter],
 
   props: {
     type: String
@@ -233,7 +237,7 @@ export default {
     };
   },
 
-  created() {
+  mounted() {
     this.fetch();
     NProgress.configure({ showBar: false });
   },
@@ -250,6 +254,11 @@ export default {
       });
     },
   },
+  watch: {
+    '$route'() {
+      this.fetch();
+    }
+  }
 
 };
 </script>
