@@ -11,14 +11,35 @@ nav.site-filter {
     background-color: $color-primary;
     color: $color-white;
     display: block;
-    margin-bottom: $space-9x;
-    padding-top: $space-4x;
-    padding-bottom: $space-6x;
+
+    &:first-of-type {
+      padding-top: $space-4x;
+      padding-bottom: $space-6x;
+    }
+
+    &:last-of-type {
+      margin-bottom: $space-9x;
+      margin-top: $space-2x;
+      padding: 0;
+    }
   }
 
   h2 {
     color: $color-white;
     @include font-size($fs-md);
     margin-bottom: $space-4x;
+  }
+
+  a {
+    align-items: center;
+    color: $color-white;
+    display: flex; 
+    padding: $space-1x 0;
+
+    span {
+      display: block;
+      margin-left: $space-3x;
+      margin-top: 1px;
+    }
   }
 }

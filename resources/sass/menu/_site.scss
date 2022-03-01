@@ -16,6 +16,15 @@ nav.site-menu {
     color: $color-white;
     @include font-size($fs-md);
     text-transform: uppercase;
+
+    &.site-menu__pagination {
+      span {
+        @include font-bold();
+        @include font-size($fs-md);
+        margin-left: $space-8x;
+        margin-right: $space-8x;
+      }
+    }
   }
 
   a {

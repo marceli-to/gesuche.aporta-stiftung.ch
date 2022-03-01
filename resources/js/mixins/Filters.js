@@ -16,3 +16,7 @@ Vue.filter('currency', function(value) {
   }
   return '–';
 });
+
+Vue.filter('padStart', function(value) {
+  return String(value).padStart(2, '0');
+});

@@ -84,7 +84,7 @@
 </template>
 <script>
 import DialogWrapper from "@/components/ui/misc/Dialog.vue";
-import IconArrowLeft from "@/components/ui/icons/ArrowLeft.vue";
+import IconArrowLeft from "@/components/ui/icons/ArrowLeft-sm.vue";
 import IconPencil from "@/components/ui/icons/Pencil.vue";
 import IconBubble from "@/components/ui/icons/Bubble.vue";
 import IconList from "@/components/ui/icons/List.vue";

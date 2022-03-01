@@ -12,11 +12,15 @@ export default {
       this.hasFilter = this.hasFilter ? false : true;
     },
 
+    showFilter() {
+      this.hasFilter = true;
+    },
+
     hideFilter() {
       this.hasFilter = false;
     },
 
-    setFilter(type, value) {
+    setFilterItem(type, value) {
       let filter = this.$store.state.filter;
       filter[type] = value;
       filter['set'] = true;

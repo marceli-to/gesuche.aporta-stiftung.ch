@@ -22,13 +22,13 @@
               <icon-export />
             </a>
           </li>
-          <li class="span-4 flex justify-center" v-if="$store.state.filter.items.length && $props.view == 'show'">
+          <li class="span-4 flex justify-center site-menu__pagination" v-if="$store.state.filter.items.length && $props.view == 'show'">
             <router-link :to="{name: 'application-show', params: { type: $route.params.type, uuid: $store.state.filter.menu.prev }}">
-              &laquo;
+              <icon-arrow-left />
             </router-link>
-            <span>{{$store.state.filter.menu.index}} / {{$store.state.filter.items.length}}</span>
+              <span>{{$store.state.filter.menu.index | padStart}} / {{$store.state.filter.items.length | padStart}}</span>
             <router-link :to="{name: 'application-show', params: { type: $route.params.type, uuid: $store.state.filter.menu.next }}">
-              &raquo;
+              <icon-arrow-right />
             </router-link>
           </li>
           <li class="span-4 flex justify-center" v-else>
@@ -51,12 +51,16 @@
 import IconExport from "@/components/ui/icons/Export.vue";
 import IconFilter from "@/components/ui/icons/Filter.vue";
 import IconCross from "@/components/ui/icons/Cross.vue";
+import IconArrowLeft from "@/components/ui/icons/ArrowLeft.vue";
+import IconArrowRight from "@/components/ui/icons/ArrowRight.vue";
 
 export default {
   components: {
     IconExport,
     IconFilter,
     IconCross,
+    IconArrowLeft,
+    IconArrowRight
   },
 
   props: {

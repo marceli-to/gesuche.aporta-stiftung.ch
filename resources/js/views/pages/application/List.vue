@@ -7,16 +7,35 @@
           <div class="span-4 start-2">
             <h2>Status</h2>
             <div v-for="state in dataStates" :key="state.id">
-              <a href="" style="color: #fff" @click.prevent="setFilter('state', state.id)">{{state.description}}</a><br>
+              <a href="javascript:;" @click.prevent="setFilterItem('state', state.id)">
+                <icon-radio-active v-if="$store.state.filter.state == state.id" />
+                <icon-radio v-else />
+                <span>{{state.description}}</span>
+              </a>
             </div>
           </div>
           <div class="span-4">
             <h2>Betrag</h2>
-            <a href="" style="color: #fff" @click.prevent="setFilter('amount', 'lt:20000')">&lt; 20000</a><br>
-            <a href="" style="color: #fff" @click.prevent="setFilter('amount', 'gt:20000')">&gt; 20000</a><br>
-            <a href="" style="color: #fff" @click.prevent="setFilter('amount', 'gt:30000')">&gt; 30000</a><br>
+            <a href="" @click.prevent="setFilterItem('amount', 'lt:20000')">
+              <icon-radio-active v-if="$store.state.filter.amount == 'lt:20000'" />
+              <icon-radio v-else />
+              <span>&lt; 20000</span>
+            </a>
+            <a href="" @click.prevent="setFilterItem('amount', 'gt:20000')">
+              <icon-radio-active v-if="$store.state.filter.amount == 'gt:20000'" />
+              <icon-radio v-else />
+              <span>&gt; 20000</span>
+            </a>
+            <a href="" @click.prevent="setFilterItem('amount', 'gt:30000')">
+              <icon-radio-active v-if="$store.state.filter.amount == 'gt:30000'" />
+              <icon-radio v-else />
+              <span>&gt; 30000</span>
+            </a>
           </div>
         </div>
+      </div>
+      <div>
+        <a href="" class="btn-primary" @click.prevent="hideFilter()">Anzeigen</a>
       </div>
     </nav>
   </site-header>
@@ -114,6 +133,8 @@ import Sort from "@/mixins/Sort";
 import Filter from "@/mixins/Filter";
 import IconSort from "@/components/ui/icons/Sort.vue";
 import IconState from "@/components/ui/icons/State.vue";
+import IconRadio from "@/components/ui/icons/Radio.vue";
+import IconRadioActive from "@/components/ui/icons/RadioActive.vue";
 import Bullet from "@/components/ui/misc/Bullet.vue";
 import SiteHeader from '@/views/layout/Header.vue';
 import SiteMain from '@/views/layout/Main.vue';
@@ -133,6 +154,8 @@ export default {
     Bullet,
     IconSort,
     IconState,
+    IconRadio,
+    IconRadioActive,
     List,
     ListRow,
     ListRowHeader,
