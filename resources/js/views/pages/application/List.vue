@@ -34,9 +34,8 @@
           </div>
         </div>
       </div>
-      <div>
-        <a href="javascript:;" class="btn-primary" @click.prevent="hideFilter()">Anzeigen</a>
-      </div>
+      <a href="javascript:;" class="btn-primary" @click.prevent="hideFilter()">Anzeigen</a>
+      <a href="javascript:;" class="btn-secondary is-outline" @click.prevent="resetFilter()">Zurücksetzen</a>
     </nav>
   </site-header>
   <site-main v-if="isFetched">
@@ -254,7 +253,7 @@ export default {
           return true;
         }
         const index = application.users.findIndex(x => x.user_uuid === this.$store.state.user.uuid);
-        return index == 0 ? false : true;
+        return index > -1 ? false : true;
       }
     },
   },

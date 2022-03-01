@@ -20,6 +20,16 @@ export default {
       this.hasFilter = false;
     },
 
+    resetFilter() {
+      let filter =  this.$store.state.filter;
+      filter.state = null;
+      filter.amount = null;
+      filter.set = false;
+      this.$store.commit('filter', filter);
+      this.hideFilter();
+      this.fetch(this.$route.params.type);
+    },
+
     setFilterItem(type, value) {
       let filter = this.$store.state.filter;
       filter[type] = value;
