@@ -94,4 +94,8 @@ h1, h2, h3 {
   width: 100%;
 }
 
+.break {
+  page-break-after: always;
+}
+
 </style>

@@ -17,7 +17,11 @@ export default new Vuex.Store({
         prev: null,
         next: null
       }
-    }
+    },
+    selector: {
+      set: false,
+      type: null,
+    },
   },
   mutations: {
     user(state, user) {
@@ -25,6 +29,9 @@ export default new Vuex.Store({
     },
     filter(state, filter) {
       state.filter = filter;
+    },
+    selector(state, selector) {
+      state.selector = selector;
     }
   }
 });

@@ -1,10 +1,10 @@
 /**
  * -----------------------------------------------------------------------------
- * File: layout/menu/filter
+ * File: layout/menu/selector
  * -----------------------------------------------------------------------------
  */
 
-nav.site-filter {
+nav.selector {
   margin-bottom: $space-15x;
 
   > div {
@@ -27,6 +27,7 @@ nav.site-filter {
     align-items: center;
     color: $color-white;
     display: flex; 
+    @include font-size($fs-md);
     padding: $space-1x 0;
 
     span {

@@ -3,6 +3,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\BaseController;
 use App\Services\Media;
 use App\Services\Pdf;
+use App\Models\Application;
 use Illuminate\Http\Request;
 
 class PageController extends BaseController
@@ -54,10 +55,9 @@ class PageController extends BaseController
    * 
    * @return \Illuminate\Http\Response
    */
-  public function pdf($view = NULL)
+  public function pdf($type = NULL)
   {
-    $application = [];
-    $pdf = (new Pdf())->create($application);
+    $pdf = (new Pdf())->createMany(Application::get(), $type);
     return response()->download($pdf['path'], $pdf['name'], $this->headers);
   }
 

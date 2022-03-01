@@ -20,7 +20,7 @@
               </router-link>
             </li>
             <li class="span-1">
-              <a href="" class="icon-export">
+              <a href="" class="icon-export" @click.prevent="toggleSelector()">
                 <icon-export />
               </a>
             </li>
@@ -98,20 +98,24 @@ export default {
     toggleFilter() {
       this.$parent.toggleFilter();
     },
+    toggleSelector() {
+      this.$parent.toggleSelector();
+    },
   },
 
   watch: {
     '$route'() {
       // this.beforeFetch(this.$route.params.type)
       this.hasFilter = false;
+      this.hasExport = false;
     }
   },
 
   computed: {
     cls() {
       let cls = 'site-header';
-      if (this.$parent.hasFilter) {
-        cls = cls + ' has-filter';
+      if (this.$parent.hasFilter || this.$parent.hasSelector) {
+        cls = cls + ' has-selector';
       }
       if (this.$props.view == 'show') {
         cls = cls + ' is-detail';

@@ -296,7 +296,7 @@
 </template>
 <script>
 import NProgress from 'nprogress';
-import Filter from "@/mixins/Filter";
+import Filter from "@/views/pages/application/mixins/Filter";
 import ErrorHandling from "@/mixins/ErrorHandling";
 import SiteHeader from '@/views/layout/Header.vue';
 import SiteMain from '@/views/layout/Main.vue';

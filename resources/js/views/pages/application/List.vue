@@ -1,7 +1,7 @@
 <template>
 <div>
   <site-header :user="$store.state.user">
-    <nav class="site-filter" v-if="hasFilter && isFetchedStates">
+    <nav class="selector" v-if="hasFilter && isFetchedStates">
       <div>
         <div class="grid-cols-12">
           <div class="span-4 start-2">
@@ -36,6 +36,74 @@
       </div>
       <a href="javascript:;" class="btn-primary" @click.prevent="hideFilter()">Anzeigen</a>
       <a href="javascript:;" class="btn-secondary is-outline" @click.prevent="resetFilter()">Zurücksetzen</a>
+    </nav>
+    <nav class="selector" v-if="hasSelector">
+      <div>
+        <div class="grid-cols-12">
+          <div class="span-3 start-2">
+            <h2>Zusagen/Absagen</h2>
+            <div>
+              <a href="javascript:;" @click.prevent="setSelectorItem('type', 'reply_all')">
+                <icon-radio-active v-if="$store.state.selector.type == 'reply_all'" />
+                <icon-radio v-else />
+                <span>Alle Gesuche</span>
+              </a>
+              <a href="javascript:;" @click.prevent="setSelectorItem('type', 'reply_approved')">
+                <icon-radio-active v-if="$store.state.selector.type == 'reply_approved'" />
+                <icon-radio v-else />
+                <span>Genehmigte</span>
+              </a>
+              <a href="javascript:;" @click.prevent="setSelectorItem('type', 'reply_rejected')">
+                <icon-radio-active v-if="$store.state.selector.type == 'reply_rejected'" />
+                <icon-radio v-else />
+                <span>Abgelehnte</span>
+              </a>
+            </div>
+          </div>
+          <div class="span-3">
+            <h2>Archivieren</h2>
+            <div>
+              <a href="javascript:;" @click.prevent="setSelectorItem('type', 'archive_all')">
+                <icon-radio-active v-if="$store.state.selector.type == 'archive_all'" />
+                <icon-radio v-else />
+                <span>Alle Gesuche</span>
+              </a>
+              <a href="javascript:;" @click.prevent="setSelectorItem('type', 'archive_approved')">
+                <icon-radio-active v-if="$store.state.selector.type == 'archive_approved'" />
+                <icon-radio v-else />
+                <span>Genehmigte</span>
+              </a>
+              <a href="javascript:;" @click.prevent="setSelectorItem('type', 'archive_rejected')">
+                <icon-radio-active v-if="$store.state.selector.type == 'archive_rejected'" />
+                <icon-radio v-else />
+                <span>Abgelehnte</span>
+              </a>
+            </div>
+          </div>
+          <div class="span-3">
+            <h2>Exportieren</h2>
+            <div>
+              <a href="javascript:;" @click.prevent="setSelectorItem('type', 'export_all')">
+                <icon-radio-active v-if="$store.state.selector.type == 'export_all'" />
+                <icon-radio v-else />
+                <span>Alle Gesuche</span>
+              </a>
+              <a href="javascript:;" @click.prevent="setSelectorItem('type', 'export_approved')">
+                <icon-radio-active v-if="$store.state.selector.type == 'export_approved'" />
+                <icon-radio v-else />
+                <span>Genehmigte</span>
+              </a>
+              <a href="javascript:;" @click.prevent="setSelectorItem('type', 'export_rejected')">
+                <icon-radio-active v-if="$store.state.selector.type == 'export_rejected'" />
+                <icon-radio v-else />
+                <span>Abgelehnte</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <a href="javascript:;" class="btn-primary" @click.prevent="hideSelector()">Anzeigen</a>
+      <a href="javascript:;" class="btn-secondary is-outline" @click.prevent="resetSelector()">Abbrechen</a>
     </nav>
   </site-header>
   <site-main v-if="isFetched">
@@ -129,7 +197,8 @@ import NProgress from 'nprogress';
 import ErrorHandling from "@/mixins/ErrorHandling";
 import Helpers from "@/mixins/Helpers";
 import Sort from "@/mixins/Sort";
-import Filter from "@/mixins/Filter";
+import Filter from "@/views/pages/application/mixins/Filter";
+import Selector from "@/views/pages/application/mixins/Selector";
 import IconSort from "@/components/ui/icons/Sort.vue";
 import IconState from "@/components/ui/icons/State.vue";
 import IconRadio from "@/components/ui/icons/Radio.vue";
@@ -163,7 +232,7 @@ export default {
     ListEmpty,
   },
 
-  mixins: [ErrorHandling, Helpers, Sort, Filter],
+  mixins: [ErrorHandling, Helpers, Sort, Filter, Selector],
 
   data() {
     return {
