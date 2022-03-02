@@ -12,7 +12,6 @@
               Aktuell
             </router-link>
           </li>
-
           <template v-if="user.admin">
             <li class="span-1">
               <router-link :to="{name: 'applications-archive', params: { type: 'archiv' }}" :active-class="'is-active'">
@@ -40,7 +39,6 @@
               </a>
             </li>
           </template>
-
           <template v-else>
             <li class="span-4 start-5 flex justify-center site-menu__pagination" v-if="$store.state.filter.items.length && $props.view == 'show'">
               <router-link :to="{name: 'application-show', params: { type: $route.params.type, uuid: $store.state.filter.menu.prev }}">
@@ -58,15 +56,12 @@
               </a>
             </li>
           </template>
-          
           <li class="user">
             <a href="/logout" class="user icon-filter" style="display: flex; align-items: center">
             {{user.email}}
-                        <icon-user class="ml-4x"/>
-
-</a>
+              <icon-user class="ml-4x"/>
+            </a>
           </li>
-          
         </ul>
       </nav>
     </div>
@@ -111,7 +106,6 @@ export default {
 
   watch: {
     '$route'() {
-      // this.beforeFetch(this.$route.params.type)
       this.hasFilter = false;
       this.hasExport = false;
     }
