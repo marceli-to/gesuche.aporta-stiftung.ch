@@ -60,7 +60,11 @@
           </template>
           
           <li class="user">
-            <a href="/logout" class="user">{{user.email}}</a>
+            <a href="/logout" class="user icon-filter" style="display: flex; align-items: center">
+            {{user.email}}
+                        <icon-user class="ml-4x"/>
+
+</a>
           </li>
           
         </ul>
@@ -72,6 +76,7 @@
 </template>
 <script>
 import IconExport from "@/components/ui/icons/Export.vue";
+import IconUser from "@/components/ui/icons/User.vue";
 import IconFilter from "@/components/ui/icons/Filter.vue";
 import IconCross from "@/components/ui/icons/Cross.vue";
 import IconArrowLeft from "@/components/ui/icons/ArrowLeft.vue";
@@ -82,6 +87,7 @@ export default {
     IconExport,
     IconFilter,
     IconCross,
+    IconUser,
     IconArrowLeft,
     IconArrowRight
   },

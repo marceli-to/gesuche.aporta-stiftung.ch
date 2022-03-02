@@ -400,7 +400,6 @@ export default {
       else {
         data = { project_contribution_approved: this.data.project_contribution_approved };
       }
-
       this.axios.put(`${this.routes.approve}/${this.$route.params.uuid}`, data).then(response => {
         this.$refs.dialogApprove.hide();
         this.fetch();
