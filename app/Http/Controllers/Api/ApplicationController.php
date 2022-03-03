@@ -4,6 +4,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\DataCollection;
 use App\Models\Application;
 use App\Models\ApplicationUser;
+use App\Models\ApplicationState;
 use App\Http\Requests\ApplicationStoreRequest;
 use App\Services\Logger;
 use Illuminate\Http\Request;
@@ -138,47 +139,102 @@ class ApplicationController extends Controller
    */
   public function approve(Application $application, Request $request)
   {
-    $stateId = auth()->user()->isAdmin() ? 3 : 4;
     $application = Application::findOrFail($application->id);
 
+    $application_state_id = auth()->user()->isAdmin() ? ApplicationState::PENDING_APPROVAL : ApplicationState::APPROVED_EXTERNAL;
+
     $data = [
-      'application_state_id' => $stateId,
-      'approved_at' => \Carbon\Carbon::now()
+      'application_state_id' => $application_state_id,
+      'approved_at' => \Carbon\Carbon::now(),
+      'approved_by' => auth()->user()->id,
     ];
 
     if (auth()->user()->isAdmin()) {
-      $data['project_contribution_proposed'] = $request->input('project_contribution_proposed');
+      $data['project_contribution_approved_temporary'] = $request->input('project_contribution_approved_temporary');
     }
     else {
-      $data['project_contribution_approved'] = $request->input('project_contribution_approved');
+      $data['project_contribution_approved'] = $request->input('project_contribution_approved') ? $request->input('project_contribution_approved') : $application->project_contribution_approved_temporary;
     }
 
     $application->update($data);
     $application->save();
-    (new Logger())->log($application, 'Gesuch genehmigt');
+
+    // Log message
+    $message = $application_state_id == ApplicationState::PENDING_APPROVAL ? 'Stiftung provisorisch' : 'Stadt';
+    (new Logger())->log($application, 'Gesuch durch '. $message .' genehmigt');
     return response()->json('successfully updated');
   }
 
   /**
-   * Reject an application
+   * Definitively approve an application
+   *
+   * @param Application $application
+   * @param  \Illuminate\Http\Request $request
+   * @return \Illuminate\Http\Response
+   */
+  public function approveFinal(Application $application, Request $request)
+  {
+    $application = Application::findOrFail($application->id);
+    $data = [
+      'application_state_id' => ApplicationState::APPROVED,
+      'approved_at' => \Carbon\Carbon::now(),
+      'approved_by' => auth()->user()->id,
+    ];
+    $application->update($data);
+    $application->save();
+
+    // Log message
+    (new Logger())->log($application, 'Gesuch durch Stadt genehmigt');
+    return response()->json('successfully updated');
+  }
+
+
+  /**
+   * Deny an application
    *
    * @param Application $application
    * @return \Illuminate\Http\Response
    */
-  public function reject(Application $application, Request $request)
+  public function deny(Application $application, Request $request)
   {
-    // Set state according to user role
-    $stateId = auth()->user()->isAdmin() ? 2 : 5;
-
     $application = Application::findOrFail($application->id);
+
+    $application_state_id = auth()->user()->isAdmin() ? ApplicationState::DENIED : ApplicationState::DENIED_EXTERNAL;
+
     $application->update([
-      'application_state_id' => $stateId
+      'application_state_id' => $application_state_id,
+      'denied_at' => \Carbon\Carbon::now(),
+      'denied_by' => auth()->user()->id,
     ]);
     $application->save();
-    (new Logger())->log($application, 'Gesuch durch Stiftung abgelehnt');
+
+    // Log message
+    $message = $application_state_id == ApplicationState::DENIED ? 'Stiftung' : 'Stadt';
+
+    (new Logger())->log($application, 'Gesuch durch '. $message .' abgelehnt');
     return response()->json('successfully updated');
   }
 
+  /**
+   * Reverse an application
+   *
+   * @param Application $application
+   * @return \Illuminate\Http\Response
+   */
+  public function reverse(Application $application, Request $request)
+  {
+    $application = Application::findOrFail($application->id);
+    $application->update([
+      'project_contribution_approved_temporary' => 0,
+      'application_state_id' => ApplicationState::OPEN,
+      'denied_at' => NULL,
+      'denied_by' => NULL,
+    ]);
+    $application->save();
+
+    (new Logger())->log($application, 'Genehmigung wurde entzogen');
+    return response()->json('successfully updated');
+  }
 
   /**
    * Remove a application

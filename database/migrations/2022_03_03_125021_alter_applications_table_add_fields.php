@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AlterApplicationsTableAddProjectContributionProposed extends Migration
+class AlterApplicationsTableAddFields extends Migration
 {
     /**
      * Run the migrations.
@@ -14,8 +14,13 @@ class AlterApplicationsTableAddProjectContributionProposed extends Migration
     public function up()
     {
       Schema::table('applications', function (Blueprint $table) {
-        $table->decimal('project_contribution_approved_temporary', 12, 2)->default(0.00)->after('project_contribution_approved');
+        $table->unsignedBigInteger('approved_by')->nullable()->after('approved_at');
+        $table->foreign('approved_by')->references('id')->on('users');
+        $table->dateTime('denied_at')->nullable()->after('approved_by');
+        $table->unsignedBigInteger('denied_by')->nullable()->after('denied_at');
+        $table->foreign('denied_by')->references('id')->on('users');
       });
+
     }
 
     /**

@@ -17,7 +17,7 @@ class Pdf
   public function create($application)
   {
     $this->viewData['data'] = [];
-    $pdf = DomPDF::loadView('pdf.letter.rejection', $this->viewData);
+    $pdf = DomPDF::loadView('pdf.letter.deny', $this->viewData);
     $file = 'aporta-stiftung-gesuch-absage-' . date('dmY', time()) . '-' . \Str::random(12) . '.pdf';
 
     if (!File::isDirectory(storage_path('app/public/temp')))

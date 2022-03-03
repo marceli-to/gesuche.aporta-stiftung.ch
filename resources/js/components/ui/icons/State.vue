@@ -1,30 +1,31 @@
 <template>
 <div>
   <icon-mail v-if="$props.id == 1"></icon-mail>
-  <icon-cross v-if="$props.id == 2"></icon-cross>
-  <icon-zueri v-if="$props.id == 3"></icon-zueri>
-  <icon-checkmark v-if="$props.id == 4"></icon-checkmark>
+  <icon-emblem v-if="$props.id == 2"></icon-emblem>
+  <icon-stamp v-if="$props.id == 3"></icon-stamp>
+  <icon-emblem-cross v-if="$props.id == 4"></icon-emblem-cross>
   <icon-cross-hair v-if="$props.id == 5"></icon-cross-hair>
+  <icon-checkmark v-if="$props.id == 6"></icon-checkmark>
 </div>
 </template>
 
 <script>
 import IconMail from "@/components/ui/icons/Mail.vue";
-import IconCross from "@/components/ui/icons/Cross-sm.vue";
-import IconMagnifier from "@/components/ui/icons/Magnifier.vue";
+import IconEmblem from "@/components/ui/icons/Emblem.vue";
+import IconStamp from "@/components/ui/icons/Stamp.vue";
+import IconEmblemCross from "@/components/ui/icons/EmblemCross.vue";
 import IconCrossHair from "@/components/ui/icons/CrossHair.vue";
-import IconZueri from "@/components/ui/icons/Zueri.vue";
 import IconCheckmark from "@/components/ui/icons/Checkmark.vue";
 
 export default {
 
   components: {
     IconMail,
-    IconCross,
-    IconMagnifier,
-    IconZueri,
-    IconCheckmark,
+    IconEmblem,
+    IconStamp,
+    IconEmblemCross,
     IconCrossHair,
+    IconCheckmark,
   },
 
   props: {

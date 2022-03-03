@@ -19,7 +19,7 @@
               </router-link>
             </li>
             <li class="span-1">
-              <a href="" class="icon-export" @click.prevent="toggleSelector()" v-if="$props.view != 'show'">
+              <a href="" class="icon-export" @click.prevent="toggleSelector()" v-if="$props.view != 'show' && $route.params.type != 'archiv'">
                 <icon-export />
               </a>
             </li>

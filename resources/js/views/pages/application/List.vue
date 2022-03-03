@@ -6,15 +6,17 @@
         <div class="grid-cols-12">
           <div class="span-4 start-2">
             <h2>Status</h2>
-            <div v-for="state in dataStates" :key="state.id">
-              <a href="javascript:;" @click.prevent="setFilterItem('state', state.id)">
-                <icon-radio-active v-if="$store.state.filter.state == state.id" />
-                <icon-radio v-else />
-                <span>{{state.description}}</span>
-              </a>
+            <div class="grid-cols-2">
+              <div v-for="state in dataStates" :key="state.id">
+                <a href="javascript:;" @click.prevent="setFilterItem('state', state.id)">
+                  <icon-radio-active v-if="$store.state.filter.state == state.id" />
+                  <icon-radio v-else />
+                  <span>{{state.description}}</span>
+                </a>
+              </div>
             </div>
           </div>
-          <div class="span-4">
+          <div class="span-4 start-7">
             <h2>Betrag</h2>
             <a href="" @click.prevent="setFilterItem('amount', 'lt:20000')">
               <icon-radio-active v-if="$store.state.filter.amount == 'lt:20000'" />
@@ -53,8 +55,8 @@
                 <icon-radio v-else />
                 <span>Genehmigte</span>
               </a>
-              <a href="javascript:;" @click.prevent="setSelectorItem('type', 'reply_rejected')">
-                <icon-radio-active v-if="$store.state.selector.type == 'reply_rejected'" />
+              <a href="javascript:;" @click.prevent="setSelectorItem('type', 'reply_denied')">
+                <icon-radio-active v-if="$store.state.selector.type == 'reply_denied'" />
                 <icon-radio v-else />
                 <span>Abgelehnte</span>
               </a>
@@ -73,8 +75,8 @@
                 <icon-radio v-else />
                 <span>Genehmigte</span>
               </a>
-              <a href="javascript:;" @click.prevent="setSelectorItem('type', 'archive_rejected')">
-                <icon-radio-active v-if="$store.state.selector.type == 'archive_rejected'" />
+              <a href="javascript:;" @click.prevent="setSelectorItem('type', 'archive_denied')">
+                <icon-radio-active v-if="$store.state.selector.type == 'archive_denied'" />
                 <icon-radio v-else />
                 <span>Abgelehnte</span>
               </a>
@@ -93,8 +95,8 @@
                 <icon-radio v-else />
                 <span>Genehmigte</span>
               </a>
-              <a href="javascript:;" @click.prevent="setSelectorItem('type', 'export_rejected')">
-                <icon-radio-active v-if="$store.state.selector.type == 'export_rejected'" />
+              <a href="javascript:;" @click.prevent="setSelectorItem('type', 'export_denied')">
+                <icon-radio-active v-if="$store.state.selector.type == 'export_denied'" />
                 <icon-radio v-else />
                 <span>Abgelehnte</span>
               </a>

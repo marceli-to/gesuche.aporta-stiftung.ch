@@ -12,6 +12,14 @@ class ApplicationState extends Base
     'description',
   ];
 
+  public const OPEN = 1;
+  public const PENDING_APPROVAL = 2;
+  public const APPROVED_EXTERNAL = 3;
+  public const DENIED_EXTERNAL = 4;
+  public const DENIED = 5;
+  public const APPROVED = 6;
+
+
   /**
    * Local scopes 
    */

@@ -1,5 +1,6 @@
 <?php
 namespace App\Models;
+use App\Models\ApplicationState;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -35,7 +36,7 @@ class Application extends Base
     'project_own_contribution',
     'project_contribution_requested',
     'project_contribution_further_requested',
-    'project_contribution_proposed',
+    'project_contribution_approved_temporary',
     'project_contribution_approved',
     'project_income',
     'project_add_instit_2',
@@ -60,13 +61,17 @@ class Application extends Base
     'file_project_estimated_costs',
     'archive',
     'application_state_id',
-    'approved_at'
+    'approved_at',
+    'approved_by',
+    'denied_at',
+    'denied_by'
   ];
 
   protected $casts = [
     'created_at' => 'date:d.m.Y',
     'updated_at' => 'date:d.m.Y',
     'approved_at' => 'date:d.m.Y',
+    'denied_at' => 'date:d.m.Y',
   ];
 
   protected $appends = [
@@ -76,10 +81,11 @@ class Application extends Base
     'requested_contribution',
     'created_at_timestamp',
     'is_new',
-    'is_rejected_internal',
-    'is_rejected_external',
-    'is_approved_internal',
-    'is_approved_external'
+    'is_pending_approval',
+    'is_approved_external',
+    'is_denied_external',
+    'is_denied',
+    'is_approved',
   ];
 
   public function state()
@@ -91,7 +97,6 @@ class Application extends Base
   {
     return $this->hasMany(ApplicationFile::class, 'application_id', 'id');
   }
-
 
   public function comments()
   {
@@ -119,7 +124,7 @@ class Application extends Base
 
   public function scopeEditor($query)
   {
-    return $query->where('application_state_id', '>', 2);
+    return $query->where('application_state_id', '>', ApplicationState::OPEN);
   }
 
   public function scopeArchive($query)
@@ -134,27 +139,32 @@ class Application extends Base
 
   public function isNew()
   {
-    return $this->application_state_id == 1 ? TRUE : FALSE;
+    return $this->application_state_id == ApplicationState::OPEN ? TRUE : FALSE;
   }
 
-  public function isRejectedInternal()
+  public function isPendingApproval()
   {
-    return $this->application_state_id == 2 ? TRUE : FALSE;
-  }
-
-  public function isRejectedExternal()
-  {
-    return $this->application_state_id == 5 ? TRUE : FALSE;
-  }
-
-  public function isApprovedInternal()
-  {
-    return $this->application_state_id == 3 ? TRUE : FALSE;
+    return $this->application_state_id == ApplicationState::PENDING_APPROVAL ? TRUE : FALSE;
   }
 
   public function isApprovedExternal()
   {
-    return $this->application_state_id == 4 ? TRUE : FALSE;
+    return $this->application_state_id == ApplicationState::APPROVED_EXTERNAL ? TRUE : FALSE;
+  }
+
+  public function isDeniedExternal()
+  {
+    return $this->application_state_id == ApplicationState::DENIED_EXTERNAL ? TRUE : FALSE;
+  }
+  
+  public function isDenied()
+  {
+    return $this->application_state_id == ApplicationState::DENIED ? TRUE : FALSE;
+  }
+  
+  public function isApproved()
+  {
+    return $this->application_state_id == ApplicationState::APPROVED ? TRUE : FALSE;
   }
 
 
@@ -240,23 +250,28 @@ class Application extends Base
     return $this->isNew();
   }
 
-  public function getIsRejectedInternalAttribute($value)
+  public function getIsPendingApprovalAttribute($value)
   {
-    return $this->isRejectedInternal();
-  }
-
-  public function getIsRejectedExternalAttribute($value)
-  {
-    return $this->isRejectedExternal();
-  }
-
-  public function getIsApprovedInternalAttribute($value)
-  {
-    return $this->isApprovedInternal();
+    return $this->isPendingApproval();
   }
 
   public function getIsApprovedExternalAttribute($value)
   {
     return $this->isApprovedExternal();
+  }
+
+  public function getIsDeniedExternalAttribute($value)
+  {
+    return $this->isDeniedExternal();
+  }
+
+  public function getIsDeniedAttribute($value)
+  {
+    return $this->isDenied();
+  }
+
+  public function getIsApprovedAttribute($value)
+  {
+    return $this->isApproved();
   }
 }
