@@ -58,12 +58,12 @@
         </list-item>
         <list-item :cls="'span-2 list-item line-after'">
           <span>
-            <input type="text" v-model="form.subject" placeholder="Betreff" required @blur="validate()">
+            <input type="text" v-model="form.subject" placeholder="Betreff" required @mouseleave="validate()">
           </span>
         </list-item>
         <list-item :cls="'span-4 list-item'">
           <span>
-            <textarea v-model="form.comment" placeholder="Kommentar" @blur="validate()"></textarea>
+            <textarea v-model="form.comment" placeholder="Kommentar" @mouseleave="validate()"></textarea>
           </span>
           <div>
             <button type="submit" @click.prevent="store()" disabled class="btn-primary is-small mb-3x">

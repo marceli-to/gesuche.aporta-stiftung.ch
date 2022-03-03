@@ -19,11 +19,6 @@ class ApplicationState extends Base
   public const DENIED = 5;
   public const APPROVED = 6;
 
-
-  /**
-   * Local scopes 
-   */
-
   public function scopeByPermission($query)
   {
     if (auth()->user()->isAdmin()) {

@@ -126,6 +126,20 @@
               <span v-else>–</span>
             </div>
           </application-row>
+          <application-row v-for="file in data.files" :key="file.uuid">
+            <div class="span-1"><label>{{file.title}}</label></div>
+            <div class="span-3">
+              <div class="flex justify-between">
+                <a :href="`/download/${file.uuid}/${file.name}`" class="anchor-download" target="_blank" :title="file.title">
+                  {{file.name | truncate(30, '...')}}
+                </a>
+              </div>
+              <div v-if="file.comment" class="mt-2x pb-3x">
+                <span class="text-grey" v-if="file.user">{{file.user.full_name}}:<br></span>
+                {{file.comment}}
+              </div>
+            </div>
+          </application-row>
         </div>
         <div class="line-after">
           <h2>Projekt</h2>
@@ -448,8 +462,6 @@ export default {
         this.fetch();
       });
     },
-
-
   },
   watch: {
     '$route'() {
