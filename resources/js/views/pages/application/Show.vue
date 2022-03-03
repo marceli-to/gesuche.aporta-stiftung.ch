@@ -31,6 +31,10 @@
             <div class="span-3">{{data.applicant_name}}</div>
           </application-row>
           <application-row>
+            <div class="span-1"><label>Anrede</label></div>
+            <div class="span-3">{{data.salutation}}</div>
+          </application-row>
+          <application-row>
             <div class="span-1"><label>Telefon</label></div>
             <div class="span-3">{{data.phone}}</div>
           </application-row>
@@ -43,7 +47,7 @@
             <div class="span-3">{{data.legal_form}}</div>
           </application-row>
           <application-row>
-            <div class="span-1"><label>Konto</label></div>
+            <div class="span-1"><label>Brief</label></div>
             <div class="span-3 pb-6x">{{data.bank_account}}</div>
             <div class="span-3 start-2">
               <div>

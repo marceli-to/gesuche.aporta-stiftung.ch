@@ -70,6 +70,12 @@
                 <input type="text" v-model="data.website">
               </application-input>
             </application-row>
+            <application-row class="pb-3x">
+              <application-label :cls="'span-1'">Anrede Brief</application-label>
+              <application-input :cls="'span-3'">
+                <input type="text" v-model="data.salutation" placeholder="Sehr geehrte Damen und Herren">
+              </application-input>
+            </application-row>
             <application-row>
               <application-label :cls="'span-1'">Vorname</application-label>
               <application-input :cls="'span-3'">
@@ -103,7 +109,7 @@
             <application-row class="pb-3x">
               <application-label :cls="'span-1'">Bankkonto</application-label>
               <application-input class="span-3 mb-6x">{{ data.bank_account }}</application-input>
-              <application-input :cls="'span-3 start-2'">
+              <application-input :cls="'span-3 start-2 pb-4x'">
                 Formulierung im Serienbrief<br><br>
                 Wir bitten Sie, uns den Eingang des erwähnten Betrages, welchen wir Ihnen bis Ende<br><br>
                 <input type="text" v-model="data.financial_periode" placeholder="[Monat Jahr]"><br>
@@ -112,6 +118,7 @@
                 überweisen werden, umgehend schriftlich zu bestätigen.
               </application-input>
             </application-row>
+
             <h2>Dokumente</h2>
             <application-row>
               <div class="span-1"><label>Portrait</label></div>

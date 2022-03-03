@@ -23,6 +23,7 @@ class Application extends Base
     'city',
     'firstname',
     'lastname',
+    'salutation',
     'phone',
     'email',
     'project_title',
