@@ -273,7 +273,7 @@
                   <span>Ablehnen</span>
                 </a>
               </div>
-              <application-row class="mt-6x">
+              <application-row class="mt-8x">
                 <application-label :cls="'span-3'">Beitrag anpassen</application-label>
                 <application-input :cls="'span-1'">
                   <input type="text" v-model="data.project_contribution_approved" class="align-right" required @blur="validate($event)">
