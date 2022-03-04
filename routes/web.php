@@ -10,6 +10,9 @@ use App\Http\Controllers\DownloadController;
 |--------------------------------------------------------------------------
 |
 */
+Route::get('/import', [PageController::class, 'import']);
+Route::get('/downloads', [PageController::class, 'downloads']);
+
 
 // Auth routes
 Auth::routes(['verify' => true, 'register' => false]);

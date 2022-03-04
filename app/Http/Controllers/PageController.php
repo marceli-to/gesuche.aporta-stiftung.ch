@@ -60,5 +60,4 @@ class PageController extends BaseController
     $pdf = (new Pdf())->createMany(Application::get(), $type);
     return response()->download($pdf['path'], $pdf['name'], $this->headers);
   }
-
 }
