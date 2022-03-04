@@ -101,7 +101,7 @@ class Application extends Base
 
   public function comments()
   {
-    return $this->hasMany(ApplicationComment::class, 'id', 'application_id');
+    return $this->hasMany(ApplicationComment::class, 'application_id', 'id');
   }
 
   public function logs()

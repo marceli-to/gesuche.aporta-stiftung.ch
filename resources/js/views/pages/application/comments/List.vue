@@ -8,7 +8,7 @@
     <page-menu 
       :type="$route.params.type" 
       :uuid="$route.params.uuid" 
-      :application="applicationData" 
+      :application="applicationData"
       class="mb-20x has-selection"
     ></page-menu>
     <a 

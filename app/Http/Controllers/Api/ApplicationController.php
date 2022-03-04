@@ -89,7 +89,7 @@ class ApplicationController extends Controller
       (new Logger())->log($application, 'Gesucht geöffnet');
     }
 
-    return response()->json(Application::with('files.user')->findOrFail($application->id));
+    return response()->json(Application::with('files.user', 'comments')->findOrFail($application->id));
   }
 
   /**

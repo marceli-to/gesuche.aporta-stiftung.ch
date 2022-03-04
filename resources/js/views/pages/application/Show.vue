@@ -404,7 +404,9 @@ export default {
     return {
       
       // Model
-      data: {},
+      data: {
+        comments: [],
+      },
 
       // Routes
       routes: {

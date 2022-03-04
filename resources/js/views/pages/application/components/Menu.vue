@@ -21,7 +21,9 @@
       <li>
         <router-link :to="{name: 'application-comments', params: { type: $props.type, uuid: $props.uuid }}" :active-class="'is-active'">
           <icon-bubble />
-          <span>Kommentar</span>
+          <span v-if="comments.length == 0">Kommentar</span>
+          <span v-else-if="comments.length == 1">Kommentar (1)</span>
+          <span v-else-if="comments.length > 1">Kommentare ({{comments.length}})</span>
         </router-link>
       </li>
       <li>
@@ -107,12 +109,17 @@ export default {
   data() {
     return {
 
+      // Comments
+      comments: [],
+
       // States
       isLoading: false,
+      isFetched: false,
       
       // Routes
       routes: {
         fetch: '/api/application',
+        fetchComments: '/api/application-comments',
         destroy: '/api/application',
         put: '/api/application/archive',
       },
@@ -120,7 +127,7 @@ export default {
   },
 
   mounted() {
-
+    this.fetchComments();
   },
 
   methods: {
@@ -129,6 +136,14 @@ export default {
       this.isFetched = false;
       this.axios.get(`${this.routes.fetch}/${this.$route.params.uuid}`).then(response => {
         this.data = response.data;
+        this.isFetched = true;
+      });
+    },
+    
+    fetchComments() {
+      this.isFetched = false;
+      this.axios.get(`${this.routes.fetchComments}/${this.$route.params.uuid}`).then(response => {
+        this.comments = response.data.data;
         this.isFetched = true;
       });
     },
