@@ -153,7 +153,7 @@ class ApplicationController extends Controller
       $data['project_contribution_approved_temporary'] = $request->input('project_contribution_approved_temporary');
     }
     else {
-      $data['project_contribution_approved_temporary'] = $request->input('project_contribution_approved') ? $request->input('project_contribution_approved') : $application->project_contribution_approved_temporary;
+      $data['project_contribution_approved_temporary'] = $request->input('project_contribution_approved_temporary') ? $request->input('project_contribution_approved_temporary') : $application->project_contribution_approved_temporary;
     }
 
     $application->update($data);

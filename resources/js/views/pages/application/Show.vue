@@ -482,7 +482,7 @@ export default {
         data = { project_contribution_approved_temporary: this.data.project_contribution_approved_temporary };
       }
       else {
-        data = { project_contribution_approved: this.data.project_contribution_approved };
+        data = { project_contribution_approved_temporary: this.data.project_contribution_approved_temporary };
       }
       this.axios.put(`${this.routes.approve}/${this.$route.params.uuid}`, data).then(response => {
         this.$refs.dialogApprove.hide();
