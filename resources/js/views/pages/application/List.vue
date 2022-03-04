@@ -28,11 +28,6 @@
               <icon-radio v-else />
               <span>&gt; 20000</span>
             </a>
-            <a href="" @click.prevent="setFilterItem('amount', 'gt:30000')">
-              <icon-radio-active v-if="$store.state.filter.amount == 'gt:30000'" />
-              <icon-radio v-else />
-              <span>&gt; 30000</span>
-            </a>
           </div>
         </div>
       </div>
