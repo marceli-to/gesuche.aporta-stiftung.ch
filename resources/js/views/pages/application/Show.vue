@@ -210,7 +210,7 @@
             <div class="span-3 text-grey"><label>Provisorisch genehmigter Betrag</label></div>
             <div class="span-1 flex justify-end text-grey">{{data.project_contribution_approved_temporary | currency}}</div>
           </application-row> 
-          <application-row v-if="data.is_approved_external">
+          <application-row v-if="data.is_approved_external && $store.state.user.admin || data.is_denied_external && $store.state.user.admin">
             <div class="span-3 text-grey"><label>Genehmigter Betrag</label></div>
             <div class="span-1 flex justify-end text-grey">{{data.project_contribution_approved | currency}}</div>
           </application-row>
@@ -224,12 +224,26 @@
 
           <!-- is admin -->
           <div v-if="$store.state.user.admin">
-            <div class="mb-12x" v-if="data.is_new">
-              <a href="javascript:;" class="btn-secondary is-small" @click.prevent="dialogDeny()">
-                <span>Ablehnen</span>
+            <div v-if="data.is_new">
+              <div class="mb-8x">
+                <a href="javascript:;" class="btn-secondary is-small" @click.prevent="dialogDeny()">
+                  <span>Ablehnen</span>
+                </a>
+              </div>
+              <application-row>
+                <application-label :cls="'span-3'">Provisorisch genehmigter Betrag</application-label>
+                <application-input :cls="'span-1'">
+                  <input type="text" v-model="data.project_contribution_approved_temporary" class="align-right" required @blur="validate($event)">
+                </application-input>
+              </application-row>
+              <a 
+                href="javascript:;" 
+                :class="[data.project_contribution_approved_temporary > 0 ? '' : 'disabled', 'btn-primary is-small']"
+                @click.prevent="dialogApprove()">
+                <span>Provisorisch genehmigen</span>
               </a>
             </div>
-            <div class="application-state" v-if="data.is_denied">
+            <div class="application-state" v-else-if="data.is_denied">
               <strong>Das Gesuch wurde am {{data.denied_at}} von der Stiftung abgelehnt</strong>
             </div>
             <div v-else-if="data.is_pending_approval">
@@ -242,7 +256,7 @@
                 </a>
               </div>
             </div>
-            <div v-if="data.is_denied_external || data.is_approved_external">
+            <div v-else-if="data.is_denied_external || data.is_approved_external">
               <div class="application-state mb-8x" v-if="data.is_denied_external">
                 <strong>Das Gesuch wurde am {{data.denied_at}} von der Stadt abgelehnt.</strong>
               </div>
@@ -259,6 +273,20 @@
                   <span>Ablehnen</span>
                 </a>
               </div>
+            </div>
+            <div class="mt-6x" v-if="data.is_denied_external">
+              <application-row>
+                <application-label :cls="'span-3'">Beitrag anpassen</application-label>
+                <application-input :cls="'span-1'">
+                  <input type="text" v-model="data.project_contribution_approved" class="align-right" required @blur="validate($event)">
+                </application-input>
+              </application-row>
+              <a 
+                href="javascript:;" 
+                :class="[data.project_contribution_approved > 0 ? '' : 'disabled', 'btn-primary is-small']"
+                @click.prevent="dialogFinalizeWithUpdate()">
+                <span>Angepassten Beitrag definitiv genehmigen</span>
+              </a>
             </div>
           </div>
           <!-- // is admin -->
@@ -284,7 +312,7 @@
               </application-row>
               <a 
                 href="javascript:;" 
-                :class="[data.project_contribution_approved > 0 ? '' : 'disabled', 'btn-primary is-small']"
+                :class="[data.project_contribution_approved_temporary > 0 ? '' : 'disabled', 'btn-primary is-small']"
                 @click.prevent="dialogApprove()">
                 <span>Angepassten Beitrag bestätigen</span>
               </a>
@@ -328,6 +356,14 @@
     </template>
     <template #actions>
       <a href="javascript:;" class="btn-primary mb-3x" @click.stop="finalize()">Ja, genehmigen</a>
+    </template>
+  </dialog-wrapper>
+  <dialog-wrapper ref="dialogFinalizeWithUpdate">
+    <template #message>
+      <div><strong>Möchten Sie dieses Gesuch mit angepasstem Betrag definitiv genehmigen?</strong></div>
+    </template>
+    <template #actions>
+      <a href="javascript:;" class="btn-primary mb-3x" @click.stop="finalizeWithUpdate()">Ja, genehmigen</a>
     </template>
   </dialog-wrapper>
 </div>
@@ -428,6 +464,10 @@ export default {
       this.$refs.dialogFinalize.show();
     },
 
+    dialogFinalizeWithUpdate() {
+      this.$refs.dialogFinalizeWithUpdate.show();
+    },
+
     deny() {
       this.axios.get(`${this.routes.deny}/${this.$route.params.uuid}`).then(response => {
         this.$refs.dialogDeny.hide();
@@ -453,6 +493,14 @@ export default {
     finalize() {
       this.axios.put(`${this.routes.finalize}/${this.$route.params.uuid}`).then(response => {
         this.$refs.dialogFinalize.hide();
+        this.fetch();
+      });
+    },
+
+    finalizeWithUpdate() {
+      let data = {project_contribution_approved: this.data.project_contribution_approved};
+      this.axios.put(`${this.routes.finalize}/${this.$route.params.uuid}`, data).then(response => {
+        this.$refs.dialogFinalizeWithUpdate.hide();
         this.fetch();
       });
     },

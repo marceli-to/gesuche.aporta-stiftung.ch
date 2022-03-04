@@ -123,7 +123,7 @@ class ApplicationStoreRequest extends FormRequest
       ],
       'project_contribution_requested.required' => [
         'field' => 'project_contribution_requested',
-        'error' => 'Beantragter Betrag wird benötigt!'
+        'error' => 'Beantragter Beitrag wird benötigt!'
       ],
       'project_contribution_approved.required' => [
         'field' => 'project_contribution_approved',

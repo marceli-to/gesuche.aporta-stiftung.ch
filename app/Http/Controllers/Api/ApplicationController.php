@@ -159,7 +159,6 @@ class ApplicationController extends Controller
     $application->update($data);
     $application->save();
 
-    // Log message
     $message = $application_state_id == ApplicationState::PENDING_APPROVAL ? 'Stiftung provisorisch' : 'Stadt';
     (new Logger())->log($application, 'Gesuch durch '. $message .' genehmigt');
     return response()->json('successfully updated');
@@ -175,16 +174,13 @@ class ApplicationController extends Controller
   public function approveFinal(Application $application, Request $request)
   {
     $application = Application::findOrFail($application->id);
-    $data = [
-      'application_state_id' => ApplicationState::APPROVED,
-      'approved_at' => \Carbon\Carbon::now(),
-      'approved_by' => auth()->user()->id,
-    ];
-    $application->update($data);
+    $application->project_contribution_approved = $request->input('project_contribution_approved') ? $request->input('project_contribution_approved') : $application->project_contribution_approved_temporary;
+    $application->application_state_id = ApplicationState::APPROVED;
+    $application->approved_at = \Carbon\Carbon::now();
+    $application->approved_by = auth()->user()->id;
     $application->save();
 
-    // Log message
-    (new Logger())->log($application, 'Gesuch durch Stadt genehmigt');
+    (new Logger())->log($application, 'Gesuch durch Stiftung definitiv genehmigt');
     return response()->json('successfully updated');
   }
 
