@@ -223,12 +223,14 @@ class ApplicationController extends Controller
     $application->update([
       'project_contribution_approved_temporary' => 0,
       'application_state_id' => ApplicationState::OPEN,
+      'approved_at' => NULL,
+      'approved_by' => NULL,
       'denied_at' => NULL,
       'denied_by' => NULL,
     ]);
     $application->save();
 
-    (new Logger())->log($application, 'Genehmigung wurde entzogen');
+    (new Logger())->log($application, 'Genehmigung wurde rückgängig gemacht');
     return response()->json('successfully updated');
   }
 
