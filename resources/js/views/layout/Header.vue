@@ -18,12 +18,12 @@
                 Archiv
               </router-link>
             </li>
-            <!-- <li class="span-1">
-              <a href="" class="icon-export" @click.prevent="toggleSelector()" v-if="$props.view != 'show' && $route.params.type != 'archiv'">
+            <li class="span-1">
+              <!-- <a href="" class="icon-export" @click.prevent="toggleSelector()" v-if="$props.view != 'show' && $route.params.type != 'archiv'">
                 <icon-export />
-              </a>
-            </li> -->
-            <li class="span-4 start-5 flex justify-center site-menu__pagination" v-if="$store.state.filter.items.length && $props.view == 'show'">
+              </a> -->
+            </li>
+            <li class="span-4 flex justify-center site-menu__pagination" v-if="$store.state.filter.items.length && $props.view == 'show'">
               <router-link :to="{name: 'application-show', params: { type: $route.params.type, uuid: $store.state.filter.menu.prev }}">
                 <icon-arrow-left />
               </router-link>
