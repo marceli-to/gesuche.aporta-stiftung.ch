@@ -147,21 +147,14 @@ class ApplicationController extends Controller
       'application_state_id' => $application_state_id,
       'approved_at' => \Carbon\Carbon::now(),
       'approved_by' => auth()->user()->id,
-      'project_contribution_approved_temporary' => $request->input('project_contribution_approved_temporary') ? $request->input('project_contribution_approved_temporary') : $application->project_contribution_approved_temporary
+      'project_contribution_approved_temporary' => $request->input('project_contribution_approved_temporary') ? $request->input('project_contribution_approved_temporary') : 0
     ];
-
-    // if (auth()->user()->isAdmin()) {
-    //   $data['project_contribution_approved_temporary'] = $request->input('project_contribution_approved_temporary');
-    // }
-    // else {
-    //   $data['project_contribution_approved_temporary'] = ;
-    // }
 
     $application->update($data);
     $application->save();
 
-    $message = $application_state_id == ApplicationState::PENDING_APPROVAL ? 'Stiftung provisorisch' : 'Stadt';
-    (new Logger())->log($application, 'Gesuch durch '. $message .' genehmigt');
+    $message = $application_state_id == ApplicationState::PENDING_APPROVAL ? 'Stiftung' : 'Stadt';
+    (new Logger())->log($application, 'Gesuch durch '. $message .' geprüft');
     return response()->json('successfully updated');
   }
 

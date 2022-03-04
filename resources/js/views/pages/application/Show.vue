@@ -199,56 +199,53 @@
             <div class="span-1 flex justify-end text-grey">{{data.project_income | currency}}</div>
           </application-row>
           <application-row>
-            <div class="span-3 text-grey"><label>Beantragter Betrag</label></div>
+            <div class="span-3 text-grey"><label>Beantragter Beitrag</label></div>
             <div class="span-1 flex justify-end text-grey">{{data.project_contribution_requested | currency}}</div>
           </application-row> 
-          <application-row v-if="data.is_pending_approval || data.is_denied_external">
-            <div class="span-3 text-grey"><label>Provisorisch genehmigter Betrag</label></div>
+          <!-- <application-row v-if="data.is_pending_approval || data.is_denied_external">
+            <div class="span-3 text-grey"><label>Provisorisch genehmigter Beitrag</label></div>
             <div class="span-1 flex justify-end text-grey">{{data.project_contribution_approved_temporary | currency}}</div>
-          </application-row> 
+          </application-row>  -->
           <application-row v-if="data.is_approved_external">
-            <div class="span-3 text-grey"><label>Provisorisch genehmigter Betrag</label></div>
+            <div class="span-3 text-grey"><label>Provisorisch genehmigter Beitrag</label></div>
             <div class="span-1 flex justify-end text-grey">{{data.project_contribution_approved_temporary | currency}}</div>
           </application-row> 
           <application-row v-if="data.is_approved_external && $store.state.user.admin || data.is_denied_external && $store.state.user.admin">
-            <div class="span-3 text-grey"><label>Genehmigter Betrag</label></div>
+            <div class="span-3 text-grey"><label>Genehmigter Beitrag</label></div>
             <div class="span-1 flex justify-end text-grey">{{data.project_contribution_approved | currency}}</div>
           </application-row>
           <application-row v-if="data.is_approved">
-            <div class="span-3 text-grey"><label><strong>Definitiv genehmigter Betrag</strong></label></div>
+            <div class="span-3 text-grey"><label><strong>Definitiv genehmigter Beitrag</strong></label></div>
             <div class="span-1 flex justify-end text-primary "><strong>{{data.project_contribution_approved | currency}}</strong></div>
           </application-row>
           <div class="application-state mt-6x" v-if="data.is_approved">
-            <strong>Das Gesuch wurde am {{data.approved_at}} von der Stiftung genehmigt.</strong>
+            <strong>Das Gesuch wurde am {{data.approved_at}} durch den Stiftungsrat genehmigt.</strong>
           </div>
 
           <!-- is admin -->
           <div v-if="$store.state.user.admin">
             <div v-if="data.is_new">
-              <div class="mb-8x">
-                <a href="javascript:;" class="btn-secondary is-small" @click.prevent="dialogDeny()">
+              <div class="mb-3x">
+                <a 
+                  href="javascript:;" 
+                  class="btn-secondary is-small mb-3x"
+                  @click.prevent="dialogDeny()">
                   <span>Ablehnen</span>
                 </a>
+                <a 
+                  href="javascript:;" 
+                  class="btn-primary is-small"
+                  @click.prevent="dialogApprove()">
+                  <span>Gesuch vollständig</span>
+                </a>
               </div>
-              <application-row>
-                <application-label :cls="'span-3'">Provisorisch genehmigter Betrag</application-label>
-                <application-input :cls="'span-1'">
-                  <input type="text" v-model="data.project_contribution_approved_temporary" class="align-right" required @blur="validate($event)">
-                </application-input>
-              </application-row>
-              <a 
-                href="javascript:;" 
-                :class="[data.project_contribution_approved_temporary > 0 ? '' : 'disabled', 'btn-primary is-small']"
-                @click.prevent="dialogApprove()">
-                <span>Provisorisch genehmigen</span>
-              </a>
             </div>
             <div class="application-state" v-else-if="data.is_denied">
               <strong>Das Gesuch wurde am {{data.denied_at}} von der Stiftung abgelehnt</strong>
             </div>
             <div v-else-if="data.is_pending_approval">
               <div class="application-state">
-                <strong>Das Gesuch wurde am {{data.approved_at}} von der Stiftung provisorisch genehmigt.</strong>
+                <strong>Das Gesuch wurde am {{data.approved_at}} durch die Stiftung geprüft.</strong>
               </div>
               <div class="mt-6x">
                 <a href="javascript:;" class="btn-secondary is-small" @click.prevent="reverse()">
@@ -358,7 +355,7 @@
   </dialog-wrapper>
   <dialog-wrapper ref="dialogFinalizeWithUpdate">
     <template #message>
-      <div><strong>Möchten Sie dieses Gesuch mit angepasstem Betrag definitiv genehmigen?</strong></div>
+      <div><strong>Möchten Sie dieses Gesuch mit angepasstem Beitrag definitiv genehmigen?</strong></div>
     </template>
     <template #actions>
       <a href="javascript:;" class="btn-primary mb-3x" @click.stop="finalizeWithUpdate()">Ja, genehmigen</a>
@@ -478,10 +475,7 @@ export default {
     approve() {
 
       let data = {};
-      if (this.$store.state.user.admin) {
-        data = { project_contribution_approved_temporary: this.data.project_contribution_approved_temporary };
-      }
-      else {
+      if (!this.$store.state.user.admin) {
         data = { project_contribution_approved_temporary: this.data.project_contribution_approved_temporary };
       }
       this.axios.put(`${this.routes.approve}/${this.$route.params.uuid}`, data).then(response => {

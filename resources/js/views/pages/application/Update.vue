@@ -493,7 +493,7 @@
               </application-input>
             </application-row>
             <application-row>
-              <application-label :cls="'span-3'">Beantragter Betrag</application-label>
+              <application-label :cls="'span-3'">Beantragter Beitrag</application-label>
               <application-input :cls="'span-1'">
                 <input type="text" v-model="data.project_contribution_requested" class="align-right" required @blur="validate($event)">
               </application-input>
