@@ -273,9 +273,7 @@
                   <span>Ablehnen</span>
                 </a>
               </div>
-            </div>
-            <div class="mt-6x" v-if="data.is_denied_external">
-              <application-row>
+              <application-row class="mt-6x">
                 <application-label :cls="'span-3'">Beitrag anpassen</application-label>
                 <application-input :cls="'span-1'">
                   <input type="text" v-model="data.project_contribution_approved" class="align-right" required @blur="validate($event)">
@@ -288,6 +286,20 @@
                 <span>Angepassten Beitrag definitiv genehmigen</span>
               </a>
             </div>
+            <!-- <div class="mt-6x" v-if="data.is_denied_external">
+              <application-row>
+                <application-label :cls="'span-3'">Beitrag anpassen</application-label>
+                <application-input :cls="'span-1'">
+                  <input type="text" v-model="data.project_contribution_approved" class="align-right" required @blur="validate($event)">
+                </application-input>
+              </application-row>
+              <a 
+                href="javascript:;" 
+                :class="[data.project_contribution_approved > 0 ? '' : 'disabled', 'btn-primary is-small']"
+                @click.prevent="dialogFinalizeWithUpdate()">
+                <span>Angepassten Beitrag definitiv genehmigen</span>
+              </a>
+            </div> -->
           </div>
           <!-- // is admin -->
 

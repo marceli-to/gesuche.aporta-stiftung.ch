@@ -147,14 +147,15 @@ class ApplicationController extends Controller
       'application_state_id' => $application_state_id,
       'approved_at' => \Carbon\Carbon::now(),
       'approved_by' => auth()->user()->id,
+      'project_contribution_approved_temporary' => $request->input('project_contribution_approved_temporary') ? $request->input('project_contribution_approved_temporary') : $application->project_contribution_approved_temporary
     ];
 
-    if (auth()->user()->isAdmin()) {
-      $data['project_contribution_approved_temporary'] = $request->input('project_contribution_approved_temporary');
-    }
-    else {
-      $data['project_contribution_approved_temporary'] = $request->input('project_contribution_approved_temporary') ? $request->input('project_contribution_approved_temporary') : $application->project_contribution_approved_temporary;
-    }
+    // if (auth()->user()->isAdmin()) {
+    //   $data['project_contribution_approved_temporary'] = $request->input('project_contribution_approved_temporary');
+    // }
+    // else {
+    //   $data['project_contribution_approved_temporary'] = ;
+    // }
 
     $application->update($data);
     $application->save();
