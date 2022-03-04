@@ -36,7 +36,7 @@
           </div>
         </div>
       </div>
-      <a href="javascript:;" class="btn-primary" @click.prevent="hideFilter()">Anzeigen</a>
+      <a href="javascript:;" :class="[$store.state.filter.set ? 'is-active' : '', 'btn-primary is-filter']" @click.prevent="hideFilter()">Anzeigen</a>
       <a href="javascript:;" class="btn-secondary is-outline" @click.prevent="resetFilter()">Zurücksetzen</a>
     </nav>
     <nav class="selector" v-if="hasSelector">
@@ -104,7 +104,7 @@
           </div>
         </div>
       </div>
-      <a href="javascript:;" class="btn-primary" @click.prevent="hideSelector()">Anzeigen</a>
+      <a href="javascript:;" class="btn-primary is-filter" @click.prevent="hideSelector()">Anzeigen</a>
       <a href="javascript:;" class="btn-secondary is-outline" @click.prevent="resetSelector()">Abbrechen</a>
     </nav>
   </site-header>

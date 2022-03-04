@@ -33,7 +33,7 @@
               </router-link>
             </li>
             <li class="span-4 flex justify-center" v-else-if="$props.view != 'show'">
-              <a href="" class="icon-filter" @click.prevent="toggleFilter()">
+              <a href="" :class="[$parent.hasFilter ? 'is-active' : '', 'icon-filter']" @click.prevent="toggleFilter()">
                 <icon-filter v-if="!$parent.hasFilter" :active="$store.state.filter.set" />
                 <icon-cross v-if="$parent.hasFilter" />
               </a>

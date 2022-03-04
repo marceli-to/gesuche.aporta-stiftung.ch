@@ -12,7 +12,19 @@ nav {
 
   a {
     display: block;
-    transition: all .1s ease-in;
+    transition: all .04s ease-in;
   }
 
+}
+
+.has-selector {
+  nav {
+    a {
+      color: $color-dark-blue !important;
+
+      &:hover {
+        color: $color-white !important
+      }
+    }
+  }
 }

@@ -42,6 +42,10 @@
   @extend %icon;
   color: $color-primary;
   margin-top: 4px;
+
+  &.is-active {
+    color: $color-white !important;
+  }
 }
 
 .icon-state {

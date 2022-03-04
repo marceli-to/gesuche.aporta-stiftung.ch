@@ -7,11 +7,11 @@
 %btn-secondary,
 .btn-secondary {
   @extend %btn;
-  background-color: $color-light-grey;
+  background-color: #c8c8c8;
   color: $color-white;
   @include font-bold();
   
   &:hover {
-    color: $color-primary;
+    background-color: $color-dark-grey;
   }
 }
