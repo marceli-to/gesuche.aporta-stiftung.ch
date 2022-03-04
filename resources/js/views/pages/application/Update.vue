@@ -349,7 +349,7 @@
               <div class="span-1"><label>{{file.title}}</label></div>
               <div class="span-3">
                 <div class="flex justify-between">
-                  <a :href="`/download/${file.uuid}/${file.name}`" class="anchor-download" target="_blank" :title="file.title">
+                  <a :href="`/download/${data.uuid}/${file.name}`" class="anchor-download" target="_blank" :title="file.title">
                     {{file.name | truncate(30, '...')}}
                   </a>
                   <div class="flex justify-between">
