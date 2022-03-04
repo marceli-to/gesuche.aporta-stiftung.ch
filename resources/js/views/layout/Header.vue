@@ -23,7 +23,7 @@
                 <icon-export />
               </a>
             </li> -->
-            <li class="span-4 start-3 flex justify-center site-menu__pagination" v-if="$store.state.filter.items.length && $props.view == 'show'">
+            <li class="span-4 start-5 flex justify-center site-menu__pagination" v-if="$store.state.filter.items.length && $props.view == 'show'">
               <router-link :to="{name: 'application-show', params: { type: $route.params.type, uuid: $store.state.filter.menu.prev }}">
                 <icon-arrow-left />
               </router-link>
