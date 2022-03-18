@@ -4,12 +4,14 @@ export default {
     return {
       hasSelector: false,
       hasSelectorResult: false,
+      cachebuster: this.randomString(),
     };
   },
 
   methods: {
     toggleSelector() {
       this.hasSelector = this.hasSelector ? false : true;
+      this.cachebuster = this.randomString(12);
       this.hideFilter();
     },
 

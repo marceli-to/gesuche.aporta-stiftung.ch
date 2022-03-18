@@ -261,9 +261,6 @@ export default {
       // Data states
       dataStates: [],
 
-      // Cachebuster
-      cachebuster: '',
-
       // Routes
       routes: {
         list: '/api/applications',
@@ -290,7 +287,6 @@ export default {
     NProgress.configure({ showBar: false });
     this.beforeFetch(this.$route.params.type)
     this.fetchStates();
-    this.cachebuster = this.randomString(12);
   },
 
   methods: {
