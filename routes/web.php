@@ -25,6 +25,7 @@ Route::get('/pdf/{type}', [PageController::class, 'pdf'])->name('pdf');
 Route::middleware('auth:sanctum', 'verified')->group(function() {
 
   Route::get('/download/{folder}/{filename}', [DownloadController::class, 'download'])->name('download');
+  Route::get('/export', [DownloadController::class, 'export'])->name('export');
 
   Route::get('/gesuche/{any?}', function () {
     return view('layout.authenticated');

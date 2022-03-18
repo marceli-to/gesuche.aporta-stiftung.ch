@@ -101,8 +101,27 @@
           </div>
         </div>
       </div>
-      <a href="javascript:;" class="btn-primary is-filter" @click.prevent="hideSelector()">Anzeigen</a>
-      <a href="javascript:;" class="btn-secondary is-outline" @click.prevent="resetSelector()">Abbrechen</a>
+        <a 
+          :href="'/export/?v=' + cachebuster" 
+          target="_blank"
+          class="btn-primary is-filter" 
+          @click="hideSelector()"
+          v-if="$store.state.selector.type && $store.state.selector.type.includes('export_')">
+          Exportieren
+        </a>
+        <a
+          href="javascript:;" 
+          class="btn-primary is-filter" 
+          @click.prevent="hideSelector()"
+          v-else>
+          Anzeigen
+        </a>
+        <a 
+          href="javascript:;" 
+          class="btn-secondary is-outline" 
+          @click.prevent="resetSelector()">
+          Abbrechen
+        </a>
     </nav>
   </site-header>
   <site-main v-if="isFetched">
@@ -242,6 +261,9 @@ export default {
       // Data states
       dataStates: [],
 
+      // Cachebuster
+      cachebuster: '',
+
       // Routes
       routes: {
         list: '/api/applications',
@@ -268,6 +290,7 @@ export default {
     NProgress.configure({ showBar: false });
     this.beforeFetch(this.$route.params.type)
     this.fetchStates();
+    this.cachebuster = this.randomString(12);
   },
 
   methods: {

@@ -81,6 +81,7 @@ class Application extends Base
     'applicant_address',
     'requested_contribution',
     'created_at_timestamp',
+    'created_at_formated',
     'is_new',
     'is_pending_approval',
     'is_in_process',
@@ -188,7 +189,7 @@ class Application extends Base
   }
 
   /**
-   * Get the applicants full name.
+   * Get the applicants email
    *
    * @param  string  $value
    * @return string
@@ -199,7 +200,7 @@ class Application extends Base
   }
 
   /**
-   * Get the applicants full name.
+   * Get the applicants address
    *
    * @param  string  $value
    * @return string
@@ -251,6 +252,16 @@ class Application extends Base
     return strtotime($this->created_at);
   }
 
+  /**
+   * Get formated 'created_at'
+   *
+   * @param  string  $value
+   * @return string
+   */
+  public function getCreatedAtFormatedAttribute($value)
+  {
+    return date('d.m.Y', strtotime($this->created_at));
+  }
   
   public function getIsNewAttribute($value)
   {
