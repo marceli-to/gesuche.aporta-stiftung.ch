@@ -306,7 +306,7 @@
               </application-row>
               <a 
                 href="javascript:;" 
-                :class="[data.project_contribution_approved_temporary > 0 ? '' : 'disabled', 'btn-tertiary is-small mb-3x']"
+                :class="[data.project_contribution_approved_temporary >= 0 ? '' : 'disabled', 'btn-tertiary is-small mb-3x']"
                 @click.prevent="save()">
                 <span>Angepassten Beitrag temporär speichern</span>
               </a>
