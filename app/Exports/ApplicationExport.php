@@ -20,7 +20,7 @@ class ApplicationExport implements FromCollection, WithHeadings, WithEvents, Sho
     }
     else
     {
-      $applications = Application::where('application_state_id', '>', 2)->orderBy('created_at', 'ASC')->get();
+      $applications = Application::where('application_state_id', '>', 1)->orderBy('created_at', 'ASC')->get();
     }
     
     $data = [];
