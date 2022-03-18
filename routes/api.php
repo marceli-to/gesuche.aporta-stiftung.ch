@@ -56,6 +56,7 @@ Route::middleware('auth:sanctum')->group(function() {
   Route::put('application/approve/final/{application:uuid}', [ApplicationController::class, 'approveFinal']);
   Route::get('application/{application:uuid}', [ApplicationController::class, 'find']);
   Route::get('application/deny/{application:uuid}', [ApplicationController::class, 'deny']);
+  Route::put('application/save/{application:uuid}', [ApplicationController::class, 'save']);
   Route::get('application/reverse/{application:uuid}', [ApplicationController::class, 'reverse'])->middleware('role:admin');
   Route::delete('application/file/{application:uuid}/{field}', [ApplicationController::class, 'deleteFile'])->middleware('role:admin');
   Route::put('application/{application:uuid}', [ApplicationController::class, 'update']);

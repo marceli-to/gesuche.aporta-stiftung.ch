@@ -178,6 +178,26 @@ class ApplicationController extends Controller
     return response()->json('successfully updated');
   }
 
+  /**
+   * Update an application
+   *
+   * @param Application $application
+   * @return \Illuminate\Http\Response
+   */
+  public function save(Application $application, Request $request)
+  {
+    $application = Application::findOrFail($application->id);
+    $application_state_id = ApplicationState::IN_PROCESS_EXTERNAL;
+    $application->update([
+      'application_state_id' => $application_state_id,
+      'project_contribution_approved_temporary' => $request->input('project_contribution_approved_temporary')
+    ]);
+    $application->save();
+
+    // Log message
+    (new Logger())->log($application, 'Gesuch gespeichert');
+    return response()->json('successfully updated');
+  }
 
   /**
    * Deny an application

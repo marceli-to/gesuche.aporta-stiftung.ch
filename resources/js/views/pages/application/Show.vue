@@ -202,10 +202,6 @@
             <div class="span-3 text-grey"><label>Beantragter Beitrag</label></div>
             <div class="span-1 flex justify-end text-grey">{{data.project_contribution_requested | currency}}</div>
           </application-row> 
-          <!-- <application-row v-if="data.is_pending_approval || data.is_denied_external">
-            <div class="span-3 text-grey"><label>Provisorisch genehmigter Beitrag</label></div>
-            <div class="span-1 flex justify-end text-grey">{{data.project_contribution_approved_temporary | currency}}</div>
-          </application-row>  -->
           <application-row v-if="data.is_approved_external">
             <div class="span-3 text-grey"><label>Provisorisch genehmigter Beitrag</label></div>
             <div class="span-1 flex justify-end text-grey">{{data.project_contribution_approved_temporary | currency}}</div>
@@ -242,6 +238,9 @@
             </div>
             <div class="application-state" v-else-if="data.is_denied">
               <strong>Das Gesuch wurde am {{data.denied_at}} von der Stiftung abgelehnt</strong>
+            </div>
+            <div class="application-state" v-else-if="data.is_in_process">
+                <strong>Das Gesuch wurde am {{data.approved_at}} durch die Stiftung geprüft.</strong>
             </div>
             <div v-else-if="data.is_pending_approval">
               <div class="application-state">
@@ -288,7 +287,7 @@
 
           <!-- is editor -->
           <div v-else>
-            <div v-if="data.is_pending_approval">
+            <div v-if="data.is_pending_approval || data.is_in_process">
               <div class="mb-3x">
                 <a href="javascript:;" class="btn-primary is-small" @click.prevent="dialogApprove()">
                   <span>Bestätigen</span>
@@ -305,6 +304,12 @@
                   <input type="text" v-model="data.project_contribution_approved_temporary" class="align-right" required @blur="validate($event)">
                 </application-input>
               </application-row>
+              <a 
+                href="javascript:;" 
+                :class="[data.project_contribution_approved_temporary > 0 ? '' : 'disabled', 'btn-tertiary is-small mb-3x']"
+                @click.prevent="save()">
+                <span>Angepassten Beitrag temporär speichern</span>
+              </a>
               <a 
                 href="javascript:;" 
                 :class="[data.project_contribution_approved_temporary > 0 ? '' : 'disabled', 'btn-primary is-small']"
@@ -409,6 +414,7 @@ export default {
       routes: {
         fetch: '/api/application',
         deny: '/api/application/deny',
+        save: '/api/application/save',
         approve: '/api/application/approve',
         finalize: '/api/application/approve/final',
         reverse: '/api/application/reverse',
@@ -468,6 +474,15 @@ export default {
     deny() {
       this.axios.get(`${this.routes.deny}/${this.$route.params.uuid}`).then(response => {
         this.$refs.dialogDeny.hide();
+        this.fetch();
+      });
+    },
+
+    save() {
+      let data = {
+        project_contribution_approved_temporary: this.data.project_contribution_approved_temporary
+      };
+      this.axios.put(`${this.routes.save}/${this.$route.params.uuid}`, data).then(response => {
         this.fetch();
       });
     },

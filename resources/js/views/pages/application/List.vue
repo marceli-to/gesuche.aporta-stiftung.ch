@@ -37,6 +37,7 @@
     <nav class="selector" v-if="hasSelector">
       <div>
         <div class="grid-cols-12">
+          <!--
           <div class="span-3 start-2">
             <h2>Zusagen/Absagen</h2>
             <div>
@@ -77,7 +78,8 @@
               </a>
             </div>
           </div>
-          <div class="span-3">
+          -->
+          <div class="span-3 start-2">
             <h2>Exportieren</h2>
             <div>
               <a href="javascript:;" @click.prevent="setSelectorItem('type', 'export_all')">

@@ -10,10 +10,12 @@ class ApplicationState extends Base
 
   protected $fillable = [
     'description',
+    'order'
   ];
 
   public const OPEN = 1;
   public const PENDING_APPROVAL = 2;
+  public const IN_PROCESS_EXTERNAL = 7;
   public const APPROVED_EXTERNAL = 3;
   public const DENIED_EXTERNAL = 4;
   public const DENIED = 5;

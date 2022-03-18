@@ -83,6 +83,7 @@ class Application extends Base
     'created_at_timestamp',
     'is_new',
     'is_pending_approval',
+    'is_in_process',
     'is_approved_external',
     'is_denied_external',
     'is_denied',
@@ -146,6 +147,11 @@ class Application extends Base
   public function isPendingApproval()
   {
     return $this->application_state_id == ApplicationState::PENDING_APPROVAL ? TRUE : FALSE;
+  }
+
+  public function isInProcess()
+  {
+    return $this->application_state_id == ApplicationState::IN_PROCESS_EXTERNAL ? TRUE : FALSE;
   }
 
   public function isApprovedExternal()
@@ -249,6 +255,11 @@ class Application extends Base
   public function getIsNewAttribute($value)
   {
     return $this->isNew();
+  }
+
+  public function getIsInProcessAttribute($value)
+  {
+    return $this->isInProcess();
   }
 
   public function getIsPendingApprovalAttribute($value)
