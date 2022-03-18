@@ -45,7 +45,7 @@ nav.site-menu {
 
   li.user {
     @extend %start-10;
-    @extend %span-2;
+    @extend %span-3;
     display: flex;
     justify-content: flex-end;
     @include font-size($fs-sm);
