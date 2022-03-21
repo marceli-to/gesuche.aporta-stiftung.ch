@@ -86,7 +86,7 @@ class ApplicationController extends Controller
         'user_id' => auth()->user()->id,
         'user_uuid' => auth()->user()->uuid,
       ]);
-      (new Logger())->log($application, 'Gesucht geöffnet');
+      (new Logger())->log($application, 'Gesuch geöffnet');
     }
 
     return response()->json(Application::with('files.user', 'comments')->findOrFail($application->id));
