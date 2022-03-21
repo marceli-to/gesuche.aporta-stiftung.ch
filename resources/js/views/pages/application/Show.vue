@@ -288,34 +288,39 @@
           <!-- is editor -->
           <div v-else>
             <div v-if="data.is_pending_approval || data.is_in_process">
+              <div class="mb-12x">
+                <application-row>
+                  <application-label :cls="'span-3'">Beitrag anpassen</application-label>
+                  <application-input :cls="'span-1'">
+                    <input type="text" v-model="data.project_contribution_approved_temporary" class="align-right" required @blur="validate($event)">
+                  </application-input>
+                </application-row>
+                <a 
+                  href="javascript:;" 
+                  :class="[data.project_contribution_approved_temporary >= 0 ? '' : 'disabled', 'btn-tertiary is-small mb-3x']"
+                  @click.prevent="save()">
+                  <span>Angepassten Beitrag temporär speichern</span>
+                </a>
+              </div>
+              <h2 class="mb-3x">Gesuch definitiv bestätigen oder ablehnen.</h2>
+              <p>Wird ein Gesuch bestätigt oder abgelehnt, geht dieses zurück an die Stiftung zur weiteren Bearbeitung.</p>
               <div class="mb-3x">
                 <a href="javascript:;" class="btn-primary is-small" @click.prevent="dialogApprove()">
                   <span>Bestätigen</span>
                 </a>
               </div>
-              <div class="mb-12x">
+              <div>
                 <a href="javascript:;" class="btn-tertiary is-small" @click.prevent="dialogDeny()">
                   <span>Ablehnen</span>
                 </a>
               </div>
-              <application-row>
-                <application-label :cls="'span-3'">Beitrag anpassen</application-label>
-                <application-input :cls="'span-1'">
-                  <input type="text" v-model="data.project_contribution_approved_temporary" class="align-right" required @blur="validate($event)">
-                </application-input>
-              </application-row>
-              <a 
-                href="javascript:;" 
-                :class="[data.project_contribution_approved_temporary >= 0 ? '' : 'disabled', 'btn-tertiary is-small mb-3x']"
-                @click.prevent="save()">
-                <span>Angepassten Beitrag temporär speichern</span>
-              </a>
-              <a 
+
+              <!-- <a 
                 href="javascript:;" 
                 :class="[data.project_contribution_approved_temporary > 0 ? '' : 'disabled', 'btn-primary is-small']"
                 @click.prevent="dialogApprove()">
                 <span>Angepassten Beitrag bestätigen</span>
-              </a>
+              </a> -->
             </div>
             <div v-else-if="data.is_approved_external">
               <div class="application-state">
