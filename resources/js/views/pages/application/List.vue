@@ -37,15 +37,15 @@
     <nav class="selector" v-if="hasSelector">
       <div>
         <div class="grid-cols-12">
-          <!--
+          
           <div class="span-3 start-2">
             <h2>Zusagen/Absagen</h2>
             <div>
-              <a href="javascript:;" @click.prevent="setSelectorItem('type', 'reply_all')">
+              <!-- <a href="javascript:;" @click.prevent="setSelectorItem('type', 'reply_all')">
                 <icon-radio-active v-if="$store.state.selector.type == 'reply_all'" />
                 <icon-radio v-else />
                 <span>Alle Gesuche</span>
-              </a>
+              </a> -->
               <a href="javascript:;" @click.prevent="setSelectorItem('type', 'reply_approved')">
                 <icon-radio-active v-if="$store.state.selector.type == 'reply_approved'" />
                 <icon-radio v-else />
@@ -78,8 +78,8 @@
               </a>
             </div>
           </div>
-          -->
-          <div class="span-3 start-2">
+         
+          <div class="span-3">
             <h2>Exportieren</h2>
             <div>
               <a href="javascript:;" @click.prevent="setSelectorItem('type', 'export_all')">
@@ -110,11 +110,12 @@
           Exportieren
         </a>
         <a
-          href="javascript:;" 
+          :href="`/brief/${$store.state.selector.type}?v=${cachebuster}`" 
+          target="_blank"
           class="btn-primary is-filter" 
-          @click.prevent="hideSelector()"
+          @click="hideSelector()"
           v-else>
-          Anzeigen
+          Exportieren
         </a>
         <a 
           href="javascript:;" 

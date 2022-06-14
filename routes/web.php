@@ -19,14 +19,13 @@ Auth::routes(['verify' => true, 'register' => false]);
 Route::get('/logout', 'Auth\LoginController@logout');
 Route::get('/', [PageController::class, 'index'])->name('home');
 
-Route::get('/pdf/{type}', [PageController::class, 'pdf'])->name('pdf');
+// Route::get('/pdf/{type}', [PageController::class, 'pdf'])->name('pdf');
 
 // Logged in users
 Route::middleware('auth:sanctum', 'verified')->group(function() {
-
   Route::get('/download/{folder}/{filename}', [DownloadController::class, 'download'])->name('download');
   Route::get('/export', [DownloadController::class, 'export'])->name('export');
-
+  Route::get('/brief/{type}', [DownloadController::class, 'pdf'])->name('pdf');
   Route::get('/gesuche/{any?}', function () {
     return view('layout.authenticated');
   })->where('any', '.*')->name('applications');

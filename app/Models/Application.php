@@ -53,6 +53,8 @@ class Application extends Base
     'project_add_instit_total_5',
     'project_add_instit_answer_5',
     'project_add_instit_final_total',
+    'textblock_approval',
+    'textblock_denial',
     'file_portrait',
     'file_annual_report',
     'file_annual_financial_report',
@@ -135,6 +137,15 @@ class Application extends Base
     return $query->where('archive', 1);
   }
 
+  public function scopeApproved($query)
+  {
+    return $query->where('application_state_id', ApplicationState::APPROVED);
+  }
+
+  public function scopeDenied($query)
+  {
+    return $query->where('application_state_id', ApplicationState::DENIED);
+  }
 
   /**
    * State helpers

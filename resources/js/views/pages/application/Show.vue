@@ -47,8 +47,9 @@
             <div class="span-3">{{data.legal_form}}</div>
           </application-row>
           <application-row>
-            <div class="span-1"><label>Brief</label></div>
-            <div class="span-3 pb-6x">{{data.bank_account}}</div>
+            <div class="span-1"><label>Kontoangaben</label></div>
+            <div class="span-3">{{data.bank_account}}</div>
+            <!--
             <div class="span-3 start-2">
               <div>
                 Formulierung im Serienbrief<br><br>
@@ -60,6 +61,26 @@
                 <span v-else>[Kontoangaben]</span><br><br>
                 überweisen werden, umgehend schriftlich zu bestätigen.
               </div>
+            </div>
+            -->
+          </application-row>
+          <h2>Serienbrief</h2>
+          <application-row>
+            <div class="span-1"><label>Kontoangaben</label></div>
+            <div class="span-3">{{data.financial_account}}</div>
+          </application-row>
+          <application-row>
+            <div class="span-1"><label>Texteblock<br>Zusage</label></div>
+            <div class="span-3">
+              <span v-if="data.textblock_approval">{{data.textblock_approval}}</span>
+              <span v-else>–</span>
+            </div>
+          </application-row>
+          <application-row class="mt-3x">
+            <div class="span-1"><label>Texteblock<br>Absage</label></div>
+            <div class="span-3">
+              <span v-if="data.textblock_denial">{{data.textblock_denial}}</span>
+              <span v-else>–</span>
             </div>
           </application-row>
           <h2>Dokumente</h2>
