@@ -19,7 +19,7 @@
 <p>Freundliche Grüsse<br><br>DR. STEPHAN À PORTA-STIFTUNG</p>
 <p>Armin Isler</p>
 @if ($d->project_contribution_approved >= '20000')
-<p style="margin-top: 10mm">Beilage:<br>Merkblatt Schlussbericht</p>
+<p style="margin-top: 5mm">Beilage:<br>Merkblatt Schlussbericht</p>
 @endif
 </div>
 @endforeach
