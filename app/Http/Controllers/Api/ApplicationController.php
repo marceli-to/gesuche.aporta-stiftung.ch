@@ -102,7 +102,7 @@ class ApplicationController extends Controller
   public function update(Application $application, ApplicationStoreRequest $request)
   {
     $application = Application::findOrFail($application->id);
-    $application->update($request->except(['approved_at']));
+    $application->update($request->except(['approved_at', 'denied_at']));
     $application->save();
     (new Logger())->log($application, 'Gesuch gespeichert');
     return response()->json('successfully updated');
