@@ -101,7 +101,7 @@
               </application-input>
             </application-row>
             <application-row class="pb-3x">
-              <application-label :cls="'span-1'">Kontoangaben</application-label>
+              <application-label :cls="'span-1'">IBAN</application-label>
               <application-input :cls="'span-3'">{{ data.bank_account }}</application-input>
             </application-row>
 
