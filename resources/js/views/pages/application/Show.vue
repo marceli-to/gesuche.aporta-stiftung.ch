@@ -43,7 +43,7 @@
             <div class="span-3">{{data.legal_form}}</div>
           </application-row>
           <application-row>
-            <div class="span-1"><label>IBAN</label></div>
+            <div class="span-1"><label>Kontoangaben</label></div>
             <div class="span-3">{{data.bank_account}}</div>
             <!--
             <div class="span-3 start-2">
@@ -66,7 +66,7 @@
             <div class="span-3">{{data.salutation}}</div>
           </application-row>
           <application-row>
-            <div class="span-1"><label>Kontoangaben</label></div>
+            <div class="span-1"><label>IBAN</label></div>
             <div class="span-3">{{data.financial_account}}</div>
           </application-row>
           <application-row>
