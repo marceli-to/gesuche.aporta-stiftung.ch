@@ -45,20 +45,6 @@
           <application-row>
             <div class="span-1"><label>Kontoangaben</label></div>
             <div class="span-3">{{data.bank_account}}</div>
-            <!--
-            <div class="span-3 start-2">
-              <div>
-                Formulierung im Serienbrief<br><br>
-                Wir bitten Sie, uns den Eingang des erwähnten Betrages, welchen wir Ihnen bis Ende<br><br>
-                <span v-if="data.financial_periode">{{data.financial_periode}}</span>
-                <span v-else>[Monat Jahr]</span><br><br>
-                auf Ihr<br><br>
-                <span v-if="data.financial_account">{{data.financial_account}}</span>
-                <span v-else>[Kontoangaben]</span><br><br>
-                überweisen werden, umgehend schriftlich zu bestätigen.
-              </div>
-            </div>
-            -->
           </application-row>
           <h2>Serienbrief</h2>
           <application-row>
