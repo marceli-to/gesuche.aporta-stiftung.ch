@@ -103,14 +103,6 @@
             <application-row class="pb-3x">
               <application-label :cls="'span-1'">Kontoangaben</application-label>
               <application-input :cls="'span-3'">{{ data.bank_account }}</application-input>
-              <!-- <application-input :cls="'span-3 start-2 pb-4x'">
-                Formulierung im Serienbrief<br><br>
-                Wir bitten Sie, uns den Eingang des erwähnten Betrages, welchen wir Ihnen bis Ende<br><br>
-                <input type="text" v-model="data.financial_periode" placeholder="[Monat Jahr]"><br>
-                auf Ihr<br><br>
-                <input type="text" v-model="data.financial_account" placeholder="[Kontoangaben]"><br>
-                überweisen werden, umgehend schriftlich zu bestätigen.
-              </application-input> -->
             </application-row>
 
             <h2>Serienbrief</h2>

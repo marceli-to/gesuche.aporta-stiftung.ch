@@ -54,7 +54,7 @@ class DownloadController extends BaseController
    * 
    * @return \Illuminate\Http\Response
    */
-  public function pdf($type = NULL)
+  public function pdf($type = 'reply_approved')
   { 
     $applications = [];
     switch ($type) {
