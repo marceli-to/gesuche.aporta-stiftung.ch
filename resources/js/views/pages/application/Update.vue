@@ -109,7 +109,7 @@
             <application-row class="pb-3x">
               <application-label :cls="'span-1'">Anrede</application-label>
               <application-input :cls="'span-3'">
-                <input type="text" v-model="data.salutation" placeholder="Sehr geehrte Damen und Herren">
+                <textarea name="salutation" v-model="data.salutation" placeholder="Sehr geehrte Damen und Herren"></textarea>
               </application-input>
             </application-row>
             <application-row>
