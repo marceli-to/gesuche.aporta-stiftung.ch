@@ -56,14 +56,21 @@
             <div class="span-3">{{data.financial_account}}</div>
           </application-row>
           <application-row>
-            <div class="span-1"><label>Texteblock<br>Zusage</label></div>
+            <div class="span-1"><label>Textblock<br>Zusage</label></div>
             <div class="span-3">
               <span v-if="data.textblock_approval">{{data.textblock_approval}}</span>
               <span v-else>–</span>
             </div>
           </application-row>
+          <application-row>
+            <div class="span-1"><label>Textblock<br>Zusage (Begründung)</label></div>
+            <div class="span-3">
+              <span v-if="data.textblock_justification">{{data.textblock_justification}}</span>
+              <span v-else>–</span>
+            </div>
+          </application-row>
           <application-row class="mt-3x">
-            <div class="span-1"><label>Texteblock<br>Absage</label></div>
+            <div class="span-1"><label>Textblock<br>Absage</label></div>
             <div class="span-3">
               <span v-if="data.textblock_denial">{{data.textblock_denial}}</span>
               <span v-else>–</span>

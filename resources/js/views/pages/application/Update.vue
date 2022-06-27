@@ -125,6 +125,12 @@
               </application-input>
             </application-row>
             <application-row class="mt-3x">
+              <application-label :cls="'span-1'">Textblock<br>Zusage (Begründung)</application-label>
+              <application-input :class="'span-3'">
+                <textarea name="textblock_justification" v-model="data.textblock_justification"></textarea>
+              </application-input>
+            </application-row>
+            <application-row class="mt-3x">
               <application-label :cls="'span-1'">Textblock<br>Absage</application-label>
               <application-input :class="'span-3'">
                 <textarea name="textblock_denial" v-model="data.textblock_denial"></textarea>
