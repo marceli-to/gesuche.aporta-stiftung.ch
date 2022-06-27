@@ -7,7 +7,7 @@
 <br><br><br>
 <div><strong>Gesuch um finanzielle Unterstützung</strong></div>
 <br><br>
-<div>{{ $d->salutation ? $d->salutation  : 'Sehr geehrte Damen und Herren'}}</div>
+<div>{!! $d->salutation ? nl2br($d->salutation)  : 'Sehr geehrte Damen und Herren' !!}</div>
 <br>
 <div>Wir nehmen Bezug auf Ihr Gesuch vom {{ $d->created_at_formated }}.</div>
 <br>
