@@ -27,6 +27,6 @@ class MoneyFormatHelper
 
   public static function number($amount)
   {
-    return number_format(round($amount * 20) / 20, 2, '.', '');
+    return number_format(round($amount * 20) / 20, 2, '.', "'");
   }
 }

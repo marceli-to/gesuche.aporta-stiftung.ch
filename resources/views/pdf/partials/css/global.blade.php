@@ -22,9 +22,10 @@ body {
 }
 
 .content {
-  margin-top: 60mm;
+  margin-top: 0;
+  padding-top: 50mm;
   position: relative;
-  width: 171mm;
+  width: 164mm;
   z-index: 100;
 }
 
