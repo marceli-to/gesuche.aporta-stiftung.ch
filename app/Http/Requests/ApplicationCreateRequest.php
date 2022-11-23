@@ -117,7 +117,7 @@ class ApplicationCreateRequest extends FormRequest
         'field' => 'email',
         'error' => 'E-mail wird benötigt'
       ],
-      'email.required' => [
+      'email.email' => [
         'field' => 'email',
         'error' => 'E-mail ist ungültig!'
       ],
