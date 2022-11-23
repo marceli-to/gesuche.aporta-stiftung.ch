@@ -2,7 +2,7 @@
 <div>
   <notifications classes="notification" />
   <site-header>
-    <h1>Formular</h1>
+    <icon-logo />
   </site-header>
   <site-main>
     <site-wrapper>
@@ -426,7 +426,7 @@
                     id="dropzone"
                     :options="config"
                     @vdropzone-sending="uploadSending"
-                    @vdropzone-success="uploadSuccess($event, 'project_description', 'Statuten')"
+                    @vdropzone-success="uploadSuccess($event, 'project_description', 'Projekt')"
                     @vdropzone-complete="uploadComplete"
                     @vdropzone-max-files-exceeded="uploadMaxFilesExceeded"
                     :useCustomSlot=true
@@ -464,7 +464,7 @@
                     id="dropzone"
                     :options="config"
                     @vdropzone-sending="uploadSending"
-                    @vdropzone-success="uploadSuccess($event, 'project_estimated_costs', 'Statuten')"
+                    @vdropzone-success="uploadSuccess($event, 'project_estimated_costs', 'KV')"
                     @vdropzone-complete="uploadComplete"
                     @vdropzone-max-files-exceeded="uploadMaxFilesExceeded"
                     :useCustomSlot=true
@@ -524,6 +524,9 @@
         <template>
           <h2 class="span">Beiträge Dritter</h2>
           <p class="span">Sofern Sie für das gleiche Gesuch weitere Institutionen um einem Beitrag ersuchen, bitten wir um folgende Angaben:</p>
+          <template v-if="errors.project_add_instit_2 || errors.project_add_instit_total_2 || errors.project_add_instit_3 || errors.project_add_instit_total_3 || errors.project_add_instit_4 || errors.project_add_instit_total_4 || errors.project_add_instit_5 || errors.project_add_instit_total_5">
+            <p class="has-error">Es sind nicht alle Felder korrekt ausgefüllt:</p>
+          </template>
           <div class="span">
             <application-row class="application-row__form">
               <application-input :cls="'span-4 sm:span-4'">
@@ -532,7 +535,7 @@
                   class="mb-2x"
                   type="text" 
                   v-model="form[`project_add_instit_${add}`]" 
-                  required :class="[errors[`project_add_instit_${add}`] ? 'is-invalid' : '', ''] " @blur="validate($event)" @focus="removeError([`project_add_instit_${add}`])"
+                  :class="[errors[`project_add_instit_${add}`] ? 'is-invalid' : '', ''] " @focus="removeError([`project_add_instit_${add}`])"
                   v-for="(add, index) in [2, 3, 4, 5]" :key="index">
               </application-input>
               <application-input :cls="'span-4 sm:span-4'">
@@ -542,16 +545,15 @@
                   type="number" 
                   min="0" 
                   v-model="form[`project_add_instit_total_${add}`]" 
-                  required :class="[errors[`project_add_instit_total_${add}`] ? 'is-invalid' : '', ''] " @blur="validate($event)" @focus="removeError([`project_add_instit_total_${add}`])"
+                  :class="[errors[`project_add_instit_total_${add}`] ? 'is-invalid' : '', ''] " @focus="removeError([`project_add_instit_total_${add}`])"
                   v-for="(add, index) in [2, 3, 4, 5]" :key="index">
               </application-input>
               <application-input :cls="'span-4 sm:span-4'">
                 <label class="mb-2x">Antwort</label>
                 <div class="select-wrapper mb-2x" v-for="(add, index) in [2, 3, 4, 5]" :key="index">
                   <select v-model="form[`project_add_instit_answer_${add}`]">
-                    <option :value="'null'">---</option>
                     <option :value="'Zusage'">Zusage</option>
-                    <option :value="'Zusage'">Absage</option>
+                    <option :value="'Absage'">Absage</option>
                     <option :value="'offen'">offen</option>
                   </select>
                 </div>
@@ -613,6 +615,7 @@ import ApplicationInput from '@/components/layout/Input.vue';
 import vue2Dropzone from "vue2-dropzone";
 import DialogWrapper from "@/components/ui/misc/Dialog.vue";
 import IconTrash from "@/components/ui/icons/Trash-sm.vue";
+import IconLogo from "@/components/ui/icons/Logo.vue";
 
 export default {
 
@@ -626,7 +629,8 @@ export default {
     ApplicationInput,
     DialogWrapper,
     vueDropzone: vue2Dropzone,
-    IconTrash
+    IconTrash,
+    IconLogo
   },
 
   mixins: [ErrorHandling],
@@ -653,10 +657,10 @@ export default {
         project_add_instit_total_3: null,
         project_add_instit_total_4: null,
         project_add_instit_total_5: null,
-        project_add_instit_answer_2: 'null',
-        project_add_instit_answer_3: 'null',
-        project_add_instit_answer_4: 'null',
-        project_add_instit_answer_5: 'null',
+        project_add_instit_answer_2: 'offen',
+        project_add_instit_answer_3: 'offen',
+        project_add_instit_answer_4: 'offen',
+        project_add_instit_answer_5: 'offen',
       },
 
       errors: {
@@ -681,7 +685,6 @@ export default {
         project_contribution_requested: false,
         project_contribution_further_requested: false,
         project_income: false,
-
         file_portrait: false,
         file_annual_report: false,
         file_annual_financial_report: false,

@@ -42,7 +42,6 @@ class ApplicationCreateRequest extends FormRequest
       'project_own_contribution' => 'required',
       'project_income' => 'required',
       'project_contribution_requested' => 'required',
-      'project_contribution_approved' => 'required',
       'project_contribution_further_requested' => 'required',
       'files.portrait' => 'required',
       'files.annual_report' => 'required',
@@ -51,6 +50,16 @@ class ApplicationCreateRequest extends FormRequest
       'files.bylaws' => 'required',
       'files.project_description' => 'required',
       'files.project_estimated_costs' => 'required',
+
+      'project_add_instit_2' => 'nullable|required_with:project_add_instit_total_2',
+      'project_add_instit_total_2' => 'nullable|required_with:project_add_instit_2',
+      'project_add_instit_3' => 'nullable|required_with:project_add_instit_total_3',
+      'project_add_instit_total_3' => 'nullable|required_with:project_add_instit_3',
+      'project_add_instit_4' => 'nullable|required_with:project_add_instit_total_4',
+      'project_add_instit_total_4' => 'nullable|required_with:project_add_instit_4',
+      'project_add_instit_5' => 'nullable|required_with:project_add_instit_total_5',
+      'project_add_instit_total_5' => 'nullable|required_with:project_add_instit_5',
+
     ];
   }
 
@@ -183,6 +192,39 @@ class ApplicationCreateRequest extends FormRequest
       'files.project_estimated_costs.required' => [
         'field' => 'file_project_estimated_costs',
         'error' => 'Detaillierter Kostenvoranschlag (PDF) wird benötigt'
+      ],
+
+      'project_add_instit_2.required_with' => [
+        'field' => 'project_add_instit_2',
+        'error' => 'Feld wird benötigt'
+      ],
+      'project_add_instit_total_2.required_with' => [
+        'field' => 'project_add_instit_total_2',
+        'error' => 'Feld wird benötigt'
+      ],
+      'project_add_instit_3.required_with' => [
+        'field' => 'project_add_instit_3',
+        'error' => 'Feld wird benötigt'
+      ],
+      'project_add_instit_total_3.required_with' => [
+        'field' => 'project_add_instit_total_3',
+        'error' => 'Feld wird benötigt'
+      ],
+      'project_add_instit_4.required_with' => [
+        'field' => 'project_add_instit_4',
+        'error' => 'Feld wird benötigt'
+      ],
+      'project_add_instit_total_4.required_with' => [
+        'field' => 'project_add_instit_total_4',
+        'error' => 'Feld wird benötigt'
+      ],
+      'project_add_instit_5.required_with' => [
+        'field' => 'project_add_instit_5',
+        'error' => 'Feld wird benötigt'
+      ],
+      'project_add_instit_total_5.required_with' => [
+        'field' => 'project_add_instit_total_5',
+        'error' => 'Feld wird benötigt'
       ],
     ];
   }

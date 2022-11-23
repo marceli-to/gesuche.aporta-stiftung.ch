@@ -91,6 +91,22 @@ class Media
   }
 
   /**
+   * Copy a file from temp to storage folder
+   * 
+   * @param String $filename
+   */
+  public function copyToApplicationFolder($filename = NULL, $uuid = NULL)
+  { 
+    $application_directory = storage_path('app/files/' . $uuid);
+    if (!File::isDirectory($application_directory))
+    {
+      File::makeDirectory($application_directory, 0775, true, true);
+    }
+
+    return Storage::move('public/uploads/temp' . DIRECTORY_SEPARATOR . $filename, 'files' . DIRECTORY_SEPARATOR . $uuid . DIRECTORY_SEPARATOR . $filename);
+  }
+
+  /**
    * Removes a file from the storage upload folder
    * 
    * @param String $filename

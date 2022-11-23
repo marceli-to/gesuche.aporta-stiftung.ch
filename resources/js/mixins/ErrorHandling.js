@@ -61,6 +61,9 @@ export default {
 
     serverError(data) {
       this.isLoading = false;
+      this.isSaving = false;
+      NProgress.done();
+
       this.$notify({ type: "error", text: `${data.status} ${data.code}<br>${data.body.message}`});
     },
 
@@ -71,11 +74,17 @@ export default {
 
     notAllowed(data) {
       this.isLoading = false;
+      this.isSaving = false;
+      NProgress.done();
+
       this.$notify({ type: "error", text: `${data.status} ${data.code}`});
     },
 
     forbiddenError(data) {
       this.isLoading = false;
+      this.isSaving = false;
+      NProgress.done();
+
       this.$notify({ type: "error", text: `${data.status} - Zugriff verweigert!`});
       this.$router.push({ name: 'forbidden' });
     },
