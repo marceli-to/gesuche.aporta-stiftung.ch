@@ -108,7 +108,7 @@ import IconSort from "@/components/ui/icons/Sort.vue";
 import IconPlus from "@/components/ui/icons/Plus.vue";
 import SiteHeader from '@/views/layout/Header.vue';
 import SiteMain from '@/views/layout/Main.vue';
-import PageMenu from '@/views/pages/application/components/Menu.vue';
+import PageMenu from '@/components/layout/Menu.vue';
 import List from "@/components/ui/layout/List.vue";
 import ListRowHeader from "@/components/ui/layout/ListRowHeader.vue";
 import ListRow from "@/components/ui/layout/ListRow.vue";

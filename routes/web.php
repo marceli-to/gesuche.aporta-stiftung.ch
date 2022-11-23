@@ -3,6 +3,8 @@ use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\DownloadController;
+use App\Http\Controllers\FormController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -10,8 +12,12 @@ use App\Http\Controllers\DownloadController;
 |--------------------------------------------------------------------------
 |
 */
-Route::get('/import', [PageController::class, 'import']);
-Route::get('/downloads', [PageController::class, 'downloads']);
+
+
+Route::get('/formular', [FormController::class, 'index']);
+Route::post('/form/submit', [FormController::class, 'store']);
+Route::post('/file/upload', [FormController::class, 'upload']);
+Route::delete('/file/upload/{filename}', [FormController::class, 'delete']);
 
 
 // Auth routes

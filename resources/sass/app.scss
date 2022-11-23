@@ -34,6 +34,7 @@
 @import 'components/buttons/primary';
 @import 'components/buttons/secondary';
 @import 'components/buttons/tertiary';
+@import 'components/buttons/upload';
 @import 'components/cards';
 @import 'components/dialog';
 @import 'components/grid';
@@ -69,9 +70,10 @@
 @import 'menu/page';
 @import 'menu/selector';
 
-
 // Views
 @import 'views/auth';
 @import 'views/application';
+@import 'views/form';
 
-
+// Vendor
+@import 'vendor/notifications';

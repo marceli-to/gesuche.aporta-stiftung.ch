@@ -18,6 +18,7 @@
 	}
 }
 
+%line-after,
 .line-after {
   position: relative;
   &:after {
@@ -29,4 +30,22 @@
     top: 0;
     width: 1px;
   }
+}
+
+%sm\:line-after,
+.sm\:line-after {
+  position: relative;
+
+  @include bp-sm() {
+    &:after {
+      background-color: $color-light-grey;
+      content: '';
+      height: 100%;
+      position: absolute;
+      right: -8px;
+      top: 0;
+      width: 1px;
+    }
+  }
+
 }

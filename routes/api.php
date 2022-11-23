@@ -43,7 +43,9 @@ Route::middleware('auth:sanctum')->group(function() {
 
   // Application files
   Route::post('application-file/store', [ApplicationFileController::class, 'store'])->middleware('role:admin');
+  Route::put('application-file/update/{applicationFile:uuid}', [ApplicationFileController::class, 'update'])->middleware('role:admin');
   Route::delete('application-file/delete/{applicationFile:uuid}', [ApplicationFileController::class, 'destroy'])->middleware('role:admin');
+  Route::delete('application-file/delete-upload/{uuid}/{file}', [ApplicationFileController::class, 'delete'])->middleware('role:admin');
 
   // Application logs
   Route::get('application-log/{application:uuid}', [ApplicationLogController::class, 'get']);
@@ -58,7 +60,6 @@ Route::middleware('auth:sanctum')->group(function() {
   Route::get('application/deny/{application:uuid}', [ApplicationController::class, 'deny']);
   Route::put('application/save/{application:uuid}', [ApplicationController::class, 'save']);
   Route::get('application/reverse/{application:uuid}', [ApplicationController::class, 'reverse'])->middleware('role:admin');
-  Route::delete('application/file/{application:uuid}/{field}', [ApplicationController::class, 'deleteFile'])->middleware('role:admin');
   Route::put('application/{application:uuid}', [ApplicationController::class, 'update']);
   Route::put('application/archive/{application:uuid}', [ApplicationController::class, 'archive'])->middleware('role:admin');
   Route::delete('application/{application:uuid}', [ApplicationController::class, 'destroy'])->middleware('role:admin');

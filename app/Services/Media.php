@@ -91,7 +91,7 @@ class Media
   }
 
   /**
-   * Removes a file from storage
+   * Removes a file from the storage upload folder
    * 
    * @param String $filename
    */
@@ -101,6 +101,17 @@ class Media
       return Storage::delete('public/uploads/temp' . DIRECTORY_SEPARATOR . $filename);
     }
     return Storage::delete('public/uploads' . DIRECTORY_SEPARATOR . $filename);
+  }
+
+  /**
+   * Removes a file from the storage files folder
+   * 
+   * @param String $uuid
+   * @param String $filename
+   */
+  public function removeFromFolder($uuid = NULL, $filename = NULL)
+  {
+    return Storage::delete('files' . DIRECTORY_SEPARATOR . $uuid . DIRECTORY_SEPARATOR . $filename);
   }
 
   /**

@@ -31,6 +31,10 @@
         color: $color-primary;
       }
     }
+
+    &__form {
+      @extend %grid-cols-12;
+    }
   }
 }
 

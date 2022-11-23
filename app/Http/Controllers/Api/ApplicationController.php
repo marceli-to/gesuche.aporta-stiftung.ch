@@ -261,20 +261,5 @@ class ApplicationController extends Controller
     return response()->json('successfully deleted');
   }
 
-  /**
-   * Remove an application file
-   *
-   * @param  Application $application
-   * @param String $field
-   * @return \Illuminate\Http\Response
-   */
-
-  public function deleteFile(Application $application, $field = NULL)
-  {
-    (new Logger())->log($application, 'Datei ' . $application[$field] . ' (Feld: ' . $field. ') gelöscht');
-    $application[$field] = null;
-    $application->save();
-    return response()->json('successfully deleted');
-  }
 
 }

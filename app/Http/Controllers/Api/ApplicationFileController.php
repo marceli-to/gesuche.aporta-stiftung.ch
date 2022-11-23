@@ -5,7 +5,9 @@ use App\Http\Resources\DataCollection;
 use App\Models\Application;
 use App\Models\ApplicationFile;
 use App\Http\Requests\ApplicationFileStoreRequest;
+use App\Http\Requests\ApplicationFileUpdateRequest;
 use App\Services\Logger;
+use App\Services\Media;
 use Illuminate\Http\Request;
 
 class ApplicationFileController extends Controller
@@ -29,10 +31,26 @@ class ApplicationFileController extends Controller
     ]);
 
     (new Logger())->log($application, 'Neue Datei ' . $request->input('name') . ' hochgeladen.');
-
-
     return response()->json($file);
   }
+
+  /**
+   * Update a file
+   * 
+   * @param  ApplicationFile $applicationFile
+   * @param  \Illuminate\Http\ApplicationFileUpdateRequest $request
+   * @return \Illuminate\Http\Response
+   */
+  public function update(ApplicationFile $applicationFile, ApplicationFileUpdateRequest $request)
+  {
+    $applicationFile->name = $request->input('name');
+    $applicationFile->save();
+
+    $application = Application::find($applicationFile->application_id);
+    (new Logger())->log($application, 'Datei ersetzt " '. $applicationFile->title .' " (' . $request->input('name') .')');
+    return response()->json($applicationFile);
+  }
+
 
   /**
    * Remove a file
@@ -43,9 +61,22 @@ class ApplicationFileController extends Controller
   public function destroy(ApplicationFile $applicationFile)
   {
     $application = Application::findOrFail($applicationFile->application_id);
-    (new Logger())->log($application, 'Datei ' . $applicationFile->name . ' gelöscht.');
+    (new Logger())->log($application, 'Datei ' . $applicationFile->name . ' ( ' . $applicationFile->title . ') gelöscht.');
     $applicationFile->delete();
-
     return response()->json('successfully deleted');
+  }
+
+  /**
+   * Delete a file
+   * 
+   * @param String $uuid
+   * @param  String $filename
+   * @return \Illuminate\Http\Response
+   */
+
+  public function delete($uuid, $filename)
+  { 
+    $media = (new Media())->removeFromFolder($uuid, $filename);
+    return response()->json($media);
   }
 }

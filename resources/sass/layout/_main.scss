@@ -4,9 +4,11 @@
  * -----------------------------------------------------------------------------
  */
 
+%site,
 main.site {
   padding-bottom: $space-15x;
   position: relative;
+
   > div {
     @extend %inner-block;
   }

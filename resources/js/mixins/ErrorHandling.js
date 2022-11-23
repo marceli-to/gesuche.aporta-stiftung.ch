@@ -1,3 +1,5 @@
+import NProgress from 'nprogress';
+
 export default {
 
   data() {
@@ -48,10 +50,12 @@ export default {
     validationError(data) {
       let errors = {};
       data.body.forEach(function(key) {
-        errors[key.field] = true;
+        errors[key.field] = key.error;
       });
       this.errors = errors;
       this.isLoading = false;
+      this.isSaving = false;
+      NProgress.done();
       this.$notify({ type: "error", text: `Bitte alle mit * markierten Felder prüfen!`});
     },
 

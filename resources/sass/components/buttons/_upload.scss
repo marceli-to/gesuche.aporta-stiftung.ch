@@ -1,0 +1,24 @@
+/**
+ * -----------------------------------------------------------------------------
+ * File: components/buttons/upload
+ * -----------------------------------------------------------------------------
+ */
+
+.btn-upload {
+  @extend %btn;
+  background-color: $color-secondary;
+  color: $color-white;
+  height: 24px;
+  @include font-size($fs-sm);
+
+  &:hover {
+    background-color: $color-primary;
+  }
+
+  &.disabled,
+  &:disabled {
+    background-color: $color-secondary;
+    color: $color-white;
+    pointer-events: none;
+  }
+}

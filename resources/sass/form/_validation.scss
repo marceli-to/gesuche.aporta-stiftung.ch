@@ -4,6 +4,11 @@
  * -----------------------------------------------------------------------------
  */
 
-.errors {
+.errors,
+.has-error {
   color: $color-danger;
+
+  label {
+    color: $color-danger !important;
+  }
 }

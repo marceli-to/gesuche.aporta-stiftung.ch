@@ -1,0 +1,44 @@
+/**
+ * -----------------------------------------------------------------------------
+ * File: views/form
+ * -----------------------------------------------------------------------------
+ */
+
+.application-form {
+
+  &__header {
+    @extend %site-header;
+    color: $color-white;
+    > div {
+      max-width: $form-max-width;
+    }
+  }
+
+  &__content {
+    @extend %site;
+    > div {
+      max-width: $form-max-width;
+    }
+  }
+
+  &__grid {
+    @extend %grid-cols-12;
+    
+    > p,
+    > h2,
+    > div {
+      @extend %span-12;
+    }
+
+    h2:not(:first-of-type) {
+      margin-top: $space-6x;
+      @include bp-md() {
+        margin-top: $space-12x;
+      }
+    }
+
+    textarea {
+      min-height: 240px;
+    }
+  }
+}

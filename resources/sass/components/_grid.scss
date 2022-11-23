@@ -46,9 +46,31 @@
   }
 }
 
+@for $i from 1 through 12 {
+  %sm\:span-#{$i},
+  .sm\:span-#{$i} {
+    @include bp-sm() {
+      grid-column: span $i / span $i;
+    }
+  }
+}
+
+@for $i from 1 through 12 {
+  %md\:span-#{$i},
+  .md\:span-#{$i} {
+    @include bp-md() {
+      grid-column: span $i / span $i;
+    }
+  }
+}
+
 %span-full,
 .span-full	{
   grid-column: 1 / -1;
+}
+
+\!.span-full {
+  grid-column: 1 / -1 !important;
 }
 
 @for $i from 1 through 12 {

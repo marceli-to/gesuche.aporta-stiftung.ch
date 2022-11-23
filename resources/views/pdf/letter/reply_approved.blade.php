@@ -11,7 +11,7 @@
 <br>
 <div>Wir freuen uns, Ihnen mitteilen zu können, dass der Stiftungsrat anlässlich seiner Sitzung vom 28. Juni 2022 gemäss Vorschlag des Stadtrates von Zürich beschlossen hat, Ihrer Institution aus dem Reinertrag unseres Stiftungsvermögens den Betrag von CHF {{ AppHelper::number($d->project_contribution_approved) }}, als Beitrag an {{ $d->textblock_approval }}, zukommen zu lassen. @if ($d->textblock_justification) {{ $d->textblock_justification }} @endif Der Beitrag muss zweckgebunden verwendet werden.</div>
 <br>
-<div>Wir bitten Sie, uns den Eingang des erwähnten Betrages, welchen wir Ihnen bis Ende Juli 2022 auf Ihr Konto mit IBAN {{ $d->financial_account ? $d->financial_account :  $d->bank_account }} überweisen werden, umgehend schriftlich zu bestätigen.</div>
+<div>Wir bitten Sie, uns den Eingang des erwähnten Betrages, welchen wir Ihnen bis Ende Juli 2022 auf Ihr Konto mit IBAN {{ $d->iban ? $d->iban :  $d->bank_account }} überweisen werden, umgehend schriftlich zu bestätigen.</div>
 <br>
 <div>Weiter sind wir Ihnen dankbar, wenn Sie, dem Wunsch des Stifters entsprechend, im Gönnerverzeichnis Ihres Jahresberichtes vermerken würden, dass es sich um eine Zuwendung unserer Stiftung handelt.</div>
 <br>
