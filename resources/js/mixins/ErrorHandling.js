@@ -76,7 +76,6 @@ export default {
       this.isLoading = false;
       this.isSaving = false;
       NProgress.done();
-
       this.$notify({ type: "error", text: `${data.status} ${data.code}`});
     },
 
@@ -84,7 +83,6 @@ export default {
       this.isLoading = false;
       this.isSaving = false;
       NProgress.done();
-
       this.$notify({ type: "error", text: `${data.status} - Zugriff verweigert!`});
       this.$router.push({ name: 'forbidden' });
     },

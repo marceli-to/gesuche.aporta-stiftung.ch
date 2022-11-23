@@ -7,590 +7,597 @@
   <site-main>
     <site-wrapper>
       <site-grid>
-
-        <template>
-          <h2 class="span">Institution</h2>
-          <div class="span">
-            <application-row :class="[errors.name ? 'has-error' : '', 'application-row__form']">
-              <application-label :cls="'span-4 sm:span-5'">
-                 {{ errors.name ? errors.name : 'Name der Institution *' }}
-              </application-label>
-              <application-input :cls="'span-8 sm:span-7'">
-                <input type="text" v-model="form.name" required :class="[errors.name ? 'is-invalid' : '', '']" @blur="validate($event)" @focus="removeError('name')">
-              </application-input>
-            </application-row>
-          </div>
-          <div class="span">
-            <application-row :class="[errors.legal_form ? 'has-error' : '', 'application-row__form']">
-              <application-label :cls="'span-4 sm:span-5'">
-                {{ errors.legal_form ? errors.legal_form : 'Rechtsform *' }}
-              </application-label>
-              <application-input :cls="'span-8 sm:span-7'">
-                <input type="text" v-model="form.legal_form" required :class="[errors.legal_form ? 'is-invalid' : '', '']" @blur="validate($event)" @focus="removeError('legal_form')">
-              </application-input>
-            </application-row>
-          </div>
-          <div class="span">
-            <application-row class="application-row__form">
-              <application-label :cls="'span-4 sm:span-5'">Website</application-label>
-              <application-input :cls="'span-8 sm:span-7'">
-                <input type="text" v-model="form.website">
-              </application-input>
-            </application-row>
-          </div>
-
-        </template>
-
-        <template>
-          <h2 class="span">Bank-/Postverbindung</h2>
-          <div class="span">
-            <application-row :class="[errors.bank_account ? 'has-error' : '', 'application-row__form']">
-              <application-label :cls="'span-4 sm:span-5'">
-                {{ errors.bank_account ? errors.bank_account : 'Bank-/Postkonto *' }}
-              </application-label>
-              <application-input :cls="'span-8 sm:span-7'">
-                <input type="text" v-model="form.bank_account" required :class="[errors.bank_account ? 'is-invalid' : '', '']" @blur="validate($event)" @focus="removeError('bank_account')">
-              </application-input>
-            </application-row>
-          </div>
-          <div class="span">
-            <application-row :class="[errors.iban ? 'has-error' : '', 'application-row__form']">
-              <application-label :cls="'span-4 sm:span-5'">
-                {{ errors.iban ? errors.iban : 'IBAN *' }}
-              </application-label>
-              <application-input :cls="'span-8 sm:span-7'">
-                <input type="text" v-model="form.iban" required :class="[errors.iban ? 'is-invalid' : '', '']" @blur="validate($event)" @focus="removeError('iban')">
-              </application-input>
-            </application-row>
+        <template v-if="isSuccess">
+          <div class="application-form__success">
+            <h1>Vielen Dank</h1>
+            <p>Wir haben Ihre Daten erhalten und werden diese in der kommenden Zeit prüfen.</p>
           </div>
         </template>
+        <template v-else>
 
-        <template>
-          <h2 class="span">Adresse</h2>
-          <div class="span">
-            <application-row :class="[errors.street ? 'has-error' : '', 'application-row__form']">
-              <application-label :cls="'span-4 sm:span-5'">
-                {{ errors.street ? errors.street : 'Strasse *' }}
-              </application-label>
-              <application-input :cls="'span-8 sm:span-7'">
-                <input type="text" v-model="form.street" required :class="[errors.street ? 'is-invalid' : '', '']" @blur="validate($event)" @focus="removeError('street')">
-              </application-input>
-            </application-row>
-          </div>
-          <div class="span">
-            <application-row class="application-row__form">
-              <application-label :cls="'span-4 sm:span-5'">
-                Nummer
-              </application-label>
-              <application-input :cls="'span-8 sm:span-7'">
-                <input type="text" v-model="form.street_number">
-              </application-input>
-            </application-row>
-          </div>
-          <div class="span">
-            <application-row :class="[errors.zip ? 'has-error' : '', 'application-row__form']">
-              <application-label :cls="'span-4 sm:span-5'">
-                {{ errors.zip ? errors.zip : 'PLZ *' }}
-              </application-label>
-              <application-input :cls="'span-8 sm:span-7'">
-                <input type="text" v-model="form.zip" required :class="[errors.zip ? 'is-invalid' : '', '']" @blur="validate($event)" @focus="removeError('zip')">
-              </application-input>
-            </application-row>
-          </div>
-          <div class="span">
-            <application-row :class="[errors.city ? 'has-error' : '', 'application-row__form']">
-              <application-label :cls="'span-4 sm:span-5'">
-                {{ errors.city ? errors.city : 'Ort *' }}
-              </application-label>
-              <application-input :cls="'span-8 sm:span-7'">
-                <input type="text" v-model="form.city" required :class="[errors.city ? 'is-invalid' : '', ''] " @blur="validate($event)" @focus="removeError('city')">
-              </application-input>
-            </application-row>
-          </div>
-        </template>
+          <template>
+            <h2 class="span">Institution</h2>
+            <div class="span">
+              <application-row :class="[errors.name ? 'has-error' : '', 'application-row__form']">
+                <application-label :cls="'span-4 sm:span-5'">
+                  {{ errors.name ? errors.name : 'Name der Institution *' }}
+                </application-label>
+                <application-input :cls="'span-8 sm:span-7'">
+                  <input type="text" v-model="form.name" required :class="[errors.name ? 'is-invalid' : '', '']" @blur="validate($event)" @focus="removeError('name')">
+                </application-input>
+              </application-row>
+            </div>
+            <div class="span">
+              <application-row :class="[errors.legal_form ? 'has-error' : '', 'application-row__form']">
+                <application-label :cls="'span-4 sm:span-5'">
+                  {{ errors.legal_form ? errors.legal_form : 'Rechtsform *' }}
+                </application-label>
+                <application-input :cls="'span-8 sm:span-7'">
+                  <input type="text" v-model="form.legal_form" required :class="[errors.legal_form ? 'is-invalid' : '', '']" @blur="validate($event)" @focus="removeError('legal_form')">
+                </application-input>
+              </application-row>
+            </div>
+            <div class="span">
+              <application-row class="application-row__form">
+                <application-label :cls="'span-4 sm:span-5'">Website</application-label>
+                <application-input :cls="'span-8 sm:span-7'">
+                  <input type="text" v-model="form.website">
+                </application-input>
+              </application-row>
+            </div>
 
-        <template>
-          <h2 class="span">Kontaktperson</h2>
-          <div class="span">
-            <application-row :class="[errors.firstname ? 'has-error' : '', 'application-row__form']">
-              <application-label :cls="'span-4 sm:span-5'">
-                {{ errors.firstname ? errors.firstname : 'Vorname *' }}
-              </application-label>
-              <application-input :cls="'span-8 sm:span-7'">
-                <input type="text" v-model="form.firstname" required :class="[errors.firstname ? 'is-invalid' : '', ''] " @blur="validate($event)" @focus="removeError('firstname')">
-              </application-input>
-            </application-row>
-          </div>
-          <div class="span">
-            <application-row :class="[errors.lastname ? 'has-error' : '', 'application-row__form']">
-              <application-label :cls="'span-4 sm:span-5'">
-                {{ errors.lastname ? errors.lastname : 'Name *' }}
-              </application-label>
-              <application-input :cls="'span-8 sm:span-7'">
-                <input type="text" v-model="form.lastname" required :class="[errors.lastname ? 'is-invalid' : '', ''] " @blur="validate($event)" @focus="removeError('lastname')">
-              </application-input>
-            </application-row>
-          </div>
-          <div class="span">
-            <application-row :class="[errors.phone ? 'has-error' : '', 'application-row__form']">
-              <application-label :cls="'span-4 sm:span-5'">
-                {{ errors.phone ? errors.phone : 'Telefon *' }}
-              </application-label>
-              <application-input :cls="'span-8 sm:span-7'">
-                <input type="text" v-model="form.phone" required :class="[errors.phone ? 'is-invalid' : '', ''] " @blur="validate($event)" @focus="removeError('phone')">
-              </application-input>
-            </application-row>
-          </div>
-          <div class="span">
-            <application-row :class="[errors.email ? 'has-error' : '', 'application-row__form']">
-              <application-label :cls="'span-4 sm:span-5'">
-                {{ errors.email ? errors.email : 'E-Mail *' }}
-              </application-label>
-              <application-input :cls="'span-8 sm:span-7'">
-                <input type="text" v-model="form.email" required :class="[errors.email ? 'is-invalid' : '', ''] " @blur="validate($event)" @focus="removeError('email')">
-              </application-input>
-            </application-row>
-          </div>
-        </template>
-
-        <template>
-          <h2 class="span">Dokumente</h2>
-          <div class="span">
-            <application-row :class="[errors.file_portrait ? 'has-error' : '', 'application-row__form']">
-              <div class="span-4 sm:span-5">
-                <label>
-                  {{ errors.file_portrait ? errors.file_portrait : 'Kurzportrait (PDF) *' }}
-                </label>
-              </div>
-              <div class="span-8 sm:span-7">
-                <template v-if="form.files.portrait">
-                  <div class="flex justify-between">
-                    <a :href="`/storage/uploads/temp/${form.files.portrait.name}`" class="anchor-download" target="_blank">
-                      {{form.files.portrait.name | truncate(80, '...')}}
-                    </a>
-                    <a 
-                      href="javascript:;" 
-                      @click="uploadDelete(form.files.portrait.name, 'portrait')" 
-                      class="icon-trash ml-3x">
-                      <icon-trash />
-                    </a>
-                  </div>
-                </template>
-                <template v-else>
-                  <vue-dropzone
-                    ref="dropzone"
-                    id="dropzone"
-                    :options="config"
-                    @vdropzone-sending="uploadSending"
-                    @vdropzone-success="uploadSuccess($event, 'portrait', 'Portrait')"
-                    @vdropzone-complete="uploadComplete"
-                    @vdropzone-max-files-exceeded="uploadMaxFilesExceeded"
-                    :useCustomSlot=true
-                  >
-                    <button class="btn-upload">Datei auswählen...</button>
-                  </vue-dropzone>
-                </template>
-              </div>
-            </application-row>
-          </div>
-          <div class="span">
-            <application-row :class="[errors.file_annual_report ? 'has-error' : '', 'application-row__form']">
-              <div class="span-4 sm:span-5">
-                <label>
-                  {{ errors.file_annual_report ? errors.file_annual_report : 'Jahresbericht (PDF) *' }}
-                </label>
-              </div>
-              <div class="span-8 sm:span-7">
-                <template v-if="form.files.annual_report">
-                  <div class="flex justify-between">
-                    <a :href="`/storage/uploads/temp/${form.files.annual_report.name}`" class="anchor-download" target="_blank">
-                      {{form.files.annual_report.name | truncate(80, '...')}}
-                    </a>
-                    <a 
-                      href="javascript:;" 
-                      @click="uploadDelete(form.files.annual_report.name, 'annual_report')" 
-                      class="icon-trash ml-3x">
-                      <icon-trash />
-                    </a>
-                  </div>
-                </template>
-                <template v-else>
-                  <vue-dropzone
-                    ref="dropzone"
-                    id="dropzone"
-                    :options="config"
-                    @vdropzone-sending="uploadSending"
-                    @vdropzone-success="uploadSuccess($event, 'annual_report', 'Jahresbericht')"
-                    @vdropzone-complete="uploadComplete"
-                    @vdropzone-max-files-exceeded="uploadMaxFilesExceeded"
-                    :useCustomSlot=true
-                  >
-                    <button class="btn-upload">Datei auswählen...</button>
-                  </vue-dropzone>
-                </template>
-              </div>
-            </application-row>
-          </div>
-          <div class="span">
-            <application-row :class="[errors.file_annual_financial_report? 'has-error' : '', 'application-row__form']">
-              <div class="span-4 sm:span-5">
-                <label>
-                  {{ errors.file_annual_financial_report ? errors.file_annual_financial_report : 'Jahresrechnung (PDF) *' }}
-                </label>
-              </div>
-              <div class="span-8 sm:span-7">
-                <template v-if="form.files.annual_financial_report">
-                  <div class="flex justify-between">
-                    <a :href="`/storage/uploads/temp/${form.files.annual_financial_report.name}`" class="anchor-download" target="_blank">
-                      {{form.files.annual_financial_report.name | truncate(80, '...')}}
-                    </a>
-                    <a 
-                      href="javascript:;" 
-                      @click="uploadDelete(form.files.annual_financial_report.name, 'annual_financial_report')" 
-                      class="icon-trash ml-3x">
-                      <icon-trash />
-                    </a>
-                  </div>
-                </template>
-                <template v-else>
-                  <vue-dropzone
-                    ref="dropzone"
-                    id="dropzone"
-                    :options="config"
-                    @vdropzone-sending="uploadSending"
-                    @vdropzone-success="uploadSuccess($event, 'annual_financial_report', 'Jahresrechnung')"
-                    @vdropzone-complete="uploadComplete"
-                    @vdropzone-max-files-exceeded="uploadMaxFilesExceeded"
-                    :useCustomSlot=true
-                  >
-                    <button class="btn-upload">Datei auswählen...</button>
-                  </vue-dropzone>
-                </template>
-              </div>
-            </application-row>
-          </div>
-          <div class="span">
-            <application-row :class="[errors.file_budget ? 'has-error' : '', 'application-row__form']">
-              <div class="span-4 sm:span-5">
-                <label>
-                  {{ errors.file_budget ? errors.file_budget : 'Budget (PDF) *' }}
-                </label>
-              </div>
-              <div class="span-8 sm:span-7">
-                <template v-if="form.files.budget">
-                  <div class="flex justify-between">
-                    <a :href="`/storage/uploads/temp/${form.files.budget.name}`" class="anchor-download" target="_blank">
-                      {{form.files.budget.name | truncate(80, '...')}}
-                    </a>
-                    <a 
-                      href="javascript:;" 
-                      @click="uploadDelete(form.files.budget.name, 'budget')" 
-                      class="icon-trash ml-3x">
-                      <icon-trash />
-                    </a>
-                  </div>
-                </template>
-                <template v-else>
-                  <vue-dropzone
-                    ref="dropzone"
-                    id="dropzone"
-                    :options="config"
-                    @vdropzone-sending="uploadSending"
-                    @vdropzone-success="uploadSuccess($event, 'budget', 'Budget')"
-                    @vdropzone-complete="uploadComplete"
-                    @vdropzone-max-files-exceeded="uploadMaxFilesExceeded"
-                    :useCustomSlot=true
-                  >
-                    <button class="btn-upload">Datei auswählen...</button>
-                  </vue-dropzone>
-                </template>
-              </div>
-            </application-row>
-          </div>
-          <div class="span">
-            <application-row :class="[errors.file_bylaws ? 'has-error' : '', 'application-row__form']">
-              <div class="span-4 sm:span-5">
-                <label>
-                  {{ errors.file_bylaws ? errors.file_bylaws : 'Statuten (PDF) *' }}
-                </label>
-              </div>
-              <div class="span-8 sm:span-7">
-                <template v-if="form.files.bylaws">
-                  <div class="flex justify-between">
-                    <a :href="`/storage/uploads/temp/${form.files.bylaws.name}`" class="anchor-download" target="_blank">
-                      {{form.files.bylaws.name | truncate(80, '...')}}
-                    </a>
-                    <a 
-                      href="javascript:;" 
-                      @click="uploadDelete(form.files.bylaws.name, 'bylaws')" 
-                      class="icon-trash ml-3x">
-                      <icon-trash />
-                    </a>
-                  </div>
-                </template>
-                <template v-else>
-                  <vue-dropzone
-                    ref="dropzone"
-                    id="dropzone"
-                    :options="config"
-                    @vdropzone-sending="uploadSending"
-                    @vdropzone-success="uploadSuccess($event, 'bylaws', 'Statuten')"
-                    @vdropzone-complete="uploadComplete"
-                    @vdropzone-max-files-exceeded="uploadMaxFilesExceeded"
-                    :useCustomSlot=true
-                  >
-                    <button class="btn-upload">Datei auswählen...</button>
-                  </vue-dropzone>
-                </template>
-              </div>
-            </application-row>
-          </div>
-        </template>
-
-        <template>
-          <h2 class="span">Projekt</h2>
-          <div class="span">
-            <application-row :class="[errors.project_title ? 'has-error' : '', 'application-row__form']">
-              <application-label :cls="'span-4 sm:span-5'">
-                {{ errors.project_title ? errors.project_title : 'Projekttitel *' }}
-              </application-label>
-              <application-input :cls="'span-8 sm:span-7'">
-                <input type="text" v-model="form.project_title" required :class="[errors.project_title ? 'is-invalid' : '', ''] " @blur="validate($event)" @focus="removeError('project_title')">
-              </application-input>
-            </application-row>
-          </div>
-          <div class="span mb-6x">
-            <application-row :class="[errors.justification_funds ? 'has-error' : '', 'application-row__form']">
-              <application-label :cls="'span-4 sm:span-5'">
-                {{ errors.justification_funds ? errors.justification_funds : 'Kurzbegründung Mittelbedarf *' }}
-              </application-label>
-              <application-input :cls="'span-8 sm:span-7'">
-                <textarea v-model="form.justification_funds" required :class="[errors.justification_funds ? 'is-invalid' : '', ''] " @blur="validate($event)" @focus="removeError('justification_funds')"></textarea>
-              </application-input>
-            </application-row>
-          </div>
-          <div class="span mb-6x">
-            <application-row :class="[errors.project_beneficiaries ? 'has-error' : '', 'application-row__form']">
-              <application-label :cls="'span-4 sm:span-5'">
-                {{ errors.project_beneficiaries ? errors.project_beneficiaries : 'Begünstigte des Projekts *' }}
-              </application-label>
-              <application-input :cls="'span-8 sm:span-7'">
-                <textarea v-model="form.project_beneficiaries" required :class="[errors.project_beneficiaries ? 'is-invalid' : '', ''] " @blur="validate($event)" @focus="removeError('project_beneficiaries')"></textarea>
-              </application-input>
-            </application-row>
-          </div>
-          <div class="span mb-6x">
-            <application-row :class="[errors.proportion_residents_benefit_program ? 'has-error' : '', 'application-row__form']">
-              <application-label :cls="'span-4 sm:span-5'">
-                {{ errors.proportion_residents_benefit_program ? errors.proportion_residents_benefit_program : 'Anteil begünstigte Stadtzürcherinnen und Stadtzürcher (falls quantifizierbar) *' }}
-              </application-label>
-              <application-input :cls="'span-8 sm:span-7'">
-                <textarea v-model="form.proportion_residents_benefit_program" required :class="[errors.proportion_residents_benefit_program ? 'is-invalid' : '', ''] " @blur="validate($event)" @focus="removeError('proportion_residents_benefit_program')"></textarea>
-              </application-input>
-            </application-row>
-          </div>
-          <div class="span mb-6x">
-            <application-row :class="[errors.project_time ? 'has-error' : '', 'application-row__form']">
-              <application-label :cls="'span-4 sm:span-5'">
-                {{ errors.project_time ? errors.project_time : 'Projektdauer/Zeitraum *' }}
-              </application-label>
-              <application-input :cls="'span-8 sm:span-7'">
-                <textarea v-model="form.project_time" required :class="[errors.project_time ? 'is-invalid' : '', ''] " @blur="validate($event)" @focus="removeError('project_time')"></textarea>
-              </application-input>
-            </application-row>
-          </div>
-          <div class="span">
-            <application-row :class="[errors.file_annual_financial_report ? 'has-error' : '', 'application-row__form']">
-              <div class="span-4 sm:span-5">
-                <label>
-                  {{ errors.file_annual_financial_report ? errors.file_annual_financial_report : 'Beschreibung und Begründung des Projekts (PDF, max. fünf Seiten) *' }}
-                </label>
-              </div>
-              <div class="span-8 sm:span-7">
-                <template v-if="form.files.project_description">
-                  <div class="flex justify-between">
-                    <a :href="`/storage/uploads/temp/${form.files.project_description.name}`" class="anchor-download" target="_blank">
-                      {{form.files.project_description.name | truncate(80, '...')}}
-                    </a>
-                    <a 
-                      href="javascript:;" 
-                      @click="uploadDelete(form.files.project_description.name, 'project_description')" 
-                      class="icon-trash ml-3x">
-                      <icon-trash />
-                    </a>
-                  </div>
-                </template>
-                <template v-else>
-                  <vue-dropzone
-                    ref="dropzone"
-                    id="dropzone"
-                    :options="config"
-                    @vdropzone-sending="uploadSending"
-                    @vdropzone-success="uploadSuccess($event, 'project_description', 'Projekt')"
-                    @vdropzone-complete="uploadComplete"
-                    @vdropzone-max-files-exceeded="uploadMaxFilesExceeded"
-                    :useCustomSlot=true
-                  >
-                    <button class="btn-upload">Datei auswählen...</button>
-                  </vue-dropzone>
-                </template>
-              </div>
-            </application-row>
-          </div>
-          <div class="span">
-            <application-row :class="[errors.file_project_estimated_costs ? 'has-error' : '', 'application-row__form']">
-              <div class="span-4 sm:span-5">
-                <label>
-                  {{ errors.file_project_estimated_costs ? errors.file_project_estimated_costs : 'Detaillierter Kostenvoranschlag, eventuell Richtpreisofferten (PDF) *' }}
-                </label>
-              </div>
-              <div class="span-8 sm:span-7">
-                <template v-if="form.files.project_estimated_costs">
-                  <div class="flex justify-between">
-                    <a :href="`/storage/uploads/temp/${form.files.project_estimated_costs.name}`" class="anchor-download" target="_blank">
-                      {{form.files.project_estimated_costs.name | truncate(80, '...')}}
-                    </a>
-                    <a 
-                      href="javascript:;" 
-                      @click="uploadDelete(form.files.project_estimated_costs.name, 'project_estimated_costs')" 
-                      class="icon-trash ml-3x">
-                      <icon-trash />
-                    </a>
-                  </div>
-                </template>
-                <template v-else>
-                  <vue-dropzone
-                    ref="dropzone"
-                    id="dropzone"
-                    :options="config"
-                    @vdropzone-sending="uploadSending"
-                    @vdropzone-success="uploadSuccess($event, 'project_estimated_costs', 'KV')"
-                    @vdropzone-complete="uploadComplete"
-                    @vdropzone-max-files-exceeded="uploadMaxFilesExceeded"
-                    :useCustomSlot=true
-                  >
-                    <button class="btn-upload">Datei auswählen...</button>
-                  </vue-dropzone>
-                </template>
-              </div>
-            </application-row>
-          </div>
-        </template>
-
-        <template>
-          <h2 class="span">Projektkosten und -finanzierung</h2>
-          <div class="span">
-            <application-row :class="[errors.project_cost_total ? 'has-error' : '', 'application-row__form']">
-              <application-label :cls="'span-4 sm:span-5'">
-                {{ errors.project_cost_total ? errors.project_cost_total : 'Projektkosten total (CHF) *' }}
-              </application-label>
-              <application-input :cls="'span-8 sm:span-7'">
-                <input type="number" min="0" v-model="form.project_cost_total" required :class="[errors.project_cost_total ? 'is-invalid' : '', ''] " @blur="validate($event)" @focus="removeError('project_cost_total')">
-              </application-input>
-            </application-row>
-          </div>
-          <div class="span">
-            <application-row :class="[errors.project_own_contribution ? 'has-error' : '', 'application-row__form']">
-              <application-label :cls="'span-4 sm:span-5'">
-                {{ errors.project_own_contribution ? errors.project_own_contribution : 'Eigenleistungen total (CHF) *' }}
-              </application-label>
-              <application-input :cls="'span-8 sm:span-7'">
-                <input type="number" min="0" v-model="form.project_own_contribution" required :class="[errors.project_own_contribution ? 'is-invalid' : '', ''] " @blur="validate($event)" @focus="removeError('project_own_contribution')">
-              </application-input>
-            </application-row>
-          </div>
-          <div class="span">
-            <application-row :class="[errors.project_contribution_requested ? 'has-error' : '', 'application-row__form']">
-              <application-label :cls="'span-4 sm:span-5'">
-                {{ errors.project_contribution_requested ? errors.project_contribution_requested : 'Beantragter Beitrag Dr. Stephan à Porta-Stiftung (CHF) *' }}
-              </application-label>
-              <application-input :cls="'span-8 sm:span-7'">
-                <input type="number" min="0" v-model="form.project_contribution_requested" required :class="[errors.project_contribution_requested ? 'is-invalid' : '', ''] " @blur="validate($event)" @focus="removeError('project_contribution_requested')">
-              </application-input>
-            </application-row>
-          </div>
-          <div class="span">
-            <application-row :class="[errors.project_contribution_further_requested ? 'has-error' : '', 'application-row__form']">
-              <application-label :cls="'span-4 sm:span-5'">
-                {{ errors.project_contribution_further_requested ? errors.project_contribution_further_requested : 'Weitere beantragte Beiträge (CHF) *'}}
-              </application-label>
-              <application-input :cls="'span-8 sm:span-7'">
-                <input type="number" min="0" v-model="form.project_contribution_further_requested" required :class="[errors.project_contribution_further_requested ? 'is-invalid' : '', ''] " @blur="validate($event)" @focus="removeError('project_contribution_further_requested')">
-              </application-input>
-            </application-row>
-          </div>
-        </template>
-
-        <template>
-          <h2 class="span">Beiträge Dritter</h2>
-          <p class="span">Sofern Sie für das gleiche Gesuch weitere Institutionen um einem Beitrag ersuchen, bitten wir um folgende Angaben:</p>
-          <template v-if="errors.project_add_instit_2 || errors.project_add_instit_total_2 || errors.project_add_instit_3 || errors.project_add_instit_total_3 || errors.project_add_instit_4 || errors.project_add_instit_total_4 || errors.project_add_instit_5 || errors.project_add_instit_total_5">
-            <p class="has-error">Es sind nicht alle Felder korrekt ausgefüllt:</p>
           </template>
-          <div class="span">
-            <application-row class="application-row__form">
-              <application-input :cls="'span-4 sm:span-4'">
-                <label class="mb-2x">Institution</label>
-                <input 
-                  class="mb-2x"
-                  type="text" 
-                  v-model="form[`project_add_instit_${add}`]" 
-                  :class="[errors[`project_add_instit_${add}`] ? 'is-invalid' : '', ''] " @focus="removeError([`project_add_instit_${add}`])"
-                  v-for="(add, index) in [2, 3, 4, 5]" :key="index">
-              </application-input>
-              <application-input :cls="'span-4 sm:span-4'">
-                <label class="mb-2x">Betrag</label>
-                <input 
-                  class="mb-2x"
-                  type="number" 
-                  min="0" 
-                  v-model="form[`project_add_instit_total_${add}`]" 
-                  :class="[errors[`project_add_instit_total_${add}`] ? 'is-invalid' : '', ''] " @focus="removeError([`project_add_instit_total_${add}`])"
-                  v-for="(add, index) in [2, 3, 4, 5]" :key="index">
-              </application-input>
-              <application-input :cls="'span-4 sm:span-4'">
-                <label class="mb-2x">Antwort</label>
-                <div class="select-wrapper mb-2x" v-for="(add, index) in [2, 3, 4, 5]" :key="index">
-                  <select v-model="form[`project_add_instit_answer_${add}`]">
-                    <option :value="'Zusage'">Zusage</option>
-                    <option :value="'Absage'">Absage</option>
-                    <option :value="'offen'">offen</option>
-                  </select>
+
+          <template>
+            <h2 class="span">Bank-/Postverbindung</h2>
+            <div class="span">
+              <application-row :class="[errors.bank_account ? 'has-error' : '', 'application-row__form']">
+                <application-label :cls="'span-4 sm:span-5'">
+                  {{ errors.bank_account ? errors.bank_account : 'Bank-/Postkonto *' }}
+                </application-label>
+                <application-input :cls="'span-8 sm:span-7'">
+                  <input type="text" v-model="form.bank_account" required :class="[errors.bank_account ? 'is-invalid' : '', '']" @blur="validate($event)" @focus="removeError('bank_account')">
+                </application-input>
+              </application-row>
+            </div>
+            <div class="span">
+              <application-row :class="[errors.iban ? 'has-error' : '', 'application-row__form']">
+                <application-label :cls="'span-4 sm:span-5'">
+                  {{ errors.iban ? errors.iban : 'IBAN *' }}
+                </application-label>
+                <application-input :cls="'span-8 sm:span-7'">
+                  <input type="text" v-model="form.iban" required :class="[errors.iban ? 'is-invalid' : '', '']" @blur="validate($event)" @focus="removeError('iban')">
+                </application-input>
+              </application-row>
+            </div>
+          </template>
+
+          <template>
+            <h2 class="span">Adresse</h2>
+            <div class="span">
+              <application-row :class="[errors.street ? 'has-error' : '', 'application-row__form']">
+                <application-label :cls="'span-4 sm:span-5'">
+                  {{ errors.street ? errors.street : 'Strasse *' }}
+                </application-label>
+                <application-input :cls="'span-8 sm:span-7'">
+                  <input type="text" v-model="form.street" required :class="[errors.street ? 'is-invalid' : '', '']" @blur="validate($event)" @focus="removeError('street')">
+                </application-input>
+              </application-row>
+            </div>
+            <div class="span">
+              <application-row class="application-row__form">
+                <application-label :cls="'span-4 sm:span-5'">
+                  Nummer
+                </application-label>
+                <application-input :cls="'span-8 sm:span-7'">
+                  <input type="text" v-model="form.street_number">
+                </application-input>
+              </application-row>
+            </div>
+            <div class="span">
+              <application-row :class="[errors.zip ? 'has-error' : '', 'application-row__form']">
+                <application-label :cls="'span-4 sm:span-5'">
+                  {{ errors.zip ? errors.zip : 'PLZ *' }}
+                </application-label>
+                <application-input :cls="'span-8 sm:span-7'">
+                  <input type="text" v-model="form.zip" required :class="[errors.zip ? 'is-invalid' : '', '']" @blur="validate($event)" @focus="removeError('zip')">
+                </application-input>
+              </application-row>
+            </div>
+            <div class="span">
+              <application-row :class="[errors.city ? 'has-error' : '', 'application-row__form']">
+                <application-label :cls="'span-4 sm:span-5'">
+                  {{ errors.city ? errors.city : 'Ort *' }}
+                </application-label>
+                <application-input :cls="'span-8 sm:span-7'">
+                  <input type="text" v-model="form.city" required :class="[errors.city ? 'is-invalid' : '', ''] " @blur="validate($event)" @focus="removeError('city')">
+                </application-input>
+              </application-row>
+            </div>
+          </template>
+
+          <template>
+            <h2 class="span">Kontaktperson</h2>
+            <div class="span">
+              <application-row :class="[errors.firstname ? 'has-error' : '', 'application-row__form']">
+                <application-label :cls="'span-4 sm:span-5'">
+                  {{ errors.firstname ? errors.firstname : 'Vorname *' }}
+                </application-label>
+                <application-input :cls="'span-8 sm:span-7'">
+                  <input type="text" v-model="form.firstname" required :class="[errors.firstname ? 'is-invalid' : '', ''] " @blur="validate($event)" @focus="removeError('firstname')">
+                </application-input>
+              </application-row>
+            </div>
+            <div class="span">
+              <application-row :class="[errors.lastname ? 'has-error' : '', 'application-row__form']">
+                <application-label :cls="'span-4 sm:span-5'">
+                  {{ errors.lastname ? errors.lastname : 'Name *' }}
+                </application-label>
+                <application-input :cls="'span-8 sm:span-7'">
+                  <input type="text" v-model="form.lastname" required :class="[errors.lastname ? 'is-invalid' : '', ''] " @blur="validate($event)" @focus="removeError('lastname')">
+                </application-input>
+              </application-row>
+            </div>
+            <div class="span">
+              <application-row :class="[errors.phone ? 'has-error' : '', 'application-row__form']">
+                <application-label :cls="'span-4 sm:span-5'">
+                  {{ errors.phone ? errors.phone : 'Telefon *' }}
+                </application-label>
+                <application-input :cls="'span-8 sm:span-7'">
+                  <input type="text" v-model="form.phone" required :class="[errors.phone ? 'is-invalid' : '', ''] " @blur="validate($event)" @focus="removeError('phone')">
+                </application-input>
+              </application-row>
+            </div>
+            <div class="span">
+              <application-row :class="[errors.email ? 'has-error' : '', 'application-row__form']">
+                <application-label :cls="'span-4 sm:span-5'">
+                  {{ errors.email ? errors.email : 'E-Mail *' }}
+                </application-label>
+                <application-input :cls="'span-8 sm:span-7'">
+                  <input type="text" v-model="form.email" required :class="[errors.email ? 'is-invalid' : '', ''] " @blur="validate($event)" @focus="removeError('email')">
+                </application-input>
+              </application-row>
+            </div>
+          </template>
+
+          <template>
+            <h2 class="span">Dokumente</h2>
+            <div class="span">
+              <application-row :class="[errors.file_portrait ? 'has-error' : '', 'application-row__form']">
+                <div class="span-4 sm:span-5">
+                  <label>
+                    {{ errors.file_portrait ? errors.file_portrait : 'Kurzportrait (PDF) *' }}
+                  </label>
                 </div>
-              </application-input>
-            </application-row>
+                <div class="span-8 sm:span-7">
+                  <template v-if="form.files.portrait">
+                    <div class="flex justify-between">
+                      <a :href="`/storage/uploads/temp/${form.files.portrait.name}`" class="anchor-download" target="_blank">
+                        {{form.files.portrait.name | truncate(80, '...')}}
+                      </a>
+                      <a 
+                        href="javascript:;" 
+                        @click="uploadDelete(form.files.portrait.name, 'portrait')" 
+                        class="icon-trash ml-3x">
+                        <icon-trash />
+                      </a>
+                    </div>
+                  </template>
+                  <template v-else>
+                    <vue-dropzone
+                      ref="dropzone"
+                      id="dropzone"
+                      :options="config"
+                      @vdropzone-sending="uploadSending"
+                      @vdropzone-success="uploadSuccess($event, 'portrait', 'Portrait')"
+                      @vdropzone-complete="uploadComplete"
+                      @vdropzone-max-files-exceeded="uploadMaxFilesExceeded"
+                      :useCustomSlot=true
+                    >
+                      <button class="btn-upload">Datei auswählen...</button>
+                    </vue-dropzone>
+                  </template>
+                </div>
+              </application-row>
+            </div>
+            <div class="span">
+              <application-row :class="[errors.file_annual_report ? 'has-error' : '', 'application-row__form']">
+                <div class="span-4 sm:span-5">
+                  <label>
+                    {{ errors.file_annual_report ? errors.file_annual_report : 'Jahresbericht (PDF) *' }}
+                  </label>
+                </div>
+                <div class="span-8 sm:span-7">
+                  <template v-if="form.files.annual_report">
+                    <div class="flex justify-between">
+                      <a :href="`/storage/uploads/temp/${form.files.annual_report.name}`" class="anchor-download" target="_blank">
+                        {{form.files.annual_report.name | truncate(80, '...')}}
+                      </a>
+                      <a 
+                        href="javascript:;" 
+                        @click="uploadDelete(form.files.annual_report.name, 'annual_report')" 
+                        class="icon-trash ml-3x">
+                        <icon-trash />
+                      </a>
+                    </div>
+                  </template>
+                  <template v-else>
+                    <vue-dropzone
+                      ref="dropzone"
+                      id="dropzone"
+                      :options="config"
+                      @vdropzone-sending="uploadSending"
+                      @vdropzone-success="uploadSuccess($event, 'annual_report', 'Jahresbericht')"
+                      @vdropzone-complete="uploadComplete"
+                      @vdropzone-max-files-exceeded="uploadMaxFilesExceeded"
+                      :useCustomSlot=true
+                    >
+                      <button class="btn-upload">Datei auswählen...</button>
+                    </vue-dropzone>
+                  </template>
+                </div>
+              </application-row>
+            </div>
+            <div class="span">
+              <application-row :class="[errors.file_annual_financial_report? 'has-error' : '', 'application-row__form']">
+                <div class="span-4 sm:span-5">
+                  <label>
+                    {{ errors.file_annual_financial_report ? errors.file_annual_financial_report : 'Jahresrechnung (PDF) *' }}
+                  </label>
+                </div>
+                <div class="span-8 sm:span-7">
+                  <template v-if="form.files.annual_financial_report">
+                    <div class="flex justify-between">
+                      <a :href="`/storage/uploads/temp/${form.files.annual_financial_report.name}`" class="anchor-download" target="_blank">
+                        {{form.files.annual_financial_report.name | truncate(80, '...')}}
+                      </a>
+                      <a 
+                        href="javascript:;" 
+                        @click="uploadDelete(form.files.annual_financial_report.name, 'annual_financial_report')" 
+                        class="icon-trash ml-3x">
+                        <icon-trash />
+                      </a>
+                    </div>
+                  </template>
+                  <template v-else>
+                    <vue-dropzone
+                      ref="dropzone"
+                      id="dropzone"
+                      :options="config"
+                      @vdropzone-sending="uploadSending"
+                      @vdropzone-success="uploadSuccess($event, 'annual_financial_report', 'Jahresrechnung')"
+                      @vdropzone-complete="uploadComplete"
+                      @vdropzone-max-files-exceeded="uploadMaxFilesExceeded"
+                      :useCustomSlot=true
+                    >
+                      <button class="btn-upload">Datei auswählen...</button>
+                    </vue-dropzone>
+                  </template>
+                </div>
+              </application-row>
+            </div>
+            <div class="span">
+              <application-row :class="[errors.file_budget ? 'has-error' : '', 'application-row__form']">
+                <div class="span-4 sm:span-5">
+                  <label>
+                    {{ errors.file_budget ? errors.file_budget : 'Budget (PDF) *' }}
+                  </label>
+                </div>
+                <div class="span-8 sm:span-7">
+                  <template v-if="form.files.budget">
+                    <div class="flex justify-between">
+                      <a :href="`/storage/uploads/temp/${form.files.budget.name}`" class="anchor-download" target="_blank">
+                        {{form.files.budget.name | truncate(80, '...')}}
+                      </a>
+                      <a 
+                        href="javascript:;" 
+                        @click="uploadDelete(form.files.budget.name, 'budget')" 
+                        class="icon-trash ml-3x">
+                        <icon-trash />
+                      </a>
+                    </div>
+                  </template>
+                  <template v-else>
+                    <vue-dropzone
+                      ref="dropzone"
+                      id="dropzone"
+                      :options="config"
+                      @vdropzone-sending="uploadSending"
+                      @vdropzone-success="uploadSuccess($event, 'budget', 'Budget')"
+                      @vdropzone-complete="uploadComplete"
+                      @vdropzone-max-files-exceeded="uploadMaxFilesExceeded"
+                      :useCustomSlot=true
+                    >
+                      <button class="btn-upload">Datei auswählen...</button>
+                    </vue-dropzone>
+                  </template>
+                </div>
+              </application-row>
+            </div>
+            <div class="span">
+              <application-row :class="[errors.file_bylaws ? 'has-error' : '', 'application-row__form']">
+                <div class="span-4 sm:span-5">
+                  <label>
+                    {{ errors.file_bylaws ? errors.file_bylaws : 'Statuten (PDF) *' }}
+                  </label>
+                </div>
+                <div class="span-8 sm:span-7">
+                  <template v-if="form.files.bylaws">
+                    <div class="flex justify-between">
+                      <a :href="`/storage/uploads/temp/${form.files.bylaws.name}`" class="anchor-download" target="_blank">
+                        {{form.files.bylaws.name | truncate(80, '...')}}
+                      </a>
+                      <a 
+                        href="javascript:;" 
+                        @click="uploadDelete(form.files.bylaws.name, 'bylaws')" 
+                        class="icon-trash ml-3x">
+                        <icon-trash />
+                      </a>
+                    </div>
+                  </template>
+                  <template v-else>
+                    <vue-dropzone
+                      ref="dropzone"
+                      id="dropzone"
+                      :options="config"
+                      @vdropzone-sending="uploadSending"
+                      @vdropzone-success="uploadSuccess($event, 'bylaws', 'Statuten')"
+                      @vdropzone-complete="uploadComplete"
+                      @vdropzone-max-files-exceeded="uploadMaxFilesExceeded"
+                      :useCustomSlot=true
+                    >
+                      <button class="btn-upload">Datei auswählen...</button>
+                    </vue-dropzone>
+                  </template>
+                </div>
+              </application-row>
+            </div>
+          </template>
+
+          <template>
+            <h2 class="span">Projekt</h2>
+            <div class="span">
+              <application-row :class="[errors.project_title ? 'has-error' : '', 'application-row__form']">
+                <application-label :cls="'span-4 sm:span-5'">
+                  {{ errors.project_title ? errors.project_title : 'Projekttitel *' }}
+                </application-label>
+                <application-input :cls="'span-8 sm:span-7'">
+                  <input type="text" v-model="form.project_title" required :class="[errors.project_title ? 'is-invalid' : '', ''] " @blur="validate($event)" @focus="removeError('project_title')">
+                </application-input>
+              </application-row>
+            </div>
+            <div class="span mb-6x">
+              <application-row :class="[errors.justification_funds ? 'has-error' : '', 'application-row__form']">
+                <application-label :cls="'span-4 sm:span-5'">
+                  {{ errors.justification_funds ? errors.justification_funds : 'Kurzbegründung Mittelbedarf *' }}
+                </application-label>
+                <application-input :cls="'span-8 sm:span-7'">
+                  <textarea v-model="form.justification_funds" required :class="[errors.justification_funds ? 'is-invalid' : '', ''] " @blur="validate($event)" @focus="removeError('justification_funds')"></textarea>
+                </application-input>
+              </application-row>
+            </div>
+            <div class="span mb-6x">
+              <application-row :class="[errors.project_beneficiaries ? 'has-error' : '', 'application-row__form']">
+                <application-label :cls="'span-4 sm:span-5'">
+                  {{ errors.project_beneficiaries ? errors.project_beneficiaries : 'Begünstigte des Projekts *' }}
+                </application-label>
+                <application-input :cls="'span-8 sm:span-7'">
+                  <textarea v-model="form.project_beneficiaries" required :class="[errors.project_beneficiaries ? 'is-invalid' : '', ''] " @blur="validate($event)" @focus="removeError('project_beneficiaries')"></textarea>
+                </application-input>
+              </application-row>
+            </div>
+            <div class="span mb-6x">
+              <application-row :class="[errors.proportion_residents_benefit_program ? 'has-error' : '', 'application-row__form']">
+                <application-label :cls="'span-4 sm:span-5'">
+                  {{ errors.proportion_residents_benefit_program ? errors.proportion_residents_benefit_program : 'Anteil begünstigte Stadtzürcherinnen und Stadtzürcher (falls quantifizierbar) *' }}
+                </application-label>
+                <application-input :cls="'span-8 sm:span-7'">
+                  <textarea v-model="form.proportion_residents_benefit_program" required :class="[errors.proportion_residents_benefit_program ? 'is-invalid' : '', ''] " @blur="validate($event)" @focus="removeError('proportion_residents_benefit_program')"></textarea>
+                </application-input>
+              </application-row>
+            </div>
+            <div class="span mb-6x">
+              <application-row :class="[errors.project_time ? 'has-error' : '', 'application-row__form']">
+                <application-label :cls="'span-4 sm:span-5'">
+                  {{ errors.project_time ? errors.project_time : 'Projektdauer/Zeitraum *' }}
+                </application-label>
+                <application-input :cls="'span-8 sm:span-7'">
+                  <textarea v-model="form.project_time" required :class="[errors.project_time ? 'is-invalid' : '', ''] " @blur="validate($event)" @focus="removeError('project_time')"></textarea>
+                </application-input>
+              </application-row>
+            </div>
+            <div class="span">
+              <application-row :class="[errors.file_annual_financial_report ? 'has-error' : '', 'application-row__form']">
+                <div class="span-4 sm:span-5">
+                  <label>
+                    {{ errors.file_annual_financial_report ? errors.file_annual_financial_report : 'Beschreibung und Begründung des Projekts (PDF, max. fünf Seiten) *' }}
+                  </label>
+                </div>
+                <div class="span-8 sm:span-7">
+                  <template v-if="form.files.project_description">
+                    <div class="flex justify-between">
+                      <a :href="`/storage/uploads/temp/${form.files.project_description.name}`" class="anchor-download" target="_blank">
+                        {{form.files.project_description.name | truncate(80, '...')}}
+                      </a>
+                      <a 
+                        href="javascript:;" 
+                        @click="uploadDelete(form.files.project_description.name, 'project_description')" 
+                        class="icon-trash ml-3x">
+                        <icon-trash />
+                      </a>
+                    </div>
+                  </template>
+                  <template v-else>
+                    <vue-dropzone
+                      ref="dropzone"
+                      id="dropzone"
+                      :options="config"
+                      @vdropzone-sending="uploadSending"
+                      @vdropzone-success="uploadSuccess($event, 'project_description', 'Projekt')"
+                      @vdropzone-complete="uploadComplete"
+                      @vdropzone-max-files-exceeded="uploadMaxFilesExceeded"
+                      :useCustomSlot=true
+                    >
+                      <button class="btn-upload">Datei auswählen...</button>
+                    </vue-dropzone>
+                  </template>
+                </div>
+              </application-row>
+            </div>
+            <div class="span">
+              <application-row :class="[errors.file_project_estimated_costs ? 'has-error' : '', 'application-row__form']">
+                <div class="span-4 sm:span-5">
+                  <label>
+                    {{ errors.file_project_estimated_costs ? errors.file_project_estimated_costs : 'Detaillierter Kostenvoranschlag, eventuell Richtpreisofferten (PDF) *' }}
+                  </label>
+                </div>
+                <div class="span-8 sm:span-7">
+                  <template v-if="form.files.project_estimated_costs">
+                    <div class="flex justify-between">
+                      <a :href="`/storage/uploads/temp/${form.files.project_estimated_costs.name}`" class="anchor-download" target="_blank">
+                        {{form.files.project_estimated_costs.name | truncate(80, '...')}}
+                      </a>
+                      <a 
+                        href="javascript:;" 
+                        @click="uploadDelete(form.files.project_estimated_costs.name, 'project_estimated_costs')" 
+                        class="icon-trash ml-3x">
+                        <icon-trash />
+                      </a>
+                    </div>
+                  </template>
+                  <template v-else>
+                    <vue-dropzone
+                      ref="dropzone"
+                      id="dropzone"
+                      :options="config"
+                      @vdropzone-sending="uploadSending"
+                      @vdropzone-success="uploadSuccess($event, 'project_estimated_costs', 'KV')"
+                      @vdropzone-complete="uploadComplete"
+                      @vdropzone-max-files-exceeded="uploadMaxFilesExceeded"
+                      :useCustomSlot=true
+                    >
+                      <button class="btn-upload">Datei auswählen...</button>
+                    </vue-dropzone>
+                  </template>
+                </div>
+              </application-row>
+            </div>
+          </template>
+
+          <template>
+            <h2 class="span">Projektkosten und -finanzierung</h2>
+            <div class="span">
+              <application-row :class="[errors.project_cost_total ? 'has-error' : '', 'application-row__form']">
+                <application-label :cls="'span-4 sm:span-5'">
+                  {{ errors.project_cost_total ? errors.project_cost_total : 'Projektkosten total (CHF) *' }}
+                </application-label>
+                <application-input :cls="'span-8 sm:span-7'">
+                  <input type="number" min="0" v-model="form.project_cost_total" required :class="[errors.project_cost_total ? 'is-invalid' : '', ''] " @blur="validate($event)" @focus="removeError('project_cost_total')">
+                </application-input>
+              </application-row>
+            </div>
+            <div class="span">
+              <application-row :class="[errors.project_own_contribution ? 'has-error' : '', 'application-row__form']">
+                <application-label :cls="'span-4 sm:span-5'">
+                  {{ errors.project_own_contribution ? errors.project_own_contribution : 'Eigenleistungen total (CHF) *' }}
+                </application-label>
+                <application-input :cls="'span-8 sm:span-7'">
+                  <input type="number" min="0" v-model="form.project_own_contribution" required :class="[errors.project_own_contribution ? 'is-invalid' : '', ''] " @blur="validate($event)" @focus="removeError('project_own_contribution')">
+                </application-input>
+              </application-row>
+            </div>
+            <div class="span">
+              <application-row :class="[errors.project_contribution_requested ? 'has-error' : '', 'application-row__form']">
+                <application-label :cls="'span-4 sm:span-5'">
+                  {{ errors.project_contribution_requested ? errors.project_contribution_requested : 'Beantragter Beitrag Dr. Stephan à Porta-Stiftung (CHF) *' }}
+                </application-label>
+                <application-input :cls="'span-8 sm:span-7'">
+                  <input type="number" min="0" v-model="form.project_contribution_requested" required :class="[errors.project_contribution_requested ? 'is-invalid' : '', ''] " @blur="validate($event)" @focus="removeError('project_contribution_requested')">
+                </application-input>
+              </application-row>
+            </div>
+            <div class="span">
+              <application-row :class="[errors.project_contribution_further_requested ? 'has-error' : '', 'application-row__form']">
+                <application-label :cls="'span-4 sm:span-5'">
+                  {{ errors.project_contribution_further_requested ? errors.project_contribution_further_requested : 'Weitere beantragte Beiträge (CHF) *'}}
+                </application-label>
+                <application-input :cls="'span-8 sm:span-7'">
+                  <input type="number" min="0" v-model="form.project_contribution_further_requested" required :class="[errors.project_contribution_further_requested ? 'is-invalid' : '', ''] " @blur="validate($event)" @focus="removeError('project_contribution_further_requested')">
+                </application-input>
+              </application-row>
+            </div>
+          </template>
+
+          <template>
+            <h2 class="span">Beiträge Dritter</h2>
+            <p class="span">Sofern Sie für das gleiche Gesuch weitere Institutionen um einem Beitrag ersuchen, bitten wir um folgende Angaben:</p>
+            <template v-if="errors.project_add_instit_2 || errors.project_add_instit_total_2 || errors.project_add_instit_3 || errors.project_add_instit_total_3 || errors.project_add_instit_4 || errors.project_add_instit_total_4 || errors.project_add_instit_5 || errors.project_add_instit_total_5">
+              <p class="has-error">Es sind nicht alle Felder korrekt ausgefüllt:</p>
+            </template>
+            <div class="span">
+              <application-row class="application-row__form">
+                <application-input :cls="'span-4 sm:span-4'">
+                  <label class="mb-2x">Institution</label>
+                  <input 
+                    class="mb-2x"
+                    type="text" 
+                    v-model="form[`project_add_instit_${add}`]" 
+                    :class="[errors[`project_add_instit_${add}`] ? 'is-invalid' : '', ''] " @focus="removeError([`project_add_instit_${add}`])"
+                    v-for="(add, index) in [2, 3, 4, 5]" :key="index">
+                </application-input>
+                <application-input :cls="'span-4 sm:span-4'">
+                  <label class="mb-2x">Betrag</label>
+                  <input 
+                    class="mb-2x"
+                    type="number" 
+                    min="0" 
+                    v-model="form[`project_add_instit_total_${add}`]" 
+                    :class="[errors[`project_add_instit_total_${add}`] ? 'is-invalid' : '', ''] " @focus="removeError([`project_add_instit_total_${add}`])"
+                    v-for="(add, index) in [2, 3, 4, 5]" :key="index">
+                </application-input>
+                <application-input :cls="'span-4 sm:span-4'">
+                  <label class="mb-2x">Antwort</label>
+                  <div class="select-wrapper mb-2x" v-for="(add, index) in [2, 3, 4, 5]" :key="index">
+                    <select v-model="form[`project_add_instit_answer_${add}`]">
+                      <option :value="'Zusage'">Zusage</option>
+                      <option :value="'Absage'">Absage</option>
+                      <option :value="'offen'">offen</option>
+                    </select>
+                  </div>
+                </application-input>
+              </application-row>
 
 
-          </div>
+            </div>
+          </template>
+
+          <template>
+            <h2 class="span">Budgetierter jährlicher Ertrag aus dem Projekt</h2>
+            <div class="span">
+              <application-row :class="[errors.project_income ? 'has-error' : '', 'application-row__form']">
+                <application-label :cls="'span-4 sm:span-5'">
+                  {{ errors.project_income ? errors.project_income : 'Budgetierter jährlicher Ertrag in CHF *'}}
+                </application-label>
+                <application-input :cls="'span-8 sm:span-7'">
+                  <input type="number" min="0" v-model="form.project_income" required :class="[errors.project_income ? 'is-invalid' : '', ''] " @blur="validate($event)" @focus="removeError('project_income')">
+                </application-input>
+              </application-row>
+            </div>
+          </template>
+
+          <template>
+            <div class="span mt-12x">
+              <a 
+                href="javascript:;" 
+                :class="[isSaving ? 'disabled' : '', 'btn-primary is-small']"
+                @click.prevent="submit()">Anfrage senden</a>
+            </div>
+          </template>
+
         </template>
-
-        <template>
-          <h2 class="span">Budgetierter jährlicher Ertrag aus dem Projekt</h2>
-          <div class="span">
-            <application-row :class="[errors.project_income ? 'has-error' : '', 'application-row__form']">
-              <application-label :cls="'span-4 sm:span-5'">
-                {{ errors.project_income ? errors.project_income : 'Budgetierter jährlicher Ertrag in CHF *'}}
-              </application-label>
-              <application-input :cls="'span-8 sm:span-7'">
-                <input type="number" min="0" v-model="form.project_income" required :class="[errors.project_income ? 'is-invalid' : '', ''] " @blur="validate($event)" @focus="removeError('project_income')">
-              </application-input>
-            </application-row>
-          </div>
-        </template>
-
-        <template>
-          <div class="span mt-12x">
-            <a 
-              href="javascript:;" 
-              :class="[isSaving ? 'disabled' : '', 'btn-primary is-small']"
-              @click.prevent="submit()">Anfrage senden</a>
-          </div>
-        </template>
-
       </site-grid>
     </site-wrapper>
   </site-main>
-
   <dialog-wrapper ref="dialogDestroy">
     <template #message>
       <div><strong>Möchten Sie diese Datei wirklich löschen?</strong></div>
@@ -648,7 +655,6 @@ export default {
           project_description: null,
           project_estimated_costs: null,
         },
-
         project_add_instit_2: null,
         project_add_instit_3: null,
         project_add_instit_4: null,
@@ -717,6 +723,7 @@ export default {
 
       // States
       isSaving: false,
+      isSuccess: false,
     }
   },
 
@@ -731,8 +738,36 @@ export default {
       NProgress.start();
       this.axios.post(this.routes.post, this.form).then(response => {
         this.isSaving = false;
+        this.isSuccess = true;
+        this.reset();
         NProgress.done();
       });
+    },
+
+    reset() {
+      this.form = {
+        files: {
+          portrait: null,
+          annual_report: null,
+          annual_financial_report: null,
+          budget: null,
+          bylaws: null,
+          project_description: null,
+          project_estimated_costs: null,
+        },
+        project_add_instit_2: null,
+        project_add_instit_3: null,
+        project_add_instit_4: null,
+        project_add_instit_5: null,
+        project_add_instit_total_2: null,
+        project_add_instit_total_3: null,
+        project_add_instit_total_4: null,
+        project_add_instit_total_5: null,
+        project_add_instit_answer_2: 'offen',
+        project_add_instit_answer_3: 'offen',
+        project_add_instit_answer_4: 'offen',
+        project_add_instit_answer_5: 'offen',
+      }
     },
 
     /** File upload */

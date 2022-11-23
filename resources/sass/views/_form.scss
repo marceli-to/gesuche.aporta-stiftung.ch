@@ -41,4 +41,12 @@
       min-height: 240px;
     }
   }
+
+  &__success {
+    color: $color-success !important;
+    h1 {
+      color: $color-success !important;
+      margin-bottom: $space-3x !important;
+    }
+  }
 }
