@@ -372,7 +372,8 @@
                   {{ errors.justification_funds ? errors.justification_funds : 'Kurzbegründung Mittelbedarf *' }}
                 </application-label>
                 <application-input :cls="'span-8 sm:span-7'">
-                  <textarea v-model="form.justification_funds" required :class="[errors.justification_funds ? 'is-invalid' : '', ''] " @blur="validate($event)" @focus="removeError('justification_funds')"></textarea>
+                  <textarea v-model="form.justification_funds" maxlength="500" required :class="[errors.justification_funds ? 'is-invalid' : '', ''] " @blur="validate($event)" @focus="removeError('justification_funds')"></textarea>
+                  <div class="flex justify-end mt-1x text-primary">{{ form.justification_funds ? form.justification_funds.length : '0' }}/500 Zeichen</div>
                 </application-input>
               </application-row>
             </div>
@@ -382,7 +383,8 @@
                   {{ errors.project_beneficiaries ? errors.project_beneficiaries : 'Begünstigte des Projekts *' }}
                 </application-label>
                 <application-input :cls="'span-8 sm:span-7'">
-                  <textarea v-model="form.project_beneficiaries" required :class="[errors.project_beneficiaries ? 'is-invalid' : '', ''] " @blur="validate($event)" @focus="removeError('project_beneficiaries')"></textarea>
+                  <textarea v-model="form.project_beneficiaries" maxlength="500" required :class="[errors.project_beneficiaries ? 'is-invalid' : '', ''] " @blur="validate($event)" @focus="removeError('project_beneficiaries')"></textarea>
+                  <div class="flex justify-end mt-1x text-primary">{{ form.project_beneficiaries ? form.project_beneficiaries.length : '0' }}/500 Zeichen</div>
                 </application-input>
               </application-row>
             </div>
@@ -392,7 +394,8 @@
                   {{ errors.proportion_residents_benefit_program ? errors.proportion_residents_benefit_program : 'Anteil begünstigte Stadtzürcherinnen und Stadtzürcher (falls quantifizierbar) *' }}
                 </application-label>
                 <application-input :cls="'span-8 sm:span-7'">
-                  <textarea v-model="form.proportion_residents_benefit_program" required :class="[errors.proportion_residents_benefit_program ? 'is-invalid' : '', ''] " @blur="validate($event)" @focus="removeError('proportion_residents_benefit_program')"></textarea>
+                  <textarea v-model="form.proportion_residents_benefit_program" maxlength="500" required :class="[errors.proportion_residents_benefit_program ? 'is-invalid' : '', ''] " @blur="validate($event)" @focus="removeError('proportion_residents_benefit_program')"></textarea>
+                  <div class="flex justify-end mt-1x text-primary">{{ form.proportion_residents_benefit_program ? form.proportion_residents_benefit_program.length : '0' }}/500 Zeichen</div>
                 </application-input>
               </application-row>
             </div>
@@ -402,7 +405,8 @@
                   {{ errors.project_time ? errors.project_time : 'Projektdauer/Zeitraum *' }}
                 </application-label>
                 <application-input :cls="'span-8 sm:span-7'">
-                  <textarea v-model="form.project_time" required :class="[errors.project_time ? 'is-invalid' : '', ''] " @blur="validate($event)" @focus="removeError('project_time')"></textarea>
+                  <textarea v-model="form.project_time" maxlength="500" required :class="[errors.project_time ? 'is-invalid' : '', ''] " @blur="validate($event)" @focus="removeError('project_time')"></textarea>
+                  <div class="flex justify-end mt-1x text-primary">{{ form.project_time ? form.project_time.length : '0' }}/500 Zeichen</div>
                 </application-input>
               </application-row>
             </div>
