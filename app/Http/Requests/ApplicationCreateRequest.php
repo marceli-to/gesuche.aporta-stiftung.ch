@@ -163,35 +163,35 @@ class ApplicationCreateRequest extends FormRequest
       ],
       'project_contribution_further_requested.required' => [
         'field' => 'project_contribution_further_requested',
-        'error' => 'Weitere beantragte Beiträge (CHF) wird benötigt'
+        'error' => 'Weitere beantragte Beiträge wird benötigt'
       ],
       'files.portrait.required' => [
         'field' => 'file_portrait',
-        'error' => 'Kurzportrait (PDF) wird benötigt'
+        'error' => 'Kurzportrait wird benötigt'
       ],
       'files.annual_report.required' => [
         'field' => 'file_annual_report',
-        'error' => 'Jahresbericht (PDF) wird benötigt'
+        'error' => 'Jahresbericht wird benötigt'
       ],
       'files.annual_financial_report.required' => [
         'field' => 'file_annual_financial_report',
-        'error' => 'Jahresrechnung (PDF) wird benötigt'
+        'error' => 'Jahresrechnung wird benötigt'
       ],
       'files.budget.required' => [
         'field' => 'file_budget',
-        'error' => 'Budget (PDF) wird benötigt'
+        'error' => 'Budget wird benötigt'
       ],
       'files.bylaws.required' => [
         'field' => 'file_bylaws',
-        'error' => 'Statuten (PDF) wird benötigt'
+        'error' => 'Statuten wird benötigt'
       ],
       'files.project_description.required' => [
         'field' => 'file_project_description',
-        'error' => 'Beschreibung und Begründung des Projekts (PDF) wird benötigt'
+        'error' => 'Beschreibung und Begründung des Projekts wird benötigt'
       ],
       'files.project_estimated_costs.required' => [
         'field' => 'file_project_estimated_costs',
-        'error' => 'Detaillierter Kostenvoranschlag (PDF) wird benötigt'
+        'error' => 'Detaillierter Kostenvoranschlag wird benötigt'
       ],
 
       'project_add_instit_2.required_with' => [
