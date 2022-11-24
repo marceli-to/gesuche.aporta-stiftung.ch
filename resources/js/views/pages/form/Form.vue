@@ -593,7 +593,7 @@
             <div class="span mt-12x">
               <a 
                 href="javascript:;" 
-                :class="[isSaving ? 'disabled' : '', 'btn-primary is-small']"
+                :class="[isSaving ? 'disabled' : '', 'btn-submit is-small']"
                 @click.prevent="submit()">Anfrage senden</a>
             </div>
           </template>
