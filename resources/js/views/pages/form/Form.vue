@@ -410,7 +410,7 @@
                 </application-input>
               </application-row>
             </div>
-            <div class="span">
+            <div class="span mb-3x">
               <application-row :class="[errors.file_annual_financial_report ? 'has-error' : '', 'application-row__form']">
                 <div class="span-4 sm:span-5">
                   <label>

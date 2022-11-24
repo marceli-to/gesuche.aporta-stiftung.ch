@@ -36,6 +36,12 @@
     padding: 4px !important;
   }
 
+  .application-row__form {
+    > div {
+      padding-top: $space-2x;
+    }
+  }
+
   &__header {
     @extend %site-header;
     color: $color-white;
