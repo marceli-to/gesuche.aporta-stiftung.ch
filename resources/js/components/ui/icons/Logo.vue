@@ -5,7 +5,7 @@
 svg {
   color: #fff;
   display: block;
-  height: auto;
-  width: 100px;
+  height: 60px;
+  width: auto;
 }
 </style>

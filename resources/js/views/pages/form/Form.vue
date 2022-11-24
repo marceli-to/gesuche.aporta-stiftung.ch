@@ -1,5 +1,5 @@
 <template>
-<div>
+<div class="application-form">
   <notifications classes="notification" />
   <site-header>
     <icon-logo />
@@ -49,8 +49,8 @@
           </template>
 
           <template>
-            <h2 class="span">Bank-/Postverbindung</h2>
-            <div class="span">
+            <h2 class="span">Kontoangaben</h2>
+            <!-- <div class="span">
               <application-row :class="[errors.bank_account ? 'has-error' : '', 'application-row__form']">
                 <application-label :cls="'span-4 sm:span-5'">
                   {{ errors.bank_account ? errors.bank_account : 'Bank-/Postkonto *' }}
@@ -59,7 +59,7 @@
                   <input type="text" v-model="form.bank_account" required :class="[errors.bank_account ? 'is-invalid' : '', '']" @blur="validate($event)" @focus="removeError('bank_account')">
                 </application-input>
               </application-row>
-            </div>
+            </div> -->
             <div class="span">
               <application-row :class="[errors.iban ? 'has-error' : '', 'application-row__form']">
                 <application-label :cls="'span-4 sm:span-5'">
@@ -154,7 +154,7 @@
                   {{ errors.email ? errors.email : 'E-Mail *' }}
                 </application-label>
                 <application-input :cls="'span-8 sm:span-7'">
-                  <input type="text" v-model="form.email" required :class="[errors.email ? 'is-invalid' : '', ''] " @blur="validate($event)" @focus="removeError('email')">
+                  <input type="email" v-model="form.email" required :class="[errors.email ? 'is-invalid' : '', ''] " @blur="validate($event)" @focus="removeError('email')">
                 </application-input>
               </application-row>
             </div>
@@ -194,7 +194,7 @@
                       @vdropzone-max-files-exceeded="uploadMaxFilesExceeded"
                       :useCustomSlot=true
                     >
-                      <button class="btn-upload">Datei auswählen...</button>
+                      <button class="btn-upload">Datei auswählen</button>
                     </vue-dropzone>
                   </template>
                 </div>
@@ -232,7 +232,7 @@
                       @vdropzone-max-files-exceeded="uploadMaxFilesExceeded"
                       :useCustomSlot=true
                     >
-                      <button class="btn-upload">Datei auswählen...</button>
+                      <button class="btn-upload">Datei auswählen</button>
                     </vue-dropzone>
                   </template>
                 </div>
@@ -270,7 +270,7 @@
                       @vdropzone-max-files-exceeded="uploadMaxFilesExceeded"
                       :useCustomSlot=true
                     >
-                      <button class="btn-upload">Datei auswählen...</button>
+                      <button class="btn-upload">Datei auswählen</button>
                     </vue-dropzone>
                   </template>
                 </div>
@@ -308,7 +308,7 @@
                       @vdropzone-max-files-exceeded="uploadMaxFilesExceeded"
                       :useCustomSlot=true
                     >
-                      <button class="btn-upload">Datei auswählen...</button>
+                      <button class="btn-upload">Datei auswählen</button>
                     </vue-dropzone>
                   </template>
                 </div>
@@ -346,7 +346,7 @@
                       @vdropzone-max-files-exceeded="uploadMaxFilesExceeded"
                       :useCustomSlot=true
                     >
-                      <button class="btn-upload">Datei auswählen...</button>
+                      <button class="btn-upload">Datei auswählen</button>
                     </vue-dropzone>
                   </template>
                 </div>
@@ -373,7 +373,7 @@
                 </application-label>
                 <application-input :cls="'span-8 sm:span-7'">
                   <textarea v-model="form.justification_funds" maxlength="500" required :class="[errors.justification_funds ? 'is-invalid' : '', ''] " @blur="validate($event)" @focus="removeError('justification_funds')"></textarea>
-                  <div class="flex justify-end mt-1x text-primary">{{ form.justification_funds ? form.justification_funds.length : '0' }}/500 Zeichen</div>
+                  <text-length-indicator :field="form.justification_funds" />
                 </application-input>
               </application-row>
             </div>
@@ -384,7 +384,7 @@
                 </application-label>
                 <application-input :cls="'span-8 sm:span-7'">
                   <textarea v-model="form.project_beneficiaries" maxlength="500" required :class="[errors.project_beneficiaries ? 'is-invalid' : '', ''] " @blur="validate($event)" @focus="removeError('project_beneficiaries')"></textarea>
-                  <div class="flex justify-end mt-1x text-primary">{{ form.project_beneficiaries ? form.project_beneficiaries.length : '0' }}/500 Zeichen</div>
+                  <text-length-indicator :field="form.project_beneficiaries" />
                 </application-input>
               </application-row>
             </div>
@@ -395,7 +395,7 @@
                 </application-label>
                 <application-input :cls="'span-8 sm:span-7'">
                   <textarea v-model="form.proportion_residents_benefit_program" maxlength="500" required :class="[errors.proportion_residents_benefit_program ? 'is-invalid' : '', ''] " @blur="validate($event)" @focus="removeError('proportion_residents_benefit_program')"></textarea>
-                  <div class="flex justify-end mt-1x text-primary">{{ form.proportion_residents_benefit_program ? form.proportion_residents_benefit_program.length : '0' }}/500 Zeichen</div>
+                  <text-length-indicator :field="form.proportion_residents_benefit_program" />
                 </application-input>
               </application-row>
             </div>
@@ -406,7 +406,7 @@
                 </application-label>
                 <application-input :cls="'span-8 sm:span-7'">
                   <textarea v-model="form.project_time" maxlength="500" required :class="[errors.project_time ? 'is-invalid' : '', ''] " @blur="validate($event)" @focus="removeError('project_time')"></textarea>
-                  <div class="flex justify-end mt-1x text-primary">{{ form.project_time ? form.project_time.length : '0' }}/500 Zeichen</div>
+                  <text-length-indicator :field="form.project_time" />
                 </application-input>
               </application-row>
             </div>
@@ -442,7 +442,7 @@
                       @vdropzone-max-files-exceeded="uploadMaxFilesExceeded"
                       :useCustomSlot=true
                     >
-                      <button class="btn-upload">Datei auswählen...</button>
+                      <button class="btn-upload">Datei auswählen</button>
                     </vue-dropzone>
                   </template>
                 </div>
@@ -480,7 +480,7 @@
                       @vdropzone-max-files-exceeded="uploadMaxFilesExceeded"
                       :useCustomSlot=true
                     >
-                      <button class="btn-upload">Datei auswählen...</button>
+                      <button class="btn-upload">Datei auswählen</button>
                     </vue-dropzone>
                   </template>
                 </div>
@@ -493,7 +493,7 @@
             <div class="span">
               <application-row :class="[errors.project_cost_total ? 'has-error' : '', 'application-row__form']">
                 <application-label :cls="'span-4 sm:span-5'">
-                  {{ errors.project_cost_total ? errors.project_cost_total : 'Projektkosten total (CHF) *' }}
+                  {{ errors.project_cost_total ? errors.project_cost_total : 'Projektkosten Total (CHF) *' }}
                 </application-label>
                 <application-input :cls="'span-8 sm:span-7'">
                   <input type="number" min="0" v-model="form.project_cost_total" required :class="[errors.project_cost_total ? 'is-invalid' : '', ''] " @blur="validate($event)" @focus="removeError('project_cost_total')">
@@ -503,7 +503,7 @@
             <div class="span">
               <application-row :class="[errors.project_own_contribution ? 'has-error' : '', 'application-row__form']">
                 <application-label :cls="'span-4 sm:span-5'">
-                  {{ errors.project_own_contribution ? errors.project_own_contribution : 'Eigenleistungen total (CHF) *' }}
+                  {{ errors.project_own_contribution ? errors.project_own_contribution : 'Eigenleistungen Total (CHF) *' }}
                 </application-label>
                 <application-input :cls="'span-8 sm:span-7'">
                   <input type="number" min="0" v-model="form.project_own_contribution" required :class="[errors.project_own_contribution ? 'is-invalid' : '', ''] " @blur="validate($event)" @focus="removeError('project_own_contribution')">
@@ -615,7 +615,7 @@
 
 <script>
 import NProgress from 'nprogress';
-import ErrorHandling from "@/mixins/ErrorHandling";
+import ErrorHandling from '@/mixins/ErrorHandling';
 import SiteMain from '@/views/pages/form/components/Main.vue';
 import SiteHeader from '@/views/pages/form/components/Header.vue';
 import SiteWrapper from '@/components/layout/Wrapper.vue';
@@ -623,10 +623,11 @@ import SiteGrid from '@/views/pages/form/components/Grid.vue';
 import ApplicationRow from '@/components/layout/Row.vue';
 import ApplicationLabel from '@/components/layout/Label.vue';
 import ApplicationInput from '@/components/layout/Input.vue';
-import vue2Dropzone from "vue2-dropzone";
-import DialogWrapper from "@/components/ui/misc/Dialog.vue";
-import IconTrash from "@/components/ui/icons/Trash-sm.vue";
-import IconLogo from "@/components/ui/icons/Logo.vue";
+import vue2Dropzone from 'vue2-dropzone';
+import DialogWrapper from '@/components/ui/misc/Dialog.vue';
+import IconTrash from '@/components/ui/icons/Trash-sm.vue';
+import IconLogo from '@/components/ui/icons/Logo.vue';
+import TextLengthIndicator from '@/views/pages/form/components/TextLengthIndicator.vue';
 
 export default {
 
@@ -641,7 +642,8 @@ export default {
     DialogWrapper,
     vueDropzone: vue2Dropzone,
     IconTrash,
-    IconLogo
+    IconLogo,
+    TextLengthIndicator
   },
 
   mixins: [ErrorHandling],

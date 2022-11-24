@@ -28,6 +28,14 @@
   color: $color-danger !important;
 }
 
+.text-small {
+  @include font-size($fs-sm);
+}
+
+.text-medium {
+  @include font-size($fs-md);
+}
+
 /**
  * Typography - Generic elements
  * -----------------------------------------------------------------------------

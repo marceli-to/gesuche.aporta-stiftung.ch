@@ -5,12 +5,45 @@
  */
 
 .application-form {
+  @include font-size($fs-form-sm);
+    
+  h1, 
+  h2 {
+    @include font-size($fs-form-md);
+  }
+
+  input[type=text],
+  input[type=number],
+  input[type=email],
+  textarea {
+    min-height: 30px;
+    padding: 4px;
+  }
+
+  select {
+    min-height: 30px;
+    padding: 4px;
+  }
+
+  .btn-upload,
+  .btn-primary {
+    @include font-size($fs-form-sm);
+    align-items: center;
+    display: flex;
+    height: auto;
+    min-height: 30px;
+    line-height: 1 !important;
+    padding: 4px !important;
+  }
 
   &__header {
     @extend %site-header;
     color: $color-white;
+    height: 130px;
+
     > div {
       max-width: $form-max-width;
+      justify-content: center;
     }
   }
 
@@ -44,9 +77,5 @@
 
   &__success {
     color: $color-success !important;
-    h1 {
-      color: $color-success !important;
-      margin-bottom: $space-3x !important;
-    }
   }
 }
