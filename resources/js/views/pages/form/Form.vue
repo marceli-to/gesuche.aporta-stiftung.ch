@@ -49,17 +49,51 @@
           </template>
 
           <template>
-            <h2 class="span">Kontoangaben</h2>
-            <!-- <div class="span">
-              <application-row :class="[errors.bank_account ? 'has-error' : '', 'application-row__form']">
+            <h2 class="span">Kontaktperson</h2>
+            <div class="span">
+              <application-row :class="[errors.firstname ? 'has-error' : '', 'application-row__form']">
                 <application-label :cls="'span-4 sm:span-5'">
-                  {{ errors.bank_account ? errors.bank_account : 'Bank-/Postkonto *' }}
+                  {{ errors.firstname ? errors.firstname : 'Vorname *' }}
                 </application-label>
                 <application-input :cls="'span-8 sm:span-7'">
-                  <input type="text" v-model="form.bank_account" required :class="[errors.bank_account ? 'is-invalid' : '', '']" @blur="validate($event)" @focus="removeError('bank_account')">
+                  <input type="text" v-model="form.firstname" required :class="[errors.firstname ? 'is-invalid' : '', ''] " @blur="validate($event)" @focus="removeError('firstname')">
                 </application-input>
               </application-row>
-            </div> -->
+            </div>
+            <div class="span">
+              <application-row :class="[errors.lastname ? 'has-error' : '', 'application-row__form']">
+                <application-label :cls="'span-4 sm:span-5'">
+                  {{ errors.lastname ? errors.lastname : 'Name *' }}
+                </application-label>
+                <application-input :cls="'span-8 sm:span-7'">
+                  <input type="text" v-model="form.lastname" required :class="[errors.lastname ? 'is-invalid' : '', ''] " @blur="validate($event)" @focus="removeError('lastname')">
+                </application-input>
+              </application-row>
+            </div>
+            <div class="span">
+              <application-row :class="[errors.phone ? 'has-error' : '', 'application-row__form']">
+                <application-label :cls="'span-4 sm:span-5'">
+                  {{ errors.phone ? errors.phone : 'Telefon *' }}
+                </application-label>
+                <application-input :cls="'span-8 sm:span-7'">
+                  <input type="text" v-model="form.phone" required :class="[errors.phone ? 'is-invalid' : '', ''] " @blur="validate($event)" @focus="removeError('phone')">
+                </application-input>
+              </application-row>
+            </div>
+            <div class="span">
+              <application-row :class="[errors.email ? 'has-error' : '', 'application-row__form']">
+                <application-label :cls="'span-4 sm:span-5'">
+                  {{ errors.email ? errors.email : 'E-Mail *' }}
+                </application-label>
+                <application-input :cls="'span-8 sm:span-7'">
+                  <input type="email" v-model="form.email" required :class="[errors.email ? 'is-invalid' : '', ''] " @blur="validate($event)" @focus="removeError('email')">
+                </application-input>
+              </application-row>
+            </div>
+          </template>
+
+          <template>
+            <h2 class="span">Kontoangaben</h2>
             <div class="span">
               <application-row :class="[errors.iban ? 'has-error' : '', 'application-row__form']">
                 <application-label :cls="'span-4 sm:span-5'">
@@ -67,6 +101,16 @@
                 </application-label>
                 <application-input :cls="'span-8 sm:span-7'">
                   <input type="text" v-model="form.iban" required :class="[errors.iban ? 'is-invalid' : '', '']" @blur="validate($event)" @focus="removeError('iban')">
+                </application-input>
+              </application-row>
+            </div>
+            <div class="span">
+              <application-row :class="[errors.iban ? 'has-error' : '', 'application-row__form']">
+                <application-label :cls="'span-4 sm:span-5'">
+                  {{ errors.beneficiary ? errors.beneficiary : 'Begünstigter *' }}
+                </application-label>
+                <application-input :cls="'span-8 sm:span-7'">
+                  <input type="text" v-model="form.beneficiary" required :class="[errors.beneficiary ? 'is-invalid' : '', '']" @blur="validate($event)" @focus="removeError('beneficiary')">
                 </application-input>
               </application-row>
             </div>
@@ -116,49 +160,7 @@
             </div>
           </template>
 
-          <template>
-            <h2 class="span">Kontaktperson</h2>
-            <div class="span">
-              <application-row :class="[errors.firstname ? 'has-error' : '', 'application-row__form']">
-                <application-label :cls="'span-4 sm:span-5'">
-                  {{ errors.firstname ? errors.firstname : 'Vorname *' }}
-                </application-label>
-                <application-input :cls="'span-8 sm:span-7'">
-                  <input type="text" v-model="form.firstname" required :class="[errors.firstname ? 'is-invalid' : '', ''] " @blur="validate($event)" @focus="removeError('firstname')">
-                </application-input>
-              </application-row>
-            </div>
-            <div class="span">
-              <application-row :class="[errors.lastname ? 'has-error' : '', 'application-row__form']">
-                <application-label :cls="'span-4 sm:span-5'">
-                  {{ errors.lastname ? errors.lastname : 'Name *' }}
-                </application-label>
-                <application-input :cls="'span-8 sm:span-7'">
-                  <input type="text" v-model="form.lastname" required :class="[errors.lastname ? 'is-invalid' : '', ''] " @blur="validate($event)" @focus="removeError('lastname')">
-                </application-input>
-              </application-row>
-            </div>
-            <div class="span">
-              <application-row :class="[errors.phone ? 'has-error' : '', 'application-row__form']">
-                <application-label :cls="'span-4 sm:span-5'">
-                  {{ errors.phone ? errors.phone : 'Telefon *' }}
-                </application-label>
-                <application-input :cls="'span-8 sm:span-7'">
-                  <input type="text" v-model="form.phone" required :class="[errors.phone ? 'is-invalid' : '', ''] " @blur="validate($event)" @focus="removeError('phone')">
-                </application-input>
-              </application-row>
-            </div>
-            <div class="span">
-              <application-row :class="[errors.email ? 'has-error' : '', 'application-row__form']">
-                <application-label :cls="'span-4 sm:span-5'">
-                  {{ errors.email ? errors.email : 'E-Mail *' }}
-                </application-label>
-                <application-input :cls="'span-8 sm:span-7'">
-                  <input type="email" v-model="form.email" required :class="[errors.email ? 'is-invalid' : '', ''] " @blur="validate($event)" @focus="removeError('email')">
-                </application-input>
-              </application-row>
-            </div>
-          </template>
+
 
           <template>
             <h2 class="span">Dokumente</h2>
@@ -411,10 +413,10 @@
               </application-row>
             </div>
             <div class="span mb-3x">
-              <application-row :class="[errors.file_annual_financial_report ? 'has-error' : '', 'application-row__form']">
+              <application-row :class="[errors.file_project_description ? 'has-error' : '', 'application-row__form']">
                 <div class="span-4 sm:span-5">
                   <label>
-                    {{ errors.file_annual_financial_report ? errors.file_annual_financial_report : 'Beschreibung und Begründung des Projekts (PDF, max. fünf Seiten) *' }}
+                    {{ errors.file_project_description ? errors.file_project_description : 'Beschreibung und Begründung des Projekts (PDF, max. fünf Seiten) *' }}
                   </label>
                 </div>
                 <div class="span-8 sm:span-7">
@@ -530,6 +532,31 @@
                 </application-input>
               </application-row>
             </div>
+
+            <div class="span" v-if="(form.project_cost_total > 0) && (openAmount > 0)">
+              <application-row class="application-row__form">
+                <application-label :cls="'span-4 sm:span-5'">
+                  Offener Betrag (CHF)
+                </application-label>
+                <application-input :cls="'span-8 sm:span-7'">
+                  <input type="number" min="0" readonly :value="openAmount" >
+                </application-input>
+              </application-row>
+            </div>
+
+            <div class="span">
+              <application-row class="application-row__form" v-if="openAmount > 0">
+                <application-label :cls="'span-4 sm:span-5'">
+                  Wie wird der offene Betrag finanziert?
+                </application-label>
+                <application-input :cls="'span-8 sm:span-7'">
+                  <textarea v-model="form.project_finance" maxlength="500"></textarea>
+                  <text-length-indicator :field="form.project_finance" />
+                </application-input>
+              </application-row>
+            </div>
+
+
           </template>
 
           <template>
@@ -680,6 +707,7 @@ export default {
         legal_form: false,
         bank_account: false,
         iban: false,
+        beneficiary: false,
         street: false,
         zip: false,
         city: false,
@@ -814,7 +842,7 @@ export default {
           }
         }
       }
-      this.$refs.dropzone.removeFile(file);
+      // this.$refs.dropzone.removeFile(file);
 
     },
 
@@ -848,6 +876,28 @@ export default {
 
     removeError(field) {
       this.errors[field] = false;
+    }
+  },
+
+  computed: {
+    openAmount() {
+      let amount = 0;
+
+      if (this.form.project_cost_total > 0) {
+
+        if (this.form.project_own_contribution) {
+          amount = this.form.project_cost_total - this.form.project_own_contribution;
+        }
+
+        if (this.form.project_contribution_requested) {
+          amount = amount - this.form.project_contribution_requested;
+        }
+
+        if (this.form.project_contribution_further_requested) {
+          amount = amount - this.form.project_contribution_further_requested;
+        }
+      }
+      return amount;
     }
   }
 }

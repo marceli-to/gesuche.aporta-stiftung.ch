@@ -24,8 +24,9 @@ class ApplicationCreateRequest extends FormRequest
     return [
       'name' => 'required',
       'legal_form' => 'required',
-      'bank_account' => 'required',
+      //'bank_account' => 'required',
       'iban' => 'required',
+      'beneficiary' => 'required',
       'street' => 'required',
       'zip' => 'required',
       'city' => 'required',
@@ -88,6 +89,10 @@ class ApplicationCreateRequest extends FormRequest
       'iban.required' => [
         'field' => 'iban',
         'error' => 'IBAN wird benötigt'
+      ],
+      'beneficiary.required' => [
+        'field' => 'beneficiary',
+        'error' => 'Begünstigter wird benötigt'
       ],
       'street.required' => [
         'field' => 'street',

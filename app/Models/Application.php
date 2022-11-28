@@ -17,6 +17,7 @@ class Application extends Base
     'website',
     'bank_account',
     'iban',
+    'beneficiary',
     'street',
     'street_number',
     'zip',
