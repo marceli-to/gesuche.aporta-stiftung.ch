@@ -12,6 +12,10 @@
     @include font-size($fs-form-md);
   }
 
+  h3 {
+    @include font-size($fs-form-sm);
+  }
+
   input[type=text],
   input[type=number],
   input[type=email],
@@ -65,10 +69,11 @@
     
     > p,
     > h2,
+    > h3,
     > div {
       @extend %span-12;
     }
-
+    
     h2:not(:first-of-type) {
       margin-top: $space-6x;
       @include bp-md() {
@@ -76,8 +81,16 @@
       }
     }
 
+    h3 {
+      @include font-bold();
+    }
+
     textarea {
       min-height: 240px;
+    }
+
+    input:read-only {
+      background-color: $color-light;
     }
   }
 

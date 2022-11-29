@@ -127,10 +127,12 @@
             <div class="span-3"><label>Eigenleistungen</label></div>
             <div class="span-1 flex justify-end">{{data.project_own_contribution | currency}}</div>
           </application-row>
+          <!--
           <application-row v-if="data.project_add_instit_final_total > 0">
             <div class="span-3"><label class="text-grey">Beiträge Dritter</label></div>
             <div class="span-1 flex justify-end text-grey">{{data.project_add_instit_final_total | currency}}</div>
           </application-row>
+          -->
           <application-row v-if="data.project_add_instit_total_2 > 0">
             <div class="span-3 text-grey"><label class="text-grey">{{data.project_add_instit_2}}</label></div>
             <div class="span-1 flex justify-end text-grey">{{data.project_add_instit_total_2 | currency}}</div>

@@ -63,7 +63,7 @@ class FormController extends BaseController
       'project_cost_total' => $request->input('project_cost_total'),
       'project_own_contribution' => $request->input('project_own_contribution'),
       'project_contribution_requested' => $request->input('project_contribution_requested'),
-      'project_contribution_further_requested' => $request->input('project_contribution_further_requested'),
+      'project_contribution_further_requested' => $request->input('project_contribution_further_requested') ? $request->input('project_contribution_further_requested') : 0,
       'project_income' => $request->input('project_income'),
       'application_state_id' => ApplicationState::OPEN,
       'year' => 2023,

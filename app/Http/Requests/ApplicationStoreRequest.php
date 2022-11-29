@@ -111,7 +111,7 @@ class ApplicationStoreRequest extends FormRequest
       ],
       'project_cost_total.required' => [
         'field' => 'project_cost_total',
-        'error' => 'Total wird benötigt!'
+        'error' => 'Projektkosten Total wird benötigt!'
       ],
       'project_own_contribution.required' => [
         'field' => 'project_own_contribution',

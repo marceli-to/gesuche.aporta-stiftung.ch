@@ -43,7 +43,7 @@ class ApplicationCreateRequest extends FormRequest
       'project_own_contribution' => 'required',
       'project_income' => 'required',
       'project_contribution_requested' => 'required',
-      'project_contribution_further_requested' => 'required',
+      //'project_contribution_further_requested' => 'required',
       'files.portrait' => 'required',
       'files.annual_report' => 'required',
       'files.annual_financial_report' => 'required',
@@ -148,7 +148,7 @@ class ApplicationCreateRequest extends FormRequest
       ],
       'project_cost_total.required' => [
         'field' => 'project_cost_total',
-        'error' => 'Total wird benötigt'
+        'error' => 'Projektkosten Total wird benötigt'
       ],
       'project_own_contribution.required' => [
         'field' => 'project_own_contribution',
@@ -166,10 +166,12 @@ class ApplicationCreateRequest extends FormRequest
         'field' => 'project_contribution_approved',
         'error' => 'Genehmigter Betrag wird benötigt'
       ],
-      'project_contribution_further_requested.required' => [
-        'field' => 'project_contribution_further_requested',
-        'error' => 'Weitere beantragte Beiträge wird benötigt'
-      ],
+      
+      // 'project_contribution_further_requested.required' => [
+      //   'field' => 'project_contribution_further_requested',
+      //   'error' => 'Weitere beantragte Beiträge wird benötigt'
+      // ],
+
       'files.portrait.required' => [
         'field' => 'file_portrait',
         'error' => 'Kurzportrait wird benötigt'

@@ -522,6 +522,8 @@
                 </application-input>
               </application-row>
             </div>
+
+            <!--
             <div class="span">
               <application-row :class="[errors.project_contribution_further_requested ? 'has-error' : '', 'application-row__form']">
                 <application-label :cls="'span-4 sm:span-5'">
@@ -532,36 +534,12 @@
                 </application-input>
               </application-row>
             </div>
-
-            <div class="span" v-if="(form.project_cost_total > 0) && (openAmount > 0)">
-              <application-row class="application-row__form">
-                <application-label :cls="'span-4 sm:span-5'">
-                  Offener Betrag (CHF)
-                </application-label>
-                <application-input :cls="'span-8 sm:span-7'">
-                  <input type="number" min="0" readonly :value="openAmount" >
-                </application-input>
-              </application-row>
-            </div>
-
-            <div class="span">
-              <application-row class="application-row__form" v-if="openAmount > 0">
-                <application-label :cls="'span-4 sm:span-5'">
-                  Wie wird der offene Betrag finanziert?
-                </application-label>
-                <application-input :cls="'span-8 sm:span-7'">
-                  <textarea v-model="form.project_finance" maxlength="500"></textarea>
-                  <text-length-indicator :field="form.project_finance" />
-                </application-input>
-              </application-row>
-            </div>
-
+            -->
 
           </template>
 
           <template>
-            <h2 class="span">Beiträge Dritter</h2>
-            <p class="span">Sofern Sie für das gleiche Gesuch weitere Institutionen um einem Beitrag ersuchen, bitten wir um folgende Angaben:</p>
+            <p class="span mt-8x">Sofern Sie für das gleiche Gesuch weitere Institutionen um einem Beitrag ersuchen, bitten wir um folgende Angaben:</p>
             <template v-if="errors.project_add_instit_2 || errors.project_add_instit_total_2 || errors.project_add_instit_3 || errors.project_add_instit_total_3 || errors.project_add_instit_4 || errors.project_add_instit_total_4 || errors.project_add_instit_5 || errors.project_add_instit_total_5">
               <p class="has-error">Es sind nicht alle Felder korrekt ausgefüllt:</p>
             </template>
@@ -570,6 +548,7 @@
                 <application-input :cls="'span-4 sm:span-4'">
                   <label class="mb-2x">Institution</label>
                   <input 
+                    :tabindex="index"
                     class="mb-2x"
                     type="text" 
                     v-model="form[`project_add_instit_${add}`]" 
@@ -579,6 +558,7 @@
                 <application-input :cls="'span-4 sm:span-4'">
                   <label class="mb-2x">Betrag</label>
                   <input 
+                    :tabindex="index"
                     class="mb-2x"
                     type="number" 
                     min="0" 
@@ -589,7 +569,7 @@
                 <application-input :cls="'span-4 sm:span-4'">
                   <label class="mb-2x">Antwort</label>
                   <div class="select-wrapper mb-2x" v-for="(add, index) in [2, 3, 4, 5]" :key="index">
-                    <select v-model="form[`project_add_instit_answer_${add}`]">
+                    <select v-model="form[`project_add_instit_answer_${add}`]" :tabindex="key">
                       <option :value="'Zusage'">Zusage</option>
                       <option :value="'Absage'">Absage</option>
                       <option :value="'offen'">offen</option>
@@ -603,17 +583,45 @@
           </template>
 
           <template>
-            <h2 class="span">Budgetierter jährlicher Ertrag aus dem Projekt</h2>
+            <h2 class="span">Budgetierte Einnahmen aus dem Projekt</h2>
             <div class="span">
               <application-row :class="[errors.project_income ? 'has-error' : '', 'application-row__form']">
                 <application-label :cls="'span-4 sm:span-5'">
-                  {{ errors.project_income ? errors.project_income : 'Budgetierter jährlicher Ertrag in CHF *'}}
+                  {{ errors.project_income ? errors.project_income : 'Budgetierte Einnahmen (CHF) *'}}
                 </application-label>
                 <application-input :cls="'span-8 sm:span-7'">
                   <input type="number" min="0" v-model="form.project_income" required :class="[errors.project_income ? 'is-invalid' : '', ''] " @blur="validate($event)" @focus="removeError('project_income')">
                 </application-input>
               </application-row>
             </div>
+
+            <div class="span">
+              <application-row class="application-row__form">
+                <application-label :cls="'span-4 sm:span-5'">
+                  
+                  <template v-if="openAmount == 0">Über- oder Unterfinanzierung (CHF)</template>
+                  <template v-if="openAmount < 0">Über- oder <strong>Unterfinanzierung</strong> (CHF)</template>
+                  <template v-if="openAmount > 0"><strong>Über-</strong> oder Unterfinanzierung (CHF)</template>
+
+                </application-label>
+                <application-input :cls="'span-8 sm:span-7'">
+                  <input type="number" readonly :value="openAmount" >
+                </application-input>
+              </application-row>
+            </div>
+
+            <div class="span">
+              <application-row class="application-row__form" v-if="openAmount < 0">
+                <application-label :cls="'span-4 sm:span-5'">
+                  Wie wird der offene Betrag finanziert?
+                </application-label>
+                <application-input :cls="'span-8 sm:span-7'">
+                  <textarea v-model="form.project_finance" maxlength="500"></textarea>
+                  <text-length-indicator :field="form.project_finance" />
+                </application-input>
+              </application-row>
+            </div>
+
           </template>
 
           <template>
@@ -723,7 +731,7 @@ export default {
         project_cost_total: false,
         project_own_contribution: false,
         project_contribution_requested: false,
-        project_contribution_further_requested: false,
+        //project_contribution_further_requested: false,
         project_income: false,
         file_portrait: false,
         file_annual_report: false,
@@ -885,17 +893,39 @@ export default {
 
       if (this.form.project_cost_total > 0) {
 
+        amount = amount - this.form.project_cost_total;
+
         if (this.form.project_own_contribution) {
-          amount = this.form.project_cost_total - this.form.project_own_contribution;
+          amount = amount + parseInt(this.form.project_own_contribution);
         }
 
         if (this.form.project_contribution_requested) {
-          amount = amount - this.form.project_contribution_requested;
+          amount = amount + parseInt(this.form.project_contribution_requested);
         }
 
-        if (this.form.project_contribution_further_requested) {
-          amount = amount - this.form.project_contribution_further_requested;
+        if (this.form.project_add_instit_total_2) {
+          amount = amount + parseInt(this.form.project_add_instit_total_2);
         }
+
+        if (this.form.project_add_instit_total_3) {
+          amount = amount + parseInt(this.form.project_add_instit_total_3);
+        }
+
+        if (this.form.project_add_instit_total_4) {
+          amount = amount + parseInt(this.form.project_add_instit_total_4);
+        }
+
+        if (this.form.project_add_instit_total_5) {
+          amount = amount + parseInt(this.form.project_add_instit_total_5);
+        }
+
+        if (this.form.project_income) {
+          amount = amount + parseInt(this.form.project_income);
+        }
+
+        // if (this.form.project_contribution_further_requested) {
+        //   amount = amount - this.form.project_contribution_further_requested;
+        // }
       }
       return amount;
     }
