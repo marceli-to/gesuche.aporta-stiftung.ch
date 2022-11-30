@@ -26,6 +26,12 @@ Vue.use(Notifications);
 import VueRouter from 'vue-router';
 Vue.use(VueRouter);
 
+import VueTheMask from 'vue-the-mask';
+Vue.use(VueTheMask);
+
+import number from '@coders-tm/vue-number-format';
+Vue.use(number, { precision: 4 });
+
 // Routes
 import formRoutes from '@/views/pages/form/config/routes';
 

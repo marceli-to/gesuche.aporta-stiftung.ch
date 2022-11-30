@@ -100,12 +100,19 @@
                   {{ errors.iban ? errors.iban : 'IBAN *' }}
                 </application-label>
                 <application-input :cls="'span-8 sm:span-7'">
-                  <input type="text" v-model="form.iban" required :class="[errors.iban ? 'is-invalid' : '', '']" @blur="validate($event)" @focus="removeError('iban')">
+                  <the-mask 
+                    type="text" 
+                    v-model="form.iban" 
+                    required 
+                    :class="[errors.iban ? 'is-invalid' : '', '']" 
+                    @blur="validate($event)" 
+                    @focus="removeError('iban')" 
+                    :mask="['XXXX XXXX XXXX XXXX XXXX X']" />
                 </application-input>
               </application-row>
             </div>
             <div class="span">
-              <application-row :class="[errors.iban ? 'has-error' : '', 'application-row__form']">
+              <application-row :class="[errors.beneficiary ? 'has-error' : '', 'application-row__form']">
                 <application-label :cls="'span-4 sm:span-5'">
                   {{ errors.beneficiary ? errors.beneficiary : 'Begünstigter *' }}
                 </application-label>
@@ -159,8 +166,6 @@
               </application-row>
             </div>
           </template>
-
-
 
           <template>
             <h2 class="span">Dokumente</h2>
@@ -498,7 +503,7 @@
                   {{ errors.project_cost_total ? errors.project_cost_total : 'Projektkosten Total (CHF) *' }}
                 </application-label>
                 <application-input :cls="'span-8 sm:span-7'">
-                  <input type="number" min="0" v-model="form.project_cost_total" required :class="[errors.project_cost_total ? 'is-invalid' : '', ''] " @blur="validate($event)" @focus="removeError('project_cost_total')">
+                  <number v-model="form.project_cost_total" v-bind="number" required :class="[errors.project_cost_total ? 'is-invalid' : '', ''] " @blur="validate($event)" @focus="removeError('project_cost_total')" />
                 </application-input>
               </application-row>
             </div>
@@ -508,7 +513,7 @@
                   {{ errors.project_own_contribution ? errors.project_own_contribution : 'Eigenleistungen Total (CHF) *' }}
                 </application-label>
                 <application-input :cls="'span-8 sm:span-7'">
-                  <input type="number" min="0" v-model="form.project_own_contribution" required :class="[errors.project_own_contribution ? 'is-invalid' : '', ''] " @blur="validate($event)" @focus="removeError('project_own_contribution')">
+                  <number v-model="form.project_own_contribution" v-bind="number" required :class="[errors.project_own_contribution ? 'is-invalid' : '', ''] " @blur="validate($event)" @focus="removeError('project_own_contribution')" />
                 </application-input>
               </application-row>
             </div>
@@ -518,7 +523,7 @@
                   {{ errors.project_contribution_requested ? errors.project_contribution_requested : 'Beantragter Beitrag Dr. Stephan à Porta-Stiftung (CHF) *' }}
                 </application-label>
                 <application-input :cls="'span-8 sm:span-7'">
-                  <input type="number" min="0" v-model="form.project_contribution_requested" required :class="[errors.project_contribution_requested ? 'is-invalid' : '', ''] " @blur="validate($event)" @focus="removeError('project_contribution_requested')">
+                  <number v-model="form.project_contribution_requested" v-bind="number" required :class="[errors.project_contribution_requested ? 'is-invalid' : '', ''] " @blur="validate($event)" @focus="removeError('project_contribution_requested')" />
                 </application-input>
               </application-row>
             </div>
@@ -557,19 +562,19 @@
                 </application-input>
                 <application-input :cls="'span-4 sm:span-4'">
                   <label class="mb-2x">Betrag</label>
-                  <input 
-                    :tabindex="index"
-                    class="mb-2x"
-                    type="number" 
-                    min="0" 
+
+                  <number 
                     v-model="form[`project_add_instit_total_${add}`]" 
-                    :class="[errors[`project_add_instit_total_${add}`] ? 'is-invalid' : '', ''] " @focus="removeError([`project_add_instit_total_${add}`])"
-                    v-for="(add, index) in [2, 3, 4, 5]" :key="index">
+                    v-bind="number" 
+                    :class="[errors[`project_add_instit_total_${add}`] ? 'is-invalid' : '', 'mb-2x'] " 
+                    @focus="removeError([`project_add_instit_total_${add}`])" 
+                    v-for="(add, index) in [2, 3, 4, 5]" :key="index" />
+
                 </application-input>
                 <application-input :cls="'span-4 sm:span-4'">
                   <label class="mb-2x">Antwort</label>
                   <div class="select-wrapper mb-2x" v-for="(add, index) in [2, 3, 4, 5]" :key="index">
-                    <select v-model="form[`project_add_instit_answer_${add}`]" :tabindex="key">
+                    <select v-model="form[`project_add_instit_answer_${add}`]" :tabindex="index">
                       <option :value="'Zusage'">Zusage</option>
                       <option :value="'Absage'">Absage</option>
                       <option :value="'offen'">offen</option>
@@ -579,6 +584,29 @@
               </application-row>
 
 
+            </div>
+            <div class="span mt-6x">
+              <application-row class="application-row__form">
+                <application-label :cls="'span-4 sm:span-5'">
+                  <template v-if="openAmount == 0">Über- oder Unterfinanzierung (CHF)</template>
+                  <template v-if="openAmount < 0">Über- oder <strong>Unterfinanzierung</strong> (CHF)</template>
+                  <template v-if="openAmount > 0"><strong>Über-</strong> oder Unterfinanzierung (CHF)</template>
+                </application-label>
+                <application-input :cls="'span-8 sm:span-7'">
+                  <number :value="openAmount" v-bind="number" readonly />
+                </application-input>
+              </application-row>
+            </div>
+            <div class="span">
+              <application-row class="application-row__form" v-if="openAmount < 0">
+                <application-label :cls="'span-4 sm:span-5'">
+                  Wie wird der offene Betrag finanziert?
+                </application-label>
+                <application-input :cls="'span-8 sm:span-7'">
+                  <textarea v-model="form.project_finance" maxlength="500"></textarea>
+                  <text-length-indicator :field="form.project_finance" />
+                </application-input>
+              </application-row>
             </div>
           </template>
 
@@ -590,34 +618,7 @@
                   {{ errors.project_income ? errors.project_income : 'Budgetierte Einnahmen (CHF) *'}}
                 </application-label>
                 <application-input :cls="'span-8 sm:span-7'">
-                  <input type="number" min="0" v-model="form.project_income" required :class="[errors.project_income ? 'is-invalid' : '', ''] " @blur="validate($event)" @focus="removeError('project_income')">
-                </application-input>
-              </application-row>
-            </div>
-
-            <div class="span">
-              <application-row class="application-row__form">
-                <application-label :cls="'span-4 sm:span-5'">
-                  
-                  <template v-if="openAmount == 0">Über- oder Unterfinanzierung (CHF)</template>
-                  <template v-if="openAmount < 0">Über- oder <strong>Unterfinanzierung</strong> (CHF)</template>
-                  <template v-if="openAmount > 0"><strong>Über-</strong> oder Unterfinanzierung (CHF)</template>
-
-                </application-label>
-                <application-input :cls="'span-8 sm:span-7'">
-                  <input type="number" readonly :value="openAmount" >
-                </application-input>
-              </application-row>
-            </div>
-
-            <div class="span">
-              <application-row class="application-row__form" v-if="openAmount < 0">
-                <application-label :cls="'span-4 sm:span-5'">
-                  Wie wird der offene Betrag finanziert?
-                </application-label>
-                <application-input :cls="'span-8 sm:span-7'">
-                  <textarea v-model="form.project_finance" maxlength="500"></textarea>
-                  <text-length-indicator :field="form.project_finance" />
+                  <number v-model="form.project_income" v-bind="number" required :class="[errors.project_income ? 'is-invalid' : '', ''] " @blur="validate($event)" @focus="removeError('project_income')" />
                 </application-input>
               </application-row>
             </div>
@@ -651,6 +652,8 @@
 <script>
 import NProgress from 'nprogress';
 import ErrorHandling from '@/mixins/ErrorHandling';
+import {TheMask} from 'vue-the-mask';
+import { number } from '@coders-tm/vue-number-format';
 import SiteMain from '@/views/pages/form/components/Main.vue';
 import SiteHeader from '@/views/pages/form/components/Header.vue';
 import SiteWrapper from '@/components/layout/Wrapper.vue';
@@ -678,7 +681,8 @@ export default {
     vueDropzone: vue2Dropzone,
     IconTrash,
     IconLogo,
-    TextLengthIndicator
+    TextLengthIndicator,
+    TheMask
   },
 
   mixins: [ErrorHandling],
@@ -687,6 +691,10 @@ export default {
     return {
       
       form: {
+        project_cost_total: '',
+        project_own_contribution: '',
+        project_contribution_requested: '',
+        project_income: '',
         files: {
           portrait: null,
           annual_report: null,
@@ -700,10 +708,10 @@ export default {
         project_add_instit_3: null,
         project_add_instit_4: null,
         project_add_instit_5: null,
-        project_add_instit_total_2: null,
-        project_add_instit_total_3: null,
-        project_add_instit_total_4: null,
-        project_add_instit_total_5: null,
+        project_add_instit_total_2: '',
+        project_add_instit_total_3: '',
+        project_add_instit_total_4: '',
+        project_add_instit_total_5: '',
         project_add_instit_answer_2: 'offen',
         project_add_instit_answer_3: 'offen',
         project_add_instit_answer_4: 'offen',
@@ -766,6 +774,16 @@ export default {
       // States
       isSaving: false,
       isSuccess: false,
+
+      number: {
+        decimal: '.',
+        separator: "'",
+        prefix: '',
+        precision: 0,
+        masked: false,
+        nullValue: ''
+      },
+
     }
   },
 
@@ -776,6 +794,15 @@ export default {
   methods: {
 
     submit() {
+
+
+      // Validate IBAN
+      if (this.form.iban && this.form.iban.length != 21) {
+        this.$notify({ type: "error", text: `Bitte IBAN prüfen!`});
+        this.errors.iban = 'IBAN ist ungültig';
+        return;
+      }
+
       this.isSaving = true;
       NProgress.start();
       this.axios.post(this.routes.post, this.form).then(response => {
@@ -788,6 +815,10 @@ export default {
 
     reset() {
       this.form = {
+        project_cost_total: '',
+        project_own_contribution: '',
+        project_contribution_requested: '',
+        project_income: '',
         files: {
           portrait: null,
           annual_report: null,
@@ -801,10 +832,10 @@ export default {
         project_add_instit_3: null,
         project_add_instit_4: null,
         project_add_instit_5: null,
-        project_add_instit_total_2: null,
-        project_add_instit_total_3: null,
-        project_add_instit_total_4: null,
-        project_add_instit_total_5: null,
+        project_add_instit_total_2: '',
+        project_add_instit_total_3: '',
+        project_add_instit_total_4: '',
+        project_add_instit_total_5: '',
         project_add_instit_answer_2: 'offen',
         project_add_instit_answer_3: 'offen',
         project_add_instit_answer_4: 'offen',
@@ -840,10 +871,10 @@ export default {
         else {
           if (file.accepted == false) {
             if (file.size > 9000000) {
-              alert('image_exceeds_max_size');
+              alert('Datei ist zu gross');
             }
             else {
-              alert('image_type_not_allowed');
+              alert('Dateityp ist nicht erlaubt');
             }
 
             this.$refs.dropzone.removeFile(file);
@@ -889,7 +920,7 @@ export default {
 
   computed: {
     openAmount() {
-      let amount = 0;
+      let amount = '';
 
       if (this.form.project_cost_total > 0) {
 
@@ -918,14 +949,6 @@ export default {
         if (this.form.project_add_instit_total_5) {
           amount = amount + parseInt(this.form.project_add_instit_total_5);
         }
-
-        if (this.form.project_income) {
-          amount = amount + parseInt(this.form.project_income);
-        }
-
-        // if (this.form.project_contribution_further_requested) {
-        //   amount = amount - this.form.project_contribution_further_requested;
-        // }
       }
       return amount;
     }
