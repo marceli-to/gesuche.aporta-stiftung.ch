@@ -39,6 +39,7 @@ class Application extends Base
     'project_contribution_approved_temporary',
     'project_contribution_approved',
     'project_income',
+    'project_income_remarks',
     'project_finance',
     'project_add_instit_2',
     'project_add_instit_total_2',

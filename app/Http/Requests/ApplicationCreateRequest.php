@@ -42,6 +42,7 @@ class ApplicationCreateRequest extends FormRequest
       'project_cost_total' => 'required',
       'project_own_contribution' => 'required',
       'project_income' => 'required',
+      'project_income_remarks' => 'required',
       'project_contribution_requested' => 'required',
       //'project_contribution_further_requested' => 'required',
       'files.portrait' => 'required',
@@ -157,6 +158,10 @@ class ApplicationCreateRequest extends FormRequest
       'project_income.required' => [
         'field' => 'project_income',
         'error' => 'Budgetierter jährlicher Ertrag wird benötigt'
+      ],
+      'project_income_remarks.required' => [
+        'field' => 'project_income_remarks',
+        'error' => 'Kommentar zum jährlich budgetierten Ertrag wird benötigt'
       ],
       'project_contribution_requested.required' => [
         'field' => 'project_contribution_requested',

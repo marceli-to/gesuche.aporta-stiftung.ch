@@ -621,6 +621,17 @@
                   <number v-model="form.project_income" v-bind="number" required :class="[errors.project_income ? 'is-invalid' : '', ''] " @blur="validate($event)" @focus="removeError('project_income')" />
                 </application-input>
               </application-row>
+
+              <application-row :class="[errors.project_income_remarks ? 'has-error' : '', 'application-row__form']">
+                <application-label :cls="'span-4 sm:span-5'">
+                  {{ errors.project_income_remarks ? errors.project_income_remarks : ' Wie kommen die Einnahme zustande? *'}}
+                </application-label>
+                <application-input :cls="'span-8 sm:span-7'">
+                  <textarea v-model="form.project_income_remarks" maxlength="200" style="min-height: 100px;" required :class="[errors.project_income_remarks ? 'is-invalid' : '', ''] " @blur="validate($event)" @focus="removeError('project_income_remarks')"></textarea>
+                  <text-length-indicator :field="form.project_income_remarks" :maxChars="200" />
+                </application-input>
+              </application-row>
+
             </div>
 
           </template>
@@ -741,6 +752,7 @@ export default {
         project_contribution_requested: false,
         //project_contribution_further_requested: false,
         project_income: false,
+        project_income_remarks: false,
         file_portrait: false,
         file_annual_report: false,
         file_annual_financial_report: false,
