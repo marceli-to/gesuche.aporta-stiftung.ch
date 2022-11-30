@@ -23,7 +23,7 @@ Route::delete('/file/upload/{filename}', [FormController::class, 'delete']);
 // Auth routes
 Auth::routes(['verify' => true, 'register' => false]);
 Route::get('/logout', 'Auth\LoginController@logout');
-// Route::get('/', [PageController::class, 'index'])->name('home');
+Route::get('/', [PageController::class, 'index'])->name('home');
 
 // Route::get('/pdf/{type}', [PageController::class, 'pdf'])->name('pdf');
 
