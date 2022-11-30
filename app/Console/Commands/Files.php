@@ -4,14 +4,14 @@ use App\Models\Application;
 use App\Models\ApplicationFile;
 use Illuminate\Console\Command;
 
-class MoveFiles extends Command
+class Files extends Command
 {
   /**
    * The name and signature of the console command.
    *
    * @var string
    */
-  protected $signature = 'application:move-files';
+  protected $signature = 'application:files';
 
   /**
    * The console command description.
