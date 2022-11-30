@@ -624,7 +624,7 @@
 
               <application-row :class="[errors.project_income_remarks ? 'has-error' : '', 'application-row__form']">
                 <application-label :cls="'span-4 sm:span-5'">
-                  {{ errors.project_income_remarks ? errors.project_income_remarks : ' Wie kommen die Einnahme zustande? *'}}
+                  {{ errors.project_income_remarks ? errors.project_income_remarks : ' Wie kommen die Einnahmen zustande? *'}}
                 </application-label>
                 <application-input :cls="'span-8 sm:span-7'">
                   <textarea v-model="form.project_income_remarks" maxlength="200" style="min-height: 100px;" required :class="[errors.project_income_remarks ? 'is-invalid' : '', ''] " @blur="validate($event)" @focus="removeError('project_income_remarks')"></textarea>
@@ -907,7 +907,7 @@ export default {
 
     uploadMaxFilesExceeded(file) {
       this.$refs.dropzone.removeAllFiles(true);
-      alert('image_max_files_exceeded')
+      alert('Dateimaxium erreicht')
     },
 
     uploadTemplate: function () {
