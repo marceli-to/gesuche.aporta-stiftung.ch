@@ -24,6 +24,13 @@ class RouteServiceProvider extends ServiceProvider
     public const HOME = '/gesuche/aktuell';
 
     /**
+     * The path to the "home" route for your application.
+     *
+     * @var string
+     */
+    public const LOGIN = '/login';
+
+    /**
      * The path to the "administration dashboard" route for your application.
      *
      * @var string
