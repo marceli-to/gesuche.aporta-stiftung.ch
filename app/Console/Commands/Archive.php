@@ -4,7 +4,7 @@ use App\Models\Application;
 use App\Models\ApplicationFile;
 use Illuminate\Console\Command;
 
-class MoveFiles extends Command
+class Archive extends Command
 {
   /**
    * The name and signature of the console command.
