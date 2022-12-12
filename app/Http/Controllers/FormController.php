@@ -7,6 +7,7 @@ use App\Http\Requests\ApplicationCreateRequest;
 use App\Models\Application;
 use App\Models\ApplicationFile;
 use App\Models\ApplicationState;
+use App\Models\MailQueue;
 use App\Services\Logger;
 use Illuminate\Http\Request;
 
@@ -106,6 +107,17 @@ class FormController extends BaseController
         }
       }
     }
+
+    MailQueue::create([
+      'type' => 'notification',
+      'data' => $application->toJson()
+    ]);
+
+    MailQueue::create([
+      'type' => 'confirmation',
+      'data' => $application->toJson()
+    ]);
+
     return response()->json('successfully updated');
   }
 

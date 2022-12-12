@@ -5,14 +5,12 @@ use App\Http\Controllers\PageController;
 use App\Http\Controllers\DownloadController;
 use App\Http\Controllers\FormController;
 
-
 /*
 |--------------------------------------------------------------------------
 | Web Routes
 |--------------------------------------------------------------------------
 |
 */
-
 
 Route::get('/formular', [FormController::class, 'index']);
 Route::post('/form/submit', [FormController::class, 'store']);

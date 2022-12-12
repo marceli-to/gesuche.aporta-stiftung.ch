@@ -1,5 +1,6 @@
 <?php
 namespace App\Providers;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -23,5 +24,10 @@ class AppServiceProvider extends ServiceProvider
   {
     setLocale(LC_ALL, 'de_CH.UTF-8');
     \Carbon\Carbon::setLocale('de_CH.UTF-8');
+
+    if (!app()->isProduction())
+    {
+      Mail::alwaysTo(env('MAIL_TO'));
+    }
   }
 }
