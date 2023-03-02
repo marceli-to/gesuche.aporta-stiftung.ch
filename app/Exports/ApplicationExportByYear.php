@@ -7,17 +7,18 @@ use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 use Maatwebsite\Excel\Concerns\WithEvents;
 use Maatwebsite\Excel\Events\AfterSheet;
+use Maatwebsite\Excel\Concerns\Exportable;
 
-class ApplicationExportByYear implements FromQuery, WithHeadings, WithEvents, ShouldAutoSize
+class ApplicationExportByYear implements FromCollection, WithHeadings, WithEvents, ShouldAutoSize
 {
   public function __construct(int $year)
   {
     $this->year = $year;
   }
 
-  public function query()
+  public function collection()
   {
-    $applications = Application::query()->where('year', $this->year);
+    $applications = Application::where('year', $this->year)->get();
     $data = [];
     foreach($applications as $s)
     {
