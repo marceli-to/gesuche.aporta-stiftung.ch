@@ -82,6 +82,11 @@
           <div class="span-3">
             <h2>Exportieren</h2>
             <div>
+              <a href="javascript:;" @click.prevent="setSelectorItem('type', 'export_new')">
+                <icon-radio-active v-if="$store.state.selector.type == 'export_new'" />
+                <icon-radio v-else />
+                <span>Neue</span>
+              </a>
               <a href="javascript:;" @click.prevent="setSelectorItem('type', 'export_all')">
                 <icon-radio-active v-if="$store.state.selector.type == 'export_all'" />
                 <icon-radio v-else />
@@ -102,7 +107,7 @@
         </div>
       </div>
         <a 
-          :href="'/export/?v=' + cachebuster" 
+          :href="`/export/${$store.state.selector.type}/?v=${cachebuster}`" 
           target="_blank"
           class="btn-primary is-filter" 
           @click="hideSelector()"

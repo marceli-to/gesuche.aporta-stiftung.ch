@@ -3,6 +3,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\BaseController;
 use App\Services\Media;
 use App\Exports\ApplicationExport;
+use App\Exports\ApplicationExportByYear;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Models\Application;
 use App\Services\Pdf;
@@ -42,9 +43,14 @@ class DownloadController extends BaseController
    * @return \Illuminate\Http\Response
    */
 
-  public function export()
+  public function export($type = NULL)
   {
     $filename = 'gesuche-' . date('d-m-Y-H:i:s') . '.xlsx';
+
+    if ($type == 'export_new')
+    {
+      return Excel::download(new ApplicationExportByYear(2023), $filename);
+    }
     return Excel::download(new ApplicationExport, $filename);
   }
 
