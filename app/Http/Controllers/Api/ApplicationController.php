@@ -36,6 +36,35 @@ class ApplicationController extends Controller
   }
 
   /**
+   * Search in applications
+   * 
+   * @param  \Illuminate\Http\Request $request
+   */
+
+  public function search($searchTerm = NULL, $type)
+  {
+    if ($type == 'archiv')
+    {
+      return new DataCollection(
+        Application::where('name', 'LIKE', "%{$searchTerm}%")
+        ->orWhere('lastname', 'LIKE', "%{$searchTerm}%")
+        ->orWhere('firstname', 'LIKE', "%{$searchTerm}%")
+        ->orWhere('email', 'LIKE', "%{$searchTerm}%")
+        ->archive()
+        ->get()
+      );
+    }
+    return new DataCollection(
+      Application::current()
+      ->where('name', 'LIKE', "%{$searchTerm}%")
+      ->orWhere('lastname', 'LIKE', "%{$searchTerm}%")
+      ->orWhere('firstname', 'LIKE', "%{$searchTerm}%")
+      ->orWhere('email', 'LIKE', "%{$searchTerm}%")
+      ->get()
+    );
+  }
+
+  /**
    * Get a filtered ist of applications
    * 
    * @param  \Illuminate\Http\Request $request

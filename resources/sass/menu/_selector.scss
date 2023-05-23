@@ -37,6 +37,13 @@ nav.selector {
     }
   }
 
+  .is-disabled {
+    * {
+      opacity: .6;
+      pointer-events: none;
+    }
+  }
+
   .btn-primary,
   .btn-secondary {
     margin-left: auto;

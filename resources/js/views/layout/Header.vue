@@ -34,7 +34,7 @@
             </li>
             <li class="span-4 flex justify-center" v-else-if="$props.view != 'show'">
               <a href="" :class="[$parent.hasFilter ? 'is-active' : '', 'icon-filter']" @click.prevent="toggleFilter()">
-                <icon-filter v-if="!$parent.hasFilter" :active="$store.state.filter.set" />
+                <icon-filter v-if="!$parent.hasFilter" :active="$store.state.filter.set || $store.state.searchTerm != null" />
                 <icon-cross v-if="$parent.hasFilter" />
               </a>
             </li>

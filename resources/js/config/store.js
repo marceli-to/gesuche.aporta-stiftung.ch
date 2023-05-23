@@ -18,6 +18,7 @@ export default new Vuex.Store({
         next: null
       }
     },
+    searchTerm: null,
     selector: {
       set: false,
       type: null,
@@ -32,6 +33,9 @@ export default new Vuex.Store({
     },
     selector(state, selector) {
       state.selector = selector;
-    }
+    },
+    searchTerm(state, searchTerm) {
+      state.searchTerm = searchTerm;
+    },
   }
 });

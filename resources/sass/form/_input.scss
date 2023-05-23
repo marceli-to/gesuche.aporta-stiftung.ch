@@ -6,3 +6,16 @@
 
 input {
 }
+
+input.search {
+  background-color: transparent;
+  border-bottom: 1px solid $color-white;
+  color: $color-white;
+  @include font-size($fs-form-md);
+  min-height: $space-8x;
+
+  &::placeholder {
+    color: $color-white;
+    @include font-size($fs-form-md);
+  }
+}

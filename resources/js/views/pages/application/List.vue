@@ -6,7 +6,7 @@
         <div class="grid-cols-12">
           <div class="span-4 start-2">
             <h2>Status</h2>
-            <div class="grid-cols-2">
+            <div :class="[this.searchTerm ? 'is-disabled' : '', 'grid-cols-2']">
               <div v-for="state in dataStates" :key="state.id">
                 <a href="javascript:;" @click.prevent="setFilterItem('state', state.id)">
                   <icon-radio-active v-if="$store.state.filter.state == state.id" />
@@ -16,23 +16,57 @@
               </div>
             </div>
           </div>
-          <div class="span-4 start-7">
+          <div class="span-2 start-7">
             <h2>Betrag</h2>
-            <a href="" @click.prevent="setFilterItem('amount', 'lt:20000')">
-              <icon-radio-active v-if="$store.state.filter.amount == 'lt:20000'" />
-              <icon-radio v-else />
-              <span>&lt; 20000</span>
-            </a>
-            <a href="" @click.prevent="setFilterItem('amount', 'gt:20000')">
-              <icon-radio-active v-if="$store.state.filter.amount == 'gt:20000'" />
-              <icon-radio v-else />
-              <span>&gt; 20000</span>
-            </a>
+            <div :class="[this.searchTerm ? 'is-disabled' : '', '']">
+              <a href="" @click.prevent="setFilterItem('amount', 'lt:20000')">
+                <icon-radio-active v-if="$store.state.filter.amount == 'lt:20000'" />
+                <icon-radio v-else />
+                <span>&lt; 20000</span>
+              </a>
+              <a href="" @click.prevent="setFilterItem('amount', 'gt:20000')">
+                <icon-radio-active v-if="$store.state.filter.amount == 'gt:20000'" />
+                <icon-radio v-else />
+                <span>&gt; 20000</span>
+              </a>
+            </div>
+          </div>
+          <div class="span-3">
+            <h2>Suche</h2>
+            <div :class="[$store.state.filter.set ? 'is-disabled' : '', '']">
+              <input type="text" v-model="searchTerm" class="search" placeholder="Organisation, Name oder E-Mail" />
+            </div>
           </div>
         </div>
       </div>
-      <a href="javascript:;" :class="[$store.state.filter.set ? 'is-active' : '', 'btn-primary is-filter']" @click.prevent="hideFilter()">Anzeigen</a>
-      <a href="javascript:;" class="btn-secondary is-outline" @click.prevent="resetFilter()">Zurücksetzen</a>
+      <template v-if="searchTerm == null">
+        <a 
+          href="javascript:;" 
+          :class="[$store.state.filter.set ? 'is-active' : '', 'btn-primary is-filter']" 
+          @click.prevent="hideFilter()">
+          Anzeigen
+        </a>
+        <a 
+          href="javascript:;" 
+          class="btn-secondary is-outline" 
+          @click.prevent="resetFilter()">
+          Zurücksetzen
+        </a>
+      </template>
+      <template v-else>
+        <a 
+          href="javascript:;" 
+          :class="[this.searchTerm ? 'is-active' : '', 'btn-primary is-filter']" 
+          @click.prevent="doSearch()">
+          Suchen
+        </a>
+        <a 
+          href="javascript:;" 
+          class="btn-secondary is-outline" 
+          @click.prevent="resetSearch()">
+          Zurücksetzen
+        </a>
+      </template>
     </nav>
     <nav class="selector" v-if="hasSelector">
       <div>
@@ -211,7 +245,12 @@
       </list-row>
     </list>
     <list-empty v-else>
-      {{messages.emptyData}}
+      <template v-if="searchTerm">
+        {{messages.noSearchResults}}
+      </template>
+      <template v-else>
+        {{messages.emptyData}}
+      </template>
     </list-empty>
   </site-main>
 </div>
@@ -264,12 +303,16 @@ export default {
       // Data
       data: [],
 
+      // Search term
+      searchTerm: null,
+
       // Data states
       dataStates: [],
 
       // Routes
       routes: {
         list: '/api/applications',
+        search: '/api/applications/search',
         listFilter: '/api/applications/filter',
         listStates: '/api/application-states',
         toggle: '/api/application/state',
@@ -283,6 +326,7 @@ export default {
       // Messages
       messages: {
         emptyData: 'Es sind noch keine Gesuche vorhanden...',
+        noSearchResults: 'Keine Suchresultate gefunden...',
         confirmDestroy: 'Bitte löschen bestätigen!',
         updated: 'Status geändert',
       },
@@ -293,11 +337,26 @@ export default {
     NProgress.configure({ showBar: false });
     this.beforeFetch(this.$route.params.type)
     this.fetchStates();
+
+    // if searchTerm is not null, call doSearch on enter key press
+    window.addEventListener('keyup', (e) => {
+      if (this.searchTerm && e.keyCode === 13) {
+        this.doSearch();
+      }
+    });
   },
 
   methods: {
 
     beforeFetch(type) {
+
+      // Check if searchTerm in store is not null and search
+      if (this.$store.state.searchTerm) {
+        this.searchTerm = this.$store.state.searchTerm;
+        this.doSearch();
+        return;
+      }
+
       if (type == 'aktuell' && this.$store.state.filter.set) {
         this.fetchFiltered(type);
         return;
@@ -340,6 +399,27 @@ export default {
       });
     },
 
+    doSearch() {
+      if (this.searchTerm) {
+        this.isFetched = false;
+        NProgress.start();
+        this.axios.get(`${this.routes.search}/${this.searchTerm}/${this.$route.params.type}`).then(response => {
+          this.data = response.data.data;
+          this.$store.commit('searchTerm', this.searchTerm);
+          this.isFetched = true;
+          this.hideFilter();
+          NProgress.done();
+        });
+      }
+    },
+
+    resetSearch() {
+      this.searchTerm = null;
+      this.$store.commit('searchTerm', null);
+      this.resetFilter();
+      this.fetch('aktuell');
+    },
+
     isNew(application) {
       if (application.users) {
         if (application.users.length == 0) {
@@ -349,10 +429,19 @@ export default {
         return index > -1 ? false : true;
       }
     },
+
   },
   watch: {
     '$route'() {
       this.beforeFetch(this.$route.params.type)
+    },
+    
+    searchTerm() {
+      if (this.searchTerm === '') {
+        this.searchTerm = null;
+        this.$store.commit('searchTerm', null);
+        this.fetch(this.$route.params.type);
+      }
     }
   },
 }

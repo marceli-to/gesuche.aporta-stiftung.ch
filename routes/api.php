@@ -51,6 +51,7 @@ Route::middleware('auth:sanctum')->group(function() {
   Route::get('application-log/{application:uuid}', [ApplicationLogController::class, 'get']);
 
   // Applications
+  Route::get('applications/search/{searchTerm}/{type}', [ApplicationController::class, 'search']);
   Route::post('applications/filter', [ApplicationController::class, 'filter']);
   Route::get('applications/archiv', [ApplicationController::class, 'getArchive'])->middleware('role:admin');
   Route::get('applications/aktuell', [ApplicationController::class, 'get']);
