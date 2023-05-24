@@ -43,25 +43,21 @@ class ApplicationController extends Controller
 
   public function search($searchTerm = NULL, $type)
   {
+    $query = Application::where('name', 'LIKE', "%{$searchTerm}%")
+            ->orWhere('lastname', 'LIKE', "%{$searchTerm}%")
+            ->orWhere('firstname', 'LIKE', "%{$searchTerm}%")
+            ->orWhere('email', 'LIKE', "%{$searchTerm}%");
+
     if ($type == 'archiv')
     {
-      return new DataCollection(
-        Application::where('name', 'LIKE', "%{$searchTerm}%")
-        ->orWhere('lastname', 'LIKE', "%{$searchTerm}%")
-        ->orWhere('firstname', 'LIKE', "%{$searchTerm}%")
-        ->orWhere('email', 'LIKE', "%{$searchTerm}%")
-        ->archive()
-        ->get()
-      );
+      $query = $query->archive();
     }
-    return new DataCollection(
-      Application::current()
-      ->where('name', 'LIKE', "%{$searchTerm}%")
-      ->orWhere('lastname', 'LIKE', "%{$searchTerm}%")
-      ->orWhere('firstname', 'LIKE', "%{$searchTerm}%")
-      ->orWhere('email', 'LIKE', "%{$searchTerm}%")
-      ->get()
-    );
+    else
+    {
+      $query = $query->current();
+    }
+
+    return new DataCollection($query->get());
   }
 
   /**
@@ -70,32 +66,37 @@ class ApplicationController extends Controller
    * @param  \Illuminate\Http\Request $request
    * @return \Illuminate\Http\Response
    */
-  public function filter(Request $request)
+  public function filter(Request $request, $type = NULL)
   { 
-    if ($request->input('state') && $request->input('amount'))
+    $query = Application::orderBy('created_at', 'DESC')->with('state', 'users');
+
+    if ($request->input('state'))
+    {
+      $query->where('application_state_id', $request->input('state'));
+    }
+
+    if ($request->input('amount'))
     {
       $constraint = explode(':', $request->input('amount'));
       $operator = $constraint[0] == 'lt' ? '<=' : '>='; 
-      $data = Application::current()->orderBy('created_at', 'DESC')->with('state', 'users')->where('application_state_id', $request->input('state'))->where('project_contribution_requested', $operator, $constraint[1])->get();
-      return new DataCollection($data);
+      $query->where('project_contribution_requested', $operator, $constraint[1]);
+    }
+
+    if ($request->input('year'))
+    {
+      $query->where('year', $request->input('year'));
+    }
+    
+    if ($type == 'archiv')
+    {
+      $query = $query->archive();
     }
     else
     {
-      if ($request->input('state'))
-      {
-        $data = Application::current()->orderBy('created_at', 'DESC')->with('state', 'users')->where('application_state_id', $request->input('state'))->get();
-        return new DataCollection($data);
-      }
+      $query = $query->current();
+    }
 
-      if ($request->input('amount'))
-      {
-        $constraint = explode(':', $request->input('amount'));
-        $operator = $constraint[0] == 'lt' ? '<=' : '>='; 
-        $data = Application::current()->orderBy('created_at', 'DESC')->where('project_contribution_requested', $operator, $constraint[1])->get();
-        return new DataCollection($data);
-      }
-    } 
-    return new DataCollection($data);
+    return new DataCollection($query->get());
   }
 
   /**
@@ -289,6 +290,4 @@ class ApplicationController extends Controller
     (new Logger())->log($application, 'Gesuch gelöscht');
     return response()->json('successfully deleted');
   }
-
-
 }

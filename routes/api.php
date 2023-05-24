@@ -5,6 +5,7 @@ use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\ApplicationController;
 use App\Http\Controllers\Api\ApplicationCommentController;
 use App\Http\Controllers\Api\ApplicationStateController;
+use App\Http\Controllers\Api\ApplicationYearController;
 use App\Http\Controllers\Api\ApplicationFileController;
 use App\Http\Controllers\Api\ApplicationLogController;
 use App\Http\Controllers\Api\ApplicationUploadController;
@@ -33,7 +34,7 @@ Route::middleware('auth:sanctum')->group(function() {
 
   // Application states
   Route::get('application-states', [ApplicationStateController::class, 'get']);
-
+  Route::get('application-years', [ApplicationYearController::class, 'get']);
 
   // Application comments
   Route::get('application-comments/{application:uuid}', [ApplicationCommentController::class, 'get']);
@@ -52,7 +53,7 @@ Route::middleware('auth:sanctum')->group(function() {
 
   // Applications
   Route::get('applications/search/{searchTerm}/{type}', [ApplicationController::class, 'search']);
-  Route::post('applications/filter', [ApplicationController::class, 'filter']);
+  Route::post('applications/filter/{type}', [ApplicationController::class, 'filter']);
   Route::get('applications/archiv', [ApplicationController::class, 'getArchive'])->middleware('role:admin');
   Route::get('applications/aktuell', [ApplicationController::class, 'get']);
   Route::put('application/approve/{application:uuid}', [ApplicationController::class, 'approve']);

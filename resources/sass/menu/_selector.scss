@@ -38,8 +38,11 @@ nav.selector {
   }
 
   .is-disabled {
+    h2 {
+      opacity: .5 !important;
+    }
     * {
-      opacity: .6;
+      opacity: .7;
       pointer-events: none;
     }
   }
