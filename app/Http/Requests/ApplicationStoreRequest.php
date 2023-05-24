@@ -32,7 +32,7 @@ class ApplicationStoreRequest extends FormRequest
       'phone' => 'required',
       'email' => 'required|email',
       'legal_form' => 'required',
-      'bank_account' => 'required',
+      //'bank_account' => 'required',
       'project_title' => 'required',
       'project_time' => 'required',
       'project_cost_total' => 'required',

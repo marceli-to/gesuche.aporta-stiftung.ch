@@ -3,31 +3,40 @@ export default {
   data() {
     return {
       hasSelector: false,
+      hasSelectorCurrent: false,
+      hasSelectorArchive: false,
       hasSelectorResult: false,
       cachebuster: this.randomString(),
     };
   },
 
   methods: {
-    toggleSelector() {
+    toggleSelector(type) {
       this.hasSelector = this.hasSelector ? false : true;
+
+      if (type == 'aktuell') {
+        this.hasSelectorCurrent = this.hasSelectorCurrent ? false : true;
+        this.hasSelectorArchive = false;
+      }
+      else if (type == 'archiv') {
+        this.hasSelectorArchive = this.hasSelectorArchive ? false : true;
+        this.hasSelectorCurrent = false;
+      }
+
       this.cachebuster = this.randomString(12);
       this.hideFilter();
     },
 
-    showSelector() {
-      this.hasSelector = true;
-      this.hideFilter();
-    },
-
     hideSelector() {
-      this.hasSelector = false;
+      this.hasSelectorCurrent = false;
+      this.hasSelectorArchive = false;
     },
 
     resetSelector() {
       let selector = {
         set: false,
         type: null,
+        year: null,
       };
       this.$store.commit('selector', selector);
       this.hideSelector();
@@ -39,7 +48,6 @@ export default {
       selector[type] = value;
       selector['set'] = true;
       this.$store.commit('selector', selector);
-      //this.fetchSelected();
     },
 
     randomString(length) {
@@ -56,6 +64,8 @@ export default {
   watch: {
     '$route'() {
       this.hasSelector = false;
+      this.hasSelectorCurrent = false;
+      this.hasSelectorArchive = false;     
     }
   }
 }

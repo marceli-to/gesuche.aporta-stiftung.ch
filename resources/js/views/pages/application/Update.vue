@@ -101,8 +101,16 @@
               </application-input>
             </application-row>
             <application-row class="pb-3x">
-              <application-label :cls="'span-1'">Kontoangaben</application-label>
-              <application-input :cls="'span-3'">{{ data.bank_account }}</application-input>
+              <application-label :cls="'span-1'">IBAN</application-label>
+              <application-input :cls="'span-3'">
+                <input type="text" v-model="data.iban" required @blur="validate($event)" />
+              </application-input>
+            </application-row>
+            <application-row class="pb-3x">
+              <application-label :cls="'span-1'">Begünstigter</application-label>
+              <application-input :cls="'span-3'">
+                <input type="text" v-model="data.beneficiary" required @blur="validate($event)" />
+              </application-input>
             </application-row>
 
             <h2>Serienbrief</h2>
@@ -257,6 +265,58 @@
               <div class="span-1"><label>Begünstigte Zürich</label></div>
               <div class="span-3">{{data.proportion_residents_benefit_program}}</div>
             </application-row>
+
+            <h2>Bemerkungen</h2>
+            <application-row class="mb-3x">
+              <div class="span-1"><label>Anteil Stadtzürcher*-innen</label></div>
+              <div class="span-3"><textarea v-model="data.remarks_percentage_of_residents_zurich"></textarea></div>
+            </application-row>
+            <application-row class="mb-3x">
+              <div class="span-1"><label>Direkter Nutzen Zielgruppe</label></div>
+              <div class="span-3"><textarea v-model="data.remarks_direct_benefits_to_target_group"></textarea></div>
+            </application-row>
+            <application-row class="mb-3x">
+              <div class="span-1"><label>Ausser-ordentlichkeit Vorhaben</label></div>
+              <div class="span-3 flex items-start">
+                <div class="mt-1x flex items-center">
+                  <input type="radio" id="extraordinary-yes" name="remarks_exceptionality_of_project" v-bind:value="1" v-model="data.remarks_exceptionality_of_project" />
+                  <label class="ml-2x" for="extraordinary-yes">Ja</label>
+                </div>
+                <div class="ml-3x mt-1x flex items-center">
+                  <input type="radio" id="extraordinary-no" name="remarks_exceptionality_of_project" v-bind:value="0" v-model="data.remarks_exceptionality_of_project" />
+                  <label class="ml-2x" for="extraordinary-no">Nein</label>
+                </div>
+              </div>
+            </application-row>
+            <application-row class="mb-3x">
+              <div class="span-1"><label>Weitere relevante Informationen</label></div>
+              <div class="span-3"><textarea v-model="data.remarks_additional_relevant_information"></textarea></div>
+            </application-row>
+            <application-row class="mb-3x">
+              <div class="span-1"><label>Inhaltliche Zuordnung</label></div>
+              <div class="span-3">
+                <div class="mt-1x flex items-center">
+                  <input type="checkbox" id="remarks_content_allocation-erhalt" name="remarks_content_allocation" value="Bau/Umbau" @change="changeOption($event)" checked v-if="hasOption('remarks_content_allocation', 'Bau/Umbau')">
+                  <input type="checkbox" id="remarks_content_allocation-erhalt" name="remarks_content_allocation" value="Bau/Umbau" @change="changeOption($event)" v-else>
+                  <label class="ml-2x" for="remarks_content_allocation-erhalt">Bau/Umbau</label>
+                </div>
+                <div class="mt-1x flex items-center">
+                  <input type="checkbox" id="remarks_content_allocation-infra" name="remarks_content_allocation" value="Infrastruktur" @change="changeOption($event)" checked v-if="hasOption('remarks_content_allocation', 'Infrastruktur')">
+                  <input type="checkbox" id="remarks_content_allocation-infra" name="remarks_content_allocation" value="Infrastruktur" @change="changeOption($event)" v-else>
+                  <label class="ml-2x" for="remarks_content_allocation-infra">Infrastruktur (IT, Mobiliar, etc.)</label>
+                </div>
+                <div class="mt-1x flex items-center">
+                  <input type="checkbox" id="remarks_content_allocation-projekt" name="remarks_content_allocation" value="Projekt" @change="changeOption($event)" checked v-if="hasOption('remarks_content_allocation', 'Projekt')">
+                  <input type="checkbox" id="remarks_content_allocation-projekt" name="remarks_content_allocation" value="Projekt" @change="changeOption($event)" v-else />
+                  <label class="ml-2x" for="remarks_content_allocation-projekt">Projekt</label>
+                </div>
+                <div class="mt-1x flex items-center">
+                  <input type="checkbox" id="remarks_content_allocation-ao" name="remarks_content_allocation" value="Betriebsbeitrag" @change="changeOption($event)" checked v-if="hasOption('remarks_content_allocation', 'Betriebsbeitrag')">
+                  <input type="checkbox" id="remarks_content_allocation-ao" name="remarks_content_allocation" value="Betriebsbeitrag" @change="changeOption($event)" v-else />
+                  <label class="ml-2x" for="remarks_content_allocation-ao">a.o. Betriebsbeitrag</label>
+                </div>
+              </div>
+            </application-row>
           </div>
           <div>
             <h2>Projektkosten und Finanzierung</h2>
@@ -272,12 +332,6 @@
                 <input type="text" v-model="data.project_own_contribution" class="align-right" required @blur="validate($event)">
               </application-input>
             </application-row>
-            <!--
-            <application-row v-if="data.project_add_instit_final_total > 0">
-              <div class="span-3"><label class="text-grey">Beiträge Dritter</label></div>
-              <div class="span-1 flex justify-end text-grey">{{data.project_add_instit_final_total | currency}}</div>
-            </application-row>
-            -->
             <application-row v-if="data.project_add_instit_total_2 > 0">
               <div class="span-3 text-grey"><label class="text-grey">{{data.project_add_instit_2}}</label></div>
               <div class="span-1 flex justify-end text-grey">{{data.project_add_instit_total_2 | currency}}</div>
@@ -366,7 +420,9 @@ export default {
     return {
       
       // Model
-      data: {},
+      data: {
+
+      },
 
       dataUpload: {
         uuid: this.$route.params.uuid,
@@ -433,6 +489,7 @@ export default {
       this.isFetched = false;
       this.axios.get(`${this.routes.fetch}/${this.$route.params.uuid}`).then(response => {
         this.data = response.data;
+        this.data.remarks_content_allocation = this.data.content_allocation;
         this.isFetched = true;
         NProgress.done();
       });
@@ -472,6 +529,26 @@ export default {
       }
       event.target.classList.add('is-invalid');
       this.hasErrors = true;
+    },
+
+    changeOption(event) {
+      if (event.target.name === 'remarks_content_allocation') {
+
+        if (event.target.checked) {
+          this.data.remarks_content_allocation.push(event.target.value);
+          return;
+        }
+        else {
+          const index = this.data.remarks_content_allocation.indexOf(event.target.value);
+          this.data.remarks_content_allocation.splice(index, 1);
+          return;
+        }
+        return;
+      }
+    },
+
+    hasOption(array, value) {
+      return this.data[array].indexOf(value) > -1 ? true : false;
     },
 
     showUpload() {

@@ -86,18 +86,14 @@
         </a>
       </template>
     </nav>
-    <nav class="selector" v-if="hasSelector">
+
+    <nav class="selector" v-if="hasSelectorCurrent">
       <div>
         <div class="grid-cols-12">
           
           <div class="span-3 start-2">
             <h2>Zusagen/Absagen</h2>
             <div>
-              <!-- <a href="javascript:;" @click.prevent="setSelectorItem('type', 'reply_all')">
-                <icon-radio-active v-if="$store.state.selector.type == 'reply_all'" />
-                <icon-radio v-else />
-                <span>Alle Gesuche</span>
-              </a> -->
               <a href="javascript:;" @click.prevent="setSelectorItem('type', 'reply_approved')">
                 <icon-radio-active v-if="$store.state.selector.type == 'reply_approved'" />
                 <icon-radio v-else />
@@ -134,15 +130,15 @@
           <div class="span-3">
             <h2>Exportieren</h2>
             <div>
-              <a href="javascript:;" @click.prevent="setSelectorItem('type', 'export_new')">
-                <icon-radio-active v-if="$store.state.selector.type == 'export_new'" />
-                <icon-radio v-else />
-                <span>Neue</span>
-              </a>
               <a href="javascript:;" @click.prevent="setSelectorItem('type', 'export_all')">
                 <icon-radio-active v-if="$store.state.selector.type == 'export_all'" />
                 <icon-radio v-else />
                 <span>Alle Gesuche</span>
+              </a>
+              <a href="javascript:;" @click.prevent="setSelectorItem('type', 'export_new')">
+                <icon-radio-active v-if="$store.state.selector.type == 'export_new'" />
+                <icon-radio v-else />
+                <span>Neue</span>
               </a>
               <a href="javascript:;" @click.prevent="setSelectorItem('type', 'export_approved')">
                 <icon-radio-active v-if="$store.state.selector.type == 'export_approved'" />
@@ -159,7 +155,7 @@
         </div>
       </div>
         <a 
-          :href="`/export/${$store.state.selector.type}/?v=${cachebuster}`" 
+          :href="`/export/${$store.state.selector.type}/false/?v=${cachebuster}`" 
           target="_blank"
           class="btn-primary is-filter" 
           @click="hideSelector()"
@@ -181,6 +177,60 @@
           Abbrechen
         </a>
     </nav>
+
+    <nav class="selector" v-if="hasSelectorArchive">
+      <div>
+        <div class="grid-cols-12">
+          <div class="span-3 start-2">
+            <h2>Exportieren</h2>
+            <div>
+              <a href="javascript:;" @click.prevent="setSelectorItem('type', 'export_all')">
+                <icon-radio-active v-if="$store.state.selector.type == 'export_all'" />
+                <icon-radio v-else />
+                <span>Alle Gesuche</span>
+              </a>
+              <a href="javascript:;" @click.prevent="setSelectorItem('type', 'export_approved')">
+                <icon-radio-active v-if="$store.state.selector.type == 'export_approved'" />
+                <icon-radio v-else />
+                <span>Genehmigte</span>
+              </a>
+              <a href="javascript:;" @click.prevent="setSelectorItem('type', 'export_denied')">
+                <icon-radio-active v-if="$store.state.selector.type == 'export_denied'" />
+                <icon-radio v-else />
+                <span>Abgelehnte</span>
+              </a>
+            </div>
+          </div>
+
+          <div class="span-3">
+            <h2>Jahr</h2>
+            <div v-for="(year, index) in dataYears" :key="index">
+              <a href="javascript:;" @click.prevent="setSelectorItem('year', year)">
+                <icon-radio-active v-if="$store.state.selector.year == year" />
+                <icon-radio v-else />
+                <span>{{year}}</span>
+              </a>
+            </div>
+          </div>
+
+
+        </div>
+      </div>
+      <a 
+        :href="`/export/${$store.state.selector.type}/true/${$store.state.selector.year}?v=${cachebuster}`" 
+        target="_blank"
+        :class="[!$store.state.selector.type ? 'is-disabled': '', 'btn-primary is-filter']" 
+        @click="hideSelector()">
+        Exportieren
+      </a>
+      <a 
+        href="javascript:;" 
+        class="btn-secondary is-outline" 
+        @click.prevent="resetSelector()">
+        Abbrechen
+      </a>
+    </nav>
+
   </site-header>
   <site-main v-if="isFetched">
     <list v-if="data.length">

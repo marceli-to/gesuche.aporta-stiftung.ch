@@ -9,6 +9,13 @@ use Maatwebsite\Excel\Events\AfterSheet;
 
 class ApplicationExport implements FromCollection, WithHeadings, WithEvents, ShouldAutoSize
 {
+  public function __construct(string $state, $archived = FALSE, $year = NULL)
+  {
+    $this->state = $state;
+    $this->archived = $archived;
+    $this->year = $year;
+  }
+
   /**
    * @return \Illuminate\Support\Collection
    */
@@ -16,11 +23,42 @@ class ApplicationExport implements FromCollection, WithHeadings, WithEvents, Sho
   {
     if (auth()->user()->isAdmin())
     {
-      $applications = Application::orderBy('created_at', 'ASC')->get();
+      $query = Application::orderBy('created_at', 'ASC');
+
+      if ($this->archived != 'false')
+      {
+        $query->archive();
+      }
+      else
+      {
+        $query->current();
+      }
+
+      if ($this->state == 'export_new')
+      {
+        $query->where('application_state_id', 1);
+      }
+
+      if ($this->state == 'export_denied')
+      {
+        $query->where('application_state_id', 5);
+      }
+
+      if ($this->state == 'export_approved')
+      {
+        $query->where('application_state_id', 6);
+      }
+
+      if ($this->year)
+      {
+        $query->where('year', $this->year);
+      }
+
+      $applications = $query->get();
     }
     else
     {
-      $applications = Application::where('application_state_id', '>', 1)->orderBy('created_at', 'ASC')->get();
+      $applications = Application::current()->where('application_state_id', '>', 1)->orderBy('created_at', 'ASC')->get();
     }
     
     $data = [];
@@ -36,10 +74,13 @@ class ApplicationExport implements FromCollection, WithHeadings, WithEvents, Sho
         'Beitrag Bewilligt' => $s->project_contribution_approved,
         'Kontakt' => $s->firstname . ' ' . $s->lastname,
         'E-Mail' => $s->email,
+        'Anteil Stadtzürcher*innen' => $s->remarks_direct_benefits_to_target_group,
+        'Ausserordentlichkeit Vorhaben' => $s->remarks_exceptionality_of_project ? 'Ja' : 'Nein',
+        'Weitere relevante Informationen' => $s->remarks_additional_relevant_information,
+        'Inhaltliche Zuordnung' => $s->remarks_content_allocation
       ];
     }
     return collect($data);
-
   }
 
   public function headings(): array
@@ -54,6 +95,10 @@ class ApplicationExport implements FromCollection, WithHeadings, WithEvents, Sho
       'Beitrag Bewilligt',
       'Kontakt',
       'E-Mail',
+      'Anteil Stadtzürcher*innen',
+      'Ausserordentlichkeit Vorhaben',
+      'Weitere relevante Informationen',
+      'Inhaltliche Zuordnung'
     ];
   }
 
@@ -64,7 +109,7 @@ class ApplicationExport implements FromCollection, WithHeadings, WithEvents, Sho
   {
     return [
       AfterSheet::class => function(AfterSheet $event) {
-        $cellRange = 'A1:I1';
+        $cellRange = 'A1:M1';
         $event->sheet->getDelegate()->getStyle($cellRange)->getFont()->setBold(true);
       },
     ];

@@ -19,16 +19,29 @@
             <div class="span-3">{{data.name}}</div>
           </application-row>
           <application-row>
-            <div class="span-1"><label>Adresse</label></div>
-            <div class="span-3" v-html="data.applicant_address"></div>
+            <div class="span-1"><label>Kontakt</label></div>
+            <div class="span-3">{{data.applicant_name}}</div>
+          </application-row>
+          <application-row>
+            <div class="span-1"><label>Strasse, Nr.</label></div>
+            <div class="span-3">
+              {{data.street}}
+              <template v-if="data.street_number">
+                {{data.street_number}}
+              </template>
+            </div>
+          </application-row>
+          <application-row>
+            <div class="span-1"><label>Postleitzahl</label></div>
+            <div class="span-3">{{data.zip}}</div>
+          </application-row>
+          <application-row>
+            <div class="span-1"><label>Ort</label></div>
+            <div class="span-3">{{data.city}}</div>
           </application-row>
           <application-row>
             <div class="span-1"><label>Webseite</label></div>
             <div class="span-3">{{data.website}}</div>
-          </application-row>
-          <application-row>
-            <div class="span-1"><label>Kontakt</label></div>
-            <div class="span-3">{{data.applicant_name}}</div>
           </application-row>
           <application-row>
             <div class="span-1"><label>Telefon</label></div>
@@ -43,8 +56,12 @@
             <div class="span-3">{{data.legal_form}}</div>
           </application-row>
           <application-row>
-            <div class="span-1"><label>Kontoangaben</label></div>
-            <div class="span-3">{{data.bank_account}}</div>
+            <div class="span-1"><label>IBAN</label></div>
+            <div class="span-3">{{data.iban}}</div>
+          </application-row>
+          <application-row>
+            <div class="span-1"><label>Begünstigter</label></div>
+            <div class="span-3">{{data.beneficiary}}</div>
           </application-row>
           <h2>Serienbrief</h2>
           <application-row>
@@ -115,6 +132,28 @@
           <application-row>
             <div class="span-1"><label>Begünstigte Zürich</label></div>
             <div class="span-3">{{data.proportion_residents_benefit_program}}</div>
+          </application-row>
+
+          <h2>Bemerkungen</h2>
+          <application-row class="mb-3x">
+            <div class="span-1"><label>Anteil Stadtzürcher*-innen</label></div>
+            <div class="span-3">{{data.remarks_percentage_of_residents_zurich}}</div>
+          </application-row>
+          <application-row class="mb-3x">
+            <div class="span-1"><label>Direkter Nutzen Zielgruppe</label></div>
+            <div class="span-3">{{data.remarks_direct_benefits_to_target_group}}</div>
+          </application-row>
+          <application-row class="mb-3x">
+            <div class="span-1"><label>Ausser-ordentlichkeit Vorhaben</label></div>
+            <div class="span-3">{{data.remarks_exceptionality_of_project ? 'Ja' : 'Nein'}}</div>
+          </application-row>
+          <application-row class="mb-3x">
+            <div class="span-1"><label>Weitere relevante Informationen</label></div>
+            <div class="span-3">{{data.remarks_additional_relevant_information}}</div>
+          </application-row>
+          <application-row class="mb-3x">
+            <div class="span-1"><label>Inhaltliche Zuordnung</label></div>
+            <div class="span-3">{{data.remarks_content_allocation}}</div>
           </application-row>
         </div>
         <div>
@@ -269,7 +308,6 @@
                   <span>Ablehnen</span>
                 </a>
               </div>
-
               <!-- <a 
                 href="javascript:;" 
                 :class="[data.project_contribution_approved_temporary > 0 ? '' : 'disabled', 'btn-primary is-small']"

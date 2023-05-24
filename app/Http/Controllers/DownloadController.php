@@ -38,22 +38,16 @@ class DownloadController extends BaseController
   }
 
   /**
-   * Export Applications to Excel
+   * Export current applications to excel
    * 
    * @return \Illuminate\Http\Response
    */
 
-  public function export($type = NULL)
+  public function export($type = NULL, $archived = FALSE, $year = NULL)
   {
     $filename = 'gesuche-' . date('d-m-Y-H:i:s') . '.xlsx';
-
-    if ($type == 'export_new')
-    {
-      return Excel::download(new ApplicationExportByYear(2023), $filename);
-    }
-    return Excel::download(new ApplicationExport, $filename);
+    return Excel::download(new ApplicationExport($type, $archived, $year), $filename);
   }
-
 
   /**
    * Generate and download a pdf

@@ -19,7 +19,7 @@
               </router-link>
             </li>
             <li class="span-1">
-              <a href="" class="icon-export" @click.prevent="toggleSelector()" v-if="$props.view != 'show' && $route.params.type != 'archiv'">
+              <a href="" class="icon-export" @click.prevent="toggleSelector($route.params.type)" v-if="$props.view != 'show'">
                 <icon-export />
               </a>
             </li>
@@ -41,7 +41,7 @@
           </template>
           <template v-else>
             <li class="span-1">
-              <a href="" class="icon-export" @click.prevent="toggleSelector()" v-if="$props.view != 'show' && $route.params.type != 'archiv'">
+              <a href="" class="icon-export" @click.prevent="toggleSelector($route.params.type)" v-if="$props.view != 'show'">
                 <icon-export />
               </a>
             </li>
@@ -63,7 +63,7 @@
           </template>
           <li class="user">
             <a href="/logout" class="user icon-filter" style="display: flex; align-items: center">
-            {{user.email}}
+              {{user.email}}
               <icon-user class="ml-4x"/>
             </a>
           </li>
@@ -104,8 +104,8 @@ export default {
     toggleFilter() {
       this.$parent.toggleFilter();
     },
-    toggleSelector() {
-      this.$parent.toggleSelector();
+    toggleSelector(type) {
+      this.$parent.toggleSelector(type);
     },
   },
 
@@ -119,7 +119,7 @@ export default {
   computed: {
     cls() {
       let cls = 'site-header';
-      if (this.$parent.hasFilter || this.$parent.hasSelector) {
+      if (this.$parent.hasFilter || this.$parent.hasSelectorCurrent || this.$parent.hasSelectorArchive) {
         cls = cls + ' has-selector';
       }
       if (this.$props.view == 'show') {

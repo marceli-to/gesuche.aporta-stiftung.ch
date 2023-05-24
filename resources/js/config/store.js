@@ -22,6 +22,7 @@ export default new Vuex.Store({
     selector: {
       set: false,
       type: null,
+      year: null
     },
   },
   mutations: {

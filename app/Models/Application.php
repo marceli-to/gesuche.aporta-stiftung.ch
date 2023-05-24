@@ -64,6 +64,11 @@ class Application extends Base
     'file_bylaws',
     'file_project_description',
     'file_project_estimated_costs',
+    'remarks_percentage_of_residents_zurich',
+    'remarks_direct_benefits_to_target_group',
+    'remarks_exceptionality_of_project',
+    'remarks_additional_relevant_information',
+    'remarks_content_allocation',
     'year',
     'archive',
     'application_state_id',
@@ -94,6 +99,7 @@ class Application extends Base
     'is_denied_external',
     'is_denied',
     'is_approved',
+    'content_allocation',
   ];
 
   public function state()
@@ -188,7 +194,6 @@ class Application extends Base
   {
     return $this->application_state_id == ApplicationState::APPROVED ? TRUE : FALSE;
   }
-
 
   /**
    * Get the applicants full name.
@@ -310,5 +315,10 @@ class Application extends Base
   public function getIsApprovedAttribute($value)
   {
     return $this->isApproved();
+  }
+
+  public function getContentAllocationAttribute($value)
+  {
+    return explode(',', $this->remarks_content_allocation);
   }
 }

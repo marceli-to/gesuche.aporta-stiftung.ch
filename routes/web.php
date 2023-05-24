@@ -12,7 +12,7 @@ use App\Http\Controllers\FormController;
 |
 */
 
-Route::get('/formular', [PageController::class, 'index']);
+// Route::get('/formular', [PageController::class, 'index']);
 // Route::post('/form/submit', [FormController::class, 'store']);
 // Route::post('/file/upload', [FormController::class, 'upload']);
 // Route::delete('/file/upload/{filename}', [FormController::class, 'delete']);
@@ -28,7 +28,7 @@ Route::get('/', [PageController::class, 'index'])->name('home');
 // Logged in users
 Route::middleware('auth:sanctum', 'verified')->group(function() {
   Route::get('/download/{folder}/{filename}', [DownloadController::class, 'download'])->name('download');
-  Route::get('/export/{type?}', [DownloadController::class, 'export'])->name('export');
+  Route::get('/export/{type?}/{archived?}/{year?}', [DownloadController::class, 'export'])->name('export');
   Route::get('/brief/{type}', [DownloadController::class, 'pdf'])->name('pdf');
   Route::get('/gesuche/{any?}', function () {
     return view('layout.authenticated');

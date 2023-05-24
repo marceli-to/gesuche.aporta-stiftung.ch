@@ -132,8 +132,16 @@ class ApplicationController extends Controller
   public function update(Application $application, ApplicationStoreRequest $request)
   {
     $application = Application::findOrFail($application->id);
-    $application->update($request->except(['approved_at', 'denied_at']));
+    $application->update($request->except(['approved_at', 'denied_at', 'remarks_content_allocation']));
+    $application->remarks_content_allocation = NULL;
     $application->save();
+
+    if ($request->input('remarks_content_allocation'))
+    {
+      $application->remarks_content_allocation = implode(',', $request->input('remarks_content_allocation'));
+      $application->save();
+    }
+
     (new Logger())->log($application, 'Gesuch gespeichert');
     return response()->json('successfully updated');
   }

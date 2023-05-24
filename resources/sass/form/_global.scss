@@ -31,6 +31,11 @@ button {
     background-color: rgba($color-danger, .1);
   }
 }
+
+input[type=radio],
+input[type=checkbox] {
+  accent-color: $color-primary;
+}
  
 input[type=text],
 input[type=email],
