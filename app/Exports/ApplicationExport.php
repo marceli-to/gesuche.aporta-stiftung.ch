@@ -49,7 +49,7 @@ class ApplicationExport implements FromCollection, WithHeadings, WithEvents, Sho
         $query->where('application_state_id', 6);
       }
 
-      if ($this->year)
+      if ($this->year && $this->year != 'null')
       {
         $query->where('year', $this->year);
       }
