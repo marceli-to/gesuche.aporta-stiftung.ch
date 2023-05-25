@@ -30,7 +30,7 @@ Route::middleware('auth:sanctum', 'verified')->group(function() {
   Route::get('/download/{folder}/{filename}', [DownloadController::class, 'download'])->name('download');
   Route::get('/export/{type?}/{archived?}/{year?}', [DownloadController::class, 'export'])->name('export');
   Route::get('/brief/{type}', [DownloadController::class, 'pdf'])->name('pdf');
-  Route::get('/gesuche/{any?}', function () {
+  Route::get('/{any?}', function () {
     return view('layout.authenticated');
   })->where('any', '.*')->name('applications');
 });

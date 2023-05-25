@@ -86,11 +86,9 @@
         </a>
       </template>
     </nav>
-
     <nav class="selector" v-if="hasSelectorCurrent">
       <div>
         <div class="grid-cols-12">
-          
           <div class="span-3 start-2">
             <h2>Zusagen/Absagen</h2>
             <div>
@@ -126,7 +124,6 @@
               </a>
             </div>
           </div>
-         
           <div class="span-3">
             <h2>Exportieren</h2>
             <div>
@@ -177,7 +174,6 @@
           Abbrechen
         </a>
     </nav>
-
     <nav class="selector" v-if="hasSelectorArchive">
       <div>
         <div class="grid-cols-12">
@@ -201,7 +197,6 @@
               </a>
             </div>
           </div>
-
           <div class="span-3">
             <h2>Jahr</h2>
             <div v-for="(year, index) in dataYears" :key="index">
@@ -212,8 +207,6 @@
               </a>
             </div>
           </div>
-
-
         </div>
       </div>
       <a 
@@ -230,7 +223,6 @@
         Abbrechen
       </a>
     </nav>
-
   </site-header>
   <site-main v-if="isFetched">
     <list v-if="data.length">
@@ -502,6 +494,7 @@ export default {
     },
 
     isNew(application) {
+      console.log(application.users);
       if (application.users) {
         if (application.users.length == 0) {
           return true;

@@ -62,10 +62,12 @@
             </li>
           </template>
           <li class="user">
-            <a href="/logout" class="user icon-filter" style="display: flex; align-items: center">
-              {{user.email}}
-              <icon-user class="ml-4x"/>
-            </a>
+            <router-link 
+              :to="{name: $props.user.admin ? 'users' : 'user-profile'}"
+              class="flex items-center">
+              <div class="mr-3x">{{ $props.user.email }}</div>
+              <icon-user />
+            </router-link>
           </li>
         </ul>
       </nav>
@@ -124,6 +126,9 @@ export default {
       }
       if (this.$props.view == 'show') {
         cls = cls + ' is-detail';
+      }
+      if (this.$props.view == 'users') {
+        cls = cls + ' is-users';
       }
       return cls; 
     }

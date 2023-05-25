@@ -17,9 +17,18 @@ nav.page-menu {
     height: 60px;
   }
 
-  &.page-menu__user {
+  &.page-menu__users {
     li {
       @extend %span-4;
+    }
+
+    div a {
+      border-bottom: none !important;
+    }
+
+    a.is-disabled {
+      color: $color-light-grey;
+      pointer-events: none;
     }
   }
 

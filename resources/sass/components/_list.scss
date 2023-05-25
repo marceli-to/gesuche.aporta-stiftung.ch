@@ -13,6 +13,14 @@
     min-height: 80px;
   }
 
+
+  .list-row-header {
+
+    &.is-narrow {
+      min-height: 48px;
+    }
+  }
+
   .list-row {
     transition: background-color .06s ease-in;
 
@@ -31,13 +39,22 @@
         cursor: default;
       }
     }
+  
+    &.is-narrow {
+      min-height: auto;
+    }
+
   }
 
+  .list-item-action,
+  .list-item-actions,
   .list-item-bullet,
   .list-item-state {
     padding-top: $space-2x;
   }
 
+  .list-item-action,
+  .list-item-actions,
   .list-item-bullet,
   .list-item-state {
     display: flex;
@@ -87,6 +104,7 @@
     }
   }
 
+  .list-item-action,
   .list-item-bullet {
     background-color: $color-white;
     position: relative;

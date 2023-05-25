@@ -34,6 +34,7 @@ import baseRoutes from '@/config/routes';
 import applicationRoutes from '@/views/pages/application/config/routes';
 import applicationCommentRoutes from '@/views/pages/application/comments/config/routes';
 import applicationLogRoutes from '@/views/pages/application/log/config/routes';
+import userRoutes from '@/views/pages/user/config/routes';
 
 const router = new VueRouter(
   { 
@@ -42,7 +43,8 @@ const router = new VueRouter(
       ...baseRoutes,
       ...applicationRoutes,
       ...applicationCommentRoutes,
-      ...applicationLogRoutes
+      ...applicationLogRoutes,
+      ...userRoutes
     ]
   }
 );

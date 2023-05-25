@@ -27,7 +27,11 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::middleware('auth:sanctum')->group(function() {
+  Route::get('users', [UserController::class, 'get']);
   Route::get('user', [UserController::class, 'find']);
+  Route::post('user', [UserController::class, 'create']);
+  Route::put('user/{user}', [UserController::class, 'update']);
+  Route::delete('user/{user}', [UserController::class, 'destroy']);
 
   // Uploads
   Route::post('application/file/upload', [ApplicationUploadController::class, 'store'])->middleware('role:admin');
