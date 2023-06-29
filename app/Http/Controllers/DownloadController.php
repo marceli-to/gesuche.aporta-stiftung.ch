@@ -59,10 +59,10 @@ class DownloadController extends BaseController
     $applications = [];
     switch ($type) {
       case 'reply_approved';
-        $applications = Application::approved()->get();
+        $applications = Application::approved()->current()->get();
       break;
       case 'reply_denied';
-        $applications = Application::denied()->get();
+        $applications = Application::denied()->current()->get();
       break;
     }
     
