@@ -32,6 +32,7 @@ body {
 .content div {
   word-wrap:break-word;
   hyphens: auto;
+  background-color: yellow;
 }
 
 strong {
