@@ -29,12 +29,6 @@ body {
   z-index: 100;
 }
 
-.content div {
-  word-wrap: break-word;
-  hyphens: auto;
-  width: 164mm;
-}
-
 strong {
   font-family: 'CalibriBold', Helvetica, Arial, sans-serif;
   font-weight: 700;

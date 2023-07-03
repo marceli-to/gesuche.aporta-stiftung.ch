@@ -92,6 +92,7 @@ class Application extends Base
     'requested_contribution',
     'created_at_timestamp',
     'created_at_formated',
+    'iban_formated',
     'is_new',
     'is_pending_approval',
     'is_in_process',
@@ -320,5 +321,16 @@ class Application extends Base
   public function getContentAllocationAttribute($value)
   {
     return explode(',', $this->remarks_content_allocation);
+  }
+
+  /**
+   * Get formated 'iban'
+   *
+   * @param  string  $value
+   * @return string
+   */
+  public function getIbanFormatedAttribute($value)
+  {
+    return chunk_split($this->iban, 4, ' ');
   }
 }
