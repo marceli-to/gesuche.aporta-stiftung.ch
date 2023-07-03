@@ -27,6 +27,15 @@ body {
   position: relative;
   width: 164mm;
   z-index: 100;
+
+  /* add word break and hyphens */
+  -ms-word-break: break-all;
+  word-break: break-all;
+  word-break: break-word;
+  -webkit-hyphens: auto;
+  -moz-hyphens: auto;
+  hyphens: auto;
+  
 }
 
 strong {
