@@ -30,9 +30,9 @@ body {
 }
 
 .content div {
-  word-wrap:break-word;
+  word-wrap: break-word;
   hyphens: auto;
-  background-color: yellow;
+  width: 164mm;
 }
 
 strong {
