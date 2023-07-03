@@ -30,7 +30,7 @@ body {
 }
 
 .content div {
-  word-wrap: break-word;
+  word-wrap: break-all;
   hyphens: auto;
   width: 164mm;
 }
