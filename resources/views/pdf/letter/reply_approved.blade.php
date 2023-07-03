@@ -9,7 +9,7 @@
 <br><br>
 <div>{!! $d->salutation ? nl2br($d->salutation)  : 'Sehr geehrte Damen und Herren' !!}</div>
 <br>
-<div>Wir freuen uns, Ihnen mitteilen zu können, dass der Stiftungsrat anlässlich seiner Sitzung vom 27. Juni 2023 gemäss Vorschlag des Stadtrates von Zürich beschlossen hat, Ihrer Institution aus dem Reinertrag unseres Stiftungsvermögens den Betrag von CHF {{ AppHelper::number($d->project_contribution_approved) }}, als Beitrag an {{ $d->textblock_approval }}, zukommen zu lassen.<br><br>@if ($d->textblock_justification) {{ $d->textblock_justification }} @endif Der Beitrag muss zweckgebunden verwendet werden.</div>
+<div style="word-break: break-word">Wir freuen uns, Ihnen mitteilen zu können, dass der Stiftungsrat anlässlich seiner Sitzung vom 27. Juni 2023 gemäss Vorschlag des Stadtrates von Zürich beschlossen hat, Ihrer Institution aus dem Reinertrag unseres Stiftungsvermögens den Betrag von CHF {{ AppHelper::number($d->project_contribution_approved) }}, als Beitrag an {{ $d->textblock_approval }}, zukommen zu lassen.<br><br>@if ($d->textblock_justification) {{ $d->textblock_justification }} @endif Der Beitrag muss zweckgebunden verwendet werden.</div>
 <br>
 <div>Wir bitten Sie, uns den Eingang des erwähnten Betrages, welchen wir Ihnen bis Ende Juli 2023 auf Ihr Konto mit IBAN {{ $d->iban ? $d->iban :  $d->bank_account }} überweisen werden, umgehend schriftlich zu bestätigen.</div>
 <br>
