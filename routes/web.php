@@ -12,11 +12,13 @@ use App\Http\Controllers\FormController;
 |
 */
 
-// Route::get('/formular', [PageController::class, 'index']);
-// Route::post('/form/submit', [FormController::class, 'store']);
-// Route::post('/file/upload', [FormController::class, 'upload']);
-// Route::delete('/file/upload/{filename}', [FormController::class, 'delete']);
-
+if (!app()->isProduction())
+{
+  Route::get('/formular', [PageController::class, 'index']);
+  Route::post('/form/submit', [FormController::class, 'store']);
+  Route::post('/file/upload', [FormController::class, 'upload']);
+  Route::delete('/file/upload/{filename}', [FormController::class, 'delete']);
+}
 
 // Auth routes
 Auth::routes(['verify' => true, 'register' => false]);
