@@ -14,7 +14,7 @@ use App\Http\Controllers\FormController;
 
 if (!app()->isProduction())
 {
-  Route::get('/formular', [PageController::class, 'index']);
+  Route::get('/formular', [FormController::class, 'index']);
   Route::post('/form/submit', [FormController::class, 'store']);
   Route::post('/file/upload', [FormController::class, 'upload']);
   Route::delete('/file/upload/{filename}', [FormController::class, 'delete']);
