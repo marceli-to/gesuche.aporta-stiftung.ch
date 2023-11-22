@@ -23,7 +23,7 @@ class ApplicationExport implements FromCollection, WithHeadings, WithEvents, Sho
   {
     if (auth()->user()->isAdmin())
     {
-      $query = Application::orderBy('created_at', 'ASC');
+      $query = Application::with('comments.user')->orderBy('created_at', 'ASC');
 
       if ($this->archived != 'false')
       {
@@ -58,14 +58,28 @@ class ApplicationExport implements FromCollection, WithHeadings, WithEvents, Sho
     }
     else
     {
-      $applications = Application::current()->where('application_state_id', '>', 1)->orderBy('created_at', 'ASC')->get();
+      $applications = Application::current()->with('comments.user')->where('application_state_id', '>', 1)->orderBy('created_at', 'ASC')->get();
     }
     
     $data = [];
     foreach($applications as $s)
     {
+      // Build a string out of all comments
+      // Author, Comment
+      if ($s->comments)
+      {
+        $comments = '';
+        foreach($s->comments as $comment)
+        {
+          $comments .= $comment->user->firstname . ' ' . $comment->user->name . ': ' . $comment->comment . " / ";
+        }
+        // remove the last occurence of " / "
+        $comments = substr($comments, 0, strrpos($comments, ' / '));
+      }
+
       $data[] = [
         'Eingang' => $s->created_at_formated,
+        'Titel' => $s->project_title,
         'Organisation' => $s->name,
         'Kosten Total' => $s->project_cost_total,
         'Eigenleistung' => $s->project_own_contribution,
@@ -77,7 +91,9 @@ class ApplicationExport implements FromCollection, WithHeadings, WithEvents, Sho
         'Anteil Stadtzürcher*innen' => $s->remarks_direct_benefits_to_target_group,
         'Ausserordentlichkeit Vorhaben' => $s->remarks_exceptionality_of_project ? 'Ja' : 'Nein',
         'Weitere relevante Informationen' => $s->remarks_additional_relevant_information,
-        'Inhaltliche Zuordnung' => $s->remarks_content_allocation
+        'Inhaltliche Zuordnung' => $s->remarks_content_allocation,
+        'Begründung' => $s->justification_funds,
+        'Kommentare' => $comments ?? ''
       ];
     }
     return collect($data);
@@ -87,6 +103,7 @@ class ApplicationExport implements FromCollection, WithHeadings, WithEvents, Sho
   {
     return [
       'Eingang',
+      'Titel',
       'Organisation',
       'Kosten Total',
       'Eigenleistung',
@@ -98,7 +115,9 @@ class ApplicationExport implements FromCollection, WithHeadings, WithEvents, Sho
       'Anteil Stadtzürcher*innen',
       'Ausserordentlichkeit Vorhaben',
       'Weitere relevante Informationen',
-      'Inhaltliche Zuordnung'
+      'Inhaltliche Zuordnung',
+      'Begründung',
+      'Kommentare'
     ];
   }
 
@@ -109,7 +128,7 @@ class ApplicationExport implements FromCollection, WithHeadings, WithEvents, Sho
   {
     return [
       AfterSheet::class => function(AfterSheet $event) {
-        $cellRange = 'A1:M1';
+        $cellRange = 'A1:P1';
         $event->sheet->getDelegate()->getStyle($cellRange)->getFont()->setBold(true);
       },
     ];
