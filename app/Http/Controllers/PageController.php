@@ -35,8 +35,7 @@ class PageController extends BaseController
     {
       return redirect('/gesuche/aktuell');
     }
-    return redirect(route('login'));
-    //return view($this->viewPath . 'index');
+    return view($this->viewPath . 'index');
   }
 
   /**
