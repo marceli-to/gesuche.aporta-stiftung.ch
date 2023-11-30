@@ -68,7 +68,7 @@ class FormController extends BaseController
       'project_income' => $request->input('project_income'),
       'project_income_remarks' => $request->input('project_income_remarks') ? $request->input('project_income_remarks') : null,
       'application_state_id' => ApplicationState::OPEN,
-      'year' => 2023,
+      'year' => 2024,
       'project_add_instit_2' => $request->input('project_add_instit_2') ? $request->input('project_add_instit_2') : null,
       'project_add_instit_3' => $request->input('project_add_instit_3') ? $request->input('project_add_instit_3') : null,
       'project_add_instit_4' => $request->input('project_add_instit_4') ? $request->input('project_add_instit_4') : null,

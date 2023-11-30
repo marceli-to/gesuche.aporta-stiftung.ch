@@ -31,12 +31,12 @@ class PageController extends BaseController
 
   public function index()
   {
-    // if (auth()->user()) 
-    // {
-    //   return redirect('/gesuche/aktuell');
-    // }
-    // return redirect(route('login'));
-    return view($this->viewPath . 'index');
+    if (auth()->user()) 
+    {
+      return redirect('/gesuche/aktuell');
+    }
+    return redirect(route('login'));
+    //return view($this->viewPath . 'index');
   }
 
   /**

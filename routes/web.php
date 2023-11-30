@@ -12,20 +12,17 @@ use App\Http\Controllers\FormController;
 |
 */
 
-if (!app()->isProduction())
-{
-  Route::get('/formular', [FormController::class, 'index']);
-  Route::post('/form/submit', [FormController::class, 'store']);
-  Route::post('/file/upload', [FormController::class, 'upload']);
-  Route::delete('/file/upload/{filename}', [FormController::class, 'delete']);
-}
+Route::get('/formular', [FormController::class, 'index']);
+Route::post('/form/submit', [FormController::class, 'store']);
+Route::post('/file/upload', [FormController::class, 'upload']);
+Route::delete('/file/upload/{filename}', [FormController::class, 'delete']);
 
 // Auth routes
 Auth::routes(['verify' => true, 'register' => false]);
 Route::get('/logout', 'Auth\LoginController@logout');
 Route::get('/', [PageController::class, 'index'])->name('home');
 
-// Route::get('/pdf/{type}', [PageController::class, 'pdf'])->name('pdf');
+Route::get('/pdf/{type}', [PageController::class, 'pdf'])->name('pdf');
 
 // Logged in users
 Route::middleware('auth:sanctum', 'verified')->group(function() {
