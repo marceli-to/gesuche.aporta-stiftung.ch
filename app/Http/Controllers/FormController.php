@@ -48,7 +48,7 @@ class FormController extends BaseController
       'iban' => $request->input('iban'),
       'beneficiary' => $request->input('beneficiary') ? $request->input('beneficiary') : null,
       'street' => $request->input('street'),
-      'street_number' => $request->input('street_number'),
+      'street_number' => $request->input('street_number') ? $request->input('street_number') : null,
       'zip' => $request->input('zip'),
       'city' => $request->input('city'),
       'firstname' => $request->input('firstname'),

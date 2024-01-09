@@ -24,7 +24,6 @@ class ApplicationStoreRequest extends FormRequest
     return [
       'name' => 'required',
       'street' => 'required',
-      'street_number' => 'required',
       'zip' => 'required',
       'city' => 'required',
       'firstname' => 'required',
@@ -60,10 +59,6 @@ class ApplicationStoreRequest extends FormRequest
       'street.required' => [
         'field' => 'street',
         'error' => 'Strasse wird benötigt!'
-      ],
-      'street_number.required' => [
-        'field' => 'street_number',
-        'error' => 'Nummer wird benötigt!'
       ],
       'zip.required' => [
         'field' => 'zip',
