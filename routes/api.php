@@ -44,7 +44,7 @@ Route::middleware('auth:sanctum')->group(function() {
   Route::get('application-comments/{application:uuid}', [ApplicationCommentController::class, 'get']);
   Route::get('application-comment/{applicationComment:uuid}', [ApplicationCommentController::class, 'find']);
   Route::post('application-comment', [ApplicationCommentController::class, 'store']);
-  Route::delete('application-comment/{applicationComment:uuid}', [ApplicationCommentController::class, 'destroy'])->middleware('role:admin');
+  Route::delete('application-comment/{applicationComment:uuid}', [ApplicationCommentController::class, 'destroy']);
 
   // Application files
   Route::post('application-file/store', [ApplicationFileController::class, 'store'])->middleware('role:admin');

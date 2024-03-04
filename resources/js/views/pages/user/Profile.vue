@@ -178,7 +178,6 @@ export default {
       this.isFetched = false;
       this.axios.get(`${this.routes.find}`).then(response => {
         this.user = response.data;
-        console.log(this.user);
         this.isFetched = true;
         NProgress.done();
       });

@@ -90,12 +90,32 @@
         <list-item :cls="'span-4 list-item'">
           <span>{{ d.comment }}</span>
         </list-item>
+        <list-item :cls="'span-1'" v-if="user.id === d.user.id">
+          <span>
+            <a 
+              href="javascript:;" 
+              @click.prevent="beforeDeleteComment(d.uuid)"
+              class="icon-trash ml-3x">
+              <icon-trash />
+            </a>
+          </span>
+        </list-item>
       </list-row>
     </list>
 
     <list-empty v-else>
       {{messages.emptyData}}
     </list-empty>
+
+    <dialog-wrapper ref="dialogDestroyComment">
+      <template #message>
+        <div><strong>Möchten Sie diesen Kommentar wirklich löschen?</strong></div>
+      </template>
+      <template #actions>
+        <a href="javascript:;" class="btn-primary mb-3x" @click.stop="deleteComment()">Ja, löschen</a>
+      </template>
+    </dialog-wrapper>
+
   </site-main>
 </div>
 </template>
@@ -106,6 +126,7 @@ import Helpers from "@/mixins/Helpers";
 import Sort from "@/mixins/Sort";
 import IconSort from "@/components/ui/icons/Sort.vue";
 import IconPlus from "@/components/ui/icons/Plus.vue";
+import IconTrash from "@/components/ui/icons/Trash.vue";
 import SiteHeader from '@/views/layout/Header.vue';
 import SiteMain from '@/views/layout/Main.vue';
 import PageMenu from '@/components/layout/Menu.vue';
@@ -115,6 +136,7 @@ import ListRow from "@/components/ui/layout/ListRow.vue";
 import ListItem from "@/components/ui/layout/ListItem.vue";
 import ListAction from "@/components/ui/layout/ListAction.vue";
 import ListEmpty from "@/components/ui/layout/ListEmpty.vue";
+import DialogWrapper from "@/components/ui/misc/Dialog.vue";
 
 export default {
 
@@ -125,12 +147,14 @@ export default {
     PageMenu,
     IconSort,
     IconPlus,
+    IconTrash,
     List,
     ListRow,
     ListRowHeader,
     ListItem,
     ListAction,
     ListEmpty,
+    DialogWrapper
   },
 
   mixins: [ErrorHandling, Helpers, Sort],
@@ -143,6 +167,11 @@ export default {
 
       // Application data
       applicationData: {},
+
+      // User data
+      user: {},
+
+      commentUuid: null,
 
       // Form data
       form: {
@@ -158,6 +187,10 @@ export default {
         fetch: '/api/application',
         list: '/api/application-comments',
         post: '/api/application-comment',
+        delete: '/api/application-comment',
+        user: {
+          fetch: '/api/user',
+        }
       },
 
       // States
@@ -186,10 +219,13 @@ export default {
       this.axios.all([
         this.axios.get(`${this.routes.list}/${uuid}`),
         this.axios.get(`${this.routes.fetch}/${uuid}`),
+        this.axios.get(`${this.routes.user.fetch}`)
       ]).then(axios.spread((...responses) => {
         this.data = responses[0].data.data;
         this.applicationData = responses[1].data
+        this.user = responses[2].data;
         this.isFetched = true;
+        console.log(this.user);
         NProgress.done();
       }));
     },
@@ -200,6 +236,18 @@ export default {
       this.axios.post(this.routes.post, this.form).then(response => {
         this.isLoading = false;
         this.reset();
+        this.fetch(this.$route.params.uuid);
+        NProgress.done();
+      });
+    },
+
+    deleteComment() {
+      this.isLoading = true;
+      NProgress.start();
+      this.axios.delete(`${this.routes.delete}/${this.commentUuid}`).then(response => {
+        this.isLoading = false;
+        this.commentUuid = null;
+        this.$refs.dialogDestroyComment.hide();
         this.fetch(this.$route.params.uuid);
         NProgress.done();
       });
@@ -227,7 +275,12 @@ export default {
       }
       btn.disabled = true;
       return false;
-    }
+    },
+
+    beforeDeleteComment(uuid) {
+      this.commentUuid = uuid;
+      this.$refs.dialogDestroyComment.show();
+    },
   },
 
 }

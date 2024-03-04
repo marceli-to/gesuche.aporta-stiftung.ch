@@ -55,9 +55,9 @@ class ApplicationCommentController extends Controller
    * @param  ApplicationComment $comment
    * @return \Illuminate\Http\Response
    */
-  public function destroy(ApplicationComment $comment)
+  public function destroy(ApplicationComment $applicationComment)
   {
-    $comment->delete();
+    $applicationComment->delete();
     return response()->json('successfully deleted');
   }
 }
