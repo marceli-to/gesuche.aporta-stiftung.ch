@@ -11,7 +11,7 @@
 <br>
 <div>Wir nehmen Bezug auf Ihr Gesuch vom {{ $d->created_at_formated }}.</div>
 <br>
-<div>Unser Stiftungsrat hat in seiner Sitzung vom 27. Juni 2023 über die Zuwendungen aus dem Reinertrag des Stiftungsvermögens pro 2022 Beschluss gefasst.</div>
+<div>Unser Stiftungsrat hat in seiner Sitzung vom 18. Juni 2024 über die Zuwendungen aus dem Reinertrag des Stiftungsvermögens pro 2023 Beschluss gefasst.</div>
 <br>
 <div>Leider konnten wir Ihr Gesuch nicht berücksichtigen. {{ $d->textblock_denial }}</div>
 <br>
