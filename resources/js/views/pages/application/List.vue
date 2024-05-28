@@ -494,7 +494,6 @@ export default {
     },
 
     isNew(application) {
-      console.log(application.users);
       if (application.users) {
         if (application.users.length == 0) {
           return true;

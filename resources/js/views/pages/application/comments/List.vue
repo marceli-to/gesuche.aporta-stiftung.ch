@@ -225,7 +225,6 @@ export default {
         this.applicationData = responses[1].data
         this.user = responses[2].data;
         this.isFetched = true;
-        console.log(this.user);
         NProgress.done();
       }));
     },
