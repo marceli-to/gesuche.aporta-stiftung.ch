@@ -16,7 +16,7 @@
 <div>Weiter sind wir Ihnen dankbar, wenn Sie, dem Wunsch des Stifters entsprechend, im Gönnerverzeichnis Ihres Jahresberichtes vermerken würden, dass es sich um eine Zuwendung unserer Stiftung handelt.</div>
 <br>
 @if ($d->project_contribution_approved >= '20000')
-<div>Bitte reichen Sie uns bis spätestens Ende März 2024 Ihren Schlussbericht ein. Genauere Informationen entnehmen Sie bitte der Beilage.</div>
+<div>Bitte reichen Sie uns bis spätestens Ende März 2025 Ihren Schlussbericht ein. Genauere Informationen entnehmen Sie bitte der Beilage.</div>
 <br>
 @endif
 <div>Freundliche Grüsse</div>
