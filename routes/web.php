@@ -17,7 +17,7 @@ Route::post('/form/submit', [FormController::class, 'store']);
 
 Route::post('/file/upload', [FormController::class, 'upload']);
 Route::delete('/file/upload/{filename}', [FormController::class, 'delete']);
-Route::get('/formular', [PageController::class, 'index']);
+// Route::get('/formular', [PageController::class, 'index']);
 
 // Auth routes
 Auth::routes(['verify' => true, 'register' => false]);
