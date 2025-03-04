@@ -26,8 +26,11 @@ class FormController extends BaseController
    * @return \Illuminate\Http\Response
    */
 
-  public function index()
+  public function index($key = NULL)
   {
+    if ($key !== 'b67193a0-4e30-4875-8b46-bffd34572755') {
+      abort(403);
+    }
     return view($this->viewPath . 'form');
   }
 
