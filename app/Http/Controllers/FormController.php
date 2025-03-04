@@ -29,7 +29,7 @@ class FormController extends BaseController
   public function index($key = NULL)
   {
     if ($key !== 'b67193a0-4e30-4875-8b46-bffd34572755') {
-      dd('Forbidden');
+      abort(403);
     }
     return view($this->viewPath . 'form');
   }
