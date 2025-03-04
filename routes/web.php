@@ -12,7 +12,7 @@ use App\Http\Controllers\FormController;
 |
 */
 
-Route::get('/formular/b67193a0-4e30-4875-8b46-bffd34572755', [FormController::class, 'index']);
+Route::get('/formular/{key}', [FormController::class, 'index']);
 Route::post('/form/submit', [FormController::class, 'store']);
 
 Route::post('/file/upload', [FormController::class, 'upload']);
