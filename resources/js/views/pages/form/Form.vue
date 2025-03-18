@@ -664,7 +664,7 @@
 import NProgress from 'nprogress';
 import ErrorHandling from '@/mixins/ErrorHandling';
 import {TheMask} from 'vue-the-mask';
-import { number } from '@coders-tm/vue-number-format';
+import { component as number } from '@coders-tm/vue-number-format';
 import SiteMain from '@/views/pages/form/components/Main.vue';
 import SiteHeader from '@/views/pages/form/components/Header.vue';
 import SiteWrapper from '@/components/layout/Wrapper.vue';
@@ -693,7 +693,8 @@ export default {
     IconTrash,
     IconLogo,
     TextLengthIndicator,
-    TheMask
+    TheMask,
+    number
   },
 
   mixins: [ErrorHandling],
