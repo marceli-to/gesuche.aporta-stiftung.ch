@@ -21,7 +21,7 @@
 <br>
 <div>DR. STEPHAN À PORTA-STIFTUNG</div>
 <br><br><br>
-<div>Armin Isler</div>
+<div>Andrea Wolfer</div>
 </div>
 @endforeach
 @include('pdf.partials.footer')

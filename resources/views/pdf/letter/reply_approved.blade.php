@@ -23,7 +23,7 @@
 <br>
 <div>DR. STEPHAN À PORTA-STIFTUNG</div>
 <br><br><br>
-<div>Armin Isler</div>
+<div>Andrea Wolfer</div>
 @if ($d->project_contribution_approved >= '20000')
 <br><br><br>
 <div>Beilage:<br>Merkblatt Schlussbericht</div>
