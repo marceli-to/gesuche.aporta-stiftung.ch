@@ -3,7 +3,7 @@
 <div class="content @if (!$loop->last) break @endif">
 <div>{{ $d->name }}<br>{{ $d->firstname }} {{ $d->lastname }}<br>{{ $d->street }} {{ $d->street_number ?? $d->street_number }}<br>{{ $d->zip }} {{ $d->city }}</div>
 <br><br><br><br><br>
-<div>Zürich, 10. Juli 2025 AI/pc</div>
+<div>Zürich, 10. Juli 2025 AW/pc</div>
 <br><br><br>
 <div><strong>Vergabung aus unserem Reinertrag pro 2024<br>Ihr Beitragsgesuch vom {{ $d->created_at_formated }}</strong></div>
 <br><br>
