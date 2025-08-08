@@ -12,7 +12,10 @@ use App\Http\Controllers\FormController;
 |
 */
 
-Route::get('/formular', [FormController::class, 'index']);
+Route::middleware('auth:sanctum', 'verified')->group(function() {
+  Route::get('/formular', [FormController::class, 'index']);
+});
+
 Route::post('/form/submit', [FormController::class, 'store']);
 
 Route::post('/file/upload', [FormController::class, 'upload']);
