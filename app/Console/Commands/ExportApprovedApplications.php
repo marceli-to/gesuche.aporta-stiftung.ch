@@ -35,6 +35,7 @@ class ExportApprovedApplications extends Command
         $applications = Application::where('application_state_id', ApplicationState::APPROVED)
             ->select('name', 'city', 'firstname', 'lastname', 'email', 'year', 'approved_at')
             ->orderBy('name')
+            ->orderBy('year', 'desc')
             ->get();
             
         if ($applications->isEmpty()) {
