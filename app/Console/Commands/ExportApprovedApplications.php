@@ -60,11 +60,15 @@ class ExportApprovedApplications extends Command
             );
         }
         
-        // Write to file
-        $filePath = storage_path('app/' . $filename);
+        // Write to file in public storage for easy download access
+        $filePath = storage_path('app/public/' . $filename);
         file_put_contents($filePath, $csvContent);
         
+        // Generate download URL
+        $downloadUrl = url('storage/' . $filename);
+        
         $this->info("Successfully exported {$applications->count()} approved applications to: {$filePath}");
+        $this->info("Download link: {$downloadUrl}");
     }
     
     /**
