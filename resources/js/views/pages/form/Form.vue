@@ -785,7 +785,9 @@
 
           <template v-else-if="showRequirementsNotFulfilled">
             <div class="span-full">
-              <p class="span-full mb-10x">Voraussetzungen nicht erfüllt. Ihr Gesuch kann leider nicht entgegengenommen werden.</p>
+              <p class="span-full mb-10x text-danger ">
+                <strong>Voraussetzungen nicht erfüllt. Ihr Gesuch kann leider nicht entgegengenommen werden.</strong>
+              </p>
             </div>
           </template>
 
