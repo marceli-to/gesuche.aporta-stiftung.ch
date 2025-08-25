@@ -41,6 +41,12 @@
               </application-input>
             </application-row>
             <application-row>
+              <application-label :cls="'span-1'">Vorheriger Name</application-label>
+              <application-input :cls="'span-3'">
+                <input type="text" v-model="data.former_name" required @blur="validate($event)">
+              </application-input>
+            </application-row>
+            <application-row>
               <application-label :cls="'span-1'">Strasse</application-label>
               <application-input :cls="'span-3'">
                 <input type="text" v-model="data.street" required @blur="validate($event)">
@@ -112,6 +118,14 @@
                 <input type="text" v-model="data.beneficiary" required @blur="validate($event)" />
               </application-input>
             </application-row>
+            <application-row class="pb-3x">
+              <application-label :cls="'span-1'">Portrait</application-label>
+              <application-input :cls="'span-3'">
+                <textarea name="portrait" v-model="data.portrait" required @blur="validate($event)" rows="10"></textarea>
+              </application-input>
+            </application-row>
+
+
 
             <h2>Serienbrief</h2>
             <application-row class="pb-3x">
@@ -248,9 +262,15 @@
               </application-input>
             </application-row>
             <application-row>
+              <application-label :cls="'span-1'">Beschreibung</application-label>
+              <application-input :cls="'span-3'">
+                <textarea v-model="data.project_description" required rows="10" @blur="validate($event)"></textarea>
+              </application-input>
+            </application-row>
+            <application-row>
               <application-label :cls="'span-1'">Dauer</application-label>
               <application-input :cls="'span-3'">
-                <input type="text" v-model="data.project_time" required @blur="validate($event)">
+                <textarea v-model="data.project_time" required rows="10" @blur="validate($event)"></textarea>
               </application-input>
             </application-row>
             <application-row>

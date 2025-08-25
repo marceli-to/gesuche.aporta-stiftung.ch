@@ -18,6 +18,10 @@
             <div class="span-1"><label>Name</label></div>
             <div class="span-3">{{data.name}}</div>
           </application-row>
+          <application-row v-if="data.former_name">
+            <div class="span-1"><label>Vorheriger Name</label></div>
+            <div class="span-3">{{data.former_name}}</div>
+          </application-row>
           <application-row>
             <div class="span-1"><label>Kontakt</label></div>
             <div class="span-3">{{data.applicant_name}}</div>
@@ -62,6 +66,10 @@
           <application-row>
             <div class="span-1"><label>Begünstigter</label></div>
             <div class="span-3">{{data.beneficiary}}</div>
+          </application-row>
+          <application-row v-if="data.portrait">
+            <div class="span-1"><label>Portrait</label></div>
+            <div class="span-3">{{data.portrait}}</div>
           </application-row>
           <h2>Serienbrief</h2>
           <application-row>
@@ -117,9 +125,13 @@
             <div class="span-1"><label>Titel</label></div>
             <div class="span-3">{{data.project_title}}</div>
           </application-row>
+          <application-row v-if="data.project_description">
+            <div class="span-1"><label>Beschreibung</label></div>
+            <div class="span-3 pb-6x">{{data.project_description}}</div>
+          </application-row>
           <application-row>
             <div class="span-1"><label>Dauer</label></div>
-            <div class="span-3">{{data.project_time}}</div>
+            <div class="span-3 pb-6x">{{data.project_time}}</div>
           </application-row>
           <application-row>
             <div class="span-1"><label>Begründung</label></div>

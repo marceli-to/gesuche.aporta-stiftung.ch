@@ -22,10 +22,14 @@ class ApplicationCreateRequest extends FormRequest
   public function rules()
   {
     return [
+      'confirm_correctness' => 'accepted',
       'name' => 'required',
+      'name_change' => 'required',
+      'former_name' => 'required_if:name_change,yes',
       'legal_form' => 'required',
-      //'bank_account' => 'required',
-      'iban' => 'required',
+      // 'bank_account' => 'required',  // removed, unknown date, ms
+      // 'iban' => 'required', // changed, 22.08.2025, ms
+      'iban' => ['required', 'regex:/^CH\d{2}(?: ?\d{4}){4}\d$/'],
       'beneficiary' => 'required',
       'street' => 'required',
       'zip' => 'required',
@@ -34,9 +38,11 @@ class ApplicationCreateRequest extends FormRequest
       'lastname' => 'required',
       'phone' => 'required',
       'email' => 'required|email',
+      'portrait' => 'required',
       'project_title' => 'required',
       'justification_funds' => 'required',
       'project_beneficiaries' => 'required',
+      'project_description' => 'required',
       'proportion_residents_benefit_program' => 'required',
       'project_time' => 'required',
       'project_cost_total' => 'required',
@@ -44,13 +50,14 @@ class ApplicationCreateRequest extends FormRequest
       'project_income' => 'required',
       'project_income_remarks' => 'required',
       'project_contribution_requested' => 'required',
-      //'project_contribution_further_requested' => 'required',
-      'files.portrait' => 'required',
+      //'project_contribution_further_requested' => 'required',  // removed, unknown date, ms
+      // 'files.portrait' => 'required', // removed, 22.08.2025, ms
+      'files.tax_exemption' => 'required',
       'files.annual_report' => 'required',
       'files.annual_financial_report' => 'required',
       'files.budget' => 'required',
       'files.bylaws' => 'required',
-      'files.project_description' => 'required',
+      // 'files.project_description' => 'required', // removed, 22.08.2025, ms
       'files.project_estimated_costs' => 'required',
 
       'project_add_instit_2' => 'nullable|required_with:project_add_instit_total_2',
@@ -75,9 +82,17 @@ class ApplicationCreateRequest extends FormRequest
   public function messages()
   {
     return [
+      'confirm_correctness.accepted' => [
+        'field' => 'confirm_correctness',
+        'error' => 'Die oben gemachten Angaben sind vollständig und entsprechen der Wahrheit.'
+      ],
       'name.required' => [
         'field' => 'name',
-        'error' => 'Name der Institution wird benötigt'
+        'error' => 'Rechtlicher Name der Institution wird benötigt'
+      ],
+      'former_name.required_if' => [
+        'field' => 'former_name',
+        'error' => 'Vorheriger rechtlicher Name der Institution wird benötigt'
       ],
       'legal_form.required' => [
         'field' => 'legal_form',
@@ -90,6 +105,10 @@ class ApplicationCreateRequest extends FormRequest
       'iban.required' => [
         'field' => 'iban',
         'error' => 'IBAN wird benötigt'
+      ],
+      'iban.regex' => [
+        'field' => 'iban',
+        'error' => 'IBAN ist ungültig'
       ],
       'beneficiary.required' => [
         'field' => 'beneficiary',
@@ -131,6 +150,10 @@ class ApplicationCreateRequest extends FormRequest
         'field' => 'project_title',
         'error' => 'Projekttitel wird benötigt'
       ],
+      'portrait.required' => [
+        'field' => 'portrait',
+        'error' => 'Kurzportrait wird benötigt'
+      ],
       'justification_funds.required' => [
         'field' => 'justification_funds',
         'error' => 'Kurzbegründung Mittelbedarf wird benötigt'
@@ -141,7 +164,11 @@ class ApplicationCreateRequest extends FormRequest
       ],
       'proportion_residents_benefit_program.required' => [
         'field' => 'proportion_residents_benefit_program',
-        'error' => 'Anteil begünstigte Stadtzürcherinnen und Stadtzürcher wird benötigt'
+        'error' => '% Anteil begünstigte Stadtzürcherinnen und Stadtzürcher wird benötigt'
+      ],
+      'project_description.required' => [
+        'field' => 'project_description',
+        'error' => 'Beschreibung und Begründung des Projekts wird benötigt'
       ],
       'project_time.required' => [
         'field' => 'project_time',
@@ -175,11 +202,16 @@ class ApplicationCreateRequest extends FormRequest
       // 'project_contribution_further_requested.required' => [
       //   'field' => 'project_contribution_further_requested',
       //   'error' => 'Weitere beantragte Beiträge wird benötigt'
-      // ],
+      // ], // removed, unknown date, ms
 
-      'files.portrait.required' => [
-        'field' => 'file_portrait',
-        'error' => 'Kurzportrait wird benötigt'
+      // 'files.portrait.required' => [
+      //   'field' => 'file_portrait',
+      //   'error' => 'Kurzportrait wird benötigt'
+      // ], // removed, 22.08.2025, ms
+
+      'files.tax_exemption.required' => [
+        'field' => 'file_tax_exemption',
+        'error' => 'Aktuelle Steuerbefreiung (PDF) wird benötigt'
       ],
       'files.annual_report.required' => [
         'field' => 'file_annual_report',
@@ -197,10 +229,10 @@ class ApplicationCreateRequest extends FormRequest
         'field' => 'file_bylaws',
         'error' => 'Statuten wird benötigt'
       ],
-      'files.project_description.required' => [
-        'field' => 'file_project_description',
-        'error' => 'Beschreibung und Begründung des Projekts wird benötigt'
-      ],
+      // 'files.project_description.required' => [
+      //   'field' => 'file_project_description',
+      //   'error' => 'Beschreibung und Begründung des Projekts wird benötigt'
+      // ], // removed, 22.08.2025, ms
       'files.project_estimated_costs.required' => [
         'field' => 'file_project_estimated_costs',
         'error' => 'Detaillierter Kostenvoranschlag wird benötigt'

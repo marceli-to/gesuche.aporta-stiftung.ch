@@ -80,7 +80,8 @@ class ApplicationExport implements FromCollection, WithHeadings, WithEvents, Sho
       $data[] = [
         'Eingang' => $s->created_at_formated,
         'Titel' => $s->project_title,
-        'Organisation' => $s->name,
+        'Name' => $s->name,
+        'Vorheriger Name' => $s->former_name,
         'Kosten Total' => $s->project_cost_total,
         'Eigenleistung' => $s->project_own_contribution,
         'Beitrag Beantragt' => $s->project_contribution_requested, 
@@ -104,7 +105,8 @@ class ApplicationExport implements FromCollection, WithHeadings, WithEvents, Sho
     return [
       'Eingang',
       'Titel',
-      'Organisation',
+      'Name',
+      'Vorheriger Name',
       'Kosten Total',
       'Eigenleistung',
       'Beitrag Beantragt', 

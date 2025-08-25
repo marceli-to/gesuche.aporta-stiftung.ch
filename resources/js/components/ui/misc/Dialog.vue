@@ -2,7 +2,7 @@
   <div class="dialog" v-if="isOpen" @click="hide()">
     <div class="dialog__inner">
       <template v-if="$slots.message">
-        <div class="message">
+        <div :class="['message', messageClass]">
           <slot name="message" />
         </div>
       </template>
@@ -22,6 +22,13 @@
 </template>
 <script>
 export default {
+  props: {
+    messageClass: {
+      type: String,
+      default: ''
+    }
+  },
+
   data() {
     return {
       isOpen: false,

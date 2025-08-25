@@ -54,8 +54,13 @@ input[type=number],
 input[type=password],
 input[type=date],
 input[type=time],
+select,
 textarea {
   background-color: $color-light-blue;
+}
+
+select {
+  appearance: select !important;
 }
 
 input:-webkit-autofill,

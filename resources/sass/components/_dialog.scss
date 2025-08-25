@@ -29,6 +29,10 @@
       text-align: center;
       margin-bottom: $space-3x;
       padding: $space-6x;
+
+      &.is-left {
+        text-align: left;
+      }
     }
   }
 }

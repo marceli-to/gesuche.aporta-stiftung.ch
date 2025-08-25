@@ -1,0 +1,13 @@
+// Info link styling for dialog triggers
+.info-link {
+  display: inline;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-thickness: 1px;
+
+  &:hover {
+    text-decoration: none;
+  }
+}
+
+
