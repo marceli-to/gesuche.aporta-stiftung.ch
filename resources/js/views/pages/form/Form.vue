@@ -55,6 +55,13 @@
             <application-row class="application-row__form mb-3x">
               <application-label :cls="'span-8 sm:span-9'">
                 Handelt es sich um ein Projekt mit <button type="button" class="info-link" @click="showExtraordinaryDialog">ausserordentlichem</button> Charakter?
+                <template v-if="isExtraordinary === 0">
+                  <p class="mt-2x pr-8x">
+                    <strong>
+                      Beiträge zur Deckung von Betriebsdefiziten, werden in begründeten Fällen nur ausnahmsweise gewährt. Zur Prüfung des Gesuches, bitte mit Ja antworten.
+                    </strong>
+                  </p>
+                </template>
               </application-label>
               <application-input :cls="'span-4 sm:span-3'">
                 <div class="span flex items-start">
@@ -140,7 +147,7 @@
               </div>
               <div class="span">
                 <application-row class="application-row__form">
-                  <application-label :cls="'span-4 sm:span-5'">Website</application-label>
+                  <application-label :cls="'span-4 sm:span-5'">Webseite</application-label>
                   <application-input :cls="'span-8 sm:span-7'">
                     <input type="text" v-model="form.website">
                   </application-input>
@@ -510,7 +517,7 @@
               <div class="span mb-6x">
                 <application-row :class="[errors.proportion_residents_benefit_program ? 'has-error' : '', 'application-row__form']">
                   <application-label :cls="'span-4 sm:span-5'">
-                    {{ errors.proportion_residents_benefit_program ? errors.proportion_residents_benefit_program : '% Anteil begünstigte Stadtzürcherinnen und Stadtzürcher (falls quantifizierbar) *' }}
+                    {{ errors.proportion_residents_benefit_program ? errors.proportion_residents_benefit_program : '% Anteil begünstigte Stadtzürcherinnen und Stadtzürcher *' }}
                   </application-label>
                   <application-input :cls="'span-8 sm:span-7'">
                     <input type="text" v-model="form.proportion_residents_benefit_program" required :class="[errors.proportion_residents_benefit_program ? 'is-invalid' : '', ''] " @blur="validate($event)" @focus="removeError('proportion_residents_benefit_program')" />
