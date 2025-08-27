@@ -9,7 +9,7 @@
     
   h1, 
   h2 {
-    @include font-size($fs-form-md);
+    @include font-size($fs-form-lg);
   }
 
   h3 {

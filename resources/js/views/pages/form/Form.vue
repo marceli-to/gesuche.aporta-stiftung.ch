@@ -15,7 +15,9 @@
         </template>
         <template v-else>
           <h1 class="span-full">Formular Beitragsgesuche Stadt Zürich</h1>
-          <p class="span-full mb-10x">Gesuche für den Kanton Graubünden sind an ... zu richten</p>
+          <p class="span-full mb-16x">
+            Beitragsgesuche für Institutionen im Kanton Graubünden, sind direkt beim <a href="https://www.gr.ch/DE/institutionen/verwaltung/dvs/soa/ueberuns/Seiten/Gemeinnuetzige-Beitraege.aspx" target="_blank" rel="noopener noreferrer" class="info-link">Kantonalen Sozialamt Graubünden</a> einzureichen.
+          </p>
 
           <div class="span mb-5x">
             <application-row class="application-row__form mb-3x">
@@ -58,7 +60,7 @@
                 <template v-if="isExtraordinary === 0">
                   <p class="mt-2x pr-8x">
                     <strong>
-                      Beiträge zur Deckung von Betriebsdefiziten, werden in begründeten Fällen nur ausnahmsweise gewährt. Zur Prüfung des Gesuches, bitte mit Ja antworten.
+                      Beiträge zur Deckung von Betriebsdefiziten werden in begründeten Fällen nur ausnahmsweise gewährt. Zur Prüfung des Gesuches bitte mit Ja antworten.
                     </strong>
                   </p>
                 </template>
