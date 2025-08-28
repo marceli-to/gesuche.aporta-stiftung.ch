@@ -16,13 +16,13 @@
         <template v-else>
           <h1 class="span-full">Formular Beitragsgesuche Stadt Zürich</h1>
           <p class="span-full mb-16x">
-            Beitragsgesuche für Institutionen im Kanton Graubünden, sind direkt beim <a href="https://www.gr.ch/DE/institutionen/verwaltung/dvs/soa/ueberuns/Seiten/Gemeinnuetzige-Beitraege.aspx" target="_blank" rel="noopener noreferrer" class="info-link">Kantonalen Sozialamt Graubünden</a> einzureichen.
+            Beitragsgesuche für Institutionen im Kanton Graubünden sind direkt beim <a href="https://www.gr.ch/DE/institutionen/verwaltung/dvs/soa/ueberuns/Seiten/Gemeinnuetzige-Beitraege.aspx" target="_blank" rel="noopener noreferrer" class="info-link">Kantonalen Sozialamt Graubünden</a> einzureichen.
           </p>
 
           <div class="span mb-5x">
             <application-row class="application-row__form mb-3x">
               <application-label :cls="'span-8 sm:span-9'">
-                Ist die Institution im Gesuchsjahr steuerberfreit?
+                Ist die Institution im Gesuchsjahr steuerbefreit?
               </application-label>
               <application-input :cls="'span-4 sm:span-3'">
                 <div class="span flex items-start">
@@ -39,7 +39,7 @@
             </application-row>
             <application-row class="application-row__form mb-3x">
               <application-label :cls="'span-8 sm:span-9'">
-                Sind die <button type="button" class="info-link" @click="showGeoDialog">geografischen</button> und <button type="button" class="info-link" @click="showIdealDialog">ideellen</button> Bedingungen für Beitragsgesuche laut unserer Webseite gegeben?
+                Sind die geografischen <button type="button" class="info-button" @click="showGeoDialog">i</button> und <button type="button" class="info-link" @click="showIdealDialog">ideellen</button> Bedingungen für Beitragsgesuche laut unserer Webseite gegeben?
               </application-label>
               <application-input :cls="'span-4 sm:span-3'">
                 <div class="span flex items-start">
@@ -60,7 +60,7 @@
                 <template v-if="isExtraordinary === 0">
                   <p class="mt-2x pr-8x">
                     <strong>
-                      Beiträge zur Deckung von Betriebsdefiziten werden in begründeten Fällen nur ausnahmsweise gewährt. Zur Prüfung des Gesuches bitte mit Ja antworten.
+                      Beiträge zur Deckung von Betriebsdefiziten werden selbst in begründeten Fällen nur ausnahmsweise gewährt. Zur Prüfung des Gesuches bitte mit Ja antworten.
                     </strong>
                   </p>
                 </template>
@@ -278,7 +278,7 @@
             </template>
 
             <template>
-              <h2 class="span">Angeben zur Institution</h2>
+              <h2 class="span">Angaben zur Institution</h2>
               <div class="span mb-3x">
                 <application-row :class="[errors.portrait ? 'has-error' : '', 'application-row__form']">
                   <application-label :cls="'span-4 sm:span-5'">
@@ -638,7 +638,7 @@
             </template>
 
             <template>
-              <p class="span mt-8x">Sofern Sie für das gleiche Gesuch weitere Institutionen um einem Beitrag ersuchen, bitten wir um folgende Angaben:</p>
+              <p class="span mt-8x">Sofern Sie für das gleiche Gesuch weitere Institutionen um einen Beitrag ersuchen, bitten wir um folgende Angaben:</p>
               <template v-if="errors.project_add_instit_2 || errors.project_add_instit_total_2 || errors.project_add_instit_3 || errors.project_add_instit_total_3 || errors.project_add_instit_4 || errors.project_add_instit_total_4 || errors.project_add_instit_5 || errors.project_add_instit_total_5">
                 <p class="has-error">Es sind nicht alle Felder korrekt ausgefüllt:</p>
               </template>
@@ -782,11 +782,14 @@
               </div>
             </template>
             <template>
-              <div class="span mt-12x">
+              <div class="span mt-12x mb-6x">
                 <a 
                   href="javascript:;" 
                   :class="[isSaving ? 'disabled' : '', 'btn-submit is-small']"
                   @click.prevent="submit()">Anfrage senden</a>
+              </div>
+              <div class="span">
+                * Pflichtfelder
               </div>
             </template>
 
@@ -824,7 +827,7 @@
   <dialog-wrapper ref="idealDialog" message-class="is-left">
     <template #message>
       <h2 class="mb-2x">Ideelle Bedingungen</h2>
-      <p>Bei den Gesuchstellenden muss es sich um juristische Personen wie Vereine oder Stiftungen mit wohltätigem und/oder gemeinnützigem Zweck handeln. Die Gesuchstellenden Organisationen müssen von den Staats- und Gemeindesteuern befreit sein. Berücksichtigt werden vor allem Organisationen, die Menschen helfen und zur Verbesserung von deren Lebensqualität beitragen (z.B. sozial und gesundheitlich Bedürftige, Menschen mit einer Beeinträchtigung, Suchtkranke, Betagte, Asylsuchende, Migrantinnen und Migranten). Institutionen mit kulturellen Zielsetzungen oder Privatpersonen können daher nicht unterstützt werden.</p>
+      <p>Bei den Gesuchstellenden muss es sich um juristische Personen wie Vereine oder Stiftungen mit wohltätigem und/oder gemeinnützigem Zweck handeln. Die gesuchstellenden Organisationen müssen von den Staats- und Gemeindesteuern befreit sein. Berücksichtigt werden vor allem Organisationen, die Menschen helfen und zur Verbesserung von deren Lebensqualität beitragen (z.B. sozial und gesundheitlich Bedürftige, Menschen mit einer Beeinträchtigung, Suchtkranke, Betagte, Asylsuchende, Migrantinnen und Migranten). Institutionen mit kulturellen Zielsetzungen oder Privatpersonen können daher nicht unterstützt werden.</p>
     </template>
   </dialog-wrapper>
 

@@ -11,4 +11,17 @@
   }
 }
 
+.info-button {
+  background-color: $color-primary;
+  border-radius: 100%;
+  color: $color-white;
+  display: inline-flex;
+  @include font-size($fs-sm);
+  @include font-bold();
+  justify-content: center;
+  align-items: center;
+  height: 16px;
+  width: 16px;
+}
+
 
