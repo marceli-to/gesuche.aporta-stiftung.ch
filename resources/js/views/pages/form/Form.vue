@@ -39,7 +39,7 @@
             </application-row>
             <application-row class="application-row__form mb-3x">
               <application-label :cls="'span-8 sm:span-9'">
-                Sind die geografischen <button type="button" class="info-button" @click="showGeoDialog">i</button> und <button type="button" class="info-link" @click="showIdealDialog">ideellen</button> Bedingungen für Beitragsgesuche laut unserer Webseite gegeben?
+                Sind die geografischen <button type="button" class="info-button" @click="showGeoDialog">i</button> und ideellen <button type="button" class="info-button" @click="showIdealDialog">i</button> Bedingungen für Beitragsgesuche laut unserer Webseite gegeben?
               </application-label>
               <application-input :cls="'span-4 sm:span-3'">
                 <div class="span flex items-start">
@@ -56,7 +56,7 @@
             </application-row>
             <application-row class="application-row__form mb-3x">
               <application-label :cls="'span-8 sm:span-9'">
-                Handelt es sich um ein Projekt mit <button type="button" class="info-link" @click="showExtraordinaryDialog">ausserordentlichem</button> Charakter?
+                Handelt es sich um ein Projekt mit ausserordentlichem <button type="button" class="info-button" @click="showExtraordinaryDialog">i</button> Charakter?
                 <template v-if="isExtraordinary === 0">
                   <p class="mt-2x pr-8x">
                     <strong>
@@ -253,7 +253,7 @@
                   <application-label :cls="'span-4 sm:span-5'">
                     {{ errors.iban ? errors.iban : 'IBAN *' }}
                   </application-label>
-                  <application-input :cls="'span-8 sm:span-7'">
+                  <application-input :cls="'span-8 sm:span-7'" :innerCls="'has-prefix'" :prefix="'CH'">
                     <the-mask 
                       type="text" 
                       v-model="form.iban" 
@@ -261,7 +261,7 @@
                       :class="[errors.iban ? 'is-invalid' : '', '']" 
                       @blur="validate($event)" 
                       @focus="removeError('iban')" 
-                      :mask="['XXXX XXXX XXXX XXXX XXXX X']" />
+                      :mask="['XX XXXX XXXX XXXX XXXX X']" />
                   </application-input>
                 </application-row>
               </div>

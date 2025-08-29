@@ -1,6 +1,9 @@
 <template>
   <div :class="[$props.cls ? $props.cls : '']">
-    <span>
+    <span :class="[$props.innerCls ? $props.innerCls : '']">
+      <span v-if="$props.prefix">
+        {{ $props.prefix }}
+      </span>
       <slot />
     </span>
   </div>
@@ -9,6 +12,14 @@
 export default {
   props: {
     cls: {
+      type: String,
+      default: ''
+    },
+    innerCls: {
+      type: String,
+      default: ''
+    },
+    prefix: {
       type: String,
       default: ''
     },
