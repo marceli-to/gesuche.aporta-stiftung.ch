@@ -24,10 +24,11 @@ class AppServiceProvider extends ServiceProvider
   {
     setLocale(LC_ALL, 'de_CH.UTF-8');
     \Carbon\Carbon::setLocale('de_CH.UTF-8');
+    Mail::alwaysTo(env('MAIL_TO'));
 
-    if (!app()->isProduction())
-    {
-      Mail::alwaysTo(env('MAIL_TO'));
-    }
+    // if (!app()->isProduction())
+    // {
+    //   Mail::alwaysTo(env('MAIL_TO'));
+    // }
   }
 }
