@@ -209,8 +209,10 @@
             <div class="span-1 flex justify-end text-grey">{{data.project_contribution_requested | currency}}</div>
           </application-row>
           <application-row>
-            <div class="span-4 text-grey"><label>Wie kommen die Einnahmen zustande?</label></div>
-            <div class="span-4 flex justify-end text-grey">{{data.project_income_remarks }}</div>
+            <div class="span-4 text-grey">
+              <label>Wie kommen die Einnahmen zustande?</label>
+              <div class="mt-2x">{{data.project_income_remarks }}</div>
+            </div>
           </application-row>
           <application-row v-if="data.is_approved_external">
             <div class="span-3 text-grey"><label>Provisorisch genehmigter Beitrag</label></div>
