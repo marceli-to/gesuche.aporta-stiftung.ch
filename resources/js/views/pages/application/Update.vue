@@ -107,9 +107,9 @@
               </application-input>
             </application-row>
             <application-row class="pb-3x">
-              <application-label :cls="'span-1'">IBAN</application-label>
+              <application-label :cls="'span-1'">IBAN (CH)</application-label>
               <application-input :cls="'span-3'">
-                <span>CH<input type="text" v-model="data.iban" required @blur="validate($event)" /></span>
+                <input type="text" v-model="data.iban" required @blur="validate($event)" />
               </application-input>
             </application-row>
             <application-row class="pb-3x">
@@ -135,9 +135,9 @@
               </application-input>
             </application-row>
             <application-row>
-              <application-label :cls="'span-1'">IBAN</application-label>
+              <application-label :cls="'span-1'">IBAN (CH)</application-label>
               <application-input :class="'span-3'">
-                <span>CH<input type="text" v-model="data.iban" required /></span>
+               <input type="text" v-model="data.iban" required @blur="validate($event)" />
               </application-input>
             </application-row>
             <application-row class="mt-3x">
