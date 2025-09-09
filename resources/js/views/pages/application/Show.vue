@@ -60,7 +60,7 @@
             <div class="span-3">{{data.legal_form}}</div>
           </application-row>
           <application-row>
-            <div class="span-1"><label>IBAN</label></div>
+            <div class="span-1"><label>IBAN (CH)</label></div>
             <div class="span-3">{{data.iban}}</div>
           </application-row>
           <application-row>
@@ -77,7 +77,7 @@
             <div class="span-3">{{data.salutation}}</div>
           </application-row>
           <application-row>
-            <div class="span-1"><label>IBAN</label></div>
+            <div class="span-1"><label>IBAN (CH)</label></div>
             <div class="span-3">{{data.iban}}</div>
           </application-row>
           <application-row>
@@ -207,7 +207,11 @@
           <application-row>
             <div class="span-3 text-grey"><label>Beantragter Beitrag</label></div>
             <div class="span-1 flex justify-end text-grey">{{data.project_contribution_requested | currency}}</div>
-          </application-row> 
+          </application-row>
+          <application-row>
+            <div class="span-3 text-grey"><label>Wie kommen die Einnahmen zustande?</label></div>
+            <div class="span-1 flex justify-end text-grey">{{data.project_income_remarks }}</div>
+          </application-row>
           <application-row v-if="data.is_approved_external">
             <div class="span-3 text-grey"><label>Provisorisch genehmigter Beitrag</label></div>
             <div class="span-1 flex justify-end text-grey">{{data.project_contribution_approved_temporary | currency}}</div>
