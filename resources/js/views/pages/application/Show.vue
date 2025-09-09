@@ -60,8 +60,8 @@
             <div class="span-3">{{data.legal_form}}</div>
           </application-row>
           <application-row>
-            <div class="span-1"><label>IBAN (CH)</label></div>
-            <div class="span-3">{{data.iban}}</div>
+            <div class="span-1"><label>IBAN</label></div>
+            <div class="span-3">CH{{data.iban}}</div>
           </application-row>
           <application-row>
             <div class="span-1"><label>Begünstigter</label></div>
@@ -77,8 +77,8 @@
             <div class="span-3">{{data.salutation}}</div>
           </application-row>
           <application-row>
-            <div class="span-1"><label>IBAN (CH)</label></div>
-            <div class="span-3">{{data.iban}}</div>
+            <div class="span-1"><label>IBAN</label></div>
+            <div class="span-3">CH{{data.iban}}</div>
           </application-row>
           <application-row>
             <div class="span-1"><label>Textblock<br>Zusage</label></div>
