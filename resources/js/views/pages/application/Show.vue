@@ -211,7 +211,7 @@
           <application-row>
             <div class="span-4 text-grey">
               <label>Wie kommen die Einnahmen zustande?</label>
-              <div class="mt-2x">{{data.project_income_remarks }}</div>
+              <div class="mt-2x mb-4x">{{data.project_income_remarks }}</div>
             </div>
           </application-row>
           <application-row v-if="data.is_approved_external">
