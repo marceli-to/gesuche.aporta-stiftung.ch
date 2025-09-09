@@ -149,7 +149,7 @@
           <h2>Bemerkungen</h2>
           <application-row class="mb-3x">
             <div class="span-1"><label>Anteil Stadtzürcher*-innen</label></div>
-            <div class="span-3">{{data.proportion_residents_benefit_program}}</div>
+            <div class="span-3">{{data.remarks_percentage_of_residents_zurich}}</div>
           </application-row>
           <application-row class="mb-3x">
             <div class="span-1"><label>Direkter Nutzen Zielgruppe</label></div>
