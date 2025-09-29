@@ -43,7 +43,7 @@
             <application-row>
               <application-label :cls="'span-1'">Vorheriger Name</application-label>
               <application-input :cls="'span-3'">
-                <input type="text" v-model="data.former_name" required @blur="validate($event)">
+                <input type="text" v-model="data.former_name" @blur="validate($event)">
               </application-input>
             </application-row>
             <application-row>
