@@ -29,6 +29,10 @@
   .mb-#{$i}x { margin-bottom: $i * 4px; }
 }
 
+.mb-0 {
+  margin-bottom: 0;
+}
+
 @for $i from 1 through 50 {
   .ml-#{$i}x { margin-left: $i * 4px; }
 }

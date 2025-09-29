@@ -146,27 +146,36 @@
             <div class="span-3">{{data.proportion_residents_benefit_program}}</div>
           </application-row>
 
-          <h2>Bemerkungen</h2>
+          <h2 class="mb-2x">Bemerkungen</h2>
           <application-row class="mb-3x">
-            <div class="span-1"><label>Anteil Stadtzürcher*-innen</label></div>
-            <div class="span-3">{{data.remarks_percentage_of_residents_zurich}}</div>
+            <div class="span-4">
+              {{data.remarks}}
+            </div>
           </application-row>
-          <application-row class="mb-3x">
-            <div class="span-1"><label>Direkter Nutzen Zielgruppe</label></div>
-            <div class="span-3">{{data.remarks_direct_benefits_to_target_group}}</div>
-          </application-row>
-          <application-row class="mb-3x">
-            <div class="span-1"><label>Ausser-ordentlichkeit Vorhaben</label></div>
-            <div class="span-3">{{data.remarks_exceptionality_of_project ? 'Ja' : 'Nein'}}</div>
-          </application-row>
-          <application-row class="mb-3x">
-            <div class="span-1"><label>Weitere relevante Informationen</label></div>
-            <div class="span-3">{{data.remarks_additional_relevant_information}}</div>
-          </application-row>
-          <application-row class="mb-3x">
-            <div class="span-1"><label>Inhaltliche Zuordnung</label></div>
-            <div class="span-3">{{data.remarks_content_allocation}}</div>
-          </application-row>
+          <!--
+            Commented out as per E-Mail Corinna à Porta, 25.09.2025
+            <application-row class="mb-3x">
+              <div class="span-1"><label>Anteil Stadtzürcher*-innen</label></div>
+              <div class="span-3">{{data.remarks_percentage_of_residents_zurich}}</div>
+            </application-row>
+            <application-row class="mb-3x">
+              <div class="span-1"><label>Direkter Nutzen Zielgruppe</label></div>
+              <div class="span-3">{{data.remarks_direct_benefits_to_target_group}}</div>
+            </application-row>
+            <application-row class="mb-3x">
+              <div class="span-1"><label>Ausser-ordentlichkeit Vorhaben</label></div>
+              <div class="span-3">{{data.remarks_exceptionality_of_project ? 'Ja' : 'Nein'}}</div>
+            </application-row>
+            <application-row class="mb-3x">
+              <div class="span-1"><label>Weitere relevante Informationen</label></div>
+              <div class="span-3">{{data.remarks_additional_relevant_information}}</div>
+            </application-row>
+            <application-row class="mb-3x">
+              <div class="span-1"><label>Inhaltliche Zuordnung</label></div>
+              <div class="span-3">{{data.remarks_content_allocation}}</div>
+            </application-row>
+          -->
+
         </div>
         <div>
           <h2>Projektkosten und Finanzierung</h2>

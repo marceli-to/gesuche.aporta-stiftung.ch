@@ -125,8 +125,6 @@
               </application-input>
             </application-row>
 
-
-
             <h2>Serienbrief</h2>
             <application-row class="pb-3x">
               <application-label :cls="'span-1'">Anrede</application-label>
@@ -286,7 +284,14 @@
               <div class="span-3">{{data.proportion_residents_benefit_program}}</div>
             </application-row>
 
-            <h2>Bemerkungen</h2>
+            <h2 class="mb-2x">Bemerkungen</h2>
+            <application-row>
+              <div class="span-4">
+                <textarea v-model="data.remarks" rows="10"></textarea>
+              </div>
+            </application-row>
+            <!-- 
+            Commented out as per E-Mail Corinna à Porta, 25.09.2025
             <application-row class="mb-3x">
               <div class="span-1"><label>Anteil Stadtzürcher*-innen</label></div>
               <div class="span-3"><textarea v-model="data.remarks_percentage_of_residents_zurich"></textarea></div>
@@ -337,6 +342,7 @@
                 </div>
               </div>
             </application-row>
+            -->
           </div>
           <div>
             <h2>Projektkosten und Finanzierung</h2>

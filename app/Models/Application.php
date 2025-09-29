@@ -68,6 +68,7 @@ class Application extends Base
     'file_bylaws',
     'file_project_description',
     'file_project_estimated_costs',
+    'remarks',
     'remarks_percentage_of_residents_zurich',
     'remarks_direct_benefits_to_target_group',
     'remarks_exceptionality_of_project',
