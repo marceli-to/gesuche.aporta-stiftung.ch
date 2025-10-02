@@ -12,12 +12,13 @@
               Aktuell
             </router-link>
           </li>
+          <li class="span-1">
+            <router-link :to="{name: 'applications-archive', params: { type: 'archiv' }}" :active-class="'is-active'">
+              Archiv
+            </router-link>
+          </li>
           <template v-if="user.admin">
-            <li class="span-1">
-              <router-link :to="{name: 'applications-archive', params: { type: 'archiv' }}" :active-class="'is-active'">
-                Archiv
-              </router-link>
-            </li>
+
             <li class="span-1">
               <a href="" class="icon-export" @click.prevent="toggleSelector($route.params.type)" v-if="$props.view != 'show'">
                 <icon-export />
