@@ -543,8 +543,8 @@
                     {{ errors.project_description ? errors.project_description : 'Beschreibung und Begründung des Projekts *' }}
                   </application-label>
                   <application-input :cls="'span-8 sm:span-7'">
-                    <textarea v-model="form.project_description" maxlength="3500" required :class="[errors.project_description ? 'is-invalid' : '', ''] " @blur="validate($event)" @focus="removeError('project_description')"></textarea>
-                    <text-length-indicator :field="form.project_description" :max-chars="3500" />
+                    <textarea v-model="form.project_description" maxlength="500" required :class="[errors.project_description ? 'is-invalid' : '', ''] " @blur="validate($event)" @focus="removeError('project_description')"></textarea>
+                    <text-length-indicator :field="form.project_description" :max-chars="500" />
                   </application-input>
                 </application-row>
               </div>
