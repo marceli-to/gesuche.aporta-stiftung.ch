@@ -27,8 +27,6 @@ class ApplicationCreateRequest extends FormRequest
       'name_change' => 'required',
       'former_name' => 'required_if:name_change,yes',
       'legal_form' => 'required',
-      // 'bank_account' => 'required',  // removed, unknown date, ms
-      // 'iban' => 'required', // changed, 22.08.2025, ms
       'iban' => ['required', 'regex:/^\d{2}[A-Z0-9]{1,30}$/i'],
       'beneficiary' => 'required',
       'street' => 'required',
@@ -50,16 +48,12 @@ class ApplicationCreateRequest extends FormRequest
       'project_income' => 'required',
       'project_income_remarks' => 'required',
       'project_contribution_requested' => 'required',
-      //'project_contribution_further_requested' => 'required',  // removed, unknown date, ms
-      // 'files.portrait' => 'required', // removed, 22.08.2025, ms
       'files.tax_exemption' => 'required',
       'files.annual_report' => 'required',
       'files.annual_financial_report' => 'required',
       'files.budget' => 'required',
       'files.bylaws' => 'required',
-      // 'files.project_description' => 'required', // removed, 22.08.2025, ms
       'files.project_estimated_costs' => 'required',
-
       'project_add_instit_2' => 'nullable|required_with:project_add_instit_total_2',
       'project_add_instit_total_2' => 'nullable|required_with:project_add_instit_2',
       'project_add_instit_3' => 'nullable|required_with:project_add_instit_total_3',
@@ -198,16 +192,6 @@ class ApplicationCreateRequest extends FormRequest
         'field' => 'project_contribution_approved',
         'error' => 'Genehmigter Betrag wird benötigt'
       ],
-      
-      // 'project_contribution_further_requested.required' => [
-      //   'field' => 'project_contribution_further_requested',
-      //   'error' => 'Weitere beantragte Beiträge wird benötigt'
-      // ], // removed, unknown date, ms
-
-      // 'files.portrait.required' => [
-      //   'field' => 'file_portrait',
-      //   'error' => 'Kurzportrait wird benötigt'
-      // ], // removed, 22.08.2025, ms
 
       'files.tax_exemption.required' => [
         'field' => 'file_tax_exemption',
@@ -229,10 +213,6 @@ class ApplicationCreateRequest extends FormRequest
         'field' => 'file_bylaws',
         'error' => 'Statuten wird benötigt'
       ],
-      // 'files.project_description.required' => [
-      //   'field' => 'file_project_description',
-      //   'error' => 'Beschreibung und Begründung des Projekts wird benötigt'
-      // ], // removed, 22.08.2025, ms
       'files.project_estimated_costs.required' => [
         'field' => 'file_project_estimated_costs',
         'error' => 'Detaillierter Kostenvoranschlag wird benötigt'
