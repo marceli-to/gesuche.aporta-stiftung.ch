@@ -29,7 +29,7 @@ class ApplicationCreateRequest extends FormRequest
       'legal_form' => 'required',
       // 'bank_account' => 'required',  // removed, unknown date, ms
       // 'iban' => 'required', // changed, 22.08.2025, ms
-      'iban' => ['required', 'regex:/^\d{2}(?: ?\d{4}){4}\d$/'],
+      'iban' => ['required', 'regex:/^\d{2}[A-Z0-9]{1,30}$/i'],
       'beneficiary' => 'required',
       'street' => 'required',
       'zip' => 'required',
