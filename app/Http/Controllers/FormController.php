@@ -145,8 +145,92 @@ class FormController extends BaseController
    */
 
   public function delete($filename)
-  { 
+  {
     $media = (new Media())->remove($filename, TRUE);
     return response()->json($media);
+  }
+
+  /**
+   * Validate application password
+   *
+   * @param  Request $request
+   * @return \Illuminate\Http\Response
+   */
+  public function validatePassword(Request $request)
+  {
+    $request->validate([
+      'password' => 'required|string'
+    ]);
+
+    $passwordFile = storage_path('app/application-passwords.json');
+
+    if (!file_exists($passwordFile)) {
+      return response()->json([
+        'valid' => false,
+        'message' => 'Password-Datei nicht gefunden.'
+      ], 500);
+    }
+
+    $data = json_decode(file_get_contents($passwordFile), true);
+
+    if (!isset($data['passwords']) || !is_array($data['passwords'])) {
+      return response()->json([
+        'valid' => false,
+        'message' => 'Ungültiges Password-Format.'
+      ], 422);
+    }
+
+    $submittedPassword = $request->input('password');
+    $passwordFound = false;
+    $passwordValid = false;
+    $now = now();
+
+    foreach ($data['passwords'] as $index => $passwordEntry) {
+      if ($passwordEntry['password'] === $submittedPassword) {
+        $passwordFound = true;
+
+        // Check if password has been used
+        if ($passwordEntry['first_used_at'] === null) {
+          // First time use - record timestamp
+          $data['passwords'][$index]['first_used_at'] = $now->toIso8601String();
+          file_put_contents($passwordFile, json_encode($data, JSON_PRETTY_PRINT));
+          $passwordValid = true;
+          break;
+        } else {
+          // Password was used before - check if within 24 hours
+          $firstUsedAt = \Carbon\Carbon::parse($passwordEntry['first_used_at']);
+          $hoursSinceFirstUse = $firstUsedAt->diffInHours($now);
+
+          if ($hoursSinceFirstUse < 24) {
+            // Still valid
+            $passwordValid = true;
+            break;
+          } else {
+            // Expired (more than 24 hours)
+            $passwordValid = false;
+            break;
+          }
+        }
+      }
+    }
+
+    if (!$passwordFound) {
+      return response()->json([
+        'valid' => false,
+        'message' => 'Dieses Passwort ist ungültig'
+      ], 405);
+    }
+
+    if (!$passwordValid) {
+      return response()->json([
+        'valid' => false,
+        'message' => 'Dieses Passwort ist abgelaufen oder wurde bereits verwendet'
+      ], 405);
+    }
+
+    return response()->json([
+      'valid' => true,
+      'message' => 'Passwort gültig.'
+    ]);
   }
 }

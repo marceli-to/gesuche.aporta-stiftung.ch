@@ -76,7 +76,7 @@ export default {
       this.isLoading = false;
       this.isSaving = false;
       NProgress.done();
-      this.$notify({ type: "error", text: `${data.status} ${data.code}`});
+      // this.$notify({ type: "error", text: `${data.status} ${data.code}`});
     },
 
     forbiddenError(data) {

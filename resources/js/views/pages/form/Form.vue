@@ -13,6 +13,38 @@
             <p>Wir haben Ihre Daten erhalten und werden diese in der kommenden Zeit prüfen.</p>
           </div>
         </template>
+        <template v-else-if="!isPasswordValidated">
+          <div class="max-w-lg">
+            <h1 class="span-full">Formular Beitragsgesuche Stadt Zürich</h1>
+            <p class="span-full mb-8x">
+              Bitte geben Sie Ihr Passwort ein, um das Formular ausfüllen zu können.
+            </p>
+            <div>
+              <application-row :class="[passwordError ? 'has-error' : '', 'application-row__form']">
+                <application-label :cls="'span-4 sm:span-5'">
+                  {{ passwordError ? passwordError : 'Passwort *' }}
+                </application-label>
+                <application-input :cls="'span-8 sm:span-7'">
+                  <input
+                    type="text"
+                    v-model="password"
+                    required
+                    :class="[passwordError ? 'is-invalid' : '']"
+                    @keyup.enter="validatePassword"
+                    @input="passwordError = ''">
+                </application-input>
+              </application-row>
+            </div>
+            <div class="span-full mt-6x">
+              <a
+                href="javascript:;"
+                :class="[isValidatingPassword ? 'disabled' : '', 'btn-submit is-small']"
+                @click.prevent="validatePassword">
+                {{ isValidatingPassword ? 'Wird validiert...' : 'Passwort prüfen' }}
+              </a>
+            </div>
+          </div>
+        </template>
         <template v-else>
           <h1 class="span-full">Formular Beitragsgesuche Stadt Zürich</h1>
           <p class="span-full mb-16x">
@@ -881,7 +913,13 @@ export default {
 
   data() {
     return {
-      
+
+      // Password validation
+      isPasswordValidated: false,
+      password: '',
+      isValidatingPassword: false,
+      passwordError: '',
+
       form: {
         confirm_correctness: false,
         name_change: 'no',
@@ -1002,6 +1040,37 @@ export default {
   },
 
   methods: {
+
+    validatePassword() {
+      if (!this.password || this.password.trim() === '') {
+        this.passwordError = 'Bitte geben Sie ein Passwort ein.';
+        return;
+      }
+
+      this.isValidatingPassword = true;
+      this.passwordError = '';
+
+      this.axios.post('/form/validate-password', {
+        password: this.password
+      })
+      .then(response => {
+        if (response.data.valid) {
+          this.isPasswordValidated = true;
+          this.passwordError = '';
+        } else {
+          this.passwordError = response.data.message || 'Ungültiges Passwort.';
+        }
+        this.isValidatingPassword = false;
+      })
+      .catch(error => {
+        if (error.response && error.response.data && error.response.data.message) {
+          this.passwordError = error.response.data.message;
+        } else {
+          this.passwordError = 'Ein Fehler ist aufgetreten. Bitte versuchen Sie es erneut.';
+        }
+        this.isValidatingPassword = false;
+      });
+    },
 
     submit() {
 
