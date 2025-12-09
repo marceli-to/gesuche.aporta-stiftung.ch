@@ -228,13 +228,19 @@
     <list v-if="data.length">
       <list-row-header>
         <list-item :cls="'span-1 list-item-header'">&nbsp;</list-item>
+         <list-item :cls="'span-1 list-item-header'">
+          Nummer
+          <a href="" @click.prevent="sort('id')">
+            <icon-sort />
+          </a>
+         </list-item>
         <list-item :cls="'span-1 list-item-header line-after'">
           Eingang
           <a href="" @click.prevent="sort('created_at_timestamp')">
             <icon-sort />
           </a>
         </list-item>
-        <list-item :cls="'span-3 list-item-header line-after'">
+        <list-item :cls="'span-2 list-item-header line-after'">
           Organisation
           <a href="" @click.prevent="sort('name')">
             <icon-sort />
@@ -269,10 +275,15 @@
         </list-item>
         <list-item :cls="'span-1 list-item line-after'">
           <router-link :to="{name: 'application-show', params: { type: $route.params.type, uuid: d.uuid }}">
+            {{ d.id }}
+          </router-link>
+        </list-item>
+        <list-item :cls="'span-1 list-item line-after'">
+          <router-link :to="{name: 'application-show', params: { type: $route.params.type, uuid: d.uuid }}">
             {{ d.created_at }}
           </router-link>
         </list-item>
-        <list-item :cls="'span-3 list-item line-after'">
+        <list-item :cls="'span-2 list-item line-after'">
           <router-link :to="{name: 'application-show', params: { type: $route.params.type, uuid: d.uuid }}">
             {{ d.name }}
           </router-link>
@@ -437,6 +448,7 @@ export default {
       NProgress.start();
       this.axios.get(`${this.routes.list}/${type}`).then(response => {
         this.data = response.data.data;
+        this.setFilterMenu(this.data);
         this.isFetched = true;
         NProgress.done();
       });
@@ -478,6 +490,7 @@ export default {
         NProgress.start();
         this.axios.get(`${this.routes.search}/${this.searchTerm}/${this.type}`).then(response => {
           this.data = response.data.data;
+          this.setFilterMenu(this.data);
           this.$store.commit('searchTerm', this.searchTerm);
           this.isFetched = true;
           this.hideFilter();
