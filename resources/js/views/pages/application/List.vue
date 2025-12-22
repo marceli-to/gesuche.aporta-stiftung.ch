@@ -230,7 +230,7 @@
         <list-item :cls="'span-1 list-item-header'">&nbsp;</list-item>
          <list-item :cls="'span-1 list-item-header'">
           Nummer
-          <a href="" @click.prevent="sort('id')">
+          <a href="" @click.prevent="sort('nummer')">
             <icon-sort />
           </a>
          </list-item>
@@ -275,7 +275,7 @@
         </list-item>
         <list-item :cls="'span-1 list-item line-after'">
           <router-link :to="{name: 'application-show', params: { type: $route.params.type, uuid: d.uuid }}">
-            {{ d.id }}
+            {{ d.nummer }}
           </router-link>
         </list-item>
         <list-item :cls="'span-1 list-item line-after'">
@@ -409,6 +409,24 @@ export default {
         updated: 'Status geändert',
       },
     };
+  },
+
+  computed: {
+    numberedData() {
+      // Sort by created_at_timestamp ascending to assign nummer (oldest = 1)
+      const sortedByDate = [...this.data].sort((a, b) => a.created_at_timestamp - b.created_at_timestamp);
+      const nummerMap = {};
+      sortedByDate.forEach((item, index) => {
+        nummerMap[item.uuid] = index + 1;
+      });
+      return this.data.map(item => ({
+        ...item,
+        nummer: nummerMap[item.uuid]
+      }));
+    },
+    sortedData() {
+      return _.orderBy(this.numberedData, this.sortBy, this.sortDirection);
+    }
   },
 
   mounted() {
