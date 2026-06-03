@@ -3,7 +3,7 @@
 <div class="content @if (!$loop->last) break @endif">
 <div>{{ $d->name }}<br>{{ $d->firstname }} {{ $d->lastname }}<br>{{ $d->street }} {{ $d->street_number ?? $d->street_number }}<br>{{ $d->zip }} {{ $d->city }}</div>
 <br><br><br><br><br>
-<div>Zürich, 10. Juli 2025 AW/pc</div>
+<div>Zürich, 7. Juli 2026 AW/pc</div>
 <br><br><br>
 <div><strong>Gesuch um finanzielle Unterstützung</strong></div>
 <br><br>
@@ -11,7 +11,7 @@
 <br>
 <div>Wir nehmen Bezug auf Ihr Gesuch vom {{ $d->created_at_formated }}.</div>
 <br>
-<div>Unser Stiftungsrat hat in seiner Sitzung vom 17. Juni 2025 über die Zuwendungen aus dem Reinertrag des Stiftungsvermögens pro 2024 Beschluss gefasst.</div>
+<div>Unser Stiftungsrat hat in seiner Sitzung vom 2. Juni 2026 über die Zuwendungen aus dem Reinertrag des Stiftungsvermögens pro 2025 Beschluss gefasst.</div>
 <br>
 <div>Leider konnten wir Ihr Gesuch nicht berücksichtigen. {{ $d->textblock_denial }}</div>
 <br>
