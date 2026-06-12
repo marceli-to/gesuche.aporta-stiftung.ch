@@ -9,7 +9,7 @@
 <br><br>
 <div>{!! $d->salutation ? nl2br($d->salutation)  : 'Sehr geehrte Damen und Herren' !!}</div>
 <br>
-<div>Wir nehmen Bezug auf Ihr Gesuch vom {{ $d->created_at_formated }}.</div>
+<div>Wir nehmen Bezug auf Ihr Gesuch vom {{ $d->created_at_long }}.</div>
 <br>
 <div>Unser Stiftungsrat hat in seiner Sitzung vom 9. Juni 2026 über die Zuwendungen aus dem Reinertrag des Stiftungsvermögens pro 2025 Beschluss gefasst.</div>
 <br>

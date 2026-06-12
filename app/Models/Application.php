@@ -97,6 +97,7 @@ class Application extends Base
     'requested_contribution',
     'created_at_timestamp',
     'created_at_formated',
+    'created_at_long',
     'iban_formated',
     'is_new',
     'is_pending_approval',
@@ -287,6 +288,24 @@ class Application extends Base
   {
     return date('d.m.Y', strtotime($this->created_at));
   }
+
+  /**
+   * Get 'created_at' as a written-out German date (e.g. "8. September 2025").
+   * Used in the serial letters (Serienbrief) only.
+   *
+   * @param  string  $value
+   * @return string
+   */
+  public function getCreatedAtLongAttribute($value)
+  {
+    $months = [
+      1 => 'Januar', 2 => 'Februar', 3 => 'März', 4 => 'April',
+      5 => 'Mai', 6 => 'Juni', 7 => 'Juli', 8 => 'August',
+      9 => 'September', 10 => 'Oktober', 11 => 'November', 12 => 'Dezember',
+    ];
+    $ts = strtotime($this->created_at);
+    return (int) date('j', $ts) . '. ' . $months[(int) date('n', $ts)] . ' ' . date('Y', $ts);
+  }
   
   public function getIsNewAttribute($value)
   {
@@ -336,6 +355,11 @@ class Application extends Base
    */
   public function getIbanFormatedAttribute($value)
   {
-    return chunk_split($this->iban, 4, ' ');
+    if (!$this->iban) {
+      return '';
+    }
+    // Stored IBAN has no "CH" prefix; prepend it and group in blocks of 4
+    // (e.g. "CH93 0076 2011 6238 5295 7").
+    return trim(chunk_split('CH' . $this->iban, 4, ' '));
   }
 }
