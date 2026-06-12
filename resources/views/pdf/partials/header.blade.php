@@ -7,5 +7,5 @@
 </head>
 <body>
 <span class="logo">
-  <img src="{{ asset('assets/img/header.svg') }}" height="100" width="100">
+  <img src="{{ public_path('assets/img/header-print.svg') }}">
 </span>

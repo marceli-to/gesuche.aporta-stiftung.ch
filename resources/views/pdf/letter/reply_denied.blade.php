@@ -1,7 +1,7 @@
 @include('pdf.partials.header')
 @foreach($data as $d)
 <div class="content @if (!$loop->last) break @endif">
-<div>{{ $d->name }}<br>{{ $d->firstname }} {{ $d->lastname }}<br>{{ $d->street }} {{ $d->street_number ?? $d->street_number }}<br>{{ $d->zip }} {{ $d->city }}</div>
+<div style="width: 70mm;">{{ $d->name }}<br>{{ $d->firstname }} {{ $d->lastname }}<br>{{ $d->street }} {{ $d->street_number ?? $d->street_number }}<br>{{ $d->zip }} {{ $d->city }}</div>
 <br><br><br><br><br>
 <div>Zürich, 7. Juli 2026 AW/pc</div>
 <br><br><br>
