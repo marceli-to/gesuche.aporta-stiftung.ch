@@ -61,7 +61,7 @@
           </application-row>
           <application-row>
             <div class="span-1"><label>IBAN</label></div>
-            <div class="span-3">CH{{data.iban}}</div>
+            <div class="span-3">{{data.iban_formated}}</div>
           </application-row>
           <application-row>
             <div class="span-1"><label>Begünstigter</label></div>
@@ -78,7 +78,7 @@
           </application-row>
           <application-row>
             <div class="span-1"><label>IBAN</label></div>
-            <div class="span-3">CH{{data.iban}}</div>
+            <div class="span-3">{{data.iban_formated}}</div>
           </application-row>
           <application-row>
             <div class="span-1"><label>Textblock<br>Zusage</label></div>
