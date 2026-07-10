@@ -63,6 +63,7 @@ class FormController extends BaseController
       'justification_funds' => $request->input('justification_funds'),
       'project_beneficiaries' => $request->input('project_beneficiaries'),
       'proportion_residents_benefit_program' => $request->input('proportion_residents_benefit_program'),
+      'number_residents_benefit_program' => $request->input('number_residents_benefit_program') ? $request->input('number_residents_benefit_program') : null,
       'project_time' => $request->input('project_time'),
       'project_cost_total' => $request->input('project_cost_total'),
       'project_own_contribution' => $request->input('project_own_contribution'),

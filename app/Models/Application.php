@@ -34,6 +34,7 @@ class Application extends Base
     'justification_funds',
     'project_beneficiaries',
     'proportion_residents_benefit_program',
+    'number_residents_benefit_program',
     'project_time',
     'project_cost_total',
     'project_own_contribution',

@@ -42,6 +42,7 @@ class ApplicationCreateRequest extends FormRequest
       'project_beneficiaries' => 'required',
       'project_description' => 'required',
       'proportion_residents_benefit_program' => 'required',
+      'number_residents_benefit_program' => 'nullable',
       'project_time' => 'required',
       'project_cost_total' => 'required',
       'project_own_contribution' => 'required',

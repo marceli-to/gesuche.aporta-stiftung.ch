@@ -559,6 +559,16 @@
                 </application-row>
               </div>
               <div class="span mb-6x">
+                <application-row :class="'application-row__form'">
+                  <application-label :cls="'span-4 sm:span-5'">
+                    Anzahl begünstigte Stadtzürcherinnen und Stadtzürcher
+                  </application-label>
+                  <application-input :cls="'span-8 sm:span-7'">
+                    <input type="text" v-model="form.number_residents_benefit_program" />
+                  </application-input>
+                </application-row>
+              </div>
+              <div class="span mb-6x">
                 <application-row :class="[errors.project_time ? 'has-error' : '', 'application-row__form']">
                   <application-label :cls="'span-4 sm:span-5'">
                     {{ errors.project_time ? errors.project_time : 'Projektdauer/Zeitraum *' }}

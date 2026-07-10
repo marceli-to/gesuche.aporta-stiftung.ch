@@ -283,6 +283,10 @@
               <div class="span-1"><label>Begünstigte Zürich</label></div>
               <div class="span-3">{{data.proportion_residents_benefit_program}}</div>
             </application-row>
+            <application-row>
+              <div class="span-1"><label>Anzahl Begünstigte Zürich</label></div>
+              <div class="span-3">{{data.number_residents_benefit_program}}</div>
+            </application-row>
 
             <h2 class="mb-2x">Bemerkungen</h2>
             <application-row>
