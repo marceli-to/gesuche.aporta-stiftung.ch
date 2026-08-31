@@ -14,6 +14,7 @@ use App\Http\Controllers\FormController;
 
 Route::get('/formular', [FormController::class, 'index']);
 Route::post('/form/submit', [FormController::class, 'store']);
+Route::post('/form/validate-password', [FormController::class, 'validatePassword']);
 
 Route::post('/file/upload', [FormController::class, 'upload']);
 Route::delete('/file/upload/{filename}', [FormController::class, 'delete']);

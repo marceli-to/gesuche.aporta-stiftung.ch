@@ -27,6 +27,19 @@ return [
 
   /*
   |--------------------------------------------------------------------------
+  | Password protection for the public application form (/formular)
+  |--------------------------------------------------------------------------
+  |
+  | Set APORTA_FORM_PASSWORD=true in .env to require a password before the
+  | form can be filled in. Passwords are managed in
+  | storage/app/application-passwords.json.
+  |
+  */
+
+  'form_password' => (bool) env('APORTA_FORM_PASSWORD', false),
+
+  /*
+  |--------------------------------------------------------------------------
   | Domain
   |--------------------------------------------------------------------------
   |

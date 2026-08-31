@@ -20,6 +20,7 @@
 <div id="app-form">
   <form-component />
 </div>
+<script>window.APORTA_FORM_PASSWORD = @json(config('client.form_password'));</script>
 <script src="{{ mix('assets/js/form.js') }}" defer></script>
 <script src="{{ mix('assets/js/validation.js') }}" type="text/javascript"></script>
 </body>
