@@ -35,7 +35,7 @@ class PageController extends BaseController
     {
       return redirect('/gesuche/aktuell');
     }
-    return redirect('/formular');
+    return view($this->viewPath . 'index');
   }
 
   /**
