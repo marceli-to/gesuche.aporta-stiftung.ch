@@ -21,6 +21,9 @@ class ApplicationExport implements FromCollection, WithHeadings, WithEvents, Wit
    */
   public function collection()
   {
+    // Number applications by date of receipt (oldest = 1), same as the backend list
+    $numbers = $this->numbers();
+
     if (auth()->user()->isAdmin())
     {
       $query = Application::orderBy('created_at', 'ASC');
@@ -65,7 +68,7 @@ class ApplicationExport implements FromCollection, WithHeadings, WithEvents, Wit
     foreach($applications as $s)
     {
       $data[] = [
-        'Nr. Gesuch' => '',
+        'Nr. Gesuch' => $numbers[$s->id] ?? '',
         'Name Organisation' => $s->name,
         'Vorheriger Name Organisation' => $s->former_name,
         'Titel (Projekt)' => $s->project_title,
@@ -80,6 +83,24 @@ class ApplicationExport implements FromCollection, WithHeadings, WithEvents, Wit
       ];
     }
     return collect($data);
+  }
+
+  private function numbers(): array
+  {
+    if (auth()->user()->isAdmin())
+    {
+      $query = $this->archived != 'false' ? Application::archive() : Application::current();
+    }
+    else
+    {
+      $query = Application::current()->editor();
+    }
+
+    return $query->orderBy('created_at', 'ASC')
+      ->pluck('id')
+      ->flip()
+      ->map(fn($index) => $index + 1)
+      ->all();
   }
 
   public function headings(): array
