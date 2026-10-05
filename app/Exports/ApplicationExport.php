@@ -68,7 +68,7 @@ class ApplicationExport implements FromCollection, WithHeadings, WithEvents, Wit
     foreach($applications as $s)
     {
       $data[] = [
-        'Nr. Gesuch' => $numbers[$s->id] ?? '',
+        'Nummer' => $numbers[$s->id] ?? '',
         'Name Organisation' => $s->name,
         'Vorheriger Name Organisation' => $s->former_name,
         'Titel (Projekt)' => $s->project_title,
@@ -111,7 +111,7 @@ class ApplicationExport implements FromCollection, WithHeadings, WithEvents, Wit
       ['Dr. Stephan à Porta-Stiftung_Vorschlag für die Zuwendungen aus dem Reinertrag ' . $year . '_Tabelle Gesuche_Zuwendungen - (Stand ' . date('d.m.Y') . ')'],
       [''],
       [
-        'Nr. Gesuch',
+        'Nummer',
         'Name Organisation',
         'Vorheriger Name Organisation',
         'Titel (Projekt)',
