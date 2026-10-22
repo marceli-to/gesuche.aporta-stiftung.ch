@@ -141,3 +141,6 @@ Uses Laravel Mix (webpack.mix.js) to compile:
 - Notification emails for status changes  
 - Queue system for background mail processing
 - Mail templates in `resources/views/mails/`
+## Open Incidents
+
+- `INCIDENTS.md`: outgoing mail failing (M365 SMTP auth) since 2026, plus open follow-ups. Read this first when working on mail or the application form.
