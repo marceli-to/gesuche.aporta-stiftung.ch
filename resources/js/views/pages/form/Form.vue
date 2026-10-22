@@ -345,13 +345,13 @@
                     </template>
                     <template v-else>
                       <vue-dropzone
-                        ref="dropzone"
+                        ref="dropzone_tax_exemption"
                         id="dropzone"
                         :options="config"
                         @vdropzone-sending="uploadSending"
                         @vdropzone-success="uploadSuccess($event, 'tax_exemption', 'Steuerbefreiung')"
-                        @vdropzone-complete="uploadComplete"
-                        @vdropzone-max-files-exceeded="uploadMaxFilesExceeded"
+                        @vdropzone-complete="uploadComplete($event, 'tax_exemption')"
+                        @vdropzone-max-files-exceeded="uploadMaxFilesExceeded($event, 'tax_exemption')"
                         :useCustomSlot=true
                       >
                         <button class="btn-upload">Datei auswählen</button>
@@ -383,13 +383,13 @@
                     </template>
                     <template v-else>
                       <vue-dropzone
-                        ref="dropzone"
+                        ref="dropzone_annual_report"
                         id="dropzone"
                         :options="config"
                         @vdropzone-sending="uploadSending"
                         @vdropzone-success="uploadSuccess($event, 'annual_report', 'Jahresbericht')"
-                        @vdropzone-complete="uploadComplete"
-                        @vdropzone-max-files-exceeded="uploadMaxFilesExceeded"
+                        @vdropzone-complete="uploadComplete($event, 'annual_report')"
+                        @vdropzone-max-files-exceeded="uploadMaxFilesExceeded($event, 'annual_report')"
                         :useCustomSlot=true
                       >
                         <button class="btn-upload">Datei auswählen</button>
@@ -421,13 +421,13 @@
                     </template>
                     <template v-else>
                       <vue-dropzone
-                        ref="dropzone"
+                        ref="dropzone_annual_financial_report"
                         id="dropzone"
                         :options="config"
                         @vdropzone-sending="uploadSending"
                         @vdropzone-success="uploadSuccess($event, 'annual_financial_report', 'Jahresrechnung')"
-                        @vdropzone-complete="uploadComplete"
-                        @vdropzone-max-files-exceeded="uploadMaxFilesExceeded"
+                        @vdropzone-complete="uploadComplete($event, 'annual_financial_report')"
+                        @vdropzone-max-files-exceeded="uploadMaxFilesExceeded($event, 'annual_financial_report')"
                         :useCustomSlot=true
                       >
                         <button class="btn-upload">Datei auswählen</button>
@@ -459,13 +459,13 @@
                     </template>
                     <template v-else>
                       <vue-dropzone
-                        ref="dropzone"
+                        ref="dropzone_budget"
                         id="dropzone"
                         :options="config"
                         @vdropzone-sending="uploadSending"
                         @vdropzone-success="uploadSuccess($event, 'budget', 'Budget')"
-                        @vdropzone-complete="uploadComplete"
-                        @vdropzone-max-files-exceeded="uploadMaxFilesExceeded"
+                        @vdropzone-complete="uploadComplete($event, 'budget')"
+                        @vdropzone-max-files-exceeded="uploadMaxFilesExceeded($event, 'budget')"
                         :useCustomSlot=true
                       >
                         <button class="btn-upload">Datei auswählen</button>
@@ -497,13 +497,13 @@
                     </template>
                     <template v-else>
                       <vue-dropzone
-                        ref="dropzone"
+                        ref="dropzone_bylaws"
                         id="dropzone"
                         :options="config"
                         @vdropzone-sending="uploadSending"
                         @vdropzone-success="uploadSuccess($event, 'bylaws', 'Statuten')"
-                        @vdropzone-complete="uploadComplete"
-                        @vdropzone-max-files-exceeded="uploadMaxFilesExceeded"
+                        @vdropzone-complete="uploadComplete($event, 'bylaws')"
+                        @vdropzone-max-files-exceeded="uploadMaxFilesExceeded($event, 'bylaws')"
                         :useCustomSlot=true
                       >
                         <button class="btn-upload">Datei auswählen</button>
@@ -614,13 +614,13 @@
                     </template>
                     <template v-else>
                       <vue-dropzone
-                        ref="dropzone"
+                        ref="dropzone_project_description"
                         id="dropzone"
                         :options="config"
                         @vdropzone-sending="uploadSending"
                         @vdropzone-success="uploadSuccess($event, 'project_description', 'Projekt')"
-                        @vdropzone-complete="uploadComplete"
-                        @vdropzone-max-files-exceeded="uploadMaxFilesExceeded"
+                        @vdropzone-complete="uploadComplete($event, 'project_description')"
+                        @vdropzone-max-files-exceeded="uploadMaxFilesExceeded($event, 'project_description')"
                         :useCustomSlot=true
                       >
                         <button class="btn-upload">Datei auswählen</button>
@@ -769,13 +769,13 @@
                     </template>
                     <template v-else>
                       <vue-dropzone
-                        ref="dropzone"
+                        ref="dropzone_project_estimated_costs"
                         id="dropzone"
                         :options="config"
                         @vdropzone-sending="uploadSending"
                         @vdropzone-success="uploadSuccess($event, 'project_estimated_costs', 'KV')"
-                        @vdropzone-complete="uploadComplete"
-                        @vdropzone-max-files-exceeded="uploadMaxFilesExceeded"
+                        @vdropzone-complete="uploadComplete($event, 'project_estimated_costs')"
+                        @vdropzone-max-files-exceeded="uploadMaxFilesExceeded($event, 'project_estimated_costs')"
                         :useCustomSlot=true
                       >
                         <button class="btn-upload">Datei auswählen</button>
@@ -1149,30 +1149,34 @@ export default {
       NProgress.done();
     },
 
-    uploadComplete(file) {
+    uploadComplete(file, key) {
       if (file.status == "error") {
+        NProgress.done();
         if (file.xhr !== undefined) {
-          let res = JSON.parse(file.xhr.response);
-          if (res.errors.file) {
-            res.errors.file.forEach(error => console.log(error));
-            this.$refs.dropzone.removeFile(file);
+          let message = 'Die Datei konnte nicht hochgeladen werden. Bitte versuchen Sie es erneut.';
+          try {
+            const res = JSON.parse(file.xhr.response);
+            if (res.errors && res.errors.file) {
+              message = res.errors.file.map(error => error.error || error).join('\n');
+            }
           }
+          catch (e) {}
+          alert(message);
+          this.$refs[`dropzone_${key}`].removeFile(file);
         }
         else {
           if (file.accepted == false) {
-            if (file.size > 9000000) {
+            if (file.size > this.config.maxFilesize * 1024 * 1024) {
               alert('Datei ist zu gross');
             }
             else {
               alert('Dateityp ist nicht erlaubt');
             }
 
-            this.$refs.dropzone.removeFile(file);
+            this.$refs[`dropzone_${key}`].removeFile(file);
           }
         }
       }
-      // this.$refs.dropzone.removeFile(file);
-
     },
 
     uploadDelete(filename, key) {
@@ -1183,8 +1187,8 @@ export default {
       });
     },
 
-    uploadMaxFilesExceeded(file) {
-      this.$refs.dropzone.removeAllFiles(true);
+    uploadMaxFilesExceeded(file, key) {
+      this.$refs[`dropzone_${key}`].removeAllFiles(true);
       alert('Dateimaxium erreicht')
     },
 

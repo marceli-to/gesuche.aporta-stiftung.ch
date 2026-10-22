@@ -22,7 +22,7 @@ class FileUploadRequest extends FormRequest
   public function rules()
   {
     return [
-      'file' => 'required|mimes:png,jpg,jpeg,csv,txt,xlx,xls,pdf|max:32000'
+      'file' => 'required|mimes:pdf,doc,docx,xls,xlsx,zip,png,jpg,jpeg,csv,txt|max:32000'
     ];
   }
 
@@ -39,16 +39,12 @@ class FileUploadRequest extends FormRequest
         'error' => 'Es wird eine Datei benötigt!'
       ],
       'file.mimes' => [
-        'string' => [
-          'field' => 'file',
-          'error' => 'Dieser Dateityp ist nicht erlaubt'
-        ]
+        'field' => 'file',
+        'error' => 'Dieser Dateityp ist nicht erlaubt'
       ],
       'file.max' => [
-        'string' => [
-          'field' => 'file',
-          'error' => 'Diese Datei ist zu gross (max. 32 MB)',
-        ]
+        'field' => 'file',
+        'error' => 'Diese Datei ist zu gross (max. 32 MB)',
       ],
     ];
   }
