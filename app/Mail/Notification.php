@@ -30,7 +30,7 @@ class Notification extends Mailable
    */
   public function build()
   {
-    return $this->from(env('MAIL_FROM_ADDRESS'), env('MAIL_FROM_NAME'))
+    return $this
                 ->subject('Eingang Beitragsgesuch')
                 ->with(['application' => $this->data])
                 ->markdown('mails.notification');

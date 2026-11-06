@@ -88,6 +88,10 @@ return [
         'name' => env('MAIL_FROM_NAME', 'Example'),
     ],
 
+    // Recipient of the notification mail for new applications (also the catch-all
+    // recipient outside production, see AppServiceProvider).
+    'to' => env('MAIL_TO'),
+
     /*
     |--------------------------------------------------------------------------
     | Markdown Mail Settings

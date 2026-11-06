@@ -26,7 +26,7 @@ class AppServiceProvider extends ServiceProvider
     \Carbon\Carbon::setLocale('de_CH.UTF-8');
     if (!app()->isProduction())
     {
-      Mail::alwaysTo(env('MAIL_TO'));
+      Mail::alwaysTo(config('mail.to'));
     }
   }
 }

@@ -71,10 +71,10 @@ class MailTest extends Command
 
         // Notification to owner
         if ($m->type == 'notification') {
-          \Mail::to(env('MAIL_TO'))->send(new \App\Mail\Notification($data));
+          \Mail::to(config('mail.to'))->send(new \App\Mail\Notification($data));
           $m->processed = 1;
           $m->save();
-          $this->info('mail sent to: ' . env('MAIL_TO'));
+          $this->info('mail sent to: ' . config('mail.to'));
         }
 
         // Confirmation to user
