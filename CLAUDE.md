@@ -141,6 +141,7 @@ Uses Laravel Mix (webpack.mix.js) to compile:
 - Notification emails for status changes  
 - Queue system for background mail processing
 - Mail templates in `resources/views/mails/`
-## Open Incidents
+## Open Incidents and Planned Work
 
 - `INCIDENTS.md`: outgoing mail failing (M365 SMTP auth) since 2026, plus open follow-ups. Read this first when working on mail or the application form.
+- `PLAN-EDIT-LINK.md`: planned feature, an edit link that lets applicants correct a submitted application. It has the status, the open decisions from the foundation, and an implementation checklist. Read it first when the user mentions the edit link, "Bearbeitungslink", or changes to `Form.vue` or `FormController`. Keep its status line and checkboxes up to date.
