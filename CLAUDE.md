@@ -148,6 +148,9 @@ Notes:
 - Notification emails for status changes  
 - Queue system for background mail processing
 - Mail templates in `resources/views/mails/`
+- Local (`APP_ENV=local`): mail goes to MailHog (SMTP 127.0.0.1:1025, UI http://localhost:8025). `AppServiceProvider` falls back to the log mailer if local SMTP points anywhere else, so .test never sends real mail. Outside production, `Mail::alwaysTo(MAIL_TO)` redirects all recipients.
+- `php artisan mail:smtp-check` talks to the SMTP host you enter directly (bypasses the guard), use it deliberately.
+
 ## Open Incidents and Planned Work
 
 - `INCIDENTS.md`: outgoing mail failing (M365 SMTP auth) since 2026, plus open follow-ups. Read this first when working on mail or the application form.
