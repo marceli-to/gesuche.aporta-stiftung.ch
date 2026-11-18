@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\DownloadController;
 use App\Http\Controllers\FormController;
+use App\Http\Controllers\Auth\LoginController;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,7 +23,7 @@ Route::delete('/file/upload/{filename}', [FormController::class, 'delete']);
 
 // Auth routes
 Auth::routes(['verify' => true, 'register' => false]);
-Route::get('/logout', 'Auth\LoginController@logout');
+Route::get('/logout', [LoginController::class, 'logout']);
 Route::get('/', [PageController::class, 'index'])->name('home');
 
 // Logged in users
