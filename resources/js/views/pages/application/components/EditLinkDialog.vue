@@ -1,5 +1,5 @@
 <template>
-  <div class="dialog" v-if="isOpen" @click.self="hide()">
+  <div class="dialog" v-if="isOpen">
     <div class="dialog__inner edit-link-dialog">
 
       <!-- send -->
