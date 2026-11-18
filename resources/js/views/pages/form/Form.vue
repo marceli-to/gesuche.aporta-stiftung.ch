@@ -1215,12 +1215,13 @@ export default {
           window.scrollTo(0, 0);
         })
         .catch(error => {
-          // Validation errors (422) are handled by the ErrorHandling mixin.
           if (error.response && error.response.status === 410) {
             this.isSaving = false;
             NProgress.done();
             this.loadError = error.response.data.message;
+            return;
           }
+          this.submitFailed(error);
         });
         return;
       }
@@ -1230,7 +1231,20 @@ export default {
         this.isSuccess = true;
         this.reset();
         NProgress.done();
-      });
+      })
+      .catch(error => this.submitFailed(error));
+    },
+
+    // Errors with a response (422, 500) are shown by the ErrorHandling mixin.
+    // Without a response (network error, timeout) re-enable the button and
+    // tell the applicant, so they can send again.
+    submitFailed(error) {
+      if (error.response) {
+        return;
+      }
+      this.isSaving = false;
+      NProgress.done();
+      this.$notify({ type: 'error', text: 'Die Verbindung ist fehlgeschlagen. Bitte prüfen Sie Ihre Internetverbindung und senden Sie das Formular erneut.' });
     },
 
     reset() {
