@@ -143,6 +143,7 @@ class FormController extends BaseController
   {
     $application = $this->findByToken($token);
     $file = $application->files()->whereNotNull('key')->where('uuid', $uuid)->firstOrFail();
+    abort_unless(\Storage::exists('files/' . $application->uuid . '/' . $file->name), 404);
     return (new Media())->download($application->uuid, $file->name);
   }
 

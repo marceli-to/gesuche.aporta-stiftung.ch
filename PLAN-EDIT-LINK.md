@@ -1,6 +1,6 @@
 # Plan: edit link for submitted applications
 
-Status as of 2026-11-18: **backend done on branch `feature/edit-link` (3.1, 3.4 except manual). Next: the form (3.2), then the admin dialog (3.3).**
+Status as of 2026-11-18: **backend and form done on branch `feature/edit-link` (3.1, 3.2, 3.4). Next: the admin dialog in `Show.vue` (3.3).**
 Prerequisite done: the app is on Laravel 13 with Vite (on `master`, not deployed yet, see `INCIDENTS.md` item 7).
 Update this file as work progresses. Tick the boxes and keep the status line current.
 
@@ -119,9 +119,9 @@ send it from Outlook if the mail fails.
 
 ### 3.2 Form (`Form.vue`), the riskiest part
 
-- [ ] Edit mode when `window.APORTA_EDIT_TOKEN` is set: skip the password step, load
+- [x] Edit mode when `window.APORTA_EDIT_TOKEN` is set: skip the password step, load
       `/form/edit/{token}`, fill `form`, and submit with PUT.
-- [ ] Mapping that needs care:
+- [x] Mapping that needs care:
   - `name_change` = `former_name ? 'yes' : 'no'`.
   - The number-masked amounts (`project_cost_total` etc., the `number` component with `'`
     separators). Check that they show up and come back unformatted.
@@ -129,15 +129,15 @@ send it from Outlook if the mail fails.
   - `iban` (stored without the `CH` prefix, check the mask).
   - The confirmation checkboxes (`isTaxExempt`, `isIdealistic`, `isExtraordinary`,
     `isSupportingResidents`, `confirm_correctness`) aren't stored. The applicant ticks them again.
-- [ ] Dropzones: show the existing file per key (filename plus a "replace" or "delete" action)
+- [x] Dropzones: show the existing file per key (filename plus a "replace" or "delete" action)
       instead of an empty dropzone. Dropzone's `manuallyAddFile` could show them, but a simple
       "existing file" row that hides the dropzone until "replace" is clicked is probably more
       robust.
-- [ ] Headline and success text: "Gesuch bearbeiten" and "Ihre Änderungen wurden gespeichert".
+- [x] Headline and success text: "Gesuch bearbeiten" and "Ihre Änderungen wurden gespeichert".
       Don't call `reset()` after saving in edit mode.
-- [ ] An expired token or a changed state shows a clear German message: "Dieser Link ist nicht mehr
+- [x] An expired token or a changed state shows a clear German message: "Dieser Link ist nicht mehr
       gültig. Bitte wenden Sie sich an die Stiftung."
-- [ ] Regression check: create mode must behave exactly as before. That's the main risk, because
+- [x] Regression check: create mode must behave exactly as before. That's the main risk, because
       the live form is in the same component.
 
 ### 3.3 Admin backend
@@ -156,7 +156,10 @@ send it from Outlook if the mail fails.
 - [x] Validation: required files are satisfied by existing files.
 - [x] Mails are queued with the correct types. `edit_token` never appears in a JSON response or in
       `mail_queue.data`.
-- [ ] Manual: the full flow in the browser, create mode included.
+- [x] Manual: the edit flow in headless Chrome (load, values and masks, replace a file, missing
+      confirmation, save, mails in MailHog, invalid link) and a create-mode smoke test (questions,
+      empty submit shows the errors). A full create submission with uploads was not repeated; the
+      feature test covers `store()`.
 
 ### 3.5 As built (backend), deviations from the plan above
 
@@ -178,6 +181,18 @@ send it from Outlook if the mail fails.
 - Applicant edits queue `edit_notification` (subject starts with "ACHTUNG Bankangaben geändert"
   if bank fields changed) and `edit_confirmation`.
 - Tests: `tests/Feature/EditLinkTest.php` (12 tests).
+
+### 3.6 As built (form)
+
+- Edit mode skips the password step and the four requirement questions (they were answered on
+  submission). `confirm_correctness` must be ticked again.
+- Amounts are loaded as whole francs (the form has no decimals). Values round-trip without
+  false changes (checked: only the edited fields end up in the diff).
+- An existing file shows its name with a download link (`/form/edit/{token}/file/{uuid}`); the
+  trash icon only drops it from the form, the dropzone appears for a replacement. The server
+  replaces or removes it on save.
+- After saving the form shows the success text with the expiry date; the link keeps working.
+- Download of a file missing on disk returns 404 (locally, production files aren't present).
 
 ### Open points found while building
 
