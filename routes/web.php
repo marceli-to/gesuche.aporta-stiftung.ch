@@ -25,8 +25,6 @@ Auth::routes(['verify' => true, 'register' => false]);
 Route::get('/logout', 'Auth\LoginController@logout');
 Route::get('/', [PageController::class, 'index'])->name('home');
 
-Route::get('/pdf/{type}', [PageController::class, 'pdf'])->name('pdf');
-
 // Logged in users
 Route::middleware('auth:sanctum', 'verified')->group(function() {
   Route::get('/download/{folder}/{filename}', [DownloadController::class, 'download'])->name('download');
