@@ -229,7 +229,6 @@ return [
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
-        'Image' => Intervention\Image\Facades\Image::class,
         'AppHelper' => App\Helpers\AppHelper::class,
         'FormatHelper' => App\Helpers\FormatHelper::class,
         'PDF' => Barryvdh\DomPDF\Facade\Pdf::class,
