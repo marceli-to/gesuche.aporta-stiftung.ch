@@ -1,6 +1,6 @@
 # Incident Oct 2026: missing mails, upload crashes
 
-Status as of 2026-11-17. Update this file as items get resolved.
+Status as of 2026-11-18. Update this file as items get resolved.
 
 ## Trigger
 
@@ -52,8 +52,7 @@ FAILs are short MySQL outages (`SQLSTATE[HY000] [2002]`), not lost submissions.
 - The column was `varchar(255)` and an applicant (kispi.uzh.ch) failed 3 times on 2026-09-29/30.
   They most likely succeeded at 2026-09-30 07:07 after shortening the text (not verified in the DB).
 - Fix: migration `2026_10_22_100000_…_to_text.php`.
-  **Requires `php artisan migrate` on production.** It was deployed by Marcel on 2026-10-22. Verify
-  that it ran.
+  Ran on production (batch 28, verified 2026-11-18).
 
 ### 5. `env()` calls outside config (FIXED in 146d519, not deployed)
 
@@ -62,10 +61,36 @@ FAILs are short MySQL outages (`SQLSTATE[HY000] [2002]`), not lost submissions.
 `config('mail.to')` and `config('mail.from')`. Production config is currently not cached, so the
 deployed code still works.
 
+### 6. Unauthenticated `/pdf/{type}` route (FIXED in e995840, not deployed)
+
+Found 2026-11-18 during the Laravel 13 upgrade. `GET /pdf/{type}` was outside the auth group since
+Feb 2022 ("staging build" commit) and rendered letters for **all** applications (names, addresses,
+amounts, bank details) without login. Production answers on the route (verified with a
+nonexistent type → 500; no real data was fetched). No access logs were found on the server, so it
+is unknown whether it was used. The authenticated `/brief/{type}` covers the need; the route and
+`PageController::pdf` were removed.
+
+### 7. Laravel 13 upgrade (on master, not deployed)
+
+`master` (41d764c) contains, besides items 5 and 6: Laravel 11 → 13, the Laravel 11+ app structure,
+Mix → Vite, dead code removal, a validation fix (array messages crashed on Laravel 13, now
+`FieldErrorRequest`) and a local mail guard (`.test` only sends to MailHog). Tested locally,
+including the full form submission and the admin in headless Chrome. See `CLAUDE.md`.
+
+**Deploy steps (staging first, then production):**
+1. `git pull`, `composer install --no-dev`, `php artisan optimize:clear`
+2. Switch the scheduler cron from `/usr/local/php82/bin/php` to `/usr/local/php83/bin/php`
+   (Laravel 13 needs PHP 8.3; with 8.2 no mails go out). The web PHP is already 8.3 via
+   `public/.htaccess`.
+3. Click through: login, open an application, download a letter, submit a test application.
+
+No Node on the server needed: built assets are in `public/build`.
+
 ## Open items
 
-- [ ] Deploy 7f764c8 + 146d519 (production is still on b81d960 as of 2026-11-09)
-- [ ] Confirm the migration ran on production
+- [ ] Deploy `master` (all of 5–7) to staging, then production, with the cron change (item 7).
+      Production is still on b81d960 as of 2026-11-18.
+- [x] Confirm the migration ran on production (2026-11-18)
 - [ ] Decide on a Reply-To: replies from applicants now go to `noreply@`, not `gesuch@`
 - [ ] Before Dec 2026: Microsoft plans to disable basic auth for SMTP AUTH by default. If sending
       breaks again, re-enable it in M365 or move to OAuth2 (Entra app with `SMTP.SendAsApp`, no DNS
@@ -77,4 +102,5 @@ deployed code still works.
       to be built on our side, about half a day.
 - [ ] Optional: alerting when mail sending fails (currently errors are only logged)
 - [ ] Optional: verify the Kispi application (angelina.schlegel@kispi.uzh.ch) exists in the DB
-- [ ] Optional: remove plaintext passwords from `INSTALL.txt` (committed to git) and rotate them
+- [ ] Remove plaintext passwords from the local `INSTALL.txt` (gitignored, never committed, not on
+      the server) and rotate them

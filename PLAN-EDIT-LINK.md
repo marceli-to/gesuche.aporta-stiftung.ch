@@ -1,6 +1,7 @@
 # Plan: edit link for submitted applications
 
-Status as of 2026-11-17: **planned, not started. Waiting for the foundation's decisions (section 1).**
+Status as of 2026-11-18: **planned, not started. Waiting for the foundation's decisions (section 1).**
+Prerequisite done: the app is on Laravel 13 with Vite (on `master`, not deployed yet, see `INCIDENTS.md` item 7).
 Update this file as work progresses. Tick the boxes and keep the status line current.
 
 ## Request (foundation)
@@ -20,7 +21,7 @@ Estimate: about 3 days.
 - The public form `resources/js/views/pages/form/Form.vue` (~1,300 lines, mounted through
   `resources/js/form.js` into `resources/views/layout/form.blade.php`) is create-only. It POSTs to
   `/form/submit`, and `FormController::store` always creates a new `Application`. `year` is
-  hardcoded to `2026`, and two `MailQueue` rows are queued (`notification` and `confirmation`).
+  hardcoded to `2026` (fix while touching it: use the current year), and two `MailQueue` rows are queued (`notification` and `confirmation`).
 - Uploads go to temp storage through `/file/upload` (`Media::store`). On submit,
   `Media::copyToApplicationFolder` moves them to `storage/app/files/{uuid}/` and creates
   `ApplicationFile` rows (`user_id` = 1).
@@ -94,9 +95,11 @@ send it from Outlook if the mail fails.
   - Set `edited_by_applicant_at`. Keep the token if the default "unlimited until expiry" holds.
   - Queue an `edit_notification` mail to `config('mail.to')`, plus a confirmation to the
     applicant if wanted.
-- [ ] `ApplicationUpdateByApplicantRequest`: copy the rules from `ApplicationCreateRequest`. The
-      required `files.*` count as present if the payload carries an existing file reference.
-      Write a custom rule or prepare the input. Reuse the messages, ideally from a shared trait.
+- [ ] `ApplicationUpdateByApplicantRequest`: extend `FieldErrorRequest` (messages go in
+      `fieldMessages()`, never as arrays in `messages()`) and copy the rules from
+      `ApplicationCreateRequest`. The required `files.*` count as present if the payload carries an
+      existing file reference. Write a custom rule or prepare the input. Reuse the messages, ideally
+      from a shared trait.
 - [ ] Files:
   - The payload per file key is either `{name, title}` (a new temp upload) or
     `{uuid, existing: true}` (unchanged).
@@ -154,7 +157,6 @@ send it from Outlook if the mail fails.
 
 ## 4. Rollout
 
-- [ ] Deploy together with the pending deploys from `INCIDENTS.md`. Production was still on b81d960
-      as of 2026-11-09. Run `php artisan migrate`, then `npm run production` and commit the built
-      assets, as usual.
+- [ ] Run `npm run build` and commit `public/build`. Deploy as in `INCIDENTS.md` item 7, plus
+      `php artisan migrate`.
 - [ ] Brief the foundation: how to send a link, the validity period, what applicants can change.
