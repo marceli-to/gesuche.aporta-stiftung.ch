@@ -4,12 +4,15 @@
     "name": "vue2Dropzone"
   },
   "resources/js/app.js": {
-    "file": "assets/app-uJi0EFp7.js",
+    "file": "assets/app-Nl6RsSyC.js",
     "name": "app",
     "src": "resources/js/app.js",
     "isEntry": true,
     "imports": [
       "_vue2Dropzone-BIwmg81T.js"
+    ],
+    "css": [
+      "assets/app-DgModcSW.css"
     ]
   },
   "resources/js/form.js": {

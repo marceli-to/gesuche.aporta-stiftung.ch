@@ -1,6 +1,6 @@
 # Plan: edit link for submitted applications
 
-Status as of 2026-11-18: **backend and form done on branch `feature/edit-link` (3.1, 3.2, 3.4). Next: the admin dialog in `Show.vue` (3.3).**
+Status as of 2026-11-18: **built and tested on branch `feature/edit-link` (3.1 to 3.4). Next: review, merge after `master` is deployed, then rollout (section 4).**
 Prerequisite done: the app is on Laravel 13 with Vite (on `master`, not deployed yet, see `INCIDENTS.md` item 7).
 Update this file as work progresses. Tick the boxes and keep the status line current.
 
@@ -142,10 +142,10 @@ send it from Outlook if the mail fails.
 
 ### 3.3 Admin backend
 
-- [ ] `Show.vue`: a "Bearbeitungslink senden" button, visible while the state is `OPEN`. A dialog
+- [x] `Show.vue`: a "Bearbeitungslink senden" button, visible while the state is `OPEN`. A dialog
       with the email (prefilled) and the message, then sends. After that it shows the URL with a
       copy button and the expiry date. Plus "Link widerrufen" while a token is active.
-- [ ] Show "Vom Gesuchsteller bearbeitet am …" on the application if `edited_by_applicant_at` is set.
+- [x] Show "Vom Gesuchsteller bearbeitet am …" on the application if `edited_by_applicant_at` is set.
 - [x] The log list shows the new entries, including the diff.
 
 ### 3.4 Tests (`tests/Feature`, currently only `ExampleTest.php`)
@@ -193,6 +193,20 @@ send it from Outlook if the mail fails.
   replaces or removes it on save.
 - After saving the form shows the success text with the expiry date; the link keeps working.
 - Download of a file missing on disk returns 404 (locally, production files aren't present).
+
+### 3.7 As built (admin)
+
+- `Show.vue`, admin and state `OPEN` only, not archived: "Bearbeitungslink senden" (or "Neuen
+  Bearbeitungslink senden" plus "Link widerrufen" while a link is active, with its expiry).
+- The dialog is its own component (`application/components/EditLinkDialog.vue`), because the
+  shared `Dialog.vue` closes on any click inside it. It prefills the application's email, takes
+  an optional message, then shows the URL with a copy button. If the mail failed, it says so and
+  asks the admin to send the link themselves.
+- "Von Gesuchsteller/in bearbeitet am …" shows for all users when `edited_by_applicant_at` is set.
+- A link for a non-open application returns 409 (not 422, which would trigger the generic
+  "Bitte alle mit * markierten Felder prüfen!" notice).
+- Tested in headless Chrome with a temporary admin: send (invalid email, then valid), mail in
+  MailHog, copy, status after send, link opens, revoke, revoked link shows the error page, log.
 
 ### Open points found while building
 

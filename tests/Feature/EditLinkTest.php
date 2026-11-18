@@ -174,7 +174,7 @@ class EditLinkTest extends TestCase
         $application->update(['application_state_id' => ApplicationState::PENDING_APPROVAL]);
         $this->actingAs($this->admin)
             ->postJson('/api/application/edit-link/' . $application->uuid, ['email' => 'eva@example.com'])
-            ->assertStatus(422);
+            ->assertStatus(409);
         $this->assertNull($application->fresh()->edit_token);
     }
 

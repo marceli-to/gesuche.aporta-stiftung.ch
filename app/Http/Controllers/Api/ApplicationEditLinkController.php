@@ -31,7 +31,7 @@ class ApplicationEditLinkController extends Controller
     {
       return response()->json([
         'message' => 'Ein Bearbeitungslink ist nur für offene Gesuche möglich.',
-      ], 422);
+      ], 409);
     }
 
     $token = $application->issueEditToken(config('client.edit_link_days'));
