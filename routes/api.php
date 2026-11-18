@@ -27,11 +27,12 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::middleware('auth:sanctum')->group(function() {
-  Route::get('users', [UserController::class, 'get']);
+  // Users: admins manage all accounts, everyone else only their own profile
+  Route::get('users', [UserController::class, 'get'])->middleware('role:admin');
   Route::get('user', [UserController::class, 'find']);
-  Route::post('user', [UserController::class, 'create']);
+  Route::post('user', [UserController::class, 'create'])->middleware('role:admin');
   Route::put('user/{user}', [UserController::class, 'update']);
-  Route::delete('user/{user}', [UserController::class, 'destroy']);
+  Route::delete('user/{user}', [UserController::class, 'destroy'])->middleware('role:admin');
 
   // Uploads
   Route::post('application/file/upload', [ApplicationUploadController::class, 'store'])->middleware('role:admin');
@@ -61,12 +62,12 @@ Route::middleware('auth:sanctum')->group(function() {
   Route::get('applications/archiv', [ApplicationController::class, 'getArchive']);
   Route::get('applications/aktuell', [ApplicationController::class, 'get']);
   Route::put('application/approve/{application:uuid}', [ApplicationController::class, 'approve']);
-  Route::put('application/approve/final/{application:uuid}', [ApplicationController::class, 'approveFinal']);
+  Route::put('application/approve/final/{application:uuid}', [ApplicationController::class, 'approveFinal'])->middleware('role:admin');
   Route::get('application/{application:uuid}', [ApplicationController::class, 'find']);
   Route::get('application/deny/{application:uuid}', [ApplicationController::class, 'deny']);
   Route::put('application/save/{application:uuid}', [ApplicationController::class, 'save']);
   Route::get('application/reverse/{application:uuid}', [ApplicationController::class, 'reverse'])->middleware('role:admin');
-  Route::put('application/{application:uuid}', [ApplicationController::class, 'update']);
+  Route::put('application/{application:uuid}', [ApplicationController::class, 'update'])->middleware('role:admin');
   Route::put('application/archive/{application:uuid}', [ApplicationController::class, 'archive'])->middleware('role:admin');
   Route::delete('application/{application:uuid}', [ApplicationController::class, 'destroy'])->middleware('role:admin');
 

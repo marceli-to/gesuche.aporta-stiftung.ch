@@ -73,6 +73,9 @@ class UserController extends Controller
 
   public function update(UserUpdateRequest $request, User $user)
   {
+    // Editors may only change their own profile
+    abort_unless($request->user()->isAdmin() || $request->user()->id === $user->id, 403);
+
     // Validate the email address if it has changed
     if ($request->input('email') !== $user->email)
     {

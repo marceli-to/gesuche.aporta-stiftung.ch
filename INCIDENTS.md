@@ -79,6 +79,12 @@ them. Now only the exact role passes. Decision (2026-11-18): editors keep the ar
 header shows it to them, so `applications/archiv` no longer requires `role:admin`. Covered by
 `tests/Feature/RoleTest.php`. Unknown whether an editor ever used the API directly.
 
+Follow-up 2026-11-18: some routes had no role check at all. These now need `role:admin` too: listing,
+creating and deleting users, the full application update (`PUT application/{uuid}`), and the final
+approval (`approve/final`). `PUT user/{id}` stays open, but editors may only change their own
+profile (checked in `UserController::update`). Editors still use `approve`, `deny` and `save`
+(the city's decision). Still open: anyone logged in can delete any comment.
+
 ### 7. Laravel 13 upgrade (on master, not deployed)
 
 `master` (41d764c) contains, besides items 5 and 6: Laravel 11 → 13, the Laravel 11+ app structure,
