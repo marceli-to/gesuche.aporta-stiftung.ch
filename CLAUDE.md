@@ -4,11 +4,11 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-This is a Laravel 11 application with Vue.js 2 frontend for managing grant applications (Gesuche) for the A-Porta Foundation. The system handles application submissions, file uploads, user management, and application processing workflows.
+This is a Laravel 13 application with Vue.js 2 frontend for managing grant applications (Gesuche) for the A-Porta Foundation. The system handles application submissions, file uploads, user management, and application processing workflows.
 
 ## Tech Stack
 
-- **Backend**: Laravel 11 (PHP 8.2+)
+- **Backend**: Laravel 13 (PHP 8.3; composer platform is pinned to 8.3 because production runs 8.3)
 - **Frontend**: Vue.js 2 with Vue Router and Vuex
 - **Database**: MySQL/MariaDB with Eloquent ORM
 - **Build Tools**: Laravel Mix with Webpack
@@ -95,6 +95,14 @@ npm run hot
 - Files uploaded to temporary storage during form completion
 - Moved to permanent UUID-based directories upon application submission
 - Support for multiple file types: portraits, annual reports, budgets, project descriptions, etc.
+
+### Structure and conventions
+- Laravel 11+ app structure: middleware, routing and exceptions are configured in `bootstrap/app.php`, providers in `bootstrap/providers.php`, the scheduler (notification mails) in `routes/console.php`.
+- Form requests that feed the Vue error handling extend `App\Http\Requests\FieldErrorRequest` and define `fieldMessages()` as `'attr.rule' => ['field' => ..., 'error' => ...]`. The 422 response lists each error as `{field, error}`, which `resources/js/mixins/ErrorHandling.js` reads. Do not return arrays from `messages()`; Laravel 13 crashes on them.
+
+### Deployment (Hostpoint)
+- The site runs PHP 8.3 via `public/.htaccess` on the server (not in git).
+- The scheduler cron must call PHP 8.3 (`/usr/local/php83/bin/php artisan schedule:run`), otherwise no notification or confirmation mails go out.
 
 ## Database Configuration
 
