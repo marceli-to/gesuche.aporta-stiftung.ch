@@ -3,6 +3,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\ApplicationController;
+use App\Http\Controllers\Api\ApplicationEditLinkController;
 use App\Http\Controllers\Api\ApplicationCommentController;
 use App\Http\Controllers\Api\ApplicationStateController;
 use App\Http\Controllers\Api\ApplicationYearController;
@@ -68,5 +69,9 @@ Route::middleware('auth:sanctum')->group(function() {
   Route::put('application/{application:uuid}', [ApplicationController::class, 'update']);
   Route::put('application/archive/{application:uuid}', [ApplicationController::class, 'archive'])->middleware('role:admin');
   Route::delete('application/{application:uuid}', [ApplicationController::class, 'destroy'])->middleware('role:admin');
+
+  // Edit link for applicants
+  Route::post('application/edit-link/{application:uuid}', [ApplicationEditLinkController::class, 'store'])->middleware('role:admin');
+  Route::delete('application/edit-link/{application:uuid}', [ApplicationEditLinkController::class, 'destroy'])->middleware('role:admin');
 
 });

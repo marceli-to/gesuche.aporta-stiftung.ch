@@ -5,6 +5,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Models\Base;
+use Illuminate\Support\Str;
 
 class Application extends Base
 {
@@ -84,11 +85,72 @@ class Application extends Base
     'denied_by'
   ];
 
+  /**
+   * Fields the applicant fills in on the public form and may change through
+   * the edit link. Everything else (state, year, approvals, remarks, text
+   * blocks) is managed by the foundation only.
+   */
+  public const APPLICANT_FIELDS = [
+    'name',
+    'former_name',
+    'legal_form',
+    'website',
+    'bank_account',
+    'iban',
+    'beneficiary',
+    'street',
+    'street_number',
+    'zip',
+    'city',
+    'firstname',
+    'lastname',
+    'phone',
+    'email',
+    'portrait',
+    'project_title',
+    'project_description',
+    'project_finance',
+    'justification_funds',
+    'project_beneficiaries',
+    'proportion_residents_benefit_program',
+    'number_residents_benefit_program',
+    'project_time',
+    'project_cost_total',
+    'project_own_contribution',
+    'project_contribution_requested',
+    'project_contribution_further_requested',
+    'project_income',
+    'project_income_remarks',
+    'project_add_instit_2',
+    'project_add_instit_3',
+    'project_add_instit_4',
+    'project_add_instit_5',
+    'project_add_instit_total_2',
+    'project_add_instit_total_3',
+    'project_add_instit_total_4',
+    'project_add_instit_total_5',
+    'project_add_instit_answer_2',
+    'project_add_instit_answer_3',
+    'project_add_instit_answer_4',
+    'project_add_instit_answer_5',
+  ];
+
+  /**
+   * Bank details. Changes by the applicant are highlighted to the foundation.
+   */
+  public const BANK_FIELDS = ['iban', 'bank_account', 'beneficiary'];
+
+  protected $hidden = [
+    'edit_token',
+  ];
+
   protected $casts = [
     'created_at' => 'date:d.m.Y',
     'updated_at' => 'date:d.m.Y',
     'approved_at' => 'date:d.m.Y',
     'denied_at' => 'date:d.m.Y',
+    'edit_token_expires_at' => 'datetime',
+    'edited_by_applicant_at' => 'datetime',
   ];
 
   protected $appends = [
@@ -108,6 +170,7 @@ class Application extends Base
     'is_denied',
     'is_approved',
     'content_allocation',
+    'edit_link_active',
   ];
 
   public function state()
@@ -162,6 +225,69 @@ class Application extends Base
   public function scopeDenied($query)
   {
     return $query->where('application_state_id', ApplicationState::DENIED);
+  }
+
+  /**
+   * Applications whose edit link matches the given token and still works:
+   * not expired, state OPEN, not archived.
+   */
+  public function scopeByEditToken($query, ?string $token)
+  {
+    return $query
+      ->where('edit_token', $token ? self::hashEditToken($token) : '')
+      ->whereNotNull('edit_token')
+      ->where('edit_token_expires_at', '>', now())
+      ->where('application_state_id', ApplicationState::OPEN)
+      ->where('archive', 0);
+  }
+
+  /**
+   * Edit link helpers
+   */
+
+  /**
+   * Create a new edit token (replacing any previous one) and return the
+   * plain token. Only its hash is stored, so the link can't be read back
+   * from the database later.
+   */
+  public function issueEditToken(int $days): string
+  {
+    $token = Str::random(64);
+    $this->edit_token = self::hashEditToken($token);
+    $this->edit_token_expires_at = now()->addDays($days);
+    $this->save();
+    return $token;
+  }
+
+  public function revokeEditToken(): void
+  {
+    $this->edit_token = null;
+    $this->edit_token_expires_at = null;
+    $this->save();
+  }
+
+  public function canBeEditedByApplicant(): bool
+  {
+    return $this->edit_token !== null
+      && $this->edit_token_expires_at !== null
+      && $this->edit_token_expires_at->isFuture()
+      && $this->isNew()
+      && !$this->archive;
+  }
+
+  public static function hashEditToken(string $token): string
+  {
+    return hash('sha256', $token);
+  }
+
+  public static function editUrl(string $token): string
+  {
+    return url('/formular/bearbeiten/' . $token);
+  }
+
+  public function getEditLinkActiveAttribute($value)
+  {
+    return $this->canBeEditedByApplicant();
   }
 
   /**

@@ -41,10 +41,16 @@
           <span>{{ d.created_at }}</span>
         </list-item>
         <list-item :cls="'span-2 list-item line-after'">
-          <span>{{ d.user.full_name }}</span>
+          <span>{{ d.user ? d.user.full_name : 'Gesuchsteller/in' }}</span>
         </list-item>
         <list-item :cls="'span-4 list-item'">
           <span>{{ d.action }}</span>
+          <ul v-if="d.details && d.details.length" style="margin-top: 6px">
+            <li v-for="(change, i) in d.details" :key="i" :style="change.bank ? 'color: #c00; font-weight: bold' : ''">
+              <strong>{{ change.label }}:</strong>
+              {{ change.old || '(leer)' }} → {{ change.new || '(leer)' }}
+            </li>
+          </ul>
         </list-item>
       </list-row>
     </list>

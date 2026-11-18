@@ -1,6 +1,6 @@
 # Plan: edit link for submitted applications
 
-Status as of 2026-11-18: **planned, not started. Decisions made (section 1), ready to build.**
+Status as of 2026-11-18: **backend done on branch `feature/edit-link` (3.1, 3.4 except manual). Next: the form (3.2), then the admin dialog (3.3).**
 Prerequisite done: the app is on Laravel 13 with Vite (on `master`, not deployed yet, see `INCIDENTS.md` item 7).
 Update this file as work progresses. Tick the boxes and keep the status line current.
 
@@ -21,7 +21,9 @@ Estimate: about 3 days.
 - The public form `resources/js/views/pages/form/Form.vue` (~1,300 lines, mounted through
   `resources/js/form.js` into `resources/views/layout/form.blade.php`) is create-only. It POSTs to
   `/form/submit`, and `FormController::store` always creates a new `Application`. `year` is
-  hardcoded to `2026` (fix while touching it: use the current year), and two `MailQueue` rows are queued (`notification` and `confirmation`).
+  hardcoded to `2026` and two `MailQueue` rows are queued (`notification` and `confirmation`).
+  **`year` is the funding cycle, not the calendar year** (the 2026 applications were submitted
+  Sept 2025 to Apr 2026), so "use the current year" would be wrong. Left as is; see open points.
 - Uploads go to temp storage through `/file/upload` (`Media::store`). On submit,
   `Media::copyToApplicationFolder` moves them to `storage/app/files/{uuid}/` and creates
   `ApplicationFile` rows (`user_id` = 1).
@@ -62,30 +64,30 @@ send it from Outlook if the mail fails.
 
 ### 3.1 Backend
 
-- [ ] Migration for `applications`: `edit_token` (string 64, nullable, unique), `edit_token_expires_at`
+- [x] Migration for `applications`: `edit_token` (string 64, nullable, unique), `edit_token_expires_at`
       (timestamp, nullable) and `edited_by_applicant_at` (timestamp, nullable). Add them to
       `$fillable` only if needed. Hide `edit_token` from JSON (`$hidden`) so it never leaks
       through the API or the `MailQueue` data.
-- [ ] Migration: make `application_logs.user_id` nullable. Show "Gesuchsteller/in" in the log list
+- [x] Migration: make `application_logs.user_id` nullable. Show "Gesuchsteller/in" in the log list
       when it is null (`resources/js/views/pages/application/log/List.vue`). `Logger::log` gets
       an optional user (`auth()->id()` or null).
-- [ ] `Application` helpers: `issueEditToken(int $days)`, `revokeEditToken()`,
+- [x] `Application` helpers: `issueEditToken(int $days)`, `revokeEditToken()`,
       `scopeByEditToken($token)` (valid, not expired, state `OPEN`), `canBeEditedByApplicant()`.
       Generate the token with `Str::random(64)`.
-- [ ] Admin API, inside the `auth:sanctum` group in `routes/api.php`:
+- [x] Admin API, inside the `auth:sanctum` group in `routes/api.php`:
   - `POST api/application/edit-link/{application:uuid}` takes `email` and `message` (optional),
     sets the token, queues the `edit_link` mail, logs "Bearbeitungslink gesendet" and returns the
     URL (for the copy button).
   - `DELETE api/application/edit-link/{application:uuid}` revokes the token and logs it.
   - Both need `role:admin` (decided).
-- [ ] Public routes in `routes/web.php`, placed before the catch-all auth group:
+- [x] Public routes in `routes/web.php`, placed before the catch-all auth group:
   - `GET /formular/bearbeiten/{token}` renders the same form view, with `window.APORTA_EDIT_TOKEN`
     set. Invalid or expired tokens get a friendly German error page, not a 404.
   - `GET /form/edit/{token}` returns the application as JSON, with only the form fields and the
     files (name, title, key).
   - `PUT /form/edit/{token}` saves.
   - Add `throttle` middleware to all three.
-- [ ] `FormController::update`:
+- [x] `FormController::update`:
   - Reuse the field mapping from `store()`. Extract a private `mapRequest(Request $r): array` used
     by both, so they can't drift apart.
   - Never touch `uuid`, `year`, `application_state_id`, `approved_*`, `denied_*`, `textblock_*`,
@@ -96,12 +98,12 @@ send it from Outlook if the mail fails.
   - Set `edited_by_applicant_at`. Keep the token if the default "unlimited until expiry" holds.
   - Queue an `edit_notification` mail to `config('mail.to')`, plus an `edit_confirmation` mail
     to the applicant (decided).
-- [ ] `ApplicationUpdateByApplicantRequest`: extend `FieldErrorRequest` (messages go in
+- [x] `ApplicationUpdateByApplicantRequest`: extend `FieldErrorRequest` (messages go in
       `fieldMessages()`, never as arrays in `messages()`) and copy the rules from
       `ApplicationCreateRequest`. The required `files.*` count as present if the payload carries an
       existing file reference. Write a custom rule or prepare the input. Reuse the messages, ideally
       from a shared trait.
-- [ ] Files:
+- [x] Files:
   - The payload per file key is either `{name, title}` (a new temp upload) or
     `{uuid, existing: true}` (unchanged).
   - A replaced or removed file: delete its `ApplicationFile` row and remove the file with
@@ -110,7 +112,7 @@ send it from Outlook if the mail fails.
     ("Steuerbefreiung", "Budget" …). Either map by title (fragile, since admins can rename) or add
     a `key` column (nullable, backfilled from title for existing rows). **Preferred: add `key`.**
   - Admin-uploaded files (`user_id` ≠ 1) must not be shown or deleted in the applicant form.
-- [ ] Mail: extend `App\Tasks\Notification` with the types `edit_link` (to the applicant, with the URL,
+- [x] Mail: extend `App\Tasks\Notification` with the types `edit_link` (to the applicant, with the URL,
       expiry date and the admin's message), `edit_notification` (to the foundation, with the
       diff, IBAN changes highlighted) and `edit_confirmation` (to the applicant, changes saved). New Mailables and Blade templates in
       `resources/views/mails/`. The texts are German, with "Sie" for applicants.
@@ -144,17 +146,46 @@ send it from Outlook if the mail fails.
       with the email (prefilled) and the message, then sends. After that it shows the URL with a
       copy button and the expiry date. Plus "Link widerrufen" while a token is active.
 - [ ] Show "Vom Gesuchsteller bearbeitet am …" on the application if `edited_by_applicant_at` is set.
-- [ ] The log list shows the new entries, including the diff.
+- [x] The log list shows the new entries, including the diff.
 
 ### 3.4 Tests (`tests/Feature`, currently only `ExampleTest.php`)
 
-- [ ] Token lifecycle: issue, valid, expired, revoked, state ≠ `OPEN` → 403 or the error page.
-- [ ] Update keeps the protected fields (state, year, approvals, remarks) unchanged.
-- [ ] Files: keep, replace, delete. Admin files are untouched.
-- [ ] Validation: required files are satisfied by existing files.
-- [ ] Mails are queued with the correct types. `edit_token` never appears in a JSON response or in
+- [x] Token lifecycle: issue, valid, expired, revoked, state ≠ `OPEN` → 403 or the error page.
+- [x] Update keeps the protected fields (state, year, approvals, remarks) unchanged.
+- [x] Files: keep, replace, delete. Admin files are untouched.
+- [x] Validation: required files are satisfied by existing files.
+- [x] Mails are queued with the correct types. `edit_token` never appears in a JSON response or in
       `mail_queue.data`.
 - [ ] Manual: the full flow in the browser, create mode included.
+
+### 3.5 As built (backend), deviations from the plan above
+
+- `edit_token` stores the **SHA-256 hash** of the token. The plain link exists only in the mail
+  and in the response to the admin, so it can't be read back later. The admin dialog shows the
+  URL once, right after sending.
+- The `edit_link` mail is **sent right away**, not through `mail_queue`, because the queue
+  stores its data in the database. If sending fails, the response says `mail_sent: false`, the
+  log says so, and the admin copies the URL from the dialog.
+- `application_logs` got a `details` column (JSON list of changes: field, label, old, new, bank).
+  The log list shows it, bank changes in red.
+- `application_files.key` is backfilled for files created by user 1 within 5 minutes of their
+  application (first file per key wins). New submissions set it from the form's file key.
+  Locally about 195 applications got keys; admin files stay null and are never shown or touched.
+- Extra route `GET /form/edit/{token}/file/{uuid}`: the applicant can download their own files.
+- `GET /form/edit/{token}` returns empty further-institution amounts as `''` (stored as 0.00),
+  otherwise `required_with` asks for an institution name on save.
+- Link validity is `config('client.edit_link_days')` (`APORTA_EDIT_LINK_DAYS`, default 14).
+- Applicant edits queue `edit_notification` (subject starts with "ACHTUNG Bankangaben geändert"
+  if bank fields changed) and `edit_confirmation`.
+- Tests: `tests/Feature/EditLinkTest.php` (12 tests).
+
+### Open points found while building
+
+- **`role:admin` doesn't restrict anything for logged-in users**: `CheckRole` only blocks users
+  with an empty role, so `editor` users pass too. That affects the existing `reverse`, `archive`
+  and delete routes as well. Fix separately (and check that editors really should be locked out).
+- **`year`**: submissions since Sept 2026 are probably stored as 2026 instead of 2027 on
+  production. Check and update `FormController::store` for the new cycle.
 
 ## 4. Rollout
 

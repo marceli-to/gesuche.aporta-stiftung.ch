@@ -29,6 +29,22 @@ class Notification
           $m->save();
           \Log::info('mail sent to: ' . $data->email);
         }
+
+        // Applicant changed their application through the edit link
+        if ($m->type == 'edit_notification') {
+          \Mail::to(config('mail.to'))->send(new \App\Mail\EditNotification($data));
+          $m->processed = 1;
+          $m->save();
+          \Log::info('mail sent to: ' . config('mail.to'));
+        }
+
+        // Confirmation of the change to the applicant
+        if ($m->type == 'edit_confirmation') {
+          \Mail::to($data->application->email)->send(new \App\Mail\EditConfirmation($data));
+          $m->processed = 1;
+          $m->save();
+          \Log::info('mail sent to: ' . $data->application->email);
+        }
       } 
       catch(\Throwable $e) {
         $m->processed = 1;
