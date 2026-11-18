@@ -70,6 +70,15 @@ nonexistent type → 500; no real data was fetched). No access logs were found o
 is unknown whether it was used. The authenticated `/brief/{type}` covers the need; the route and
 `PageController::pdf` were removed.
 
+### 8. `role:admin` let editors through (FIXED on master, not deployed)
+
+Found 2026-11-18. `CheckRole` only blocked users with an empty role, so `editor` users passed
+every `role:admin` route: deleting, archiving and restoring applications, reversing an approval,
+and uploading, replacing or deleting files. The UI hides these for editors, but the API allowed
+them. Now only the exact role passes. Decision (2026-11-18): editors keep the archive list, as the
+header shows it to them, so `applications/archiv` no longer requires `role:admin`. Covered by
+`tests/Feature/RoleTest.php`. Unknown whether an editor ever used the API directly.
+
 ### 7. Laravel 13 upgrade (on master, not deployed)
 
 `master` (41d764c) contains, besides items 5 and 6: Laravel 11 → 13, the Laravel 11+ app structure,
@@ -88,7 +97,7 @@ No Node on the server needed: built assets are in `public/build`.
 
 ## Open items
 
-- [ ] Deploy `master` (all of 5–7) to staging, then production, with the cron change (item 7).
+- [ ] Deploy `master` (all of 5–8) to staging, then production, with the cron change (item 7).
       Production is still on b81d960 as of 2026-11-18.
 - [x] Confirm the migration ran on production (2026-11-18)
 - [ ] Decide on a Reply-To: replies from applicants now go to `noreply@`, not `gesuch@`
