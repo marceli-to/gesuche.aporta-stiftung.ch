@@ -58,7 +58,7 @@ Route::middleware('auth:sanctum')->group(function() {
   // Applications
   Route::get('applications/search/{searchTerm}/{type}', [ApplicationController::class, 'search']);
   Route::post('applications/filter/{type}', [ApplicationController::class, 'filter']);
-  Route::get('applications/archiv', [ApplicationController::class, 'getArchive'])->middleware('role:admin');
+  Route::get('applications/archiv', [ApplicationController::class, 'getArchive']);
   Route::get('applications/aktuell', [ApplicationController::class, 'get']);
   Route::put('application/approve/{application:uuid}', [ApplicationController::class, 'approve']);
   Route::put('application/approve/final/{application:uuid}', [ApplicationController::class, 'approveFinal']);

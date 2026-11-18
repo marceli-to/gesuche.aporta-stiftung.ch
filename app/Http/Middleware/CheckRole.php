@@ -1,12 +1,11 @@
 <?php
 namespace App\Http\Middleware;
-use Illuminate\Support\Facades\Auth;
 use Closure;
 
 class CheckRole
 {
   /**
-   * Handle the incoming request.
+   * Only users with exactly the given role pass (e.g. role:admin).
    *
    * @param  \Illuminate\Http\Request  $request
    * @param  \Closure  $next
@@ -15,9 +14,10 @@ class CheckRole
    */
   public function handle($request, Closure $next, $role)
   {
-    if (Auth::user()->role !== $role && !Auth::user()->role)
+    $user = $request->user();
+    if (!$user || $user->role !== $role)
     {
-      return abort(403);
+      abort(403);
     }
     return $next($request);
   }
