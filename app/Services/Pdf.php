@@ -1,12 +1,14 @@
 <?php
 namespace App\Services;
-use PDF as DomPDF;
+use Barryvdh\DomPDF\Facade\Pdf as DomPDF;
 use App\Models\Application;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 
 class Pdf
 {
+  protected array $viewData = [];
+
   /**
    * Create a pdf
    * 

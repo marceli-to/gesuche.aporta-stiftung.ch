@@ -11,6 +11,8 @@ use Maatwebsite\Excel\Concerns\Exportable;
 
 class ApplicationExportByYear implements FromCollection, WithHeadings, WithEvents, ShouldAutoSize
 {
+  protected $year;
+
   public function __construct(int $year)
   {
     $this->year = $year;

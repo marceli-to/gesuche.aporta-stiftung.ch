@@ -18,3 +18,4 @@ public/robots.txt
 /docs
 /storage/fonts/installed-fonts.json
 /storage/fonts/*.ufm.json
+/.phpunit.cache

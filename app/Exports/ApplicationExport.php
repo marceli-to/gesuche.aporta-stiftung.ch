@@ -9,6 +9,10 @@ use Maatwebsite\Excel\Events\AfterSheet;
 
 class ApplicationExport implements FromCollection, WithHeadings, WithEvents, WithColumnWidths
 {
+  protected $state;
+  protected $archived;
+  protected $year;
+
   public function __construct(string $state, $archived = FALSE, $year = NULL)
   {
     $this->state = $state;
