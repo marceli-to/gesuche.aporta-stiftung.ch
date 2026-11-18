@@ -1,6 +1,6 @@
 # Plan: edit link for submitted applications
 
-Status as of 2026-11-18: **planned, not started. Waiting for the foundation's decisions (section 1).**
+Status as of 2026-11-18: **planned, not started. Decisions made (section 1), ready to build.**
 Prerequisite done: the app is on Laravel 13 with Vite (on `master`, not deployed yet, see `INCIDENTS.md` item 7).
 Update this file as work progresses. Tick the boxes and keep the status line current.
 
@@ -33,21 +33,22 @@ Estimate: about 3 days.
 - `App\Tasks\Notification` handles only the `notification` and `confirmation` types, 2 mails per
   run. It marks failed mails as processed, so nothing is retried (see `INCIDENTS.md`).
 
-## 1. Decisions needed from the foundation (blocking)
+## 1. Decisions (made 2026-11-18)
 
-Defaults are in brackets. Build with the defaults if the foundation doesn't answer otherwise.
-
-- [ ] **When is editing allowed?** [Only in state `OPEN` (1). Once the state changes, the link stops
-      working.]
-- [ ] **How long is the link valid?** [14 days. Unlimited saves until it expires. A new link
-      replaces the old one.]
-- [ ] **IBAN and bank details** (`iban`, `bank_account`, `beneficiary`): editable or locked?
-      [Editable, but changes are highlighted in the notification to the foundation.] This is a
-      fraud risk if the mail is intercepted or forwarded.
-- [ ] **History:** a full before/after diff, or just "edited on X"? [A diff of the changed fields,
-      stored in the log entry and shown in the notification mail.]
-- [ ] **Recipient:** always the email address in the application, or one the foundation enters?
-      [The application's email address, which the admin can overwrite in the dialog.]
+- [x] **When is editing allowed?** Only in state `OPEN` (1). Once the state changes, the link stops
+      working.
+- [x] **How long is the link valid?** 14 days. Unlimited saves until it expires. A new link
+      replaces the old one.
+- [x] **IBAN and bank details** (`iban`, `bank_account`, `beneficiary`): editable, but changes are
+      highlighted in the notification to the foundation (fraud risk if the mail is intercepted or
+      forwarded).
+- [x] **History:** a diff of the changed fields, stored in the log entry and shown in the
+      notification mail.
+- [x] **Recipient:** the application's email address, which the admin can overwrite in the dialog.
+- [x] **Confirmation to the applicant:** yes. After saving, the applicant also gets a short
+      confirmation mail ("Ihre Änderungen wurden gespeichert"), in addition to the notification
+      to the foundation.
+- [x] **Role:** sending and revoking links needs `role:admin`, like `reverse` and `archive`.
 
 ## 2. Dependency: mail must be stable
 
@@ -76,7 +77,7 @@ send it from Outlook if the mail fails.
     sets the token, queues the `edit_link` mail, logs "Bearbeitungslink gesendet" and returns the
     URL (for the copy button).
   - `DELETE api/application/edit-link/{application:uuid}` revokes the token and logs it.
-  - Role: decide whether this needs `role:admin`. Probably yes, like `reverse` and `archive`.
+  - Both need `role:admin` (decided).
 - [ ] Public routes in `routes/web.php`, placed before the catch-all auth group:
   - `GET /formular/bearbeiten/{token}` renders the same form view, with `window.APORTA_EDIT_TOKEN`
     set. Invalid or expired tokens get a friendly German error page, not a 404.
@@ -93,8 +94,8 @@ send it from Outlook if the mail fails.
   - Compute the diff (`getDirty()` before saving), and store it in the log entry and the
     notification.
   - Set `edited_by_applicant_at`. Keep the token if the default "unlimited until expiry" holds.
-  - Queue an `edit_notification` mail to `config('mail.to')`, plus a confirmation to the
-    applicant if wanted.
+  - Queue an `edit_notification` mail to `config('mail.to')`, plus an `edit_confirmation` mail
+    to the applicant (decided).
 - [ ] `ApplicationUpdateByApplicantRequest`: extend `FieldErrorRequest` (messages go in
       `fieldMessages()`, never as arrays in `messages()`) and copy the rules from
       `ApplicationCreateRequest`. The required `files.*` count as present if the payload carries an
@@ -110,8 +111,8 @@ send it from Outlook if the mail fails.
     a `key` column (nullable, backfilled from title for existing rows). **Preferred: add `key`.**
   - Admin-uploaded files (`user_id` ≠ 1) must not be shown or deleted in the applicant form.
 - [ ] Mail: extend `App\Tasks\Notification` with the types `edit_link` (to the applicant, with the URL,
-      expiry date and the admin's message) and `edit_notification` (to the foundation, with the
-      diff, IBAN changes highlighted). New Mailables and Blade templates in
+      expiry date and the admin's message), `edit_notification` (to the foundation, with the
+      diff, IBAN changes highlighted) and `edit_confirmation` (to the applicant, changes saved). New Mailables and Blade templates in
       `resources/views/mails/`. The texts are German, with "Sie" for applicants.
 
 ### 3.2 Form (`Form.vue`), the riskiest part
