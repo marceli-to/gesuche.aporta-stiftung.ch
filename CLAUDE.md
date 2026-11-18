@@ -11,7 +11,7 @@ This is a Laravel 13 application with Vue.js 2 frontend for managing grant appli
 - **Backend**: Laravel 13 (PHP 8.3; composer platform is pinned to 8.3 because production runs 8.3)
 - **Frontend**: Vue.js 2 with Vue Router and Vuex
 - **Database**: MySQL/MariaDB with Eloquent ORM
-- **Build Tools**: Laravel Mix with Webpack
+- **Build Tools**: Vite 7 (`laravel-vite-plugin`, `@vitejs/plugin-vue2`), Node 22
 - **PDF Generation**: DomPDF
 - **Excel Export**: Maatwebsite/Excel
 - **Authentication**: Laravel Sanctum
@@ -45,19 +45,13 @@ vendor/bin/phpunit
 ### Frontend Commands
 ```bash
 # Install dependencies
-npm install
+npm ci
 
-# Development build with watch
-npm run watch
-
-# Production build
-npm run production
-
-# Development build
+# Dev server with hot reload (uses Herd's TLS certificate, writes public/hot)
 npm run dev
 
-# Hot module replacement
-npm run hot
+# Production build to public/build (committed, deployed via git)
+npm run build
 ```
 
 ## Application Architecture
@@ -74,7 +68,7 @@ npm run hot
 - **Vue Components**: Organized by feature in `resources/js/views/pages/`
 - **Routing**: Separate route files for each major feature (applications, comments, logs, users)
 - **State Management**: Vuex store configuration in `resources/js/config/store.js`
-- **Mixins**: Common functionality in `resources/js/mixins/` (DateTime, ErrorHandling, Filters, etc.)
+- **Mixins**: Common functionality in `resources/js/mixins/` (ErrorHandling, Filters, Sort, etc.)
 
 ### Key Models and Relationships
 - `Application`: Main grant application entity with multiple states and file attachments
@@ -123,11 +117,16 @@ The application uses MySQL/MariaDB with the following key tables:
 
 ## Frontend Build Process
 
-Uses Laravel Mix (webpack.mix.js) to compile:
-- Sass files from `resources/sass/app.scss` to `public/assets/css/app.css`
-- Main Vue app from `resources/js/app.js` to `public/assets/js/app.js`
-- Form validation from `resources/js/form.js` to `public/assets/js/form.js`
-- Client-side validation from `resources/js/validation.js`
+Vite (`vite.config.js`) builds four entries into `public/build`, loaded with `@vite([...])` in the Blade layouts:
+- `resources/sass/app.scss`: all styles
+- `resources/js/app.js`: admin SPA (`layout/authenticated`, also loaded on guest pages)
+- `resources/js/form.js`: public application form (`layout/form`)
+- `resources/js/validation.js`: plain input validation on guest pages and the form
+
+Notes:
+- `resources/js/bootstrap.js` must be imported first: it sets `window.Vue` and `window.axios`, which `vue-axios-interceptors` and `mixins/Filters.js` use as globals.
+- `vue` is aliased to the full build (`vue/dist/vue.esm.js`), because the layouts mount on in-DOM markup (`<app-component />`) that Vue compiles at runtime.
+- Images and PDF fonts stay in `public/assets` (not processed by Vite); Sass references them with absolute `/assets/img/...` URLs.
 
 ## Authentication & Authorization
 

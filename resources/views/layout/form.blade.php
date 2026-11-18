@@ -14,14 +14,12 @@
 <meta name="csrf-token" content="{{ csrf_token() }}" />
 <meta name="format-detection" content="telephone=no">
 <link href="https://use.typekit.net/kcs4ept.css" rel="stylesheet">
-<link href="{{ mix('assets/css/app.css') }}" rel="stylesheet">
+@vite(['resources/sass/app.scss', 'resources/js/form.js', 'resources/js/validation.js'])
 </head>
 <body>
 <div id="app-form">
   <form-component />
 </div>
 <script>window.APORTA_FORM_PASSWORD = @json(config('client.form_password'));</script>
-<script src="{{ mix('assets/js/form.js') }}" defer></script>
-<script src="{{ mix('assets/js/validation.js') }}" type="text/javascript"></script>
 </body>
 </html>

@@ -1,20 +1,14 @@
-require('@/bootstrap');
+import '@/bootstrap';
+import 'vue-axios-interceptors';
+import '@/mixins/Filters';
 
 // Vue
 import Vue from 'vue';
-window.Vue = Vue;
 
 // Axios, Vue-Axios
 import VueAxios from 'vue-axios';
 import axios from 'axios';
-window.axios = require('axios');
 Vue.use(VueAxios, axios);
-
-// Axios Interceptors
-require('vue-axios-interceptors');
-
-// Filters
-require('@/mixins/Filters');
 
 // Vue-Axios defaults
 Vue.axios.defaults.withCredentials = true;

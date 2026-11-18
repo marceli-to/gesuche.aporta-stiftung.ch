@@ -4,7 +4,7 @@ Gesuchsverwaltung der à Porta-Stiftung: öffentliches Gesuchsformular (`/formul
 Administration für die Bearbeitung, Bewilligung und Ablehnung der Gesuche.
 
 - Laravel 13 (PHP 8.3), Sanctum, DomPDF, Laravel Excel
-- Vue 2 SPA (Administration) und Formular, gebaut mit Laravel Mix
+- Vue 2 SPA (Administration) und Formular, gebaut mit Vite
 
 ## Setup
 
@@ -14,10 +14,10 @@ composer install
 php artisan key:generate
 php artisan migrate
 npm ci
-npm run dev
+npm run dev   # Vite dev server
 ```
 
-Production build: `npm run production`. The compiled assets in `public/assets` are committed.
+Production build: `npm run build`. The compiled assets in `public/build` are committed.
 
 The scheduler (`routes/console.php`) sends the queued notification mails every minute, so
 `php artisan schedule:run` must run from cron on the server.

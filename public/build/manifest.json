@@ -1,0 +1,42 @@
+{
+  "_vue2Dropzone-BIwmg81T.js": {
+    "file": "assets/vue2Dropzone-BIwmg81T.js",
+    "name": "vue2Dropzone"
+  },
+  "resources/js/app.js": {
+    "file": "assets/app-B1hJsmWK.js",
+    "name": "app",
+    "src": "resources/js/app.js",
+    "isEntry": true,
+    "imports": [
+      "_vue2Dropzone-BIwmg81T.js"
+    ]
+  },
+  "resources/js/form.js": {
+    "file": "assets/form-NLx5PSAq.js",
+    "name": "form",
+    "src": "resources/js/form.js",
+    "isEntry": true,
+    "imports": [
+      "_vue2Dropzone-BIwmg81T.js"
+    ],
+    "css": [
+      "assets/form-CUXyePSw.css"
+    ]
+  },
+  "resources/js/validation.js": {
+    "file": "assets/validation-DtjiWajm.js",
+    "name": "validation",
+    "src": "resources/js/validation.js",
+    "isEntry": true
+  },
+  "resources/sass/app.scss": {
+    "file": "assets/app-mErTubgi.css",
+    "src": "resources/sass/app.scss",
+    "isEntry": true,
+    "name": "app",
+    "names": [
+      "app.css"
+    ]
+  }
+}

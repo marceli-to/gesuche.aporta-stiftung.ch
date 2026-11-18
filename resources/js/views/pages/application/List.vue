@@ -328,6 +328,7 @@
 </template>
 <script>
 import NProgress from 'nprogress';
+import { orderBy } from "lodash-es";
 import ErrorHandling from "@/mixins/ErrorHandling";
 import Helpers from "@/mixins/Helpers";
 import Sort from "@/mixins/Sort";
@@ -425,7 +426,7 @@ export default {
       }));
     },
     sortedData() {
-      return _.orderBy(this.numberedData, this.sortBy, this.sortDirection);
+      return orderBy(this.numberedData, this.sortBy, this.sortDirection);
     }
   },
 

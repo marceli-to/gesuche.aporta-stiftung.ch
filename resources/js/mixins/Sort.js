@@ -1,3 +1,5 @@
+import { orderBy } from "lodash-es";
+
 export default {
 
   data() {
@@ -17,7 +19,7 @@ export default {
   },
   computed: {
     sortedData(){
-      return _.orderBy(this.data, this.sortBy, this.sortDirection);
+      return orderBy(this.data, this.sortBy, this.sortDirection);
     }
   },
 };
