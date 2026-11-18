@@ -1,8 +1,7 @@
 <?php
 namespace App\Http\Requests;
-use Illuminate\Foundation\Http\FormRequest;
 
-class ApplicationFileUpdateRequest extends FormRequest
+class ApplicationFileUpdateRequest extends FieldErrorRequest
 {
   /**
    * Determine if the user is authorized to make this request.
@@ -31,7 +30,7 @@ class ApplicationFileUpdateRequest extends FormRequest
    *
    * @return array
    */
-  public function messages()
+  protected function fieldMessages(): array
   {
     return [
       'name.required' => [

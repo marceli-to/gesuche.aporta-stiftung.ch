@@ -1,8 +1,7 @@
 <?php
 namespace App\Http\Requests;
-use Illuminate\Foundation\Http\FormRequest;
 
-class ApplicationFileStoreRequest extends FormRequest
+class ApplicationFileStoreRequest extends FieldErrorRequest
 {
   /**
    * Determine if the user is authorized to make this request.
@@ -32,7 +31,7 @@ class ApplicationFileStoreRequest extends FormRequest
    *
    * @return array
    */
-  public function messages()
+  protected function fieldMessages(): array
   {
     return [
       'name.required' => [

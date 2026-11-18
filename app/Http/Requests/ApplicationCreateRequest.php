@@ -1,8 +1,7 @@
 <?php
 namespace App\Http\Requests;
-use Illuminate\Foundation\Http\FormRequest;
 
-class ApplicationCreateRequest extends FormRequest
+class ApplicationCreateRequest extends FieldErrorRequest
 {
   /**
    * Determine if the user is authorized to make this request.
@@ -74,7 +73,7 @@ class ApplicationCreateRequest extends FormRequest
    */
 
 
-  public function messages()
+  protected function fieldMessages(): array
   {
     return [
       'confirm_correctness.accepted' => [
