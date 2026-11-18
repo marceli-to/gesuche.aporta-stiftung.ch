@@ -210,9 +210,8 @@ send it from Outlook if the mail fails.
 
 ### Open points found while building
 
-- **`role:admin` doesn't restrict anything for logged-in users**: `CheckRole` only blocks users
-  with an empty role, so `editor` users pass too. That affects the existing `reverse`, `archive`
-  and delete routes as well. Fix separately (and check that editors really should be locked out).
+- ~~`role:admin` let editors through~~: fixed on `master` (a2d21db, `INCIDENTS.md` item 8) and
+  merged into this branch. Editors get 403 on the edit-link routes (tested).
 - **`year`**: submissions since Sept 2026 are probably stored as 2026 instead of 2027 on
   production. Check and update `FormController::store` for the new cycle.
 

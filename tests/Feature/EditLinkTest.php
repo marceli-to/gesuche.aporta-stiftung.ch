@@ -178,6 +178,25 @@ class EditLinkTest extends TestCase
         $this->assertNull($application->fresh()->edit_token);
     }
 
+    public function test_editors_cannot_send_or_revoke_links(): void
+    {
+        $application = $this->application();
+        $token = $this->issue($application);
+        $editor = User::create([
+            'uuid' => (string) Str::uuid(),
+            'firstname' => 'Eddi',
+            'name' => 'Editor',
+            'email' => 'editor@example.com',
+            'password' => bcrypt('secret'),
+            'role' => 'editor',
+        ]);
+
+        $this->actingAs($editor)->postJson('/api/application/edit-link/' . $application->uuid, ['email' => 'x@example.com'])->assertForbidden();
+        $this->actingAs($editor)->deleteJson('/api/application/edit-link/' . $application->uuid)->assertForbidden();
+        $this->getJson('/form/edit/' . $token)->assertOk();
+        Mail::assertNothingSent();
+    }
+
     public function test_a_new_link_replaces_the_old_one(): void
     {
         $application = $this->application();
