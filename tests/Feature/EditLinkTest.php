@@ -223,12 +223,56 @@ class EditLinkTest extends TestCase
         $this->getJson('/form/edit/' . $token)->assertStatus(410);
         $this->putJson('/form/edit/' . $token, $payload)->assertStatus(410);
 
+        // Leaving OPEN deletes the link, so going back to OPEN doesn't revive it.
         $application->update(['application_state_id' => ApplicationState::OPEN]);
-        $this->getJson('/form/edit/' . $token)->assertOk();
+        $this->getJson('/form/edit/' . $token)->assertStatus(410);
 
+        $token = $this->issue($application);
+        $this->getJson('/form/edit/' . $token)->assertOk();
         $this->actingAs($this->admin)->deleteJson('/api/application/edit-link/' . $application->uuid)->assertOk();
         $this->getJson('/form/edit/' . $token)->assertStatus(410);
         $this->getJson('/form/edit/' . Str::random(64))->assertStatus(410);
+    }
+
+    public function test_completing_and_reversing_needs_a_new_link(): void
+    {
+        $application = $this->application();
+        $token = $this->issue($application);
+
+        // "Gesuch vollständig" closes the window and deletes the link.
+        $this->actingAs($this->admin)->putJson('/api/application/approve/' . $application->uuid)->assertOk();
+        $this->assertNull($application->fresh()->edit_token);
+        $this->assertNull($application->fresh()->edit_token_expires_at);
+
+        // "Genehmigung rückgängig machen" reopens the application, not the old link.
+        $this->actingAs($this->admin)->getJson('/api/application/reverse/' . $application->uuid)->assertOk();
+        $this->assertEquals(ApplicationState::OPEN, $application->fresh()->application_state_id);
+        $this->getJson('/form/edit/' . $token)->assertStatus(410);
+
+        $new = $this->issue($application->fresh());
+        $this->getJson('/form/edit/' . $new)->assertOk();
+    }
+
+    public function test_archiving_and_denying_delete_the_link(): void
+    {
+        $archived = $this->application();
+        $this->issue($archived);
+        $this->actingAs($this->admin)->putJson('/api/application/archive/' . $archived->uuid, ['archive' => 1])->assertOk();
+        $this->assertNull($archived->fresh()->edit_token);
+
+        $denied = $this->application();
+        $this->issue($denied);
+        $this->actingAs($this->admin)->getJson('/api/application/deny/' . $denied->uuid)->assertOk();
+        $this->assertNull($denied->fresh()->edit_token);
+    }
+
+    public function test_saving_an_open_application_keeps_the_link(): void
+    {
+        $application = $this->application();
+        $token = $this->issue($application);
+
+        $application->update(['remarks' => 'Interne Notiz']);
+        $this->getJson('/form/edit/' . $token)->assertOk();
     }
 
     // Loading

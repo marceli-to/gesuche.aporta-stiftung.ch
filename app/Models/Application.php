@@ -11,6 +11,23 @@ class Application extends Base
 {
   use HasFactory, SoftDeletes;
 
+  /**
+   * Once an application leaves OPEN or is archived, its edit link is
+   * deleted. Otherwise reversing the state back to OPEN (e.g. "Genehmigung
+   * rückgängig machen") would silently revive a link the foundation closed.
+   */
+  protected static function booted(): void
+  {
+    static::saving(function (Application $application) {
+      $leftOpen = $application->isDirty('application_state_id') && !$application->isNew();
+      $archived = $application->isDirty('archive') && $application->archive;
+      if (($leftOpen || $archived) && $application->edit_token !== null) {
+        $application->edit_token = null;
+        $application->edit_token_expires_at = null;
+      }
+    });
+  }
+
   protected $fillable = [
     'uuid',
     'name',

@@ -1,6 +1,6 @@
 # Plan: edit link for submitted applications
 
-Status as of 2026-11-18: **built and tested on branch `feature/edit-link` (3.1 to 3.4). Next: review, merge after `master` is deployed, then rollout (section 4).**
+Status as of 2026-11-19: **built and tested on branch `feature/edit-link` (3.1 to 3.4), manually tested locally. Since 2026-11-18: role checks for user management, full update and final approval (`317dd1a`); the dialog no longer closes on outside clicks; leaving `OPEN` deletes the link (see decisions). Next: answer the foundation's point 6 (reopening for corrections, see decisions), review, merge after `master` is deployed, then rollout (section 4).**
 Prerequisite done: the app is on Laravel 13 with Vite (on `master`, not deployed yet, see `INCIDENTS.md` item 7).
 Update this file as work progresses. Tick the boxes and keep the status line current.
 
@@ -39,6 +39,11 @@ Estimate: about 3 days.
 
 - [x] **When is editing allowed?** Only in state `OPEN` (1). Once the state changes, the link stops
       working.
+- [x] **Closing the window (2026-11-19):** leaving `OPEN` (confirm, deny, final approval) or archiving
+      deletes the link (`Application::booted`). "Genehmigung rückgängig machen" brings the application
+      back to `OPEN` but not the old link: the foundation sends a new one if needed. This covers their
+      request to reopen an application later for corrections ("nachträglich anpassen"): undo, send a link,
+      then click "Gesuch vollständig" again. Applications already with the city have no way back to `OPEN`.
 - [x] **How long is the link valid?** 14 days. Unlimited saves until it expires. A new link
       replaces the old one.
 - [x] **IBAN and bank details** (`iban`, `bank_account`, `beneficiary`): editable, but changes are
@@ -211,7 +216,13 @@ send it from Outlook if the mail fails.
 ### Open points found while building
 
 - ~~`role:admin` let editors through~~: fixed on `master` (a2d21db, `INCIDENTS.md` item 8) and
-  merged into this branch. Editors get 403 on the edit-link routes (tested).
+  merged into this branch. Editors get 403 on the edit-link routes (tested). Editors are the city's
+  reviewers (external), admins are the foundation.
+- ~~Routes without any role check~~: user management, `PUT application/{uuid}` and `approve/final`
+  now need `role:admin` (on this branch, `317dd1a`, `INCIDENTS.md` item 8). Still open: anyone
+  logged in can delete any comment.
+- **Local test data:** open application #244 "Testverein Bearbeitungslink" (copy of #240 with test
+  contact data and placeholder PDFs) in the local DB. Production has no OPEN test application.
 - **`year`**: submissions since Sept 2026 are probably stored as 2026 instead of 2027 on
   production. Check and update `FormController::store` for the new cycle.
 
