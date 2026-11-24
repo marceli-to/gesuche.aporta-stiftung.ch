@@ -1,6 +1,6 @@
 # Plan: edit link for submitted applications
 
-Status as of 2026-11-19: **built and tested on branch `feature/edit-link` (3.1 to 3.4), manually tested locally. Since 2026-11-18: role checks for user management, full update and final approval (`317dd1a`); the dialog no longer closes on outside clicks; leaving `OPEN` deletes the link (see decisions). Next: answer the foundation's point 6 (reopening for corrections, see decisions), review, merge after `master` is deployed, then rollout (section 4).**
+Status as of 2026-11-24: **merged into `master` (`1b52217`), not deployed yet. Since 2026-11-19: the link works for one save, the admin message is gone, the change list shows only real changes, mails are aligned. The foundation's point 6 (reopening for corrections) is answered in the draft mail to Corinna (`~/Desktop/gesuche-bearbeitungslink-mail.txt`), not sent yet. Next: deploy with `master` (Laravel 13 / Vite, `INCIDENTS.md` item 7) and `php artisan migrate`, check the PHP 8.3 cron, send the mail, then rollout (section 4).**
 Prerequisite done: the app is on Laravel 13 with Vite (on `master`, not deployed yet, see `INCIDENTS.md` item 7).
 Update this file as work progresses. Tick the boxes and keep the status line current.
 
