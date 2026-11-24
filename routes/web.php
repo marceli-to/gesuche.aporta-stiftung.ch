@@ -17,7 +17,7 @@ Route::get('/formular', [FormController::class, 'index']);
 Route::post('/form/submit', [FormController::class, 'store']);
 Route::post('/form/validate-password', [FormController::class, 'validatePassword']);
 
-// Edit link for applicants (see PLAN-EDIT-LINK.md)
+// Edit link for applicants
 Route::middleware('throttle:60,1')->group(function() {
   Route::get('/formular/bearbeiten/{token}', [FormController::class, 'edit'])->name('form.edit');
   Route::get('/form/edit/{token}', [FormController::class, 'show']);

@@ -40,7 +40,7 @@ return [
 
   /*
   |--------------------------------------------------------------------------
-  | Edit link for submitted applications (see PLAN-EDIT-LINK.md)
+  | Edit link for submitted applications
   |--------------------------------------------------------------------------
   |
   | Number of hours an edit link stays valid after it is sent.

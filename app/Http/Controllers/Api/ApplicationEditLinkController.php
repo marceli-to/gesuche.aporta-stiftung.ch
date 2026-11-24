@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Mail;
 
 /**
  * Edit links that let applicants correct their submitted application
- * (see PLAN-EDIT-LINK.md).
+ * One save per link, valid for config('client.edit_link_hours') hours.
  */
 class ApplicationEditLinkController extends Controller
 {

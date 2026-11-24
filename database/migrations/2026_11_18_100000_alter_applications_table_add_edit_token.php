@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Schema;
 return new class extends Migration
 {
     /**
-     * Edit link for applicants (see PLAN-EDIT-LINK.md).
+     * Edit link for applicants.
      * edit_token holds the SHA-256 hash of the token, never the token itself.
      */
     public function up(): void

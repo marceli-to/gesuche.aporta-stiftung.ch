@@ -54,14 +54,14 @@ FAILs are short MySQL outages (`SQLSTATE[HY000] [2002]`), not lost submissions.
 - Fix: migration `2026_10_22_100000_…_to_text.php`.
   Ran on production (batch 28, verified 2026-11-18).
 
-### 5. `env()` calls outside config (FIXED in 146d519, not deployed)
+### 5. `env()` calls outside config (FIXED in 146d519, deployed 2026-11-24)
 
 `MAIL_TO` and `MAIL_FROM_*` were read with `env()` in app code. Those calls return `null` once
 `php artisan config:cache` has run, which would silently break mail again. They now read
 `config('mail.to')` and `config('mail.from')`. Production config is currently not cached, so the
 deployed code still works.
 
-### 6. Unauthenticated `/pdf/{type}` route (FIXED in e995840, not deployed)
+### 6. Unauthenticated `/pdf/{type}` route (FIXED in e995840, deployed 2026-11-24)
 
 Found 2026-11-18 during the Laravel 13 upgrade. `GET /pdf/{type}` was outside the auth group since
 Feb 2022 ("staging build" commit) and rendered letters for **all** applications (names, addresses,
@@ -70,7 +70,7 @@ nonexistent type → 500; no real data was fetched). No access logs were found o
 is unknown whether it was used. The authenticated `/brief/{type}` covers the need; the route and
 `PageController::pdf` were removed.
 
-### 8. `role:admin` let editors through (FIXED on master, not deployed)
+### 8. `role:admin` let editors through (FIXED, deployed 2026-11-24)
 
 Found 2026-11-18. `CheckRole` only blocked users with an empty role, so `editor` users passed
 every `role:admin` route: deleting, archiving and restoring applications, reversing an approval,
@@ -85,29 +85,20 @@ approval (`approve/final`). `PUT user/{id}` stays open, but editors may only cha
 profile (checked in `UserController::update`). Editors still use `approve`, `deny` and `save`
 (the city's decision). Still open: anyone logged in can delete any comment.
 
-### 7. Laravel 13 upgrade (on master, not deployed)
+### 7. Laravel 13 upgrade (deployed 2026-11-24)
 
 `master` (41d764c) contains, besides items 5 and 6: Laravel 11 → 13, the Laravel 11+ app structure,
 Mix → Vite, dead code removal, a validation fix (array messages crashed on Laravel 13, now
 `FieldErrorRequest`) and a local mail guard (`.test` only sends to MailHog). Tested locally,
 including the full form submission and the admin in headless Chrome. See `CLAUDE.md`.
 
-**Deploy steps (staging first, then production):** the full checklist for the combined release
-(Laravel 13 + edit link) is in `deploy.md`. In short:
-1. `git pull`, `composer install --no-dev`, `php artisan optimize:clear`
-2. Switch the scheduler cron from `/usr/local/php82/bin/php` to `/usr/local/php83/bin/php`
-   (Laravel 13 needs PHP 8.3; with 8.2 no mails go out). The web PHP is already 8.3 via
-   `public/.htaccess`.
-3. Click through: login, open an application, download a letter, submit a test application.
+**Deployed 2026-11-24.** The scheduler cron uses `/usr/local/php83/bin/php` (Laravel 13 needs PHP 8.3; with 8.2 no mails go out). The web PHP is set to 8.3 via `public/.htaccess`.
 
 No Node on the server needed: built assets are in `public/build`.
 
 ## Open items
 
-- [ ] Deploy `master` (all of 5–8) to staging, then production, with the cron change (item 7).
-      Production is still on b81d960 as of 2026-11-18.
-      `master` now also contains the edit link feature (merged 2026-11-24, needs `php artisan migrate`).
-      Deploy planned for 2026-11-24, step by step with `deploy.md`.
+- [x] Deployed `master` (items 5–8, Laravel 13, edit link) to production on 2026-11-24, cron switched to php83.
 - [x] Confirm the migration ran on production (2026-11-18)
 - [ ] Decide on a Reply-To: replies from applicants now go to `noreply@`, not `gesuch@`
 - [ ] Before Dec 2026: Microsoft plans to disable basic auth for SMTP AUTH by default. If sending

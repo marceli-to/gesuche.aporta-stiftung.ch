@@ -26,4 +26,3 @@ The scheduler (`routes/console.php`) sends the queued notification mails every m
 
 - `CLAUDE.md` – architecture overview
 - `INCIDENTS.md` – open incidents (mail delivery)
-- `PLAN-EDIT-LINK.md` – planned applicant edit link
