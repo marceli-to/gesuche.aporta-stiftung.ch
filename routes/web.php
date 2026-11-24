@@ -17,6 +17,14 @@ Route::get('/formular', [FormController::class, 'index']);
 Route::post('/form/submit', [FormController::class, 'store']);
 Route::post('/form/validate-password', [FormController::class, 'validatePassword']);
 
+// Edit link for applicants (see PLAN-EDIT-LINK.md)
+Route::middleware('throttle:60,1')->group(function() {
+  Route::get('/formular/bearbeiten/{token}', [FormController::class, 'edit'])->name('form.edit');
+  Route::get('/form/edit/{token}', [FormController::class, 'show']);
+  Route::get('/form/edit/{token}/file/{uuid}', [FormController::class, 'file']);
+});
+Route::put('/form/edit/{token}', [FormController::class, 'update'])->middleware('throttle:20,1');
+
 Route::post('/file/upload', [FormController::class, 'upload']);
 Route::delete('/file/upload/{filename}', [FormController::class, 'delete']);
 // Route::get('/formular', [PageController::class, 'index']);

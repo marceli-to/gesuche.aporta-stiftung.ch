@@ -243,6 +243,11 @@
             <strong>Das Gesuch wurde am {{data.approved_at}} durch den Stiftungsrat genehmigt.</strong>
           </div>
 
+          <div class="application-state mb-6x" v-if="data.edited_by_applicant_at">
+            <strong>Von Gesuchsteller/in bearbeitet am {{ formatDateTime(data.edited_by_applicant_at) }}.</strong>
+            Die Änderungen stehen im Protokoll.
+          </div>
+
           <!-- is admin -->
           <div v-if="$store.state.user.admin">
             <div v-if="data.is_new">
@@ -258,6 +263,26 @@
                   class="btn-primary is-small"
                   @click.prevent="dialogApprove()">
                   <span>Gesuch vollständig</span>
+                </a>
+              </div>
+
+              <!-- edit link -->
+              <div class="mt-8x" v-if="!data.archive">
+                <p class="mb-3x" v-if="data.edit_link_active">
+                  Bearbeitungslink aktiv bis {{ formatDateTime(data.edit_token_expires_at) }}.
+                </p>
+                <a
+                  href="javascript:;"
+                  class="btn-tertiary is-small mb-3x"
+                  @click.prevent="$refs.editLink.show()">
+                  <span>{{ data.edit_link_active ? 'Neuen Bearbeitungslink senden' : 'Bearbeitungslink senden' }}</span>
+                </a>
+                <a
+                  href="javascript:;"
+                  class="btn-secondary is-small"
+                  v-if="data.edit_link_active"
+                  @click.prevent="$refs.dialogRevokeEditLink.show()">
+                  <span>Link widerrufen</span>
                 </a>
               </div>
             </div>
@@ -379,6 +404,21 @@
       <a href="javascript:;" class="btn-primary mb-3x" @click.stop="approve()">Ja, genehmigen</a>
     </template>
   </dialog-wrapper>
+  <dialog-wrapper ref="dialogRevokeEditLink">
+    <template #message>
+      <div><strong>Möchten Sie den Bearbeitungslink widerrufen? Die gesuchstellende Person kann das Gesuch danach nicht mehr anpassen.</strong></div>
+    </template>
+    <template #actions>
+      <a href="javascript:;" class="btn-primary mb-3x" @click.stop="revokeEditLink()">Ja, widerrufen</a>
+    </template>
+  </dialog-wrapper>
+  <edit-link-dialog
+    ref="editLink"
+    v-if="isFetched && data.uuid"
+    :uuid="data.uuid"
+    :default-email="data.email || ''"
+    :active="!!data.edit_link_active"
+    @issued="editLinkIssued" />
   <dialog-wrapper ref="dialogFinalize">
     <template #message>
       <div><strong>Möchten Sie dieses Gesuch definitiv genehmigen?</strong></div>
@@ -404,6 +444,7 @@ import ErrorHandling from "@/mixins/ErrorHandling";
 import SiteHeader from '@/views/layout/Header.vue';
 import SiteMain from '@/views/layout/Main.vue';
 import DialogWrapper from "@/components/ui/misc/Dialog.vue";
+import EditLinkDialog from "@/views/pages/application/components/EditLinkDialog.vue";
 import PageMenu from '@/components/layout/Menu.vue';
 import ApplicationWrapper from '@/components/layout/Wrapper.vue';
 import ApplicationGrid from '@/components/layout/Grid.vue';
@@ -422,7 +463,8 @@ export default {
     ApplicationRow,
     ApplicationInput,
     ApplicationLabel,
-    DialogWrapper
+    DialogWrapper,
+    EditLinkDialog
   },
 
   mixins: [ErrorHandling, Filter],
@@ -447,6 +489,7 @@ export default {
         approve: '/api/application/approve',
         finalize: '/api/application/approve/final',
         reverse: '/api/application/reverse',
+        editLink: '/api/application/edit-link',
       },
 
       // States
@@ -541,6 +584,27 @@ export default {
         this.$refs.dialogFinalizeWithUpdate.hide();
         this.fetch();
       });
+    },
+
+    editLinkIssued(result) {
+      this.data.edit_link_active = true;
+      this.data.edit_token_expires_at = result.expires_at;
+    },
+
+    revokeEditLink() {
+      this.axios.delete(`${this.routes.editLink}/${this.$route.params.uuid}`).then(response => {
+        this.$refs.dialogRevokeEditLink.hide();
+        this.data.edit_link_active = false;
+        this.data.edit_token_expires_at = null;
+      });
+    },
+
+    formatDateTime(value) {
+      if (!value) {
+        return '';
+      }
+      const date = new Date(value);
+      return date.toLocaleDateString('de-CH') + ', ' + date.toLocaleTimeString('de-CH', { hour: '2-digit', minute: '2-digit' });
     },
 
     reverse() {

@@ -41,10 +41,18 @@
           <span>{{ d.created_at }}</span>
         </list-item>
         <list-item :cls="'span-2 list-item line-after'">
-          <span>{{ d.user.full_name }}</span>
+          <span>{{ d.user ? d.user.full_name : 'Gesuchsteller/in' }}</span>
         </list-item>
         <list-item :cls="'span-4 list-item'">
-          <span>{{ d.action }}</span>
+          <span>
+            {{ d.action }}
+            <span v-if="d.details && d.details.length" class="log-changes">
+              <span v-for="(change, i) in d.details" :key="i" :class="['log-change', change.bank ? 'is-bank' : '']">
+                <strong>{{ change.label }}:</strong>
+                {{ change.old || '(leer)' }} → {{ change.new || '(leer)' }}
+              </span>
+            </span>
+          </span>
         </list-item>
       </list-row>
     </list>
@@ -139,3 +147,17 @@ export default {
 
 }
 </script>
+<style scoped>
+.log-changes {
+  display: block;
+  margin: 8px 0 16px 0;
+}
+.log-change {
+  display: block;
+  margin-bottom: 2px;
+}
+.log-change.is-bank {
+  color: #c00;
+  font-weight: bold;
+}
+</style>

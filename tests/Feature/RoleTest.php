@@ -11,7 +11,8 @@ use Illuminate\Support\Str;
 use Tests\TestCase;
 
 /**
- * role:admin lets only admins through. Editors keep the archive list.
+ * role:admin lets only admins through. Editors (the city's reviewers) keep
+ * the archive list and their own profile.
  */
 class RoleTest extends TestCase
 {
@@ -90,5 +91,71 @@ class RoleTest extends TestCase
     public function test_editors_keep_the_archive_list(): void
     {
         $this->actingAs($this->user('editor'))->getJson('/api/applications/archiv')->assertOk();
+    }
+
+    public function test_editors_cannot_edit_or_finalize_applications(): void
+    {
+        $editor = $this->user('editor');
+        $application = $this->application();
+
+        $this->actingAs($editor)->putJson('/api/application/' . $application->uuid, ['name' => 'Gehackt'])->assertForbidden();
+        $this->actingAs($editor)->putJson('/api/application/approve/final/' . $application->uuid)->assertForbidden();
+
+        $fresh = $application->fresh();
+        $this->assertEquals('Verein', $fresh->name);
+        $this->assertEquals(ApplicationState::OPEN, $fresh->application_state_id);
+    }
+
+    public function test_editors_cannot_manage_users(): void
+    {
+        $admin = $this->user('admin');
+        $editor = $this->user('editor');
+
+        $this->actingAs($editor)->getJson('/api/users')->assertForbidden();
+        $this->actingAs($editor)->postJson('/api/user', [
+            'firstname' => 'Neu',
+            'name' => 'Admin',
+            'email' => 'neu@example.com',
+            'password' => 'geheim1234',
+        ])->assertForbidden();
+        $this->actingAs($editor)->putJson('/api/user/' . $admin->id, [
+            'firstname' => 'Admin',
+            'name' => 'Test',
+            'email' => 'admin@example.com',
+            'password' => 'geheim1234',
+        ])->assertForbidden();
+        $this->actingAs($editor)->deleteJson('/api/user/' . $admin->id)->assertForbidden();
+
+        $this->assertDatabaseMissing('users', ['email' => 'neu@example.com']);
+        $this->assertNotNull($admin->fresh());
+    }
+
+    public function test_editors_can_update_their_own_profile(): void
+    {
+        $editor = $this->user('editor');
+
+        $this->actingAs($editor)->putJson('/api/user/' . $editor->id, [
+            'firstname' => 'Erika',
+            'name' => 'Muster',
+            'email' => 'editor@example.com',
+        ])->assertOk();
+
+        $this->assertEquals('Erika', $editor->fresh()->firstname);
+        $this->assertEquals('editor', $editor->fresh()->role);
+    }
+
+    public function test_admins_can_manage_other_users(): void
+    {
+        $admin = $this->user('admin');
+        $editor = $this->user('editor');
+
+        $this->actingAs($admin)->getJson('/api/users')->assertOk();
+        $this->actingAs($admin)->putJson('/api/user/' . $editor->id, [
+            'firstname' => 'Geändert',
+            'name' => 'Test',
+            'email' => 'editor@example.com',
+        ])->assertOk();
+
+        $this->assertEquals('Geändert', $editor->fresh()->firstname);
     }
 }

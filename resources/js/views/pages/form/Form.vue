@@ -7,10 +7,28 @@
   <site-main>
     <site-wrapper>
       <site-grid>
-        <template v-if="isSuccess">
+        <template v-if="isSuccess && isEditMode">
+          <div class="application-form__success">
+            <h1>Vielen Dank</h1>
+            <p>Ihre Änderungen wurden gespeichert. Sie erhalten eine Bestätigung per E-Mail.</p>
+            <p>Der Link ist damit nicht mehr gültig. Für weitere Änderungen wenden Sie sich bitte an die Stiftung.</p>
+          </div>
+        </template>
+        <template v-else-if="isSuccess">
           <div class="application-form__success">
             <h1>Vielen Dank</h1>
             <p>Wir haben Ihre Daten erhalten und werden diese in der kommenden Zeit prüfen.</p>
+          </div>
+        </template>
+        <template v-else-if="loadError">
+          <div class="application-form__success">
+            <h1>Link nicht mehr gültig</h1>
+            <p>{{ loadError }}</p>
+          </div>
+        </template>
+        <template v-else-if="isLoading">
+          <div class="application-form__success">
+            <p>Ihr Gesuch wird geladen …</p>
           </div>
         </template>
         <template v-else-if="isPasswordRequired && !isPasswordValidated">
@@ -46,12 +64,18 @@
           </div>
         </template>
         <template v-else>
-          <h1 class="span-full">Formular Beitragsgesuche Stadt Zürich</h1>
-          <p class="span-full mb-16x">
+          <template v-if="isEditMode">
+            <h1 class="span-full">Gesuch bearbeiten</h1>
+            <p class="span-full mb-16x">
+              Sie können Ihr eingereichtes Gesuch hier anpassen. Es wird kein neues Gesuch erstellt. Bitte prüfen Sie alle Angaben vor dem Speichern: Danach ist der Link nicht mehr gültig. Der Link ist gültig bis {{ expiresAtFormatted }}.
+            </p>
+          </template>
+          <h1 class="span-full" v-if="!isEditMode">Formular Beitragsgesuche Stadt Zürich</h1>
+          <p class="span-full mb-16x" v-if="!isEditMode">
             Beitragsgesuche für Institutionen im Kanton Graubünden sind direkt beim <a href="https://www.gr.ch/DE/institutionen/verwaltung/dvs/soa/ueberuns/Seiten/Gemeinnuetzige-Beitraege.aspx" target="_blank" rel="noopener noreferrer" class="info-link">Kantonalen Sozialamt Graubünden</a> einzureichen.
           </p>
 
-          <div class="span mb-5x">
+          <div class="span mb-5x" v-if="!isEditMode">
             <application-row class="application-row__form mb-3x">
               <application-label :cls="'span-8 sm:span-9'">
                 Ist die Institution im Gesuchsjahr steuerbefreit?
@@ -332,13 +356,14 @@
                   <div class="span-8 sm:span-7">
                     <template v-if="form.files.tax_exemption">
                       <div class="flex justify-between">
-                        <a :href="`/storage/uploads/temp/${form.files.tax_exemption.name}`" class="anchor-download" target="_blank">
+                        <a :href="fileUrl('tax_exemption')" class="anchor-download" target="_blank">
                           {{form.files.tax_exemption.name | truncate(80, '...')}}
                         </a>
                         <a 
                           href="javascript:;" 
                           @click="uploadDelete(form.files.tax_exemption.name, 'tax_exemption')" 
-                          class="icon-trash ml-3x">
+                          class="icon-trash ml-3x"
+                          title="Datei entfernen oder ersetzen">
                           <icon-trash />
                         </a>
                       </div>
@@ -370,13 +395,14 @@
                   <div class="span-8 sm:span-7">
                     <template v-if="form.files.annual_report">
                       <div class="flex justify-between">
-                        <a :href="`/storage/uploads/temp/${form.files.annual_report.name}`" class="anchor-download" target="_blank">
+                        <a :href="fileUrl('annual_report')" class="anchor-download" target="_blank">
                           {{form.files.annual_report.name | truncate(80, '...')}}
                         </a>
                         <a 
                           href="javascript:;" 
                           @click="uploadDelete(form.files.annual_report.name, 'annual_report')" 
-                          class="icon-trash ml-3x">
+                          class="icon-trash ml-3x"
+                          title="Datei entfernen oder ersetzen">
                           <icon-trash />
                         </a>
                       </div>
@@ -408,13 +434,14 @@
                   <div class="span-8 sm:span-7">
                     <template v-if="form.files.annual_financial_report">
                       <div class="flex justify-between">
-                        <a :href="`/storage/uploads/temp/${form.files.annual_financial_report.name}`" class="anchor-download" target="_blank">
+                        <a :href="fileUrl('annual_financial_report')" class="anchor-download" target="_blank">
                           {{form.files.annual_financial_report.name | truncate(80, '...')}}
                         </a>
                         <a 
                           href="javascript:;" 
                           @click="uploadDelete(form.files.annual_financial_report.name, 'annual_financial_report')" 
-                          class="icon-trash ml-3x">
+                          class="icon-trash ml-3x"
+                          title="Datei entfernen oder ersetzen">
                           <icon-trash />
                         </a>
                       </div>
@@ -446,13 +473,14 @@
                   <div class="span-8 sm:span-7">
                     <template v-if="form.files.budget">
                       <div class="flex justify-between">
-                        <a :href="`/storage/uploads/temp/${form.files.budget.name}`" class="anchor-download" target="_blank">
+                        <a :href="fileUrl('budget')" class="anchor-download" target="_blank">
                           {{form.files.budget.name | truncate(80, '...')}}
                         </a>
                         <a 
                           href="javascript:;" 
                           @click="uploadDelete(form.files.budget.name, 'budget')" 
-                          class="icon-trash ml-3x">
+                          class="icon-trash ml-3x"
+                          title="Datei entfernen oder ersetzen">
                           <icon-trash />
                         </a>
                       </div>
@@ -484,13 +512,14 @@
                   <div class="span-8 sm:span-7">
                     <template v-if="form.files.bylaws">
                       <div class="flex justify-between">
-                        <a :href="`/storage/uploads/temp/${form.files.bylaws.name}`" class="anchor-download" target="_blank">
+                        <a :href="fileUrl('bylaws')" class="anchor-download" target="_blank">
                           {{form.files.bylaws.name | truncate(80, '...')}}
                         </a>
                         <a 
                           href="javascript:;" 
                           @click="uploadDelete(form.files.bylaws.name, 'bylaws')" 
-                          class="icon-trash ml-3x">
+                          class="icon-trash ml-3x"
+                          title="Datei entfernen oder ersetzen">
                           <icon-trash />
                         </a>
                       </div>
@@ -601,13 +630,14 @@
                   <div class="span-8 sm:span-7">
                     <template v-if="form.files.project_description">
                       <div class="flex justify-between">
-                        <a :href="`/storage/uploads/temp/${form.files.project_description.name}`" class="anchor-download" target="_blank">
+                        <a :href="fileUrl('project_description')" class="anchor-download" target="_blank">
                           {{form.files.project_description.name | truncate(80, '...')}}
                         </a>
                         <a 
                           href="javascript:;" 
                           @click="uploadDelete(form.files.project_description.name, 'project_description')" 
-                          class="icon-trash ml-3x">
+                          class="icon-trash ml-3x"
+                          title="Datei entfernen oder ersetzen">
                           <icon-trash />
                         </a>
                       </div>
@@ -756,13 +786,14 @@
                   <div class="span-8 sm:span-7">
                     <template v-if="form.files.project_estimated_costs">
                       <div class="flex justify-between">
-                        <a :href="`/storage/uploads/temp/${form.files.project_estimated_costs.name}`" class="anchor-download" target="_blank">
+                        <a :href="fileUrl('project_estimated_costs')" class="anchor-download" target="_blank">
                           {{form.files.project_estimated_costs.name | truncate(80, '...')}}
                         </a>
                         <a 
                           href="javascript:;" 
                           @click="uploadDelete(form.files.project_estimated_costs.name, 'project_estimated_costs')" 
-                          class="icon-trash ml-3x">
+                          class="icon-trash ml-3x"
+                          title="Datei entfernen oder ersetzen">
                           <icon-trash />
                         </a>
                       </div>
@@ -828,7 +859,7 @@
                 <a 
                   href="javascript:;" 
                   :class="[isSaving ? 'disabled' : '', 'btn-submit is-small']"
-                  @click.prevent="submit()">Anfrage senden</a>
+                  @click.prevent="submit()">{{ isEditMode ? 'Änderungen speichern' : 'Anfrage senden' }}</a>
               </div>
               <div class="span">
                 * Pflichtfelder
@@ -924,9 +955,16 @@ export default {
   data() {
     return {
 
-      // Password validation (toggle via APORTA_FORM_PASSWORD in .env)
-      isPasswordRequired: window.APORTA_FORM_PASSWORD === true,
-      isPasswordValidated: window.APORTA_FORM_PASSWORD !== true,
+      // Edit link: set by the server for /formular/bearbeiten/{token}
+      editToken: window.APORTA_EDIT_TOKEN || null,
+      isLoading: !!window.APORTA_EDIT_TOKEN,
+      loadError: '',
+      expiresAt: null,
+
+      // Password validation (toggle via APORTA_FORM_PASSWORD in .env).
+      // Not needed with an edit link.
+      isPasswordRequired: !window.APORTA_EDIT_TOKEN && window.APORTA_FORM_PASSWORD === true,
+      isPasswordValidated: !!window.APORTA_EDIT_TOKEN || window.APORTA_FORM_PASSWORD !== true,
       password: '',
       isValidatingPassword: false,
       passwordError: '',
@@ -1048,6 +1086,9 @@ export default {
 
   created() {
     NProgress.configure({ showBar: false });
+    if (this.isEditMode) {
+      this.load();
+    }
   },
 
   methods: {
@@ -1083,6 +1124,76 @@ export default {
       });
     },
 
+    /** Edit link: load the submitted application into the form */
+    load() {
+      this.axios.get(`/form/edit/${this.editToken}`).then(response => {
+        this.fill(response.data);
+        this.expiresAt = response.data.expires_at;
+
+        // The requirement questions were answered when the application was submitted.
+        this.isTaxExempt = 1;
+        this.isIdealistic = 1;
+        this.isExtraordinary = 1;
+        this.isSupportingResidents = 1;
+        this.isLoading = false;
+      })
+      .catch(error => {
+        this.isLoading = false;
+        this.loadError = this.linkErrorMessage(error);
+      });
+    },
+
+    fill(data) {
+      const application = data.application;
+      const amounts = [
+        'project_cost_total',
+        'project_own_contribution',
+        'project_contribution_requested',
+        'project_income',
+        'project_add_instit_total_2',
+        'project_add_instit_total_3',
+        'project_add_instit_total_4',
+        'project_add_instit_total_5',
+      ];
+      const form = Object.assign({}, this.form);
+
+      Object.keys(application).forEach(key => {
+        let value = application[key];
+        // Amounts are stored as decimals ("12000.00"), the form uses whole francs.
+        if (amounts.includes(key)) {
+          value = value === null || value === '' ? '' : String(Math.round(parseFloat(value)));
+        }
+        form[key] = value;
+      });
+
+      [2, 3, 4, 5].forEach(i => {
+        if (!form[`project_add_instit_answer_${i}`]) {
+          form[`project_add_instit_answer_${i}`] = 'offen';
+        }
+      });
+
+      form.name_change = application.former_name ? 'yes' : 'no';
+      form.former_name = application.former_name || '';
+      form.confirm_correctness = false;
+      form.files = Object.assign({}, this.form.files, data.files);
+      this.form = form;
+    },
+
+    linkErrorMessage(error) {
+      if (error.response && error.response.status === 410) {
+        return error.response.data.message;
+      }
+      return 'Ihr Gesuch konnte nicht geladen werden. Bitte versuchen Sie es später erneut oder wenden Sie sich an die Stiftung.';
+    },
+
+    fileUrl(key) {
+      const file = this.form.files[key];
+      if (file.existing) {
+        return `/form/edit/${this.editToken}/file/${file.uuid}`;
+      }
+      return `/storage/uploads/temp/${file.name}`;
+    },
+
     submit() {
 
 
@@ -1095,12 +1206,45 @@ export default {
 
       this.isSaving = true;
       NProgress.start();
+
+      if (this.isEditMode) {
+        this.axios.put(`/form/edit/${this.editToken}`, this.form).then(response => {
+          this.isSaving = false;
+          this.isSuccess = true;
+          NProgress.done();
+          window.scrollTo(0, 0);
+        })
+        .catch(error => {
+          if (error.response && error.response.status === 410) {
+            this.isSaving = false;
+            NProgress.done();
+            this.loadError = error.response.data.message;
+            return;
+          }
+          this.submitFailed(error);
+        });
+        return;
+      }
+
       this.axios.post(this.routes.post, this.form).then(response => {
         this.isSaving = false;
         this.isSuccess = true;
         this.reset();
         NProgress.done();
-      });
+      })
+      .catch(error => this.submitFailed(error));
+    },
+
+    // Errors with a response (422, 500) are shown by the ErrorHandling mixin.
+    // Without a response (network error, timeout) re-enable the button and
+    // tell the applicant, so they can send again.
+    submitFailed(error) {
+      if (error.response) {
+        return;
+      }
+      this.isSaving = false;
+      NProgress.done();
+      this.$notify({ type: 'error', text: 'Die Verbindung ist fehlgeschlagen. Bitte prüfen Sie Ihre Internetverbindung und senden Sie das Formular erneut.' });
     },
 
     reset() {
@@ -1180,6 +1324,12 @@ export default {
     },
 
     uploadDelete(filename, key) {
+      // A file that was submitted with the application: only drop it from the
+      // form. The server replaces or removes it when the changes are saved.
+      if (this.form.files[key] && this.form.files[key].existing) {
+        this.form.files[key] = null;
+        return;
+      }
       NProgress.start();
       this.axios.delete(`${this.routes.deleteUpload}/${filename}`).then(response => {
         this.form.files[key] = null;
@@ -1225,6 +1375,17 @@ export default {
   },
 
   computed: {
+    isEditMode() {
+      return !!this.editToken;
+    },
+
+    expiresAtFormatted() {
+      if (!this.expiresAt) {
+        return '';
+      }
+      return new Date(this.expiresAt).toLocaleDateString('de-CH');
+    },
+
     openAmount() {
       let amount = '';
 

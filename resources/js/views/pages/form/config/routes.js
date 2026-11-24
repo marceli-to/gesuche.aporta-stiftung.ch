@@ -6,6 +6,11 @@ const routes = [
     path: '/formular',
     component: Form,
   },
+  {
+    name: 'form-edit',
+    path: '/formular/bearbeiten/:token',
+    component: Form,
+  },
 
 ];
 

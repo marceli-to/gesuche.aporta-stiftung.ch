@@ -21,5 +21,6 @@
   <form-component />
 </div>
 <script>window.APORTA_FORM_PASSWORD = @json(config('client.form_password'));</script>
+<script>window.APORTA_EDIT_TOKEN = @json($editToken ?? null);</script>
 </body>
 </html>

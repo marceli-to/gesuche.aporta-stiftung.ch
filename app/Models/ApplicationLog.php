@@ -11,12 +11,14 @@ class ApplicationLog extends Model
   protected $fillable = [
     'uuid',
     'action',
+    'details',
     'application_id',
     'user_id',
   ];
 
   protected $casts = [
     'created_at' => 'date:d.m.Y',
+    'details' => 'array',
   ];
 
   protected $appends = [
