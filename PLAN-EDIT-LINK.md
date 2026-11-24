@@ -229,6 +229,11 @@ if a single send fails.
 
 ## 4. Rollout
 
-- [ ] Run `npm run build` and commit `public/build`. Deploy as in `INCIDENTS.md` item 7, plus
-      `php artisan migrate`.
+- [x] Run `npm run build` and commit `public/build` (2026-11-24, on `master`).
+- [x] Manual test of the whole flow locally (2026-11-24): send link, edit, mails in MailHog, link
+      invalid after saving, undo approval and new link.
+- [ ] Deploy as in `INCIDENTS.md` item 7, plus `php artisan migrate` (three migrations from
+      2026-11-18). Planned for 2026-11-24.
 - [ ] Brief the foundation: how to send a link, the validity period, what applicants can change.
+      Draft ready: `~/Desktop/gesuche-bearbeitungslink-mail.txt` (also answers point 6 and Corinna's
+      2026-11-24 question when it goes live). Send after the deploy.

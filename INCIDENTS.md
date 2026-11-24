@@ -105,6 +105,8 @@ No Node on the server needed: built assets are in `public/build`.
 
 - [ ] Deploy `master` (all of 5–8) to staging, then production, with the cron change (item 7).
       Production is still on b81d960 as of 2026-11-18.
+      `master` now also contains the edit link feature (merged 2026-11-24, needs `php artisan migrate`).
+      Deploy planned for 2026-11-24.
 - [x] Confirm the migration ran on production (2026-11-18)
 - [ ] Decide on a Reply-To: replies from applicants now go to `noreply@`, not `gesuch@`
 - [ ] Before Dec 2026: Microsoft plans to disable basic auth for SMTP AUTH by default. If sending
