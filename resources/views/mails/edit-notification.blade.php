@@ -1,4 +1,5 @@
 @component('mail::message')
+<h1>Gesuch geändert</h1>
 <p>{{ $application->name }} hat das Gesuch «{{ $application->project_title }}» über den Bearbeitungslink geändert.</p>
 @if ($bank)
 <p style="padding: 12px; border: 2px solid #c00; color: #c00;"><strong>Achtung: Die Bankangaben wurden geändert.</strong> Bitte prüfen Sie die Änderung, bevor Sie Zahlungen auslösen, zum Beispiel mit einem Rückruf an die bekannte Telefonnummer.</p>

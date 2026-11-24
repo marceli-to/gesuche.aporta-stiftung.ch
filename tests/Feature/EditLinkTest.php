@@ -149,7 +149,6 @@ class EditLinkTest extends TestCase
 
         $response = $this->actingAs($this->admin)->postJson('/api/application/edit-link/' . $application->uuid, [
             'email' => 'other@example.com',
-            'message' => 'Bitte Budget ergänzen.',
         ]);
 
         $response->assertOk()->assertJson(['mail_sent' => true]);
@@ -333,14 +332,46 @@ class EditLinkTest extends TestCase
         $this->assertEquals(0, (float) $application->project_contribution_approved);
         $this->assertNotNull($application->edited_by_applicant_at);
 
-        // The link keeps working until it expires.
-        $this->getJson('/form/edit/' . $token)->assertOk();
+        // The link works once.
+        $this->assertNull($application->edit_token);
+        $this->getJson('/form/edit/' . $token)->assertStatus(410);
+        $this->putJson('/form/edit/' . $token, [])->assertStatus(410);
+    }
+
+    public function test_preselected_answers_of_empty_institution_slots_are_no_change(): void
+    {
+        $application = $this->application();
+        $token = $this->issue($application);
+
+        // The form sends "offen" for every slot, also the empty ones.
+        $this->putJson('/form/edit/' . $token, $this->payload($token, [
+            'project_add_instit_answer_2' => 'offen',
+            'project_add_instit_answer_3' => 'offen',
+            'project_add_instit_answer_4' => 'offen',
+            'project_add_instit_answer_5' => 'offen',
+        ]))->assertOk()->assertJson(['changes' => 0]);
+    }
+
+    public function test_file_changes_show_the_original_file_names(): void
+    {
+        $application = $this->application();
+        $old = $application->files()->where('key', 'budget')->first();
+        $token = $this->issue($application);
+
+        $payload = $this->payload($token);
+        $payload['files']['budget'] = ['name' => $this->tempUpload('6b0548c063867_Budget 2027.pdf'), 'title' => 'Budget'];
+        $this->putJson('/form/edit/' . $token, $payload)->assertOk();
+
+        $log = ApplicationLog::where('application_id', $application->id)->latest('id')->first();
+        $this->assertSame('budget.pdf', $log->details[0]['old'], $old->name);
+        $this->assertSame('Budget 2027.pdf', $log->details[0]['new']);
     }
 
     public function test_update_logs_the_diff_and_queues_both_mails(): void
     {
         $application = $this->application();
         $token = $this->issue($application);
+        $hash = $application->fresh()->edit_token;
 
         $this->putJson('/form/edit/' . $token, $this->payload($token, [
             'iban' => '9300762011623852999',
@@ -359,7 +390,7 @@ class EditLinkTest extends TestCase
         $this->assertSame(['edit_notification', 'edit_confirmation'], MailQueue::orderBy('id')->pluck('type')->all());
         foreach (MailQueue::all() as $mail) {
             $this->assertStringNotContainsString($token, $mail->data);
-            $this->assertStringNotContainsString($application->fresh()->edit_token, $mail->data);
+            $this->assertStringNotContainsString($hash, $mail->data);
             $this->assertStringNotContainsString('edit_token"', $mail->data);
         }
     }

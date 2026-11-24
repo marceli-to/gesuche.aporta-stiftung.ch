@@ -195,7 +195,10 @@ class FormController extends BaseController
       $changes[] = ApplicationChanges::file($key, $current->pluck('name')->implode(', ') ?: null, $new);
     }
 
+    // The link works once: saving ends it. Further changes need a new link.
     $application->edited_by_applicant_at = now();
+    $application->edit_token = null;
+    $application->edit_token_expires_at = null;
     $application->save();
 
     (new Logger())->log(

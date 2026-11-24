@@ -11,7 +11,7 @@
           <div class="application-form__success">
             <h1>Vielen Dank</h1>
             <p>Ihre Änderungen wurden gespeichert. Sie erhalten eine Bestätigung per E-Mail.</p>
-            <p>Bis {{ expiresAtFormatted }} können Sie Ihr Gesuch über denselben Link erneut anpassen.</p>
+            <p>Der Link ist damit nicht mehr gültig. Für weitere Änderungen wenden Sie sich bitte an die Stiftung.</p>
           </div>
         </template>
         <template v-else-if="isSuccess">
@@ -67,7 +67,7 @@
           <template v-if="isEditMode">
             <h1 class="span-full">Gesuch bearbeiten</h1>
             <p class="span-full mb-16x">
-              Sie können Ihr eingereichtes Gesuch hier anpassen und speichern. Es wird kein neues Gesuch erstellt. Der Link ist gültig bis {{ expiresAtFormatted }}.
+              Sie können Ihr eingereichtes Gesuch hier anpassen. Es wird kein neues Gesuch erstellt. Bitte prüfen Sie alle Angaben vor dem Speichern: Danach ist der Link nicht mehr gültig. Der Link ist gültig bis {{ expiresAtFormatted }}.
             </p>
           </template>
           <h1 class="span-full" v-if="!isEditMode">Formular Beitragsgesuche Stadt Zürich</h1>

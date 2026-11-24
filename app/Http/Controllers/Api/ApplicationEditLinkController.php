@@ -40,7 +40,7 @@ class ApplicationEditLinkController extends Controller
 
     $mailSent = true;
     try {
-      Mail::to($email)->send(new EditLink($application, $url, $request->input('message')));
+      Mail::to($email)->send(new EditLink($application, $url));
     }
     catch (\Throwable $e) {
       $mailSent = false;

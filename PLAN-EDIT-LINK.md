@@ -44,7 +44,8 @@ Estimate: about 3 days.
       back to `OPEN` but not the old link: the foundation sends a new one if needed. This covers their
       request to reopen an application later for corrections ("nachträglich anpassen"): undo, send a link,
       then click "Gesuch vollständig" again. Applications already with the city have no way back to `OPEN`.
-- [x] **How long is the link valid?** 14 days. Unlimited saves until it expires. A new link
+- [x] **How long is the link valid?** 14 days, and it works once: saving the form ends it
+      (changed 2026-11-24, was "unlimited saves until expiry"). A new link
       replaces the old one.
 - [x] **IBAN and bank details** (`iban`, `bank_account`, `beneficiary`): editable, but changes are
       highlighted in the notification to the foundation (fraud risk if the mail is intercepted or
@@ -80,7 +81,7 @@ send it from Outlook if the mail fails.
       `scopeByEditToken($token)` (valid, not expired, state `OPEN`), `canBeEditedByApplicant()`.
       Generate the token with `Str::random(64)`.
 - [x] Admin API, inside the `auth:sanctum` group in `routes/api.php`:
-  - `POST api/application/edit-link/{application:uuid}` takes `email` and `message` (optional),
+  - `POST api/application/edit-link/{application:uuid}` takes `email` (the admin message was dropped on 2026-11-24),
     sets the token, queues the `edit_link` mail, logs "Bearbeitungslink gesendet" and returns the
     URL (for the copy button).
   - `DELETE api/application/edit-link/{application:uuid}` revokes the token and logs it.
@@ -100,7 +101,7 @@ send it from Outlook if the mail fails.
   - Recompute `project_add_instit_final_total`.
   - Compute the diff (`getDirty()` before saving), and store it in the log entry and the
     notification.
-  - Set `edited_by_applicant_at`. Keep the token if the default "unlimited until expiry" holds.
+  - Set `edited_by_applicant_at`. Delete the token: the link works once.
   - Queue an `edit_notification` mail to `config('mail.to')`, plus an `edit_confirmation` mail
     to the applicant (decided).
 - [x] `ApplicationUpdateByApplicantRequest`: extend `FieldErrorRequest` (messages go in
@@ -118,7 +119,7 @@ send it from Outlook if the mail fails.
     a `key` column (nullable, backfilled from title for existing rows). **Preferred: add `key`.**
   - Admin-uploaded files (`user_id` ≠ 1) must not be shown or deleted in the applicant form.
 - [x] Mail: extend `App\Tasks\Notification` with the types `edit_link` (to the applicant, with the URL,
-      expiry date and the admin's message), `edit_notification` (to the foundation, with the
+      expiry date), `edit_notification` (to the foundation, with the
       diff, IBAN changes highlighted) and `edit_confirmation` (to the applicant, changes saved). New Mailables and Blade templates in
       `resources/views/mails/`. The texts are German, with "Sie" for applicants.
 
@@ -148,7 +149,7 @@ send it from Outlook if the mail fails.
 ### 3.3 Admin backend
 
 - [x] `Show.vue`: a "Bearbeitungslink senden" button, visible while the state is `OPEN`. A dialog
-      with the email (prefilled) and the message, then sends. After that it shows the URL with a
+      with the email (prefilled), then sends. After that it shows the URL with a
       copy button and the expiry date. Plus "Link widerrufen" while a token is active.
 - [x] Show "Vom Gesuchsteller bearbeitet am …" on the application if `edited_by_applicant_at` is set.
 - [x] The log list shows the new entries, including the diff.
@@ -186,6 +187,9 @@ send it from Outlook if the mail fails.
 - Applicant edits queue `edit_notification` (subject starts with "ACHTUNG Bankangaben geändert"
   if bank fields changed) and `edit_confirmation`.
 - Tests: `tests/Feature/EditLinkTest.php` (12 tests).
+- 2026-11-24: the optional admin message in the link mail was removed (free text from the dialog
+  ended up in front of the applicant unedited). Mail buttons are left-aligned, and all five mails
+  start with an `<h1>`.
 
 ### 3.6 As built (form)
 
@@ -196,7 +200,7 @@ send it from Outlook if the mail fails.
 - An existing file shows its name with a download link (`/form/edit/{token}/file/{uuid}`); the
   trash icon only drops it from the form, the dropzone appears for a replacement. The server
   replaces or removes it on save.
-- After saving the form shows the success text with the expiry date; the link keeps working.
+- After saving the form shows the success text; the link no longer works (one save per link).
 - Download of a file missing on disk returns 404 (locally, production files aren't present).
 
 ### 3.7 As built (admin)
@@ -204,8 +208,7 @@ send it from Outlook if the mail fails.
 - `Show.vue`, admin and state `OPEN` only, not archived: "Bearbeitungslink senden" (or "Neuen
   Bearbeitungslink senden" plus "Link widerrufen" while a link is active, with its expiry).
 - The dialog is its own component (`application/components/EditLinkDialog.vue`), because the
-  shared `Dialog.vue` closes on any click inside it. It prefills the application's email, takes
-  an optional message, then shows the URL with a copy button. If the mail failed, it says so and
+  shared `Dialog.vue` closes on any click inside it. It prefills the application's email, then shows the URL with a copy button. If the mail failed, it says so and
   asks the admin to send the link themselves.
 - "Von Gesuchsteller/in bearbeitet am …" shows for all users when `edited_by_applicant_at` is set.
 - A link for a non-open application returns 409 (not 422, which would trigger the generic

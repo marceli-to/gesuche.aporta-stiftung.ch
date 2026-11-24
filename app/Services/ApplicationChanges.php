@@ -75,7 +75,7 @@ class ApplicationChanges
     foreach (Application::APPLICANT_FIELDS as $field) {
       $old = $application->getOriginal($field);
       $new = $application->getAttribute($field);
-      if (self::equal($old, $new)) {
+      if (self::equal($old, $new) || self::isUnusedAnswer($application, $field)) {
         continue;
       }
       $changes[] = [
@@ -97,10 +97,38 @@ class ApplicationChanges
     return [
       'field' => 'file_' . $key,
       'label' => self::FILE_LABELS[$key] ?? ('Datei: ' . (ApplicationFile::FORM_KEYS[$key] ?? $key)),
-      'old' => $old ?? '',
-      'new' => $new ?? '',
+      'old' => self::fileName($old),
+      'new' => self::fileName($new),
       'bank' => false,
     ];
+  }
+
+  /**
+   * The form preselects "offen" as the answer of every further institution,
+   * also for empty slots. An answer without an institution name is noise.
+   */
+  private static function isUnusedAnswer(Application $application, string $field): bool
+  {
+    if (!preg_match('/^project_add_instit_answer_(\d)$/', $field, $m)) {
+      return false;
+    }
+    $slot = 'project_add_instit_' . $m[1];
+    return self::normalize($application->getOriginal($slot)) === ''
+      && self::normalize($application->getAttribute($slot)) === '';
+  }
+
+  /**
+   * Stored file names are "{uniqid}_{original name}"; show the original.
+   * Several names are separated by ", ".
+   */
+  private static function fileName(?string $names): string
+  {
+    if (!$names) {
+      return '';
+    }
+    return collect(explode(', ', $names))
+      ->map(fn ($name) => preg_replace('/^[0-9a-f]{13}_/', '', $name))
+      ->implode(', ');
   }
 
   public static function hasBankChanges(array $changes): bool

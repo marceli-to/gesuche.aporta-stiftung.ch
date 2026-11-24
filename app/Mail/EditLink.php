@@ -12,7 +12,6 @@ class EditLink extends Mailable
   public function __construct(
     protected Application $application,
     protected string $url,
-    protected ?string $note = null,
   ) {}
 
   public function build()
@@ -22,7 +21,6 @@ class EditLink extends Mailable
                 ->with([
                   'application' => $this->application,
                   'url' => $this->url,
-                  'note' => $this->note,
                   'expiresAt' => $this->application->edit_token_expires_at,
                 ])
                 ->markdown('mails.edit-link');

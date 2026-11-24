@@ -12,7 +12,6 @@ class EditLinkRequest extends FieldErrorRequest
   {
     return [
       'email' => 'required|email',
-      'message' => 'nullable|string|max:5000',
     ];
   }
 
@@ -26,10 +25,6 @@ class EditLinkRequest extends FieldErrorRequest
       'email.email' => [
         'field' => 'email',
         'error' => 'E-Mail ist ungültig',
-      ],
-      'message.max' => [
-        'field' => 'message',
-        'error' => 'Die Nachricht ist zu lang',
       ],
     ];
   }

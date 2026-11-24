@@ -7,14 +7,12 @@
         <div class="message is-left">
           <h2 class="mb-3x">Bearbeitungslink senden</h2>
           <p class="mb-4x">
-            Die gesuchstellende Person erhält per E-Mail einen Link, mit dem sie das Gesuch selbst anpassen kann, solange es offen ist.
+            Die gesuchstellende Person erhält per E-Mail einen Link, mit dem sie das Gesuch einmal selbst anpassen kann. Nach dem Speichern ist der Link nicht mehr gültig.
             <template v-if="active">Der bestehende Link wird dabei ungültig.</template>
           </p>
           <label for="edit-link-email">E-Mail *</label>
           <input id="edit-link-email" type="email" v-model="email" :class="{ 'is-invalid': errors.email }" @input="errors.email = ''">
           <div class="edit-link-dialog__error" v-if="errors.email">{{ errors.email }}</div>
-          <label for="edit-link-message" class="mt-3x">Nachricht (optional)</label>
-          <textarea id="edit-link-message" v-model="message" placeholder="z.B. Bitte ergänzen Sie das aktuelle Budget."></textarea>
           <div class="edit-link-dialog__error" v-if="errors.general">{{ errors.general }}</div>
         </div>
         <div class="actions">
@@ -62,7 +60,6 @@ export default {
       isSending: false,
       isCopied: false,
       email: '',
-      message: '',
       sentTo: '',
       result: null,
       errors: { email: '', general: '' },
@@ -85,7 +82,6 @@ export default {
   methods: {
     show() {
       this.email = this.defaultEmail;
-      this.message = '';
       this.result = null;
       this.isCopied = false;
       this.errors = { email: '', general: '' };
@@ -105,7 +101,6 @@ export default {
 
       this.axios.post(`/api/application/edit-link/${this.uuid}`, {
         email: this.email,
-        message: this.message,
       })
       .then(response => {
         this.isSending = false;
@@ -147,8 +142,7 @@ export default {
   display: block;
   margin-bottom: 4px;
 }
-.edit-link-dialog .message input,
-.edit-link-dialog .message textarea {
+.edit-link-dialog .message input {
   background: #fff;
   border: 0;
   color: #000;
@@ -156,9 +150,6 @@ export default {
   font-size: 15px;
   padding: 8px;
   width: 100%;
-}
-.edit-link-dialog .message textarea {
-  min-height: 100px;
 }
 .edit-link-dialog .message input.is-invalid {
   outline: 2px solid #ffb3b3;

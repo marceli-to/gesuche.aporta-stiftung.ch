@@ -2,13 +2,10 @@
 <h1>Bearbeitung Ihres Beitragsgesuchs</h1>
 <p>Sehr geehrte/r {{ $application->firstname }} {{ $application->lastname }}</p>
 <p>Über den folgenden Link können Sie Ihr Gesuch «{{ $application->project_title }}» selbst anpassen. Sie müssen kein neues Gesuch einreichen.</p>
-@if ($note)
-<p>{!! nl2br(e($note)) !!}</p>
-@endif
 @component('mail::button', ['url' => $url])
 Gesuch bearbeiten
 @endcomponent
-<p>Der Link ist gültig bis {{ $expiresAt->format('d.m.Y') }}. Bis dahin können Sie Ihre Änderungen beliebig oft speichern. Bitte geben Sie den Link nicht weiter.</p>
+<p>Der Link ist gültig bis {{ $expiresAt->format('d.m.Y') }}. Sie können Ihre Änderungen einmal speichern, danach ist der Link nicht mehr gültig. Bitte geben Sie den Link nicht weiter.</p>
 <p>Falls die Schaltfläche nicht funktioniert, kopieren Sie diese Adresse in Ihren Browser:<br>{{ $url }}</p>
 <p>
 Freundliche Grüsse<br>
