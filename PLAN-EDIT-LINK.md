@@ -1,6 +1,6 @@
 # Plan: edit link for submitted applications
 
-Status as of 2026-11-24: **merged into `master` (`1b52217`), not deployed yet. Since 2026-11-19: the link works for one save, the admin message is gone, the change list shows only real changes, mails are aligned. The foundation's point 6 (reopening for corrections) is answered in the draft mail to Corinna (`~/Desktop/gesuche-bearbeitungslink-mail.txt`), not sent yet. Next: deploy with `master` (Laravel 13 / Vite, `INCIDENTS.md` item 7) and `php artisan migrate`, check the PHP 8.3 cron, send the mail, then rollout (section 4).**
+Status as of 2026-11-24: **merged into `master` (`1b52217`), not deployed yet. Since 2026-11-19: the link works for one save, the admin message is gone, the change list shows only real changes, mails are aligned. The foundation's point 6 (reopening for corrections) is answered in the draft mail to Corinna (`~/Desktop/gesuche-bearbeitungslink-mail.txt`), not sent yet. Next: deploy step by step with `deploy.md` (Laravel 13 / Vite, migrations, PHP 8.3 cron, smoke test, rollback), send the mail, then rollout (section 4).**
 Prerequisite done: the app is on Laravel 13 with Vite (on `master`, not deployed yet, see `INCIDENTS.md` item 7).
 Update this file as work progresses. Tick the boxes and keep the status line current.
 
@@ -232,8 +232,8 @@ if a single send fails.
 - [x] Run `npm run build` and commit `public/build` (2026-11-24, on `master`).
 - [x] Manual test of the whole flow locally (2026-11-24): send link, edit, mails in MailHog, link
       invalid after saving, undo approval and new link.
-- [ ] Deploy as in `INCIDENTS.md` item 7, plus `php artisan migrate` (three migrations from
-      2026-11-18). Planned for 2026-11-24.
+- [ ] Deploy with `deploy.md` (step by step, includes the three migrations from 2026-11-18, the
+      cron change, a smoke test and a rollback). Planned for 2026-11-24.
 - [ ] Brief the foundation: how to send a link, the validity period, what applicants can change.
       Draft ready: `~/Desktop/gesuche-bearbeitungslink-mail.txt` (also answers point 6 and Corinna's
       2026-11-24 question when it goes live). Send after the deploy.

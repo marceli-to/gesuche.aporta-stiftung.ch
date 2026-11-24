@@ -92,7 +92,8 @@ Mix → Vite, dead code removal, a validation fix (array messages crashed on Lar
 `FieldErrorRequest`) and a local mail guard (`.test` only sends to MailHog). Tested locally,
 including the full form submission and the admin in headless Chrome. See `CLAUDE.md`.
 
-**Deploy steps (staging first, then production):**
+**Deploy steps (staging first, then production):** the full checklist for the combined release
+(Laravel 13 + edit link) is in `deploy.md`. In short:
 1. `git pull`, `composer install --no-dev`, `php artisan optimize:clear`
 2. Switch the scheduler cron from `/usr/local/php82/bin/php` to `/usr/local/php83/bin/php`
    (Laravel 13 needs PHP 8.3; with 8.2 no mails go out). The web PHP is already 8.3 via
@@ -106,7 +107,7 @@ No Node on the server needed: built assets are in `public/build`.
 - [ ] Deploy `master` (all of 5–8) to staging, then production, with the cron change (item 7).
       Production is still on b81d960 as of 2026-11-18.
       `master` now also contains the edit link feature (merged 2026-11-24, needs `php artisan migrate`).
-      Deploy planned for 2026-11-24.
+      Deploy planned for 2026-11-24, step by step with `deploy.md`.
 - [x] Confirm the migration ran on production (2026-11-18)
 - [ ] Decide on a Reply-To: replies from applicants now go to `noreply@`, not `gesuch@`
 - [ ] Before Dec 2026: Microsoft plans to disable basic auth for SMTP AUTH by default. If sending
