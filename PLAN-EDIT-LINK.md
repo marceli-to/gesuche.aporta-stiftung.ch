@@ -60,11 +60,9 @@ Estimate: about 3 days.
 
 ## 2. Dependency: mail must be stable
 
-The feature is useless if the link mail doesn't arrive. The M365 basic-auth question is open (see
-`INCIDENTS.md` and the message sent to the foundation's IT,
-`~/Desktop/gesuchsportal-mailversand-m365.txt`). Fix this first or at the same time. As a
-workaround, the admin dialog should also show the link with a copy button. Then the foundation can
-send it from Outlook if the mail fails.
+Resolved: mail has worked again since 2026-11-06, sent through `noreply@aporta-stiftung.ch`
+(`INCIDENTS.md` item 1). The admin dialog still shows the link with a copy button, as a fallback
+if a single send fails.
 
 ## 3. Implementation
 
