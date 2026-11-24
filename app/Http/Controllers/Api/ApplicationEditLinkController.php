@@ -34,7 +34,7 @@ class ApplicationEditLinkController extends Controller
       ], 409);
     }
 
-    $token = $application->issueEditToken(config('client.edit_link_days'));
+    $token = $application->issueEditToken(config('client.edit_link_hours'));
     $url = Application::editUrl($token);
     $email = $request->input('email');
 
@@ -47,7 +47,7 @@ class ApplicationEditLinkController extends Controller
       Log::error($e);
     }
 
-    $expires = $application->edit_token_expires_at->format('d.m.Y H:i');
+    $expires = $application->edit_token_expires_at->copy()->timezone('Europe/Zurich')->format('d.m.Y H:i');
     (new Logger())->log($application, $mailSent
       ? "Bearbeitungslink gesendet an {$email} (gültig bis {$expires})"
       : "Bearbeitungslink erstellt (gültig bis {$expires}), Mail an {$email} fehlgeschlagen"

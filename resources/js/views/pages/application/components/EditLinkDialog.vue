@@ -132,7 +132,7 @@ export default {
     },
 
     formatDate(value) {
-      return new Date(value).toLocaleDateString('de-CH');
+      return new Date(value).toLocaleString('de-CH', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' }) + ' Uhr';
     },
   },
 };

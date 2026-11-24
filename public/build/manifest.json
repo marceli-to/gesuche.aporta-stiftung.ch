@@ -4,7 +4,7 @@
     "name": "vue2Dropzone"
   },
   "resources/js/app.js": {
-    "file": "assets/app-BUJAGgbe.js",
+    "file": "assets/app-s68YOTgY.js",
     "name": "app",
     "src": "resources/js/app.js",
     "isEntry": true,
@@ -12,11 +12,11 @@
       "_vue2Dropzone-BIwmg81T.js"
     ],
     "css": [
-      "assets/app-CnzonsWO.css"
+      "assets/app-BoKHmtuG.css"
     ]
   },
   "resources/js/form.js": {
-    "file": "assets/form-Dlr6b5Dg.js",
+    "file": "assets/form-qTLAzDBg.js",
     "name": "form",
     "src": "resources/js/form.js",
     "isEntry": true,

@@ -75,7 +75,7 @@ if a single send fails.
 - [x] Migration: make `application_logs.user_id` nullable. Show "Gesuchsteller/in" in the log list
       when it is null (`resources/js/views/pages/application/log/List.vue`). `Logger::log` gets
       an optional user (`auth()->id()` or null).
-- [x] `Application` helpers: `issueEditToken(int $days)`, `revokeEditToken()`,
+- [x] `Application` helpers: `issueEditToken(int $hours)`, `revokeEditToken()`,
       `scopeByEditToken($token)` (valid, not expired, state `OPEN`), `canBeEditedByApplicant()`.
       Generate the token with `Str::random(64)`.
 - [x] Admin API, inside the `auth:sanctum` group in `routes/api.php`:
@@ -181,7 +181,7 @@ if a single send fails.
 - Extra route `GET /form/edit/{token}/file/{uuid}`: the applicant can download their own files.
 - `GET /form/edit/{token}` returns empty further-institution amounts as `''` (stored as 0.00),
   otherwise `required_with` asks for an institution name on save.
-- Link validity is `config('client.edit_link_days')` (`APORTA_EDIT_LINK_DAYS`, default 14).
+- Link validity is `config('client.edit_link_hours')` (`APORTA_EDIT_LINK_HOURS`, default 48).
 - Applicant edits queue `edit_notification` (subject starts with "ACHTUNG Bankangaben geändert"
   if bank fields changed) and `edit_confirmation`.
 - Tests: `tests/Feature/EditLinkTest.php` (12 tests).

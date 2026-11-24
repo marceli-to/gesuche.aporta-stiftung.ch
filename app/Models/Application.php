@@ -267,11 +267,11 @@ class Application extends Base
    * plain token. Only its hash is stored, so the link can't be read back
    * from the database later.
    */
-  public function issueEditToken(int $days): string
+  public function issueEditToken(int $hours): string
   {
     $token = Str::random(64);
     $this->edit_token = self::hashEditToken($token);
-    $this->edit_token_expires_at = now()->addDays($days);
+    $this->edit_token_expires_at = now()->addHours($hours);
     $this->save();
     return $token;
   }

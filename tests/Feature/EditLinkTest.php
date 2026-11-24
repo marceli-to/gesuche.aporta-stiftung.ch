@@ -125,7 +125,7 @@ class EditLinkTest extends TestCase
 
     private function issue(Application $application): string
     {
-        return $application->issueEditToken(14);
+        return $application->issueEditToken(48);
     }
 
     /**
@@ -158,7 +158,7 @@ class EditLinkTest extends TestCase
         $token = Str::afterLast($url, '/');
         $application->refresh();
         $this->assertSame(hash('sha256', $token), $application->edit_token);
-        $this->assertTrue($application->edit_token_expires_at->between(now()->addDays(14)->subMinute(), now()->addDays(14)->addMinute()));
+        $this->assertTrue($application->edit_token_expires_at->between(now()->addHours(48)->subMinute(), now()->addHours(48)->addMinute()));
 
         Mail::assertSent(EditLink::class, fn (EditLink $mail) => $mail->hasTo('other@example.com'));
         $this->assertDatabaseHas('application_logs', ['application_id' => $application->id, 'user_id' => $this->admin->id]);

@@ -5,7 +5,7 @@
 @component('mail::button', ['url' => $url])
 Gesuch bearbeiten
 @endcomponent
-<p>Der Link ist gültig bis {{ $expiresAt->format('d.m.Y') }}. Sie können Ihre Änderungen einmal speichern, danach ist der Link nicht mehr gültig. Bitte geben Sie den Link nicht weiter.</p>
+<p>Der Link ist gültig bis {{ $expiresAt->copy()->timezone('Europe/Zurich')->format('d.m.Y, H:i') }} Uhr. Sie können Ihre Änderungen einmal speichern, danach ist der Link nicht mehr gültig. Bitte geben Sie den Link nicht weiter.</p>
 <p>Falls die Schaltfläche nicht funktioniert, kopieren Sie diese Adresse in Ihren Browser:<br>{{ $url }}</p>
 <p>
 Freundliche Grüsse<br>

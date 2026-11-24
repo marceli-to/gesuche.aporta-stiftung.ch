@@ -43,11 +43,11 @@ return [
   | Edit link for submitted applications (see PLAN-EDIT-LINK.md)
   |--------------------------------------------------------------------------
   |
-  | Number of days an edit link stays valid.
+  | Number of hours an edit link stays valid after it is sent.
   |
   */
 
-  'edit_link_days' => (int) env('APORTA_EDIT_LINK_DAYS', 14),
+  'edit_link_hours' => (int) env('APORTA_EDIT_LINK_HOURS', 48),
 
   /*
   |--------------------------------------------------------------------------

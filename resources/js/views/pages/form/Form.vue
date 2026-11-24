@@ -1383,7 +1383,7 @@ export default {
       if (!this.expiresAt) {
         return '';
       }
-      return new Date(this.expiresAt).toLocaleDateString('de-CH');
+      return new Date(this.expiresAt).toLocaleString('de-CH', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' }) + ' Uhr';
     },
 
     openAmount() {
